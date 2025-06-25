@@ -1,0 +1,166 @@
+/* 全局样式 */
+body {
+    font-size: 12px;
+    color: #000;
+    background: #FFFFFF;
+    margin: 0;
+    padding: 0;
+    line-height: 1.5;
+}
+
+.wrap {
+    width: 980px;
+    margin: 0 auto;
+}
+
+.clear {
+    clear: both;
+    font-size: 0;
+    height: 0;
+}
+
+/* Windows标题栏样式 */
+.titlebar {
+    background: linear-gradient(to bottom, #7a7979 0%, #3b3d3e 50%, #060f11 51%, #133c50 100%);
+    color: #fff;
+    padding: 8px 0;
+    border-bottom: 1px solid #ffffff;
+}
+
+.titlebar h1 {
+    font-size: 18px;
+    font-weight: bold;
+    margin: 0;
+    padding-left: 10px;
+}
+
+/* Windows导航栏样式 */
+.navbar {
+    width: 100%; /* 占满整个屏幕宽度 */
+    height: 16px;
+    background: linear-gradient(to bottom, #fefefe 0%, #E5EAF5 30%, #D4DBED 31%, #E1E6F6 100%); 
+    border-bottom: 1px solid #B6BCCC; /* 底部边框 */
+    margin: 0;
+    padding: 0;
+    overflow: hidden; /* 清除浮动 */
+}
+
+.navbar ul {
+    line-height: 16px; /* 垂直居中 */
+    font-size: 12px;
+    height: 100%;
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    white-space: nowrap; /* 防止菜单项换行 */
+}
+
+.navbar li {
+    height: 16px;
+    float: left; /* 左对齐 */
+    margin: 0;
+    padding: 0;
+
+}
+
+.navbar a {
+    line-height: 16px; /* 垂直居中 */
+    font-size: 12px;
+    height: 100%;
+    display: block;
+    /*background: #ffffff;*/
+    color: #000000;
+    text-decoration: none;
+    padding: 0px 12px 6px 6px;
+    /*border-right: 1px solid #8b8b8b;*/
+}
+
+.navbar a:hover {
+    height: 16px;
+    background: #d8d8d8;
+}
+
+.navbar img {
+    vertical-align: middle;
+    margin-right: 4px;
+}
+
+/* 内容区域 */
+.content {
+    padding: 15px 0;
+}
+
+.main {
+    float: left;
+    width: 700px;
+}
+
+.sidebar {
+    float: right;
+    width: 260px;
+}
+
+/* Windows窗口样式 */
+.window {
+    margin-bottom: 15px;
+    border: 1px solid #cccccc;
+    background: #fff;
+}
+
+.window-titlebar {
+    background: linear-gradient(to bottom, #82AFBE 0%, #498BA0 50%, #115E77 51%, #529CAB 100%);
+    color: #fff;
+    font-weight: bold;
+    padding: 4px 8px;
+    border-bottom: 1px solid #003399;
+}
+
+.window-content {
+    padding: 10px;
+}
+
+.window-content h3 {
+    font-size: 13px;
+    color: #003399;
+    margin: 10px 0 5px;
+    border-bottom: 1px dotted #ccc;
+    padding-bottom: 3px;
+}
+
+.window-content img {
+    vertical-align: middle;
+    margin-right: 5px;
+}
+
+/* 列表样式 */
+ul {
+    margin: 0 0 10px 20px;
+    padding: 0;
+}
+
+li {
+    margin-bottom: 3px;
+}
+
+/* 链接样式 */
+a {
+    color: #0066CC;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+/* 页脚样式 */
+.footer {
+    background: linear-gradient(to right, #f0f9fd 0%, #B7D6EE 100%);
+    color: #000000;
+    padding: 8px 0;
+    text-align: center;
+    border-top: 1px solid #94AEBF
+}
+
+.footer p {
+    margin: 0;
+}
