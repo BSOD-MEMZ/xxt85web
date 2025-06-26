@@ -3,50 +3,35 @@
 <head>
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>测试文章 ⭐ xxtsoft</title>
-    <!--[if IE]>
-    <style type="text/css">
-        .title-overlay {
-            position: relative;
-            top: -150px;
-            left: 50%;
-            margin-left: -300px;
-            width: 600px;
-            text-align: center;
-        }
-        h2 {
-            color: #003399 !important;
-        }
-    </style>
-    <![endif]-->
+    <link rel="stylesheet" href="style.css">
 </head>
-<body style="background: #FCFCFC;">
+<body>
     <!-- 顶部图片 -->
-    <div style="width: 100%; height: 300px; overflow: hidden;">
-        <img src="vista.jpg" alt="标题图片" style="width: 100%; height: auto;">
-        <div class="title-overlay" style="position: absolute; top: 150px; left: 50%; transform: translateX(-50%); text-align: center;">
-            <h1 style="color: white; text-shadow: 2px 2px 4px rgba(0,0,0,0.5); font-size: 3em;">测试文章</h1>
+    <div class="header-image">
+        <img src="vista.jpg" alt="标题图片">
+        <div class="title-overlay">
+            <h1>测试文章</h1>
         </div>
     </div>
 
+    <!-- 渐变分割条 -->
+    <div class="gradient-divider">
+        <a href="javascript:window.print()" class="print-button"><img src="printer.png" alt="" width="16" height="16" /> 打印文章</a>
+    </div>
+
     <!-- 作者信息 -->
-    <div style="max-width: 800px; margin: 20px auto; padding: 0 20px;">
-        <div style="border-bottom: 1px solid #eee; padding-bottom: 10px; margin-bottom: 20px;">
-            <p style="color: #666; font-style: italic;">作者：xxt8582753</p>
-            <p style="color: #666; font-size: 0.9em;">发布日期：2025年6月25日</p>
+    <div class="content-container">
+        <div class="author-info">
+            <p>作者：xxt8582753</p>
+            <p>发布日期：2025年6月25日</p>
         </div>
 
-        <!-- 打印链接 -->
-        <a href="javascript:window.print()" style="float: right;">
-            打印文章
-        </a>
-        <div style="clear: both;"></div>
-
         <!-- 正文内容 -->
-        <div style="margin-top: 30px;">
-            <h2 style="color: #003399;">Hello World</h2>
+        <div class="article-content">
+            <h2>Hello World</h2>
             <p>如果你能看到这篇文章，说明xxt8582753的网站又复活啦</p>
             
-            <h2 style="color: #003399;">和之前有什么不同？</h2>
+            <h2>和之前有什么不同？</h2>
             <p>害，我从22年搞网站搞到现在，这个版本和之前差别可大了</p>
             <h3>纯手工制作</h3>
             <p>我的网站经历了从WordPress到Hexo再到Halo的转变，但这次我决定手搓静态网站，一方面是考虑兼容性（我首页这么花里胡哨兼容个蛋啊，linear-gradient掉大分），另一方面自己搓真的很有成就感（当然也借助了一下AI哈）</p>
@@ -54,21 +39,5 @@
             <p>这次就没加注册评论什么的功能了，我觉得对于网站来说还是要简单一点，并且充分考虑用户的隐私，我不收你的数据，你也不用担心数据泄露，也节省了我的成本，这样很好啊。而且你可以想一下，在学校电脑上想登录xx网站结果没带手机收不了验证码，那感觉真的很操蛋</p>
         </div>
     </div>
-
-    <!-- IE兼容性脚本 -->
-    <!--[if IE]>
-    <script type="text/javascript">
-        // 修复IE中transform不支持的问题
-        var titleOverlay = document.querySelector('.title-overlay');
-        if(titleOverlay && titleOverlay.style.transform) {
-            var match = titleOverlay.style.transform.match(/translateX\(([^)]+)\)/);
-            if(match) {
-                var percent = parseFloat(match[1]);
-                titleOverlay.style.marginLeft = (percent/100 * -600) + 'px';
-                titleOverlay.style.transform = 'none';
-            }
-        }
-    </script>
-    <![endif]-->
 </body>
 </html>
