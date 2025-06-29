@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<rss version="2.0">
+
+<channel>
+  <title>xxtsoft</title>
+  <link>https://xxtsoft.top</link>
+  <description>xxt8582753的个人网站</description>
+  <item>
+    <title>测试文章</title>
+    <link>https://xxtsoft.top/articles/test</link>
+    <description>如果您能看到这句话，说明xxtsoft的RSS可以正常运作</description>
+  </item>
+</channel>
+
+</rss>
