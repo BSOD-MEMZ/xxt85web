@@ -21,10 +21,10 @@ body {
 
 /* Windows标题栏样式 */
 .titlebar {
-    background: linear-gradient(to bottom, #7a7979 0%, #3b3d3e 50%, #060f11 51%, #133c50 100%);
+    /* background: linear-gradient(to bottom, #7a7979 0%, #3b3d3e 50%, #060f11 51%, #133c50 100%); */
+    background-image: url("title.png");
     color: #fff;
     padding: 8px 0;
-    border-bottom: 1px solid #ffffff;
 }
 
 .titlebar h1 {
@@ -38,8 +38,10 @@ body {
 .navbar {
     width: 100%; /* 占满整个屏幕宽度 */
     height: 16px;
-    background: linear-gradient(to bottom, #fefefe 0%, #E5EAF5 30%, #D4DBED 31%, #E1E6F6 100%); 
-    border-bottom: 1px solid #B6BCCC; /* 底部边框 */
+    /* background: linear-gradient(to bottom, #fefefe 0%, #E5EAF5 30%, #D4DBED 31%, #E1E6F6 100%);  */
+    background-image: url("menu.JPG");
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
     margin: 0;
     padding: 0;
     overflow: hidden; /* 清除浮动 */
@@ -85,7 +87,6 @@ body {
     margin-right: 4px;
 }
 
-/* 内容区域 */
 .content {
     padding: 15px 0;
 }
@@ -100,7 +101,6 @@ body {
     width: 260px;
 }
 
-/* Windows窗口样式 */
 .window {
     margin-bottom: 15px;
     border: 1px solid #cccccc;
@@ -108,11 +108,12 @@ body {
 }
 
 .window-titlebar {
-    background: linear-gradient(to bottom, #82AFBE 0%, #498BA0 50%, #115E77 51%, #529CAB 100%);
+    /* background: linear-gradient(to bottom, #82AFBE 0%, #498BA0 50%, #115E77 51%, #529CAB 100%); */
+    background-image: url("bar.png");
     color: #fff;
     font-weight: bold;
     padding: 4px 8px;
-    border-bottom: 1px solid #447799;
+    /* border-bottom: 1px solid #447799; */
 }
 
 .window-content {
@@ -132,7 +133,6 @@ body {
     margin-right: 5px;
 }
 
-/* 列表样式 */
 ul {
     list-style: none;
     margin: 0 0 10px 20px;
@@ -143,7 +143,6 @@ li {
     margin-bottom: 3px;
 }
 
-/* 链接样式 */
 a {
     color: #0066CC;
     text-decoration: none;
@@ -153,13 +152,13 @@ a:hover {
     text-decoration: underline;
 }
 
-/* 页脚样式 */
 .footer {
-    background: linear-gradient(to right, #f0f9fd 0%, #B7D6EE 100%);
+    background-image: url("footer.jpg");
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
     color: #000000;
     padding: 8px 0;
     text-align: center;
-    border-top: 1px solid #94AEBF
 }
 
 .footer p {

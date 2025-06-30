@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>【保姆级教程】用Netlify部署自己的静态网站，从买域名到上线 ⭐ xxtsoft</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="header-image">
+        <img src="vista.jpg" alt="标题图片">
+        <div class="title-overlay">
+            <h1>【保姆级教程】用Netlify部署自己的静态网站，从买域名到上线</h1>
+        </div>
+    </div>
+
+    <div class="gradient-divider">
+        <a href="javascript:window.print()" class="button"><img src="printer.png" alt="" width="16" height="16" /> 打印文章</a>
+    </div>
+
+    <div class="content-container">
+        <div class="author-info">
+            <p>作者：xxt8582753</p>
+            <p>发布日期：2025年6月29日</p>
+        </div>
+
+        <div class="article-content">
+            <p>谁不想拥有一个属于自己的网站呢？如今，得益于AI技术的普及和Netlify等众多免费部署平台的出现，你的梦想即将化为现实。</p>
+            <h2>准备GitHub仓库</h2>
+            <p>由于Netlify依赖于你的Github仓库里的网页（虽然在Netlify首页可以直接上传网页文件夹，但这在后期修改中很麻烦，故不使用此方法）因此需要我们先注册一个Github账号</p>
+            <p>注册好账号后，进入Dashboard，点击“New Repository”新建仓库，仓库名称随意，你记得住就行。在设置中选择Public</p>
+            <h2>准备要部署的网页</h2>
+            <p>这篇文章的主旨并不是教会你制作网页，因此在这里我们直接访问DeepSeek官网，让它帮我们制作一个简单的静态网页，将它们以html后缀保存至一个文件夹中。</p>
+            <p>那我们该如何把网页放到GitHub仓库中呢？这就要用到大名鼎鼎的git，git的安装包我已放在视频下方链接</p>
+            <p>大家安装完git后，可能遇到如图所示的提示，此时不要慌，这是为了验证你是仓库的所有者，输入你注册GitHub时的邮箱</p>
+            <p>接着，我们在这个目录中打开cmd，输入git init，这是为了初始化，再输入git add .，这句话意味着加入所有项目，然后输入git commit -m “example”（注意：引号里面的东西虽然随便写无伤大雅，但一个优秀的commit应该言简意赅地包含这次修改的主要内容，这是一个好习惯，也可以帮助你更好的管理项目）</p>
+            <p>最后，就是最激动人心的时刻，当我用颤抖的双手输入git push，看着字符在终端里一行行滚动，一种自豪感油然而生，我们离成功部署网站又近了一步</p>
+            <h2>连接Netlify</h2>
+            <p>去Netlify注册账号，然后直接选中我们的GitHub储存库，接着等待部署</p>
+            <p>到这里，我们不花分文已经完成了网页的部署，直接点击这个链接就能访问自己的网站，但这个域名带有netlify.app的后缀，如果你愿意花一点钱，可以自己购买一个域名</p>
+            <h2>买域名</h2>
+            <p>去哪里买域名看个人喜好，我个人喜欢namesilo，因为它支持Alipay。我用0.99美元（7.20CNY）买下了8582753.xyz，在netlify绑上域名即可</p>
+            <p>下一步，我们要改名称服务器</p>
+        </div>
+    </div>
+</body>
+</html>
