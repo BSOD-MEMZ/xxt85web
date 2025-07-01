@@ -23,6 +23,8 @@ body {
 .titlebar {
     /* background: linear-gradient(to bottom, #7a7979 0%, #3b3d3e 50%, #060f11 51%, #133c50 100%); */
     background-image: url("title.png");
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
     color: #fff;
     padding: 8px 0;
 }
@@ -110,6 +112,8 @@ body {
 .window-titlebar {
     /* background: linear-gradient(to bottom, #82AFBE 0%, #498BA0 50%, #115E77 51%, #529CAB 100%); */
     background-image: url("bar.png");
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
     color: #fff;
     font-weight: bold;
     padding: 4px 8px;
