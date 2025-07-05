@@ -96,3 +96,14 @@ body {
     line-height: 1.6;
     margin-bottom: 15px;
 }
+
+.article-content q {
+    color: #5c5c5c;
+    font-style: italic;
+    line-height: 1.6;
+    margin-bottom: 15px;
+}
+
+.article-content abbr {
+    color: #A074C4;
+}
