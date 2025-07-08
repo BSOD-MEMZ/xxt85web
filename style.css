@@ -38,7 +38,8 @@ body {
 
 /* Windows导航栏样式 */
 .navbar {
-    width: 100%; /* 占满整个屏幕宽度 */
+    width: 100%;
+    /* 占满整个屏幕宽度 */
     height: 16px;
     /* background: linear-gradient(to bottom, #fefefe 0%, #E5EAF5 30%, #D4DBED 31%, #E1E6F6 100%);  */
     background-image: url("menu.JPG");
@@ -46,29 +47,34 @@ body {
     background-size: 100% 100%;
     margin: 0;
     padding: 0;
-    overflow: hidden; /* 清除浮动 */
+    overflow: hidden;
+    /* 清除浮动 */
 }
 
 .navbar ul {
-    line-height: 16px; /* 垂直居中 */
+    line-height: 16px;
+    /* 垂直居中 */
     font-size: 12px;
     height: 100%;
     list-style-type: none;
     margin: 0;
     padding: 0;
-    white-space: nowrap; /* 防止菜单项换行 */
+    white-space: nowrap;
+    /* 防止菜单项换行 */
 }
 
 .navbar li {
     height: 16px;
-    float: left; /* 左对齐 */
+    float: left;
+    /* 左对齐 */
     margin: 0;
     padding: 0;
 
 }
 
 .navbar a {
-    line-height: 16px; /* 垂直居中 */
+    line-height: 16px;
+    /* 垂直居中 */
     font-size: 12px;
     height: 100%;
     display: block;
@@ -163,6 +169,34 @@ a:hover {
     color: #000000;
     padding: 8px 0;
     text-align: center;
+}
+
+#aero-ring {
+    background: linear-gradient(0deg,
+            rgba(0, 0, 0, 1) 0%,
+            rgba(64, 64, 64, 1) 100%);
+    border-radius: 10px;
+    box-shadow: 0 0 4px rgba(0, 0, 0, 0.5),
+        inset 0 2px 1px rgba(255, 255, 255, 0.15),
+        inset 0 -2px 1px rgba(0, 0, 0, 0.35);
+    margin: 10px auto 0px auto;
+    padding: 0.75rem;
+    max-width: 15rem;
+    font-family: sans-serif;
+}
+
+#aero-ring a,
+#aero-ring a:visited {
+    color: white !important;
+}
+
+#aero-ring a:focus,
+#aero-ring a:hover {
+    color: lightgrey !important;
+}
+
+#aero-ring a:active {
+    color: darkgrey !important;
 }
 
 .footer p {
