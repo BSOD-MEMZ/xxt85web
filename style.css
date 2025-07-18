@@ -202,3 +202,104 @@ a:hover {
 .footer p {
     margin: 0;
 }
+
+
+.video-list {
+    margin-top: 15px;
+}
+
+.video-item {
+    border: 1px solid #cccccc;
+    background: #ffffff;
+    margin-bottom: 12px;
+    padding: 10px;
+    position: relative;
+}
+
+.video-item:hover {
+    background-color: #f0f7ff;
+    border-color: #7da2ce;
+}
+
+.video-thumb {
+    float: left;
+    width: 160px;
+    height: 90px;
+    background-color: #eeeeee;
+    border: 1px solid #dddddd;
+    margin-right: 15px;
+    text-align: center;
+    position: relative;
+}
+
+.video-thumb img {
+    max-width: 100%;
+    max-height: 100%;
+    vertical-align: middle;
+}
+
+.video-info {
+    overflow: hidden;
+}
+
+.video-title {
+    font-size: 14px;
+    font-weight: bold;
+    color: #003399;
+    margin: 0 0 5px 0;
+}
+
+.video-author {
+    font-size: 12px;
+    color: #666666;
+    margin-bottom: 5px;
+}
+
+.video-desc {
+    font-size: 12px;
+    color: #444444;
+    line-height: 1.4;
+    margin-bottom: 5px;
+}
+
+.play-icon {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 48px;
+    height: 48px;
+    margin-top: -24px;
+    margin-left: -24px;
+    background: url('images/play.png') no-repeat center;
+}
+
+.video-duration {
+    position: absolute;
+    bottom: 5px;
+    right: 5px;
+    background: #333333;
+    color: white;
+    font-size: 10px;
+    padding: 2px 4px;
+}
+
+.pagination {
+    margin-top: 20px;
+    text-align: center;
+}
+
+.pagination a {
+    display: inline-block;
+    padding: 4px 8px;
+    margin: 0 2px;
+    background: #e3eaf3;
+    border: 1px solid #a0a0a0;
+    color: #003399;
+    text-decoration: none;
+}
+
+.pagination a:hover,
+.pagination a.active {
+    background: #c0d2e8;
+}
+
