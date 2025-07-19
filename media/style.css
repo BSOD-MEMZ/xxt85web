@@ -204,7 +204,7 @@ body {
 .volume-slider::-moz-range-thumb {
     width: 15px;
     height: 15px;
-    background-image: url('assets/full.png');
+    background-image: url('assets/dot.png');
     cursor: pointer;
 }
 

@@ -289,17 +289,15 @@ a:hover {
 }
 
 .pagination a {
-    display: inline-block;
     padding: 4px 8px;
     margin: 0 2px;
-    background: #e3eaf3;
-    border: 1px solid #a0a0a0;
-    color: #003399;
+    background: url('media/button.png') no-repeat center;
+    color: #ffffff;
     text-decoration: none;
 }
 
 .pagination a:hover,
 .pagination a.active {
-    background: #c0d2e8;
+    background: url('media/button.png') no-repeat center;
 }
 
