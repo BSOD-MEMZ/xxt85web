@@ -195,7 +195,7 @@ body {
     width: 70px;
     margin-left: 5px;
     -webkit-appearance: none;
-    height: 5px;
+    height: 3px;
     background: #555;
     border-radius: 5px;
     outline: none;
@@ -204,6 +204,8 @@ body {
 .volume-slider::-moz-range-thumb {
     width: 15px;
     height: 15px;
+    background: none;
+    border: none;
     background-image: url('assets/dot.png');
     cursor: pointer;
 }
