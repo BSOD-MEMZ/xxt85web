@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>胭脂，但是 Windows（欸，我不是窗口吗？）</title>
+    <link rel="stylesheet" href="style.css" type="text/css" />
+    <link rel="icon" href="medias.ico" type="image/x-icon">
+    <script src="player.js"></script>
+</head>
+<body>
+    <div class="titlebar">
+        <div class="wrap">
+            <h1>xxtsoft.top 媒体库</h1>
+        </div>
+    </div>
+    <div class="content wrap">
+        <div class="video-container">
+            <h2 class="video-title">胭脂,但是 Windows(欸,我不是窗口吗 )</h2>
+    
+            <div class="video-player">
+                <video id="main-video" poster="cover/enji_but_win.jpg">
+                    <source src="file/胭脂,但是 Windows(欸,我不是窗口吗 ).mp4">
+                </video>
+                
+                <div class="loader" id="loader"></div>
+                <div class="player-controls">
+                    <button class="control-button play-btn" id="play-pause"></button>
+                    <div class="progress-container">
+                        <div class="progress-bar" id="progress-bar"></div>
+                    </div>
+                    <div class="time-display" id="time-display">00:00 / 02:47</div>
+                    <div class="volume-container">
+                        <button class="control-button mute-btn" id="mute"></button>
+                        <input type="range" class="volume-slider" id="volume-slider" min="0" max="1" step="0.1" value="1">
+                    </div>
+                    <button class="control-button fullscreen-btn" id="fullscreen"></button>
+                </div>
+            </div>
+            
+            <div class="video-info">
+                <div class="video-meta">
+                    <span>作者：@AbCd</span> | 
+                    <span>发布时间：7/23/25</span> | 
+                    <span>类型：MP4 视频</span> | 
+                    <span>时长：02:47</span>
+                </div>
+                
+                <div class="video-description">
+                    本家：BV1ucGzzuEhw @蛋包饭咖喱饭 特别感谢 @BSOD-MEMZ 的灵感和帮助 使用 Python 3.13 + PySide6 制作 耗时一周，花了不少心思，毕竟谁家好人一上来就拿 PyQt 整这玩意
+                </div>
+            </div>
+        </div>
+        
+        <!-- 下载区域 -->
+        <div class="download-section">
+            <h3>下载视频原片</h3>
+            <p>您正在试看标清影片，单击下方链接下载高清视频</p>
+            <a href="" class="download-link">
+                <img src="assets/downvideo.png" alt="" width="16" height="16"> 下载原片（1080P 60Hz）（暂无）
+            </a>
+            <a href="https://www.bilibili.com/video/BV18R8wzEEgR/" class="download-link">
+                <img src="assets/bilibili.png" alt="" width="16" height="16"> 在哔哩哔哩上观看
+            </a>
+        </div>
+        
+    </div>
+
+</body>
+</html>

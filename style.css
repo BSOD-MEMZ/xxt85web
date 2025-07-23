@@ -9,7 +9,7 @@ body {
 }
 
 .wrap {
-    width: 980px;
+    width: 1000px;
     margin: 0 auto;
 }
 
@@ -101,7 +101,7 @@ body {
 
 .main {
     float: left;
-    width: 700px;
+    width: 720px;
 }
 
 .sidebar {
