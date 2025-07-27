@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>用Python textract库读取Word、Excel、PPT ⭐ xxtsoft</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="header-image">
+        <img src="vista.jpg" alt="标题图片">
+        <div class="title-overlay">
+            <h1>用Python textract库读取Word、Excel、PPT</h1>
+        </div>
+    </div>
+    <div class="gradient-divider">
+        <a href="javascript:window.print()" class="button"><img src="printer.png" alt="" width="16" height="16" /> 打印文章</a>
+    </div>
+    <div class="content-container">
+        <div class="author-info">
+            <p>作者：xxt8582753</p>
+            <p>发布日期：2025年7月27日</p>
+        </div>
+        <div class="article-content">
+            <p>这是我第一次写这种风格的文章，如果大家喜欢我下次多做点，本教程适合有点Python基础但不多的人（比如我）</p>
+            <p>在日常生活中，我们常常需要用到各种Office文档，使用textract库可以轻松读取这些文件</p>
+            <h2>准备工作</h2>
+            <p>先安装Python，再执行命令：</p>
+            <code>pip install textract</code>
+            <h2>尝试第一次调用</h2>
+            <p>准备一个文件夹，在这个文件夹中创建一个Word文档</p>
+            <p>在主程序中这么写：</p>
+            <pre>
+                <code>
+import textract
+
+text = textract.process("1.docx").decode()
+print(text)
+                </code>
+            </pre>
+            <p>这三句代码很简单，第一行代码引入textract模块，第二行代码用于处理1.docx这个文档（注意那个decode，没有它就会输出一些控制字符），第三行直接输出</p>
+            <p>不出意外的话，会直接print出“测试”二字（因为我文档里就是这么写的）</p>
+            <p>我们不妨扩写这个程序，让程序依次处理多个文档，看看最终输出结果</p>
+            <pre>
+                <code>
+import textract
+
+text = textract.process("1.docx").decode()
+print(text)
+print("=====")
+text = textract.process("1.xlsx").decode()
+print(text)
+print("=====")
+text = textract.process("1.pptx").decode()
+print(text)
+print("=====")
+
+                </code>
+            </pre>
+            <img src="assets/textract1.JPG">
+            <p>最终结果符合预期</p>
+        </div>
+    </div>
+</body>
+</html>

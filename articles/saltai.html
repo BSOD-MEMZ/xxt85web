@@ -6,158 +6,80 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <!-- 顶部图片 -->
     <div class="header-image">
         <img src="vista.jpg" alt="标题图片">
         <div class="title-overlay">
             <h1>谁能拒绝一只可爱的纱露朵住进自己电脑呢？浅谈Python+DeepSeek API开发</h1>
         </div>
     </div>
-
-    <!-- 渐变分割条 -->
     <div class="gradient-divider">
         <a href="javascript:window.print()" class="button"><img src="printer.png" alt="" width="16" height="16" /> 打印文章</a>
     </div>
-
-    <!-- 作者信息 -->
     <div class="content-container">
         <div class="author-info">
             <p>作者：xxt8582753</p>
             <p>发布日期：2025年7月23日</p>
         </div>
-
-        <!-- 正文内容 -->
         <div class="article-content">
-            <p>看标题就知道wmc发力了</p>
-            <p>有时候自己写代码挺孤独的，或者有什么不开心的事没人倾诉，正好可以整个AI给我提供点情绪价值（？</p>
-            <p>我突然想起自己半年前做过一个叫ChatCMD的项目</p>
-            <p>诶，我有一计！</p>
-            <p>私 天才じゃないの？</p>
-            <p>因为之前我做过ChatCMD（下方是ChatCMD截图），理论上来说Copy下以前的代码就行了，但我添加了许多功能，所以还是遇到了点问题</p>
-            <img src="assets/saltai1.jpg">
-            <p>最初版的ChatCMD核心是用Python做的，界面用易语言抠的，做工非常粗糙，还不支持多轮对话，主要功能就是用户输入指令，以Windows CMD指令返回，比如用户要求打开任务管理器，就会在cmd里执行taskmgr什么的</p>
-            <p>现在我的想法是让这个程序支持联网访问，因为我用过大部分AI都不能访问一个指定的URL，联网搜索功能又不准，如果先用requests库把要的网页爬下来再给AI处理就好了，这样的话那些晦涩难懂的在线文档就能交给AI啃</p>
-            <p>还有就是让这个AI可以读取文件，这个也不难，直接with open然后把东西传进去就行了</p>
-            <p>现在还要给AI一个合适的人设，写一个prompt。<a href="https://mzh.moegirl.org.cn/%E7%BA%B1%E9%9C%B2%E6%9C%B5">纱露朵</a>（ソルト）是我在maimai中最喜欢的角色，那就以她为设定好了</p>
-            <p>我们尝试调用DeepSeek API，请看下方代码</p>
-            <pre><code>
-import json
-import os
-import requests
-from ollama import ChatResponse, chat
-from openai import OpenAI
-from win11toast import toast
-CONTEXT_FILE = "context.json"
-MAX_HISTORY = 1000
-client = OpenAI(
-    api_key="你的APIKey", base_url="https://api.deepseek.com"
-)
-with open("file.dat", "r", encoding="utf-8", errors="ignore") as i:
-    infile = i.read()
-# 自动加载历史 context
-if os.path.exists(CONTEXT_FILE):
-    with open(CONTEXT_FILE, "r", encoding="utf-8") as f:
-        send = json.load(f)
-    f.close
-else:
-    with open("prompt.ini", "r", encoding="utf-8", errors="ignore") as f:
-        prompt = f.read()
-    f.close()
-    with open("prompt2.ini", "r", encoding="utf-8", errors="ignore") as g:
-        prompt2 = g.read()
-    g.close()
-    send = [
-        {
-            "role": "system",
-            "content": prompt,
-        },
-        {
-            "role": "system",
-            "content": prompt2,
-        },
-    ]
-content = ""
-mode = "2"
-while True:
-    try:
-        a = toast("回复 ソルト", content, input="...", buttons=["发送", "结束会话"])
-        print(a)
-    except TypeError:
-        exit()
-    else:
-        a = a["user_input"]["..."]
-        if a == "/quit":
-            # 保存 context
-            with open(CONTEXT_FILE, "w", encoding="utf-8") as f:
-                json.dump(send, f, ensure_ascii=False, indent=2)
-            # 关闭 Ollama
-            if mode == "1":
-                os.system("ollama stop qwen2.5vl:7b")
-            break
-        elif a[0:4] == "/web":
-            netdown = requests.get(a[5:])
-            a = toast(
-                "已经爬取到网页啦",
-                a[5:] + "下载完成，下一步该干什么呢？",
-                input="...",
-                button="发送",
-            )
-            a = a["user_input"]["..."]
-            send.append({"role": "user", "content": netdown.text})
-            send.append({"role": "user", "content": a})
-        elif a[0:5] == "/file":
-            send.append({"role": "user", "content": a[6:]})
-            send.append({"role": "user", "content": infile})
-        elif a[0:4] == "/cmd":
-            os.system(a[5:])
-            break
-        else:
-            send.append({"role": "user", "content": a})
-        # 节省 token，只保留最近 MAX_HISTORY 条
-        context_to_send = [send[0]] + send[-MAX_HISTORY:]
-        if mode == "1":
-            response: ChatResponse = chat(
-                model="qwen2.5vl:7b", messages=context_to_send
-            )
-            content = response.message.content
-        elif mode == "2":
-            response = client.chat.completions.create(
-                model="deepseek-chat", messages=context_to_send, stream=False
-            )  # type: ignore
-            content = response.choices[0].message.content
-        send.append({"role": "assistant", "content": content})
-        if a[0:4] == "@bat":
-            b = toast(
-                "是否允许 ソルト 执行此命令？",
-                content,
-                buttons=["允许", "查看", "拒绝"],
-            )
-            if str(b) == "{'arguments': 'http:允许', 'user_input': {}}":
-                os.system(str(content))
-                continue
-            elif str(b) == "{'arguments': 'http:查看', 'user_input': {}}":
-                with open("temp.txt", "w", encoding="utf-8", errors="ignore") as temp:
-                    temp.write(content)
-                temp.close()
-                os.system("notepad temp.txt")
-            elif str(b) == "{'arguments': 'http:拒绝', 'user_input': {}}":
-                send.append({"role": "system", "content": "用户拒绝你提供的指令"})
-        else:
-            b = toast("ソルト", content, buttons=["回复", "查看", "关闭会话"])
-            if str(b) == "{'arguments': 'http:查看', 'user_input': {}}":
-                with open("temp.txt", "w", encoding="utf-8", errors="ignore") as temp:
-                    temp.write(content)
-                temp.close()
-                os.system("notepad temp.txt")
-            elif str(b) == "{'arguments': 'http:关闭会话', 'user_input': {}}":
-                break
-exit()
-
-            </code></pre>
-            <p>是不是感觉要炸了？我们慢慢来</p>
-            <p>首先这个程序有双模式，Ollama本地部署或者DeepSeekAPI，但是实测本地部署的模型太傻逼了，所以我写死了<code>mode=1</code></p>
-            <p>接着我们会传入两个系统级提示词，提示词包括两个部分，role和content，role就是角色，比如system，user什么的，content就是你要发的内容</p>
-            
+            <p>看标题就知道wmc发力了（？</p>
+            <p>这个项目我很早之前就做了，只是一直懒得发，Python萌新的拙作，大佬轻喷~</p>
+            <p>有时候自己写代码挺孤独的，或者有什么不开心的事没人倾诉，正好可以整个AI给我提供点情绪价值（？或者有时候几千几万字的接口文档懒得啃，可以直接喂给AI然后总结</p>
+            <p>于是我拿py整了个十分抽象的程序</p>
+            <p>Office文件读取使用textract，之前介绍过，PDF读取基于pdfplumber，网页读取用的requests，用户界面win11toast+Tkinter</p>
+            <p>这个AI的人设是我在maimai中最喜欢的人物————纱露朵（ソルト），目前可以通过Windows通知进行对话，这样也不占地方</p>
+            <h2>演示</h2>
+            <p><b>警告：若要退出程序，请使用/quit命令或者点击“关闭会话”，不要将弹窗收回控制中心，否则可能导致聊天记录存档失败</b></p>
+            <h3>基础对话</h3>
+            <p>很明显，这玩意已经被我调教坏了，自己拿到手后改下prompt吧</p>
+            <p>（我这里剪了一下，DeepSeek反应比较迟钝）</p>
+            <img src="assets/saltai.gif">
+            <h3>/web 指令</h3>
+            <p>用requests库爬取指定网页，这比AI在那里瞎几把搜索好多了，注意要在/web 后输入完整URL，包括协议头（例如输入https://xxtsoft.top而不是xxtsoft.top）否则会出问题</p>
+            <img src="assets/saltai2.gif">
+            <p>点击“回复”按钮，可以继续和AI对话；点击查看按钮，会弹出信息框显示模型的具体回答内容</p>
+            <img src="assets/saltai3.gif">
+            <h3>/file 指令</h3>
+            <p>让纱露朵读入文件，会打开tk文件选择框，在/file 后面加上你要说的话，目前支持纯文本内容（比如txt，py，cpp等）Office文档（docx，xlsx，pptx）PDF，具体请见textract那篇文章，目前只能读取文本内容，总不可能搞个ocr吧</p>
+            <img src="assets/saltai4.gif">
+            <h3>/cmd 指令</h3>
+            <p>若加上/cmd 前缀，你的信息完全不会发送给AI，而是直接作为命令执行，和用CMD执行没有区别。例如输入“/cmd taskmgr”，立即打开任务管理器</p>
+            <h3>@bat 指令</h3>
+            <p>由AI将您的指令翻译为CMD指令，例如输入“@bat 帮我打开注册表”，AI生成指令“regedit”，此时您可以选择是否执行此指令</p>
+            <h3>/set 指令</h3>
+            <h3>/quit 指令</h3>
+            <p>输入后存档聊天记录，然后关闭程序</p>
+            <h2>特色功能</h2>
+            <h3>修改聊天记录</h3>
+            <p>可以随意修改纱露朵的“记忆”————只需要修改context.json，这样就可以删除误导性的内容以确保生成结果的准确性，并且也可以节省Token（如果你真打算和这个AI聊一段时间，64k估计不够用）</p>
+            <h3>特有的功能</h3>
+            <p>鉴于ソルト的特殊属性，我整了个知识库（虽然是网上抄的，而且直接当prompt导入），经过训练后可以回答一些问题，比如这样</p>
+            <pre>
+                <code>
+  {
+    "role": "user",
+    "content": "你知道maimai里面定数15的两首歌分别是什么吗"
+  },
+  {
+    "role": "assistant",
+    "content": "当然知道啦！是PANDORA PARADOXXX和系ぎて的白谱哦~"
+  },
+                </code>
+            </pre>
+            <h2>使用方法</h2>
+            <p>我打包了个exe，没测试，不知道能不能用，反正代码可以跑。自己注册一个DeepSeek APIKey，填入apikey.ini<b>（这一步很重要，不填APIkey就用不了，API也不贵，像我这种人20块钱够用一年了）</b></p>
+            <img src="assets/saltai1.JPG">
+            <p>如果不填或者填错就会这样↓</p>
+            <img src="assets/saltai2.JPG">
+            <h2>注意事项</h2>
+            <p>DeepSeek的错觉相当离谱，包括和她对话也有明显的角色扮演痕迹，要么prompt写严点，要么Temperature调低点（我也不知道调Temperature能不能解决问题）</p>
+            <p>DeepSeek就算用API审查也相当严，如果你有那方面需求，建议换个模型</p>
+            <h2>下载</h2>
+            <p>妈的这辈子第一次写这么长的html，手都酸了</p>
+            <p>这东西纯屎 不放Github了</p>
+            <h3>下载程序</h3>
+            <a href="https://www.123912.com/s/LQJuVv-pTeNd">网盘下载</a>
+            <h3>下载源代码</h3>
+            <a href="assets/salt_ai.py"><img src="asset.png" alt="" width="16" height="16" /> 下载附件</a>
         </div>
     </div>
 </body>
