@@ -1,8 +1,9 @@
-/* 全局样式 */
 body {
     font-size: 12px;
     color: #000;
-    background: #FFFFFF;
+    background: #F0F0F0;
+    /* background-image: url("background.jpg"); */
+    /* background-size: 100% 100%; */
     margin: 0;
     padding: 0;
     line-height: 1.5;
@@ -19,7 +20,6 @@ body {
     height: 0;
 }
 
-/* Windows标题栏样式 */
 .titlebar {
     /* background: linear-gradient(to bottom, #7a7979 0%, #3b3d3e 50%, #060f11 51%, #133c50 100%); */
     background-image: url("title.png");
@@ -36,10 +36,8 @@ body {
     padding-left: 10px;
 }
 
-/* Windows导航栏样式 */
 .navbar {
     width: 100%;
-    /* 占满整个屏幕宽度 */
     height: 16px;
     /* background: linear-gradient(to bottom, #fefefe 0%, #E5EAF5 30%, #D4DBED 31%, #E1E6F6 100%);  */
     background-image: url("menu.JPG");
@@ -48,33 +46,27 @@ body {
     margin: 0;
     padding: 0;
     overflow: hidden;
-    /* 清除浮动 */
 }
 
 .navbar ul {
     line-height: 16px;
-    /* 垂直居中 */
     font-size: 12px;
     height: 100%;
     list-style-type: none;
     margin: 0;
     padding: 0;
     white-space: nowrap;
-    /* 防止菜单项换行 */
 }
 
 .navbar li {
     height: 16px;
     float: left;
-    /* 左对齐 */
     margin: 0;
     padding: 0;
-
 }
 
 .navbar a {
     line-height: 16px;
-    /* 垂直居中 */
     font-size: 12px;
     height: 100%;
     display: block;
@@ -87,7 +79,7 @@ body {
 
 .navbar a:hover {
     height: 16px;
-    background: #d8d8d8;
+    background: #a7a7a7;
 }
 
 .navbar img {
@@ -112,7 +104,7 @@ body {
 .window {
     margin-bottom: 15px;
     border: 1px solid #cccccc;
-    background: #fff;
+    background: #fdfdfd;
 }
 
 .window-titlebar {

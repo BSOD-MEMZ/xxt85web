@@ -1,0 +1,328 @@
+<!DOCTYPE html
+    PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>xxtsoft · 聊天</title>
+    <link rel="icon" href="articles.ico" type="image/x-icon">
+    <link rel="stylesheet" href="chat.css" type="text/css" />
+</head>
+
+<body>
+    <div class="titlebar">
+        <div class="wrap">
+            <h1>xxtsoft.top</h1>
+        </div>
+    </div>
+    <div class="navbar">
+        <div class="wrap">
+            <ul>
+                <li><a href="index.html">首页(H)</a></li>
+                <li><a href="articles.html">文章(A)</a></li>
+                <li><a href="downloads.html">下载(D)</a></li>
+                <li><a href="medias.html">多媒体(M)</a></li>
+                <li><a href="about.html">关于(A)</a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="content wrap">
+        <h2><span style="color: #003399;">和智能客服聊天</span></h2>
+        <p>输入您的疑问 - 目前只支持简体中文</p>
+        <div class="chat-container" id="chat-container">
+            <div class="typing-indicator" id="typing-indicator">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+
+        <div class="input-area">
+            <input type="text" id="user-input" placeholder="..." autocomplete="off">
+            <button id="send-btn">发送</button>
+        </div>
+    </div>
+    <script>
+        var r = confirm("这是一个测试性功能，还未完成，除非您知道您在做什么，否则不要点击确定！");
+        if (r == false) {
+            window.close()
+        }
+        // 增强版知识库 - 每个问题支持多个回答
+        const knowledgeBase = {
+            "下载": {
+                answers: [
+                    "是要下载本站的程序吗？目前菜单栏上的下载选项暂时没做完，可以在主页查看对应的文章，文章里面应该会有下载链接吧？实在不行直接发邮件给站长呗",
+                    "下载功能还在建设中，您可以先查看相关文章获取资源链接。",
+                    "抱歉，下载页面尚未完成，您可以联系站长获取帮助。"
+                ],
+                keywords: ["下载", "download", "获取", "怎么下载"]
+            },
+            "404": {
+                answers: [
+                    "哎呀，遇到404错误了呀(´;ω;｀) 这表示页面找不到呢~ 可能是链接输错了，或者页面被移动了。可以试试刷新页面或者回到首页重新导航哦！需要我帮你找正确的链接吗？",
+                    "404错误表示页面不存在，可能是链接有误或页面已被移除。",
+                    "看起来这个页面找不到了(＞﹏＜) 试试其他链接或回到首页？"
+                ],
+                keywords: ["404", "页面不存在", "not found", "打不开"]
+            },
+            "错误": {
+                answers: [
+                    "呜...程序崩溃了吗？抱歉给你带来不便！可以跟站长说一下哦~",
+                    "遇到错误了？请尝试刷新页面或稍后再试。如果问题持续，请联系站长。",
+                    "哎呀，出错了(＞﹏＜) 可以描述下具体问题吗？我帮您记录反馈。"
+                ],
+                keywords: ["崩溃", "打不开", "无响应", "error", "出错"]
+            },
+            "人机": {
+                answers: [
+                    "呜呜呜别这样嘛。。我基于关键词匹配，所以有些事情不知道很正常啦~(￣▽￣)~*",
+                    "虽然我只是个简单的聊天机器人，但我会尽力帮助你的！",
+                    "我是基于规则匹配的AI，可能不够智能，请多多包涵~"
+                ],
+                keywords: ["人机", "傻逼", "草泥马", "操你妈", "fuck you", "智障"]
+            },
+            "转人工": {
+                answers: [
+                    "对不起，但是现在这个网站上没有人工服务欸。。要不我们再聊聊？",
+                    "目前只有我这个小机器人在线服务，人工客服暂时不可用。",
+                    "很抱歉，现在无法转接人工服务，我会尽力解答您的问题。"
+                ],
+                keywords: ["人工", "真人", "客服"]
+            },
+            "不开心": {
+                answers: [
+                    "诶~不开心吗？(っ´ω`)ﾉ(╥ω╥) 我在这里陪着你哦！",
+                    "不开心的时候确实很难受呢，要不要听听音乐放松一下？",
+                    "有什么烦恼可以跟我说说看，虽然我可能帮不上大忙，但会是个好听众~"
+                ],
+                keywords: ["不开心", "难过", "伤心", "沮丧", "depressed"]
+            },
+            "压力大": {
+                answers: [
+                    "压力大的时候确实很难受呢(´-ω-`) 可以试试深呼吸，或者暂时离开工作休息一下~ 要记住，你已经做得很棒了！",
+                    "压力山大时，不妨试试番茄工作法，工作25分钟休息5分钟，效率会更高哦！",
+                    "感到压力时，可以尝试运动或冥想，这些都能有效缓解压力呢~"
+                ],
+                keywords: ["压力", "stress", "累", "疲惫", "overwhelmed"]
+            },
+            "开心": {
+                answers: [
+                    "哇~你开心我也好开心！(ﾉ◕ヮ◕)ﾉ*:･ﾟ✧ 能和我分享一下是什么让你这么高兴吗？我最喜欢听开心的事情啦~",
+                    "开心的事情要加倍珍惜哦！希望你的好心情能持续一整天~",
+                    "看到你开心我也忍不住笑了呢(●'◡'●)"
+                ],
+                keywords: ["开心", "高兴", "happy", "兴奋", "joy"]
+            },
+            "你好": {
+                answers: [
+                    "你好呀~今天有什么可以帮你的吗？无论是技术问题还是想聊聊天都可以哦~",
+                    "嗨！很高兴见到你，有什么我可以帮忙的吗？",
+                    "你好！我是xxtsoft的智能助手，随时为您服务~"
+                ],
+                keywords: ["你好", "hi", "hello", "嗨", "hola"]
+            },
+            "谢谢": {
+                answers: [
+                    "不用谢啦~能帮到你我超级开心的！(ノ◕ヮ◕)ノ*:･ﾟ✧ 还有什么需要我帮忙的吗？",
+                    "您太客气了！这是我的职责所在~",
+                    "很高兴能帮到您！有其他问题随时问我哦~"
+                ],
+                keywords: ["谢谢", "thx", "thanks", "感谢", "appreciate"]
+            },
+            "再见": {
+                answers: [
+                    "要走了吗？我会想你的！(´• ω •`)ﾉ 随时欢迎回来找我聊天哦~拜拜！",
+                    "再见啦！希望很快能再见到你~",
+                    "拜拜！记得常来玩哦(｡･ω･｡)ﾉ♡"
+                ],
+                keywords: ["再见", "bye", "goodbye", "拜拜", "see you"]
+            },
+            "联系": {
+                answers: [
+                    "您可以发送邮件至xxt8582753@126.com联系站长",
+                    "目前主要通过邮件联系：xxt8582753@126.com",
+                    "有问题可以直接发邮件给站长哦~邮箱是xxt8582753@126.com"
+                ],
+                keywords: ["联系", "email", "邮箱", "怎么找"]
+            },
+            "时间": {
+                answers: [
+                    function () { return `现在是${new Date().toLocaleString()}，有什么我可以帮你的吗？`; },
+                    function () { return `当前时间是${new Date().toLocaleTimeString()}~`; },
+                    function () { return `今天是${new Date().toLocaleDateString()}，时间过得真快呢！`; }
+                ],
+                keywords: ["时间", "几点", "日期", "today"]
+            },
+            "default": {
+                answers: [
+                    "唔...不太明白呢(´･_･`) 可以换个方式说说看吗？",
+                    "这个问题我还不太清楚，能再详细说明一下吗？",
+                    "抱歉，我不太理解这个问题，您可以尝试用其他方式提问吗？"
+                ]
+            }
+        };
+
+        // 同义词映射
+        const synonyms = {
+            "怎么": ["如何", "怎样", "咋"],
+            "下载": ["获取", "拿到", "取得"],
+            "联系": ["找到", "联络", "联系到"],
+            "错误": ["问题", "故障", "bug"],
+            "开心": ["快乐", "高兴", "愉悦"]
+        };
+
+        // 初始化聊天
+        document.addEventListener('DOMContentLoaded', function () {
+            const chatContainer = document.getElementById('chat-container');
+            const userInput = document.getElementById('user-input');
+            const sendBtn = document.getElementById('send-btn');
+            const typingIndicator = document.getElementById('typing-indicator');
+
+            let conversationContext = {
+                lastTopics: [],
+                userInfo: {}
+            };
+
+            // 添加欢迎消息
+            setTimeout(() => {
+                addBotMessage(getRandomAnswer(knowledgeBase["你好"].answers));
+            }, 500);
+
+            // 发送按钮点击事件
+            sendBtn.addEventListener('click', sendMessage);
+
+            // 输入框回车事件
+            userInput.addEventListener('keypress', function (e) {
+                if (e.key === 'Enter') {
+                    sendMessage();
+                }
+            });
+
+            function sendMessage() {
+                const message = userInput.value.trim();
+                if (message === '') return;
+
+                // 添加用户消息
+                addUserMessage(message);
+                userInput.value = '';
+
+                // 显示"正在输入"指示器
+                typingIndicator.style.display = 'block';
+                chatContainer.scrollTop = chatContainer.scrollHeight;
+
+                // 模拟AI思考时间
+                setTimeout(function () {
+                    typingIndicator.style.display = 'none';
+                    const response = getResponse(message, conversationContext);
+                    addBotMessage(response);
+                }, 200 + Math.random() * 500);
+            }
+
+            function addUserMessage(message) {
+                const messageDiv = document.createElement('div');
+                messageDiv.className = 'message user-message';
+
+                const avatarDiv = document.createElement('div');
+                avatarDiv.className = 'avatar user-avatar';
+
+                const contentDiv = document.createElement('div');
+                contentDiv.className = 'message-content';
+                contentDiv.textContent = message;
+
+                messageDiv.appendChild(contentDiv);
+                messageDiv.appendChild(avatarDiv);
+
+                chatContainer.appendChild(messageDiv);
+                chatContainer.scrollTop = chatContainer.scrollHeight;
+            }
+
+            function addBotMessage(message) {
+                const messageDiv = document.createElement('div');
+                messageDiv.className = 'message bot-message';
+
+                const avatarDiv = document.createElement('div');
+                avatarDiv.className = 'avatar';
+                avatarDiv.textContent = '';
+
+                const contentDiv = document.createElement('div');
+                contentDiv.className = 'message-content';
+                contentDiv.textContent = typeof message === 'function' ? message() : message;
+
+                messageDiv.appendChild(avatarDiv);
+                messageDiv.appendChild(contentDiv);
+
+                chatContainer.appendChild(messageDiv);
+                chatContainer.scrollTop = chatContainer.scrollHeight;
+            }
+
+            function expandSynonyms(text) {
+                let result = [text.toLowerCase()];
+                for (const [word, alternatives] of Object.entries(synonyms)) {
+                    if (text.toLowerCase().includes(word.toLowerCase())) {
+                        for (const alt of alternatives) {
+                            result.push(text.toLowerCase().replace(word.toLowerCase(), alt.toLowerCase()));
+                        }
+                    }
+                }
+                return result;
+            }
+
+            function getResponse(userMessage, context) {
+                const variations = expandSynonyms(userMessage);
+                let bestMatch = null;
+                let highestScore = 0;
+                let bestTopic = "";
+
+                // 检查所有可能的匹配
+                for (const [topic, data] of Object.entries(knowledgeBase)) {
+                    if (topic === "default") continue;
+
+                    let topicScore = 0;
+
+                    // 计算关键词匹配得分
+                    for (const keyword of data.keywords) {
+                        const keywordLower = keyword.toLowerCase();
+                        for (const variation of variations) {
+                            if (variation.includes(keywordLower)) {
+                                topicScore += (variation.split(keywordLower).length - 1);
+                            }
+                        }
+                    }
+
+                    // 更新最佳匹配
+                    if (topicScore > highestScore) {
+                        highestScore = topicScore;
+                        bestMatch = data;
+                        bestTopic = topic;
+                    }
+                }
+
+                // 考虑上下文
+                if (context.lastTopics.includes("下载") && userMessage.toLowerCase().includes("找不到")) {
+                    return "如果找不到下载链接，可以尝试查看相关文章或直接联系站长获取帮助~";
+                }
+
+                // 更新上下文
+                if (bestMatch) {
+                    context.lastTopics.unshift(bestTopic);
+                    if (context.lastTopics.length > 3) {
+                        context.lastTopics.pop();
+                    }
+                }
+
+                // 返回最佳匹配的回答或默认回答
+                if (bestMatch && highestScore > 0) {
+                    return getRandomAnswer(bestMatch.answers);
+                }
+
+                return getRandomAnswer(knowledgeBase.default.answers);
+            }
+
+            function getRandomAnswer(answers) {
+                return answers[Math.floor(Math.random() * answers.length)];
+            }
+        });
+    </script>
+</body>
+
+</html>

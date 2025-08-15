@@ -1,0 +1,253 @@
+body {
+    font-size: 12px;
+    color: #000;
+    background: #FFFFFF;
+    margin: 0;
+    padding: 0;
+    line-height: 1.5;
+}
+
+.wrap {
+    width: 800px;
+    margin: 0 auto;
+}
+
+.clear {
+    clear: both;
+    font-size: 0;
+    height: 0;
+}
+
+.titlebar {
+    /* background: linear-gradient(to bottom, #7a7979 0%, #3b3d3e 50%, #060f11 51%, #133c50 100%); */
+    background-image: url("title.png");
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    color: #fff;
+    padding: 8px 0;
+}
+
+.titlebar h1 {
+    font-size: 18px;
+    font-weight: bold;
+    margin: 0;
+    padding-left: 10px;
+}
+
+.navbar {
+    width: 100%;
+    height: 16px;
+    /* background: linear-gradient(to bottom, #fefefe 0%, #E5EAF5 30%, #D4DBED 31%, #E1E6F6 100%);  */
+    background-image: url("menu.JPG");
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+}
+
+.navbar ul {
+    line-height: 16px;
+    font-size: 12px;
+    height: 100%;
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    white-space: nowrap;
+}
+
+.navbar li {
+    height: 16px;
+    float: left;
+    margin: 0;
+    padding: 0;
+
+}
+
+.navbar a {
+    line-height: 16px;
+    font-size: 12px;
+    height: 100%;
+    display: block;
+    /*background: #ffffff;*/
+    color: #000000;
+    text-decoration: none;
+    padding: 0px 12px 6px 6px;
+    /*border-right: 1px solid #8b8b8b;*/
+}
+
+.navbar a:hover {
+    height: 16px;
+    background: #d8d8d8;
+}
+
+.navbar img {
+    vertical-align: middle;
+    margin-right: 4px;
+}
+
+.content {
+    padding: 15px 0;
+}
+
+.main {
+    float: left;
+    width: 720px;
+}
+
+.window-content img {
+    vertical-align: middle;
+    margin-right: 5px;
+}
+
+ul {
+    list-style: none;
+    margin: 0 0 10px 20px;
+    padding: 0;
+}
+
+li {
+    margin-bottom: 3px;
+}
+
+a {
+    color: #0066CC;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+
+.chat-container {
+    background-color: white;
+    border: 1px solid #000;
+    padding: 20px;
+    height: 500px;
+    overflow-y: auto;
+    margin-bottom: 20px;
+}
+
+.message {
+    margin-bottom: 15px;
+    display: flex;
+}
+
+.bot-message {
+    justify-content: flex-start;
+}
+
+.user-message {
+    justify-content: flex-end;
+}
+
+.message-content {
+    max-width: 70%;
+    padding: 10px 15px;
+    border-radius: 3px;
+    position: relative;
+}
+
+.bot-message .message-content {
+    background-color: #e6e6e6;
+    border-radius: 3px;
+}
+
+.user-message .message-content {
+    border-radius: 3px;
+    background: linear-gradient(to bottom, #7a7979 0%, #3b3d3e 50%, #060f11 51%, #133c50 100%);;
+    color: white;
+}
+
+.avatar {
+    width: 40px;
+    height: 40px;
+    margin-right: 10px;
+    background-image:url("avatar1.png");
+    background-size: 100% 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: bold;
+}
+
+.user-avatar {
+    width: 40px;
+    height: 40px;
+    margin-right: 10px;
+    background-image:url("avatar.png");
+    background-size: 100% 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: bold;
+}
+
+.input-area {
+    display: flex;
+    margin-top: 20px;
+}
+
+#user-input {
+    flex: 1;
+    padding: 12px 15px;
+    border: 1px solid #888888;
+    font-size: 1em;
+    outline: none;
+}
+
+/* #send-btn { 
+    background-color: #ff6b9d;
+    color: white;
+    border: none;
+    border-radius: 25px;
+    padding: 0 25px;
+    margin-left: 10px;
+    cursor: pointer;
+    font-size: 1em;
+    transition: background-color 0.3s;
+}
+
+#send-btn:hover {
+    background-color: #ff4785;
+}
+*/
+.typing-indicator {
+    display: none;
+    margin-bottom: 15px;
+}
+
+.typing-indicator span {
+    height: 10px;
+    width: 10px;
+    background-color: #686868;
+    border-radius: 50%;
+    display: inline-block;
+    margin-right: 5px;
+    animation: typing 1s infinite;
+}
+
+.typing-indicator span:nth-child(2) {
+    animation-delay: 0.2s;
+}
+
+.typing-indicator span:nth-child(3) {
+    animation-delay: 0.4s;
+}
+
+@keyframes typing {
+    0% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-5px);
+    }
+
+    100% {
+        transform: translateY(0);
+    }
+}
