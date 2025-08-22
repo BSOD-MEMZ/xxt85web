@@ -293,3 +293,18 @@ a:hover {
     background: url('media/button.png') no-repeat center;
 }
 
+/* 为主区域添加相对定位，作为底纹的定位参考 */
+.main {
+    position: relative;
+}
+
+/* 底纹样式 */
+.watermark::before {
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+    z-index: -1; /* 置于底层 */
+    pointer-events: none; /* 防止图片干扰交互 */
+    width: 256px; /* 根据您的图片尺寸调整 */
+    height: 256px;
+}
