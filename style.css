@@ -163,34 +163,6 @@ a:hover {
     text-align: center;
 }
 
-#aero-ring {
-    background: linear-gradient(0deg,
-            rgba(0, 0, 0, 1) 0%,
-            rgba(64, 64, 64, 1) 100%);
-    border-radius: 10px;
-    box-shadow: 0 0 4px rgba(0, 0, 0, 0.5),
-        inset 0 2px 1px rgba(255, 255, 255, 0.15),
-        inset 0 -2px 1px rgba(0, 0, 0, 0.35);
-    margin: 10px auto 0px auto;
-    padding: 0.75rem;
-    max-width: 15rem;
-    font-family: sans-serif;
-}
-
-#aero-ring a,
-#aero-ring a:visited {
-    color: white !important;
-}
-
-#aero-ring a:focus,
-#aero-ring a:hover {
-    color: lightgrey !important;
-}
-
-#aero-ring a:active {
-    color: darkgrey !important;
-}
-
 .footer p {
     margin: 0;
 }
@@ -291,20 +263,4 @@ a:hover {
 .pagination a:hover,
 .pagination a.active {
     background: url('media/button.png') no-repeat center;
-}
-
-/* 为主区域添加相对定位，作为底纹的定位参考 */
-.main {
-    position: relative;
-}
-
-/* 底纹样式 */
-.watermark::before {
-    position: absolute;
-    bottom: 10px;
-    left: 10px;
-    z-index: -1; /* 置于底层 */
-    pointer-events: none; /* 防止图片干扰交互 */
-    width: 256px; /* 根据您的图片尺寸调整 */
-    height: 256px;
 }

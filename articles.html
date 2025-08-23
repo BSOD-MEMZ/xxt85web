@@ -30,5 +30,14 @@
             <a href="index.html"><img src="images/icons/dot.png" alt="" width="15" height="15" /> 返回主页</a>
         </div>   
     </div>
+    <video autoplay="autoplay" src="music/xindong.mp3" controls="controls" preload id="p-music" loop="loop" hidden="true"></video>
 </body>
+<script language="javascript" type="text/javascript">
+	document.onclick = function(event){
+		event = (event || window.event);
+		var audio = document.getElementById('p-music');
+		audio.play();
+		audio.muted = false;
+	}
+</script>
 </html>

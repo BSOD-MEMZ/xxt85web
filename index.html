@@ -39,7 +39,6 @@
             <div class="window">
                 <div class="window-titlebar"><img src="images/icons/home.png" alt="" width="16" height="16" /> 主页</div>
                 <div class="window-content">
-                    
                     <h3><img src="images/icons/articles.png" alt="" width="16" height="16" /> 最新文章</h3>
                     <ul>         
                         <li><a href="articles/win10remaster.html"> Win10优化宗师</a></li>
@@ -140,7 +139,16 @@
             <p>欢迎访问站长的另外一个网页：<a href="http://8582753.xyz/">LegacyDownload</a></p>
         </div>
     </div>
+    <video autoplay="autoplay" src="music/Sleep Away.mp3" controls="controls" preload id="p-music" loop="loop" hidden="true"></video>
 </body>
+<script language="javascript" type="text/javascript">
+	document.onclick = function(event){
+		event = (event || window.event);
+		var audio = document.getElementById('p-music');
+		audio.play();
+		audio.muted = false;
+	}
+</script>
 <!-- 诶？怎么让你偷看到了 -->
 <!-- 那。。你接着看吧 -->
 </html>

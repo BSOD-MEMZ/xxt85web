@@ -86,6 +86,15 @@
                     <li><a href="https://breathai.top/">灵息AI</a></li>
                 </div>
             </div>
-    </div>
+    </div>  
+    <video autoplay="autoplay" src="music/Hesitation.mp3" controls="controls" preload id="p-music" loop="loop" hidden="true"></video>
 </body>
+<script language="javascript" type="text/javascript">
+	document.onclick = function(event){
+		event = (event || window.event);
+		var audio = document.getElementById('p-music');
+		audio.play();
+		audio.muted = false;
+	}
+</script>
 </html>

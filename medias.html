@@ -29,8 +29,6 @@
             </ul>
         </div>
     </div>
-
-    <!-- 内容区域 -->
     <div class="content wrap">
         <div class="main">
             <h2><span style="color: #003399;">xxtsoft 媒体库</span></h2>
@@ -38,7 +36,6 @@
             <p>目前不支持流媒体，服务器不在国内，因此加载速度非常慢，敬请谅解。</p>
             <p><b>关于试看和下载原片的区别：对于视频文件，默认点击视频标题为试看，点击下方下载超链接为下载原片。两者都完全免费且免登录，但是下载文件体积较大。为了节省流量可以先试看，若喜欢视频内容再下载原片</b></p>
             <p><img src="images/icons/dot.png" alt="" width="15" height="15" /> 线路1 畅通</p>
-            
             <div class="video-list">
                 <div class="video-item">
                     <a href="media/id4.html">
@@ -146,5 +143,14 @@
             </div>
         </div>
     </div>
+    <video autoplay="autoplay" src="music/Mysterious.mp3" controls="controls" preload id="p-music" loop="loop" hidden="true"></video>
 </body>
+<script language="javascript" type="text/javascript">
+	document.onclick = function(event){
+		event = (event || window.event);
+		var audio = document.getElementById('p-music');
+		audio.play();
+		audio.muted = false;
+	}
+</script>
 </html>
