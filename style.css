@@ -1,5 +1,5 @@
 body {
-    font-size: 12px;
+    font-size: 13px;
     color: #000;
     background: #F0F0F0;
     /* background-image: url("background.jpg"); */
@@ -94,6 +94,7 @@ body {
 .main {
     float: left;
     width: 720px;
+    font-size: 13px;
 }
 
 .sidebar {
