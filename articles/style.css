@@ -1,7 +1,7 @@
 body {
     background: #F0F0F0;
     margin: 0;
-    font-family: Arial, sans-serif;
+    font-size: 14px;
 }
 
 .header-image {
@@ -53,7 +53,7 @@ body {
 }
 
 .content-container {
-    max-width: 800px;
+    max-width: auto;
     margin: 0 auto;
     padding: 0 20px;
 }
