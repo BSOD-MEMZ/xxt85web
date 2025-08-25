@@ -2,8 +2,7 @@ body {
     font-size: 13px;
     color: #000;
     background: #F0F0F0;
-    /* background-image: url("background.jpg"); */
-    /* background-size: 100% 100%; */
+    background-image: url("background.webp");
     margin: 0;
     padding: 0;
     line-height: 1.5;
@@ -101,7 +100,15 @@ body {
     float: right;
     width: 280px;
 }
-
+.tips {
+    background: linear-gradient(to bottom, #ffffff 0%, #CADAEF 100%);
+    border: 1px solid #767676;
+    /* box-shadow: 0 1px 5px rgba(0, 0, 0, 0.4); */
+    border-radius: 2px;
+    padding: 8px;
+    margin-bottom: 4px;
+    font-size: 12px;
+}
 .window {
     margin-bottom: 15px;
     border: 1px solid #cccccc;
