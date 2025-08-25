@@ -97,7 +97,8 @@
                     <ul>
                         <li><img src="images/icons/loves.png" alt="" width="16" height="16" /> 收藏本站 带你找到回家的路</a></li>
                         <li><a href="#" onclick="switchToMobile(); return false;"><img src="images/icons/mobile.png" width="16" height="16" /> 手机模式</a></li>
-                        <li><a href="http://users3.smartgb.com/g/g.php?a=s&i=g36-39291-be"><img src="images/icons/guestbook.png" width="16" height="16" /> 留言本</a></li>
+                        <li><a href="#" onclick="gotoguestbook(); return false;"><img src="images/icons/guestbook.png" width="16" height="16" /> 留言本</a></li>
+                        <li><a href="https://www.wjx.cn/vm/eUaty0H.aspx"><img src="images/icons/sheet.png" width="16" height="16" /> 民意调查</a></li>
                         <li><a href="museum.html"><img src="images/icons/home.png" width="16" height="16" /> 博物馆</a></li>
                         <li><a href="donate.html"><img src="images/icons/donate.png" width="16" height="16" /> 捐助</a></li>
                         <li><a href="aerowebring.html"><img src="images/icons/tech.png" width="16" height="16" /> AeroWebring（非xxtsoft提供）</a></li>
@@ -136,6 +137,11 @@
         <div class="wrap">
             <p>版权没有 2019-2025 湖南省株洲市xxt软件 不保留任何权利</p>
             <p>欢迎访问站长的另外一个网页：<a href="http://8582753.xyz/">LegacyDownload</a></p>
+            <div style="text-align: center; margin-top: 10px;">
+                <a href="https://frutigeraeroarchive.org/"><img src="images/footer/frutigeraeroarchive_button.png" alt="Frutiger Aero Archive" width="88" height="31" style="margin-right: 8px;"/></a>
+                <a href="https://creativecommons.org/publicdomain/zero/1.0/deed.zh"><img src="images/footer/publicdomain.png" alt="CC0" width="88" height="31" style="margin-right: 8px;"/></a>
+                <img src="images/footer/https.png" alt="https加密" width="88" height="31">
+            </div>
         </div>
     </div>
     <video autoplay="autoplay" src="music/Sleep Away.mp3" controls="controls" preload id="p-music" loop="loop" hidden="true"></video>
@@ -174,7 +180,6 @@
     }
     
     function applyMobileStyles() {
-        // 创建样式元素
         var style = document.createElement('style');
         style.textContent = `
             body {
@@ -217,6 +222,12 @@
             }
         `;
         document.head.appendChild(style);
+    }
+</script>
+<script language="javascript" type="text/javascript">
+    function gotoguestbook() {
+        alert("本留言本非xxtsoft提供，点击确定后将跳转到第三方留言本。请注意文明发言，勿相信任何广告!");
+        window.location.href = "http://users3.smartgb.com/g/g.php?a=s&i=g36-39291-be";
     }
 </script>
 <!-- 诶？怎么让你偷看到了 -->
