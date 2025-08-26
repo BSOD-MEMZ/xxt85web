@@ -122,7 +122,7 @@ body {
     margin-bottom: 15px;
     border: 1px solid #cccccc;
     border-radius: 0px;
-    background: #fdfdfd;
+    background: rgba(255, 255, 255, 0.7);
 }
 
 .window-titlebar {
@@ -192,7 +192,7 @@ a:hover {
 
 .video-item {
     border: 1px solid #cccccc;
-    background: #ffffff;
+    background: rgba(255, 255, 255, 0.9);
     margin-bottom: 12px;
     padding: 10px;
     position: relative;
