@@ -120,9 +120,9 @@
       ]
     },
     {
-      "selector": ".navbar",
+      "selector": ".museum",
       "text": [
-        "快看看这里都有什么呢？"
+        "你知道xxtsoft是怎么来的嘛？"
       ]
     },
     {
@@ -370,9 +370,9 @@
       ]
     },
     {
-      "selector": ".veditor",
+      "selector": ".guestbook",
       "text": [
-        "想要去评论些什么吗？",
+        "想要去留言些什么吗？",
         "要说点什么吗？",
         "觉得博客不错？快来留言和主人交流吧！"
       ]
@@ -415,7 +415,7 @@
   ],
   "click": [
     {
-      "selector": ".veditor",
+      "selector": ".diaocha",
       "text": [
         "要吐槽些什么呢？",
         "一定要认真填写喵～",
