@@ -61,7 +61,14 @@
       ]
     },
     {
-      "selector": ".menu-item-home a",
+      "selector": ".tips",
+      "text": [
+        "这里是网页的公告或提示哦",
+        "这个可要仔细看呐~"
+      ]
+    },
+    {
+      "selector": "a[href='index.html']",
       "text": [
         "点击前往首页，想回到上一页可以使用浏览器的后退功能哦。",
         "点它就可以回到首页啦！",
@@ -69,7 +76,7 @@
       ]
     },
     {
-      "selector": ".menu-item-about a",
+      "selector": "a[href='about.html']",
       "text": [
         "你想知道我家主人是谁吗？",
         "这里有一些关于我家主人的秘密哦，要不要看看呢？",
@@ -84,7 +91,7 @@
       ]
     },
     {
-      "selector": ".menu-item-categories a",
+      "selector": "a[href='articles.html']",
       "text": [
         "文章都分类好啦～",
         "点击来查看文章分类哦。"
@@ -113,7 +120,7 @@
       ]
     },
     {
-      "selector": ".menu-item a",
+      "selector": ".navbar",
       "text": [
         "快看看这里都有什么呢？"
       ]
@@ -133,7 +140,7 @@
       ]
     },
     {
-      "selector": ".feed-link a",
+      "selector": "a[href='xml/rss.xml']",
       "text": [
         "这里可以使用 RSS 订阅呢！",
         "利用 feed 订阅器，就能快速知道博客有没有更新了呢。"
@@ -142,9 +149,7 @@
     {
       "selector": ".cc-opacity, .post-copyright-author",
       "text": [
-        "要记得规范转载哦。",
-        "所有文章均采用 CC BY-NC-SA 4.0 许可协议～",
-        "转载前要先注意下文章的版权协议呢。"
+        "别看啦，随便转载都没事的"
       ]
     },
     {
