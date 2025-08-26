@@ -119,6 +119,8 @@
                         </li>
                         <li><a href="donate.html" class="donate"><img src="images/icons/donate.png" width="16" height="16" /> 捐助</a>
                         </li>
+                        <li><a href="#" id="changeBackground" class="wallpaper"><img src="images/icons/wallpaper.png" width="16" height="16" /> 切换背景</a>
+                        </li>
                         <li><a href="sign.html"><img src="images/icons/about.png" width="16" height="16" /> 登录/注册</a>
                         </li>
                         <li><a href="aerowebring.html"><img src="images/icons/tech.png" width="16" height="16" />
@@ -195,6 +197,38 @@
         alert("本留言本非xxtsoft提供，点击确定后将跳转到第三方留言本。请注意文明发言，勿相信任何广告!");
         window.location.href = "http://users3.smartgb.com/g/g.php?a=s&i=g36-39291-be";
     }
+</script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const backgrounds = [
+            'background.webp',
+            'background/background_1.webp',
+            'background/background_2.webp',
+            'background/background_3.webp',
+            'background/background_4.webp'
+        ];
+        let currentBgIndex = localStorage.getItem('bgIndex');
+        if (currentBgIndex === null) {
+            currentBgIndex = 0;
+        } else {
+            currentBgIndex = parseInt(currentBgIndex);
+        }
+        applyBackground(currentBgIndex);
+        document.getElementById('changeBackground').addEventListener('click', function(e) {
+            e.preventDefault();
+            currentBgIndex = (currentBgIndex + 1) % backgrounds.length;
+            applyBackground(currentBgIndex);
+            localStorage.setItem('bgIndex', currentBgIndex);
+        });
+        function applyBackground(index) {
+            document.body.style.backgroundImage = `url('${backgrounds[index]}')`;
+            /*if (currentBgIndex != 0) {
+                document.titlebar.backgroundImage = `url('title2.png')`;
+            } else {
+                document.titlebar.backgroundImage = `url('title.png')`;
+            }*/
+        }
+    });
 </script>
 <!-- 诶？怎么让你偷看到了 -->
 <!-- 那。。你接着看吧 -->
