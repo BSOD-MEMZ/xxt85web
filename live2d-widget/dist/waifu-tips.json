@@ -412,6 +412,18 @@
       ]
     },
     {
+      "selector": ".bilibili",
+      "text": [
+        "一定要关注主人的B站号呀！"
+      ]
+    },
+    {
+      "selector": ".itemlist",
+      "text": [
+        "有没有你喜欢的分类呢？"
+      ]
+    },
+    {
       "selector": ".vcontrol a",
       "text": [
         "你会不会熟练使用 Markdown 呀？",
