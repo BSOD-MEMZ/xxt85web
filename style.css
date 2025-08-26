@@ -279,3 +279,57 @@ a:hover {
 .pagination a.active {
     background: url('media/button.png') no-repeat center;
 }
+
+@media screen and (max-width: 1060px) {
+    .sidebar {
+        display: none;
+    }
+
+    .footer {
+        display: none;
+    }
+
+    body {
+        font-size: 20px;
+    }
+
+    .wrap {
+        width: 95% !important;
+        padding: 0 10px;
+        box-sizing: border-box;
+    }
+
+    .main {
+        width: 100% !important;
+        float: none;
+    }
+
+    .window {
+        margin-bottom: 15px;
+        overflow: hidden;
+    }
+
+    .navbar ul {
+        height: 32px;
+        white-space: nowrap;
+    }
+
+    .navbar li {
+        font-size: 20px;
+        display: inline-block;
+        float: none;
+    }
+
+    img {
+        max-width: 100%;
+        height: auto;
+    }
+
+    .window-content {
+        padding: 8px;
+    }
+
+    .window-content ul {
+        margin-left: 10px;
+    }
+}
