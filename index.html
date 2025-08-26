@@ -1,18 +1,17 @@
-<!DOCTYPE html
-    PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<!DOCTYPE html>
+<html lang="zh-CN">
+
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>xxt8582753（BSOD-MEMZ）的秘密基地 · xxtsoft</title>
+    <meta name="description" content="xxt8582753（BSOD-MEMZ）的个人网站，分享Python开发、创意视频、生活趣事的个人博客，也可以下载站长的开源程序">
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="style.css" type="text/css" />
     <meta name="baidu-site-verification" content="codeva-7ukXIgmL8M" />
     <script src="https://xxtsoft.top/live2d-widget/dist/autoload.js"></script>
     <script defer src="https://cloud.umami.is/script.js"
         data-website-id="340048fa-ac87-4757-8011-6ade14611b24"></script>
-    <meta name="description" content="xxt8582753（BSOD-MEMZ）的个人网站，分享Python开发、创意视频、生活趣事的个人博客，也可以下载站长的开源程序">
-    <meta name="keywords"
-        content="xxtsoft, xxt, 肖熙桐, xxt8582753, BSOD-MEMZ, 株洲市南方中学, EggyUI, 开源软件, AbCd, 多媒体, 视频网站, 个人博客, Frutiger Aero, LegacyDownload">
-    <link rel="icon" href="favicon.ico" type="image/x-icon">
-    <link rel="stylesheet" href="style.css" type="text/css" />
 </head>
 <body>
 
@@ -43,7 +42,7 @@
             <div class="tips">
                 <p><img src="images/icons/speaker.png" alt="" width="16" height="16"
                         style="vertical-align: middle;" /><b> 公告栏</b></p>
-                <p>手机模式正在测试，部分智能手机显示效果不佳，刷新即可回到旧站，敬请谅解。还有站长开学了，更新不会很勤快捏（Github直接发pr就行，我看看能不能处理）另外，很多老浏览器不支持webp，如果背景图像不能正确显示那估计就是了
+                <p>移动端版式正在测试，部分场景下可能效果不佳，敬请谅解。还有站长开学了，更新不会很勤快捏（Github直接发pr就行，我看看能不能处理）另外，很多老浏览器不支持webp，如果背景图像不能正确显示那估计就是了
                 </p>
                 <p>对了对了，看板娘也在测试，所以显示不出来很正常啦</p>
                 <p>如果能看到这句话，说明我成功git push上去了（？</p>
@@ -113,8 +112,6 @@
                 <div class="window-content">
                     <ul>
                         <li><img src="images/icons/loves.png" alt="" width="16" height="16" /> 收藏本站 带你找到回家的路</a></li>
-                        <li><a href="#" class="guestbook" onclick="switchToMobile(); return false;"><img src="images/icons/mobile.png"
-                                    width="16" height="16" /> 手机模式</a></li>
                         <li><a href="#" onclick="gotoguestbook(); return false;"><img src="images/icons/guestbook.png"
                                     width="16" height="16" /> 留言本</a></li>
                         <li><a href="https://www.wjx.cn/vm/eUaty0H.aspx" class="diaocha"><img src="images/icons/sheet.png" width="16"
@@ -192,76 +189,6 @@
         var audio = document.getElementById('p-music');
         audio.play();
         audio.muted = false;
-    }
-</script>
-<script language="javascript" type="text/javascript">
-    function switchToMobile() {
-        var sidebar = document.querySelector('.sidebar');
-        if (sidebar) {
-            sidebar.style.display = 'none';
-        }
-        var footer = document.querySelector('.footer');
-        if (footer) {
-            footer.style.display = 'none';
-        }
-        var titlebar = document.querySelector('.titlebar');
-        if (titlebar) {
-            titlebar.style.display = 'none';
-        }
-        var main = document.querySelector('.main');
-        if (main) {
-            main.style.width = '100%';
-        }
-        var wrap = document.querySelector('.wrap');
-        if (wrap) {
-            wrap.style.width = '95%';
-        }
-        applyMobileStyles();
-    }
-
-    function applyMobileStyles() {
-        var style = document.createElement('style');
-        style.textContent = `
-            body {
-                font-size: 20px;
-            }   
-            .wrap {
-                width: 95% !important;
-                padding: 0 10px;
-                box-sizing: border-box;
-            }         
-            .main {
-                width: 100% !important;
-                float: none;
-            }          
-            .window {
-                margin-bottom: 15px;
-                overflow: hidden;
-            }         
-            .navbar ul {
-                height: 32px;
-                white-space: nowrap;
-            }   
-            .navbar li {
-                font-size: 20px;
-                display: inline-block;
-                float: none;
-            }
-            .titlebar, .navbar {
-                background-size: cover;
-            }
-            img {
-                max-width: 100%;
-                height: auto;
-            }
-            .window-content {
-                padding: 8px;
-            }
-            .window-content ul {
-                margin-left: 10px;
-            }
-        `;
-        document.head.appendChild(style);
     }
 </script>
 <script language="javascript" type="text/javascript">
