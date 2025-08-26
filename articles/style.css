@@ -62,7 +62,7 @@ body {
 }
 
 .content-container {
-    max-width: auto;
+    max-width: 840px;
     margin: 0 auto;
     padding: 0 20px;
 }
@@ -102,9 +102,15 @@ body {
 }
 
 .article-content p {
-    font-size: 18px;
+    font-size: 16px;
     line-height: 1.6;
     margin-bottom: 15px;
+}
+
+@media screen and (max-width: 900px) {
+    .article-content p {
+        font-size: 18px;
+    }
 }
 
 .article-content q {
