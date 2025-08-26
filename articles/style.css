@@ -102,6 +102,7 @@ body {
 }
 
 .article-content p {
+    font-size: 18px;
     line-height: 1.6;
     margin-bottom: 15px;
 }
@@ -115,4 +116,9 @@ body {
 
 .article-content abbr {
     color: #A074C4;
+}
+
+.article-content img {
+    max-width: 100%;
+    height: auto;
 }
