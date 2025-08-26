@@ -280,7 +280,7 @@ a:hover {
     background: url('media/button.png') no-repeat center;
 }
 
-@media screen and (max-width: 1060px) {
+@media screen and (max-width: 1040px) {
     .sidebar {
         display: none;
     }
