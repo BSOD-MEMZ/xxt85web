@@ -31,7 +31,7 @@
 	left: 0;
 	position: fixed;
 	transform: translateY(25px);
-	transition: transform .3s ease-in-out, bottom 3s ease-in-out;
+	transition: transform .2s ease-in-out, bottom 2s ease-in-out;
 	z-index: 1;
 }
 
@@ -48,7 +48,7 @@
 }
 
 #waifu-tips {
-	animation: waifu-shake 50s ease-in-out 5s infinite;
+	/* animation: waifu-shake 50s ease-in-out 5s infinite; */
 	background: linear-gradient(to bottom, #ffffff 0%, #CADAEF 100%);
 	border: 1px solid #767676;
 	border-radius: 3px;
@@ -94,8 +94,8 @@
 	gap: 5px;
 	opacity: 0;
 	position: absolute;
-	right: -10px;
-	top: 45px;
+	right: -5px;
+	top: 30px;
 	transition: opacity 0.8s;
 }
 
