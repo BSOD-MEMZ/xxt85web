@@ -103,7 +103,7 @@
       ]
     },
     {
-      "selector": ".menu-item-friends a",
+      "selector": ".thanks",
       "text": [
         "这是我的朋友们哦ヾ(◍°∇°◍)ﾉﾞ",
         "要去大佬们的家看看吗？",
@@ -157,6 +157,12 @@
       "selector": ".pagination",
       "text": [
         "猜猜一共有几页呢？"
+      ]
+    },
+    {
+      "selector": ".aboutlist",
+      "text": [
+        "厉害吧？"
       ]
     },
     {
@@ -424,6 +430,19 @@
       ]
     },
     {
+      "selector": ".mainarticles",
+      "text": [
+        "来看看主人的文章吧"
+      ]
+    },
+    {
+      "selector": ".news",
+      "text": [
+        "新闻都在这里啦",
+        "想知道xxtsoft的新鲜事吗q(≧▽≦q)"
+      ]
+    },
+    {
       "selector": ".vcontrol a",
       "text": [
         "你会不会熟练使用 Markdown 呀？",
@@ -505,16 +524,16 @@
       "text": "<span>儿童节</span>了呢，快活的时光总是短暂，要是永远长不大该多好啊…"
     },
     {
-      "date": "09/03",
-      "text": "<span>中国人民抗日战争胜利纪念日</span>，铭记历史、缅怀先烈、珍爱和平、开创未来。"
-    },
-    {
       "date": "09/10",
       "text": "<span>教师节</span>，在学校要给老师问声好呀～"
     },
     {
       "date": "10/01",
       "text": "<span>国庆节</span>到了，为祖国母亲庆生！"
+    },
+    {
+      "date": "10/31",
+      "text": "嘿嘿，你知道吗，<span>今天是站长大人的生日呢！</span>"
     },
     {
       "date": "11/05-11/12",
