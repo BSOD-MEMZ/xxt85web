@@ -95,8 +95,8 @@
 	opacity: 0;
 	position: absolute;
 	right: -10px;
-	top: 120px;
-	transition: opacity 1s;
+	top: 45px;
+	transition: opacity 0.8s;
 }
 
 #waifu:hover #waifu-tool {

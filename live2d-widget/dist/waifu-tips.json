@@ -11,9 +11,7 @@
       "selector": "#waifu-tool-asteroids",
       "text": [
         "要不要来玩飞机大战？",
-        "这个按钮上写着「不要点击」。",
-        "怎么，你想来和我玩个游戏？",
-        "听说这样可以蹦迪！"
+        "怎么，你想来和我玩个游戏？"
       ]
     },
     {
@@ -126,6 +124,18 @@
       ]
     },
     {
+      "selector": ".donate",
+      "text": [
+        "支持一下喵"
+      ]
+    },
+    {
+      "selector": ".a",
+      "text": [
+        "要。。要被传送到其他地方去了！"
+      ]
+    },
+    {
       "selector": ".titlebar",
       "text": [
         "这是网站的标题栏哟"
@@ -135,6 +145,18 @@
       "selector": ".footer",
       "text": [
         "恭喜你划到底啦！"
+      ]
+    },
+    {
+      "selector": ".video-list",
+      "text": [
+        "要不要来看点视频放松一下？"
+      ]
+    },
+    {
+      "selector": ".pagination",
+      "text": [
+        "猜猜一共有几页呢？"
       ]
     },
     {
@@ -542,7 +564,7 @@
     "changeSuccess": "我的新衣服好看嘛？",
     "changeFail": "我还没有其他衣服呢！",
     "photo": "照好了嘛，是不是很可爱呢？",
-    "goodbye": "愿你有一天能与重要的人重逢。",
+    "goodbye": "再见啦~",
     "hitokoto": "这句一言来自 <span>「$1」</span>，是 <span>$2</span> 在 hitokoto.cn 投稿的。",
     "welcome": "欢迎阅读<span>「$1」</span>",
     "referrer": "Hello！来自 <span>$1</span> 的朋友",
