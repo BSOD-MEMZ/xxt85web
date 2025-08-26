@@ -2,8 +2,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>xxtsoft · 404</title>
-    <link rel="icon" href="images/icons/disconnected.ico" type="image/x-icon">
+    <title>xxtsoft · 登录</title>
+    <link rel="icon" href="articles.ico" type="image/x-icon">
     <link rel="stylesheet" href="style.css" type="text/css" />
 </head>
 <body>
@@ -23,10 +23,21 @@
             </ul>
         </div>
     </div>
-    <p align="center"><span style="color: #003399;"><font size="48"><b>404 Not Found</b></font></span><p>
-    <div style="text-align: center;">
-        <img src="images/404.gif">
+    <div class="content wrap">
+        <div class="main">
+            <h2><span style="color: #003399;">登录/注册</span></h2>
+            <p>这个功能我暂时还实现不了呢，没钱买VPS，学不会PHP。。。（戳手手）</p>
+            <a href="index.html"><img src="images/icons/dot.png" alt="" width="15" height="15" /> 返回主页</a>
+        </div>   
     </div>
-    <p align="center"><font size="5">你要找到网页不见啦！</font></p>
+    <video autoplay="autoplay" src="music/SEGA Sound Team - エントリー BGM ver. maimai FiNALE.mp3" controls="controls" preload id="p-music" loop="loop" hidden="true"></video>
 </body>
+<script language="javascript" type="text/javascript">
+	document.onclick = function(event){
+		event = (event || window.event);
+		var audio = document.getElementById('p-music');
+		audio.play();
+		audio.muted = false;
+	}
+</script>
 </html>
