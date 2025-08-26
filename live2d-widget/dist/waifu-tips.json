@@ -126,6 +126,18 @@
       ]
     },
     {
+      "selector": ".titlebar",
+      "text": [
+        "这是网站的标题栏哟"
+      ]
+    },
+    {
+      "selector": ".footer",
+      "text": [
+        "恭喜你划到底啦！"
+      ]
+    },
+    {
       "selector": ".site-author",
       "text": [
         "我家主人好看吗？",
