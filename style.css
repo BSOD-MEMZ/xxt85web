@@ -109,13 +109,15 @@ body {
 }
 
 .tips {
+    
     background: linear-gradient(to bottom, #ffffff 0%, #CADAEF 100%);
     border: 1px solid #767676;
+    border-radius: 3px;
     /* box-shadow: 0 1px 5px rgba(0, 0, 0, 0.4); */
-    border-radius: 2px;
     padding: 8px;
     margin-bottom: 4px;
     /* font-size: 12px; */
+    
 }
 
 .window {
