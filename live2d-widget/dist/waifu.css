@@ -49,10 +49,11 @@
 
 #waifu-tips {
 	/* animation: waifu-shake 50s ease-in-out 5s infinite; */
-	background: linear-gradient(to bottom, #ffffff 0%, #CADAEF 100%);
-	border: 1px solid #767676;
+	/* background: linear-gradient(to bottom, #ffffff 0%, #CADAEF 100%); */
+	background-image: url("https://xxtsoft.top/tips.png");
+	border: 1px solid #F7F9FC;
 	border-radius: 3px;
-	box-shadow: 0 3px 15px 2px rgba(190, 190, 190, .2);
+	box-shadow: 0 3px 15px 2px rgba(100, 100, 100, .8);
 	font-size: 14px;
 	line-height: 24px;
 	margin: -30px 20px;
@@ -73,7 +74,7 @@
 }
 
 #waifu-tips span {
-	color: #0099cc;
+	color: #003399;
 }
 
 #live2d {
