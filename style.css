@@ -135,7 +135,7 @@ body {
 
 .window-titlebar {
     /* background: linear-gradient(to bottom, #82AFBE 0%, #498BA0 50%, #115E77 51%, #529CAB 100%); */
-    background-image: url("bar.jpg");
+    background-image: url("bar.png");
     background-repeat: no-repeat;
     background-size: 100% 100%;
     color: #fff;
