@@ -1,0 +1,176 @@
+<!-- 这个页面是AI写的，因为我懒 -->
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>搜索 · xxtsoft</title>
+    <meta name="description" content="搜索xxt8582753（BSOD-MEMZ）的个人网站内容">
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+    <script src="https://xxtsoft.top/live2d-widget/dist/autoload.js"></script>
+    <link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+    <div class="titlebar">
+        <div class="wrap">
+            <h1>xxtsoft.top</h1>
+        </div>
+    </div>
+
+    <div class="navbar">
+        <div class="wrap">
+            <ul>
+                <li><a href="index.html">首页(H)</a></li>
+                <li><a href="articles.html">文章(A)</a></li>
+                <li><a href="downloads.html">下载(D)</a></li>
+                <li><a href="medias.html">多媒体(M)</a></li>
+                <li><a href="about.html">关于(A)</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="content wrap">
+        <div class="main">
+            <h2><span style="color: #003399;">搜索</span></h2>
+            <div class="window">
+                <div class="window-titlebar">搜索文件</div>
+                <div class="window-content">
+                    <div class="search-container">
+                        <div class="search-box">
+                            <input type="text" id="searchInput" placeholder="输入关键词...">
+                            <button id="searchButton">搜索</button>
+                        </div>
+                    </div>
+
+                    <div id="searchResults" class="search-results">
+                        <h3>所有文章</h3>
+                        <ul class="article-list" id="articleList">
+                            <!-- 文章列表将通过JavaScript动态生成 -->
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="sidebar">
+            <div class="window">
+                <div class="window-titlebar">提示</div>
+                <div class="window-content">
+                    <p>在此页面您可以搜索站内所有文件。</p>
+                    <p>输入关键词后点击搜索按钮，匹配的标题会高亮显示。</p>
+                </div>
+            </div>
+        </div>
+        <div class="clear"></div>
+    </div>
+
+    <script>
+        // 文章数据
+        const articles = [
+            { title: "Win10优化宗师", url: "articles/win10remaster.html" },
+            { title: "强烈建议取消军训", url: "articles/fuckjunxun.html" },
+            { title: "千万不要用必火推广！", url: "articles/fuckbihuo.html" },
+            { title: "记与AbCd夜拼机", url: "articles/playmaimaiwithabcd.html" },
+            { title: "自学两周PyQt6，做出来的假名学习程序——OpenDuolingo", url: "articles/openduolingo.html" },
+            { title: "提取Windows中的资源素材", url: "articles/winres.html" },
+            { title: "用Python textract库读取Word、Excel、PPT", url: "articles/textract.html" },
+            { title: "ExplorerKiller", url: "articles/explorerkiller.html" },
+            { title: "谁能拒绝一只可爱的纱露朵住进自己电脑呢？浅谈Python+DeepSeek API开发", url: "articles/saltai.html" },
+            { title: "git缓存清不掉，试试再建一个文件夹", url: "articles/fuckgit.html" },
+            { title: "无题", url: "articles/pass.html" },
+            { title: "很久以前的自制音游，十分甚至九分难绷", url: "articles/an_old_music_game.html" },
+            { title: "回忆往事", url: "articles/reviewsomething.html" },
+            { title: "Windows 11, **都不用", url: "articles/fuck11.html" },
+            { title: "投稿指南", url: "articles/upload.html" },
+            { title: "测试文章", url: "articles/test.html" },
+            // 曾经的文章
+            { title: "ACDSaw", url: "olds/ACDSaw.html" },
+            { title: "我 抄 你 妈", url: "olds/fuckyourmother.html" },
+            { title: "Fun Rhyme 2", url: "olds/Fun_2_Rhyme.html" },
+            { title: "沼气弹引爆器", url: "olds/homobomb.html" },
+            { title: "如何在VMware和Limbo上使用img软盘镜像", url: "olds/how-to-use-img-in-vmware-or-limbo.html" },
+            { title: "电脑出现error1962 no operating system found的解决方案", url: "olds/lian-xiang-dian-nao-chu-xian-error1962-no-operating-system-found.ye-xu-bu-shi-cao-zuo-xi-tong-de-wen-ti.html" },
+            { title: "Longhorn Tool", url: "olds/Longhorn_Tool.html" },
+            { title: "Microsoft_Agent_Character_Editor_完美汉化版", url: "olds/Microsoft_Agent_Character_Editor_完美汉化版.html" },
+            { title: "OIerHelper", url: "olds/OIerHelper.html" },
+            { title: "Rectify8.1项目", url: "olds/Rectify8.1_project.html" },
+            { title: "Win 8 Beta Build 8014 汉化包发布", url: "olds/Win 8 Beta Build 8014 汉化包发布.html" },
+            { title: "Win 8 Beta Build 8155 汉化包发布", url: "olds/Win8 beta 8155 汉化包.html" },
+            
+            { title: "你会在世界终焉吃掉哈基米（あなたは世界の終わりにはちみを食べるのだ）", url: "media/id1.html" },
+            { title: "world.execute(me); 但是全Win32控件", url: "media/id2.html" },
+            { title: "胭脂，但是 Windows（欸，我不是窗口吗？）", url: "media/id3.html" },
+            { title: "world.execute(me); 但是Scratch", url: "media/id4.html" },
+        ];
+
+        // 初始化页面
+        document.addEventListener('DOMContentLoaded', function() {
+            const articleList = document.getElementById('articleList');
+            const searchInput = document.getElementById('searchInput');
+            const searchButton = document.getElementById('searchButton');
+            
+            // 渲染所有文章
+            renderArticles(articles);
+            
+            // 搜索按钮点击事件
+            searchButton.addEventListener('click', function() {
+                performSearch();
+            });
+            
+            // 输入框回车事件
+            searchInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    performSearch();
+                }
+            });
+            
+            // 执行搜索
+            function performSearch() {
+                const searchTerm = searchInput.value.trim();
+                if (searchTerm === '') {
+                    renderArticles(articles);
+                    return;
+                }
+                
+                // 过滤匹配的文章
+                const filteredArticles = articles.filter(article => 
+                    article.title.toLowerCase().includes(searchTerm.toLowerCase())
+                );
+                
+                if (filteredArticles.length === 0) {
+                    articleList.innerHTML = '<div class="no-results">没有找到匹配的内容</div>';
+                } else {
+                    // 高亮显示匹配的关键词
+                    const highlightedArticles = filteredArticles.map(article => {
+                        const regex = new RegExp(searchTerm, 'gi');
+                        const highlightedTitle = article.title.replace(regex, 
+                            match => `<span class="highlight">${match}</span>`
+                        );
+                        return {
+                            title: highlightedTitle,
+                            url: article.url
+                        };
+                    });
+                    
+                    renderArticles(highlightedArticles);
+                }
+            }
+            
+            // 渲染文章列表
+            function renderArticles(articlesToRender) {
+                articleList.innerHTML = '';
+                
+                articlesToRender.forEach(article => {
+                    const li = document.createElement('li');
+                    li.innerHTML = `<a href="${article.url}">${article.title}</a>`;
+                    articleList.appendChild(li);
+                });
+            }
+        });
+    </script>
+</body>
+
+</html>

@@ -341,3 +341,76 @@ a:hover {
         margin-left: 10px;
     }
 }
+
+.search-container {
+    margin-bottom: 20px;
+}
+
+.search-box {
+    display: flex;
+    margin-bottom: 15px;
+}
+
+.search-box input {
+    flex: 1;
+    padding: 8px 12px;
+    border: 1px solid #A4C9E3;
+    border-top: 1px solid #3D7BAD;
+    border-radius: 3px 0  0 3px;
+    font-family: "Segoe UI", "Microsoft YaHei UI";
+}
+
+.search-box button {
+    padding: 8px 16px;
+    background: linear-gradient(to bottom, #fefefe 0%, #E5EAF5 30%, #D4DBED 31%, #E1E6F6 100%);
+    border: 1px solid #3C7FB1;
+    border-left: none;
+    border-radius: 0 3px 3px 0;
+    cursor: pointer;
+}
+
+.search-results {
+    margin-top: 15px;
+}
+
+.search-results h3 {
+    color: #003399;
+    border-bottom: 1px dotted #ccc;
+    padding-bottom: 5px;
+}
+
+.no-results {
+    padding: 15px;
+    text-align: center;
+    color: #666;
+}
+
+.article-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.article-list li {
+    margin-bottom: 10px;
+    padding: 8px;
+    background: rgba(255, 255, 255, 0.7);
+    border-radius: 3px;
+}
+
+.article-list a {
+    color: #0066CC;
+    text-decoration: none;
+    display: block;
+}
+
+.article-list a:hover {
+    text-decoration: underline;
+}
+
+.highlight {
+    background-color: yellow;
+    color: black;
+    font-weight: bold;
+    padding: 0 2px;
+}
