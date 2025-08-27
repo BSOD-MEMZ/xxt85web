@@ -293,11 +293,11 @@ a:hover {
 
 @media screen and (max-width: 1040px) {
     .sidebar {
-        display: none;
+        width: 100%
     }
 
     .footer {
-        display: none;
+        width: 100%
     }
 
     .wrap {

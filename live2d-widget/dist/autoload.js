@@ -59,7 +59,8 @@ function loadExternalResource(url, type) {
     // cdnPath: 'https://fastly.jsdelivr.net/gh/fghrsh/live2d_api/',
     cubism2Path: live2d_path + 'live2d.min.js',
     cubism5Path: 'https://cubism.live2d.com/sdk-web/cubismcore/live2dcubismcore.min.js',
-    tools: ['hitokoto', 'asteroids', 'switch-model', 'switch-texture', 'search', 'info', 'quit'],
+    //tools: ['hitokoto', 'asteroids', 'switch-model', 'switch-texture', 'search', 'info', 'quit'],
+    tools: ['search', 'hitokoto', 'asteroids', 'switch-model', 'quit'],
     logLevel: 'warn',
     drag: false,
   });

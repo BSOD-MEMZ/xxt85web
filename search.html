@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>搜索 · xxtsoft</title>
     <meta name="description" content="搜索xxt8582753（BSOD-MEMZ）的个人网站内容">
-    <link rel="icon" href="favicon.ico" type="image/x-icon">
+    <link rel="icon" href="search.ico" type="image/x-icon">
     <script src="https://xxtsoft.top/live2d-widget/dist/autoload.js"></script>
     <link rel="stylesheet" href="style.css" type="text/css" />
 </head>
@@ -171,6 +171,16 @@
             }
         });
     </script>
+    <video autoplay="autoplay" src="music/System Setup.mp3" controls="controls" preload id="p-music" loop="loop"
+        hidden="true"></video>
 </body>
+<script language="javascript" type="text/javascript">
+    document.onclick = function (event) {
+        event = (event || window.event);
+        var audio = document.getElementById('p-music');
+        audio.play();
+        audio.muted = false;
+    }
+</script>
 
 </html>
