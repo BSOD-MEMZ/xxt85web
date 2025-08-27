@@ -112,7 +112,7 @@ body {
     
     background: linear-gradient(to bottom, #ffffff 0%, #CADAEF 100%);
     border: 1px solid #767676;
-    border-radius: 3px;
+    border-radius: 4px;
     /* box-shadow: 0 1px 5px rgba(0, 0, 0, 0.4); */
     padding: 8px;
     margin-bottom: 4px;
@@ -122,9 +122,15 @@ body {
 
 .window {
     margin-bottom: 15px;
-    border: 1px solid #cccccc;
-    border-radius: 0px;
-    background: rgba(255, 255, 255, 0.7);
+    border: 1px solid #F7F9FC;
+	border-right: 1px soild #2CD3FE;
+    border-bottom: 1px solid #2CD3FE;
+    border-right: 1px solid #2CD3FE;
+    box-shadow: 5px 5px 15px 3px rgba(0, 0, 0, 0.7);
+    border-top: 0px;
+    border-top: 0px;
+	border-radius: 3px;
+    background-image: url(windowbackground.png);
 }
 
 .window-titlebar {
