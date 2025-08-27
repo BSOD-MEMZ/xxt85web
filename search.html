@@ -67,7 +67,19 @@
         <div class="clear"></div>
     </div>
 
-    <script>
+    
+    <video autoplay="autoplay" src="music/System Setup.mp3" controls="controls" preload id="p-music" loop="loop"
+        hidden="true"></video>
+</body>
+<script language="javascript" type="text/javascript">
+    document.onclick = function (event) {
+        event = (event || window.event);
+        var audio = document.getElementById('p-music');
+        audio.play();
+        audio.muted = false;
+    }
+</script>
+<script>
         // 文章数据
         const articles = [
             { title: "Win10优化宗师", url: "articles/win10remaster.html" },
@@ -171,16 +183,4 @@
             }
         });
     </script>
-    <video autoplay="autoplay" src="music/System Setup.mp3" controls="controls" preload id="p-music" loop="loop"
-        hidden="true"></video>
-</body>
-<script language="javascript" type="text/javascript">
-    document.onclick = function (event) {
-        event = (event || window.event);
-        var audio = document.getElementById('p-music');
-        audio.play();
-        audio.muted = false;
-    }
-</script>
-
 </html>

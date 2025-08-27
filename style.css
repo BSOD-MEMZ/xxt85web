@@ -26,8 +26,8 @@ body {
 }
 
 .titlebar {
-    /* background: linear-gradient(to bottom, #7a7979 0%, #3b3d3e 50%, #060f11 51%, #133c50 100%); */
-    background-image: url("title.png");
+    background: linear-gradient(to bottom, #7a7979 0%, #3b3d3e 50%, #060f11 51%, #133c50 100%);
+    /* background-image: url("title.png"); */
     background-repeat: no-repeat;
     background-size: 100% 100%;
     color: #fff;
@@ -45,8 +45,8 @@ body {
 .navbar {
     width: 100%;
     height: 16px;
-    /* background: linear-gradient(to bottom, #fefefe 0%, #E5EAF5 30%, #D4DBED 31%, #E1E6F6 100%);  */
-    background-image: url("menu.JPG");
+    background: linear-gradient(to bottom, #fefefe 0%, #E5EAF5 30%, #D4DBED 31%, #E1E6F6 100%); 
+    /* background-image: url("menu.JPG"); */
     background-repeat: no-repeat;
     background-size: 100% 100%;
     margin: 0;
@@ -135,7 +135,7 @@ body {
 
 .window-titlebar {
     /* background: linear-gradient(to bottom, #82AFBE 0%, #498BA0 50%, #115E77 51%, #529CAB 100%); */
-    background-image: url("bar.png");
+    background-image: url("bar.jpg");
     background-repeat: no-repeat;
     background-size: 100% 100%;
     color: #fff;
