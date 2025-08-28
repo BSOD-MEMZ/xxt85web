@@ -13,7 +13,7 @@ body {
 }
 
 .titlebar {
-    background-image: url("title.png");
+    background: linear-gradient(to bottom, #7a7979 0%, #3b3d3e 50%, #060f11 51%, #133c50 100%);
     background-repeat: no-repeat;
     background-size: 100% 100%;
     color: #fff;
