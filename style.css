@@ -15,7 +15,7 @@ body {
 }
 
 .wrap {
-    width: 1040px;
+    width: 1000px;
     margin: 0 auto;
 }
 
@@ -99,7 +99,7 @@ body {
 
 .main {
     float: left;
-    width: 720px;
+    width: 690px;
     font-size: 13px;
 }
 
@@ -291,7 +291,7 @@ a:hover {
     background: url('media/button.png') no-repeat center;
 }
 
-@media screen and (max-width: 1040px) {
+@media screen and (max-width: 1000px) {
     .sidebar {
         width: 100%
     }
