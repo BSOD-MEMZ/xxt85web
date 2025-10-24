@@ -1,0 +1,1285 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>株洲市南方中学网址导航</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Roboto', sans-serif;
+        }
+        
+        body {
+            background-image: url("bg.jpg");
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            color: #fff;
+            min-height: 100vh;
+            transition: background 0.5s ease;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            overflow-x: hidden;
+        }
+        
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px 24px;
+            margin-bottom: 40px;
+            animation: fadeInDown 0.8s ease;
+        }
+        
+        .logo-container {
+            display: flex;
+            align-items: center;
+        }
+        
+        .logo {
+            width: 50px;
+            height: 50px;
+            background-color: rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 16px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        .logo i {
+            font-size: 28px;
+            color: white;
+        }
+        
+        .title {
+            font-size: 24px;
+            font-weight: 500;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+        
+        .header-time {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(20px) saturate(180%);
+            -webkit-backdrop-filter: blur(20px) saturate(180%);
+            border-radius: 12px;
+            padding: 12px 20px;
+            box-shadow: 
+                0 4px 12px rgba(0, 0, 0, 0.2),
+                0 2px 6px rgba(255, 255, 255, 0.1) inset;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        
+        .time-display {
+            font-size: 20px;
+            font-weight: 500;
+        }
+        
+        .date-display {
+            font-size: 14px;
+            opacity: 0.9;
+            margin-top: 4px;
+        }
+        
+        .main-content {
+            max-width: 1200px;
+            width: 100%;
+            margin: 0 auto;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 20px;
+        }
+        
+        .search-container {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(20px) saturate(180%);
+            -webkit-backdrop-filter: blur(20px) saturate(180%);
+            border-radius: 24px;
+            padding: 8px 8px 8px 24px;
+            margin-bottom: 40px;
+            box-shadow: 
+                0 8px 32px rgba(0, 0, 0, 0.2),
+                0 2px 8px rgba(255, 255, 255, 0.1) inset;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            animation: slideUp 0.8s ease;
+            display: flex;
+            align-items: center;
+        }
+        
+        .search-input {
+            flex-grow: 1;
+            background: transparent;
+            border: none;
+            outline: none;
+            color: white;
+            font-size: 18px;
+            padding: 12px 0;
+        }
+        
+        .search-input::placeholder {
+            color: rgba(255, 255, 255, 0.7);
+        }
+        
+        .search-button {
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            border-radius: 50%;
+            width: 48px;
+            height: 48px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            color: white;
+        }
+        
+        .search-button:hover, .search-button:active {
+            background: rgba(255, 255, 255, 0.3);
+            transform: scale(1.05);
+        }
+        
+        .content-grid {
+            display: grid;
+            grid-template-columns: 1fr 300px;
+            gap: 30px;
+        }
+        
+        .websites-section {
+            animation: fadeIn 1s ease 0.3s both;
+        }
+        
+        .widgets-section {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            animation: slideInRight 1s ease 0.5s both;
+        }
+        
+        .section-title {
+            font-size: 20px;
+            font-weight: 500;
+            margin-bottom: 24px;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+        
+        .websites-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+            gap: 20px;
+        }
+        
+        .website-card {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(20px) saturate(180%);
+            -webkit-backdrop-filter: blur(20px) saturate(180%);
+            border-radius: 16px;
+            padding: 20px 10px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 
+                0 8px 32px rgba(0, 0, 0, 0.2),
+                0 2px 8px rgba(255, 255, 255, 0.1) inset;
+            text-decoration: none;
+            color: white;
+            position: relative;
+            overflow: hidden;
+            -webkit-tap-highlight-color: transparent;
+        }
+        
+        .website-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%);
+            z-index: -1;
+        }
+        
+        .website-card:hover, .website-card:active {
+            background: rgba(255, 255, 255, 0.25);
+            transform: translateY(-5px) scale(1.03);
+            box-shadow: 
+                0 15px 40px rgba(0, 0, 0, 0.3),
+                0 2px 8px rgba(255, 255, 255, 0.2) inset;
+        }
+        
+        .website-icon {
+            width: 56px;
+            height: 56px;
+            border-radius: 16px;
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 12px;
+            font-size: 28px;
+            box-shadow: 
+                0 4px 12px rgba(0, 0, 0, 0.1),
+                0 2px 4px rgba(255, 255, 255, 0.1) inset;
+            transition: all 0.3s ease;
+        }
+        
+        .website-card:hover .website-icon, .website-card:active .website-icon {
+            background: rgba(255, 255, 255, 0.3);
+            transform: scale(1.1);
+        }
+        
+        .website-name {
+            font-size: 14px;
+            font-weight: 500;
+            text-align: center;
+        }
+        
+        .widget {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(20px) saturate(180%);
+            -webkit-backdrop-filter: blur(20px) saturate(180%);
+            border-radius: 16px;
+            padding: 20px;
+            box-shadow: 
+                0 8px 32px rgba(0, 0, 0, 0.2),
+                0 2px 8px rgba(255, 255, 255, 0.1) inset;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            transition: all 0.3s ease;
+            -webkit-tap-highlight-color: transparent;
+        }
+        
+        .widget:hover {
+            transform: translateY(-3px);
+            box-shadow: 
+                0 12px 40px rgba(0, 0, 0, 0.25),
+                0 2px 8px rgba(255, 255, 255, 0.2) inset;
+        }
+        
+        .countdown-widget {
+            text-align: center;
+            background: rgba(255, 255, 255, 0.2);
+        }
+        
+        .countdown-title {
+            font-size: 18px;
+            font-weight: 500;
+            margin-bottom: 10px;
+        }
+        
+        .countdown-display {
+            font-size: 28px;
+            font-weight: 700;
+            margin: 15px 0;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+        
+        .countdown-input {
+            width: 100%;
+            padding: 8px 12px;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            margin-bottom: 10px;
+        }
+        
+        .countdown-input::placeholder {
+            color: rgba(255, 255, 255, 0.7);
+        }
+        
+        .countdown-controls {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+        
+        .countdown-btn {
+            flex: 1;
+            padding: 8px 12px;
+            border-radius: 8px;
+            border: none;
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .countdown-btn:hover, .countdown-btn:active {
+            background: rgba(255, 255, 255, 0.3);
+        }
+        
+        .calculator-widget {
+            text-align: center;
+        }
+        
+        .calculator-display {
+            width: 100%;
+            padding: 10px 15px;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            font-size: 18px;
+            text-align: right;
+            margin-bottom: 10px;
+        }
+        
+        .calculator-buttons {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 8px;
+        }
+        
+        .calc-btn {
+            padding: 12px 0;
+            border-radius: 8px;
+            border: none;
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        
+        .calc-btn:hover, .calc-btn:active {
+            background: rgba(255, 255, 255, 0.3);
+            transform: scale(0.95);
+        }
+        
+        .calc-btn.operator {
+            background: rgba(106, 17, 203, 0.5);
+        }
+        
+        .calc-btn.operator:hover, .calc-btn.operator:active {
+            background: rgba(106, 17, 203, 0.7);
+        }
+        
+        .settings-button {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            width: 60px;
+            height: 60px;
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(20px) saturate(180%);
+            -webkit-backdrop-filter: blur(20px) saturate(180%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 
+                0 8px 32px rgba(0, 0, 0, 0.2),
+                0 2px 8px rgba(255, 255, 255, 0.1) inset;
+            color: white;
+            z-index: 100;
+            -webkit-tap-highlight-color: transparent;
+        }
+        
+        .settings-button:hover, .settings-button:active {
+            background: rgba(255, 255, 255, 0.3);
+            transform: scale(1.1) rotate(30deg);
+            box-shadow: 
+                0 12px 40px rgba(0, 0, 0, 0.3),
+                0 2px 8px rgba(255, 255, 255, 0.2) inset;
+        }
+        
+        .add-website {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px) saturate(180%);
+            -webkit-backdrop-filter: blur(20px) saturate(180%);
+            border-radius: 16px;
+            padding: 20px 10px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px dashed rgba(255, 255, 255, 0.4);
+            box-shadow: 
+                0 8px 32px rgba(0, 0, 0, 0.15),
+                0 2px 8px rgba(255, 255, 255, 0.05) inset;
+            position: relative;
+            overflow: hidden;
+            -webkit-tap-highlight-color: transparent;
+        }
+        
+        .add-website::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.02) 100%);
+            z-index: -1;
+        }
+        
+        .add-website:hover, .add-website:active {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-5px) scale(1.03);
+            border: 2px dashed rgba(255, 255, 255, 0.6);
+            box-shadow: 
+                0 15px 40px rgba(0, 0, 0, 0.25),
+                0 2px 8px rgba(255, 255, 255, 0.1) inset;
+        }
+        
+        .add-icon {
+            width: 56px;
+            height: 56px;
+            border-radius: 16px;
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 12px;
+            font-size: 28px;
+            box-shadow: 
+                0 4px 12px rgba(0, 0, 0, 0.1),
+                0 2px 4px rgba(255, 255, 255, 0.1) inset;
+            transition: all 0.3s ease;
+        }
+        
+        .add-website:hover .add-icon, .add-website:active .add-icon {
+            background: rgba(255, 255, 255, 0.25);
+            transform: scale(1.1);
+        }
+        
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+            animation: fadeIn 0.3s ease;
+            padding: 20px;
+        }
+        
+        .modal-content {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px) saturate(180%);
+            -webkit-backdrop-filter: blur(20px) saturate(180%);
+            border-radius: 16px;
+            width: 90%;
+            max-width: 500px;
+            padding: 24px;
+            box-shadow: 
+                0 20px 60px rgba(0, 0, 0, 0.3),
+                0 2px 8px rgba(255, 255, 255, 0.2) inset;
+            color: #333;
+            animation: slideUp 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+        
+        .modal-title {
+            font-size: 20px;
+            font-weight: 500;
+            margin-bottom: 20px;
+            color: #333;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: #555;
+        }
+        
+        .form-input {
+            width: 100%;
+            padding: 12px 16px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border 0.3s ease;
+        }
+        
+        .form-input:focus {
+            outline: none;
+            border-color: #6a11cb;
+        }
+        
+        .modal-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 12px;
+            margin-top: 24px;
+        }
+        
+        .button {
+            padding: 10px 20px;
+            border-radius: 8px;
+            border: none;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            -webkit-tap-highlight-color: transparent;
+        }
+        
+        .button-primary {
+            background: #6a11cb;
+            color: white;
+        }
+        
+        .button-primary:hover, .button-primary:active {
+            background: #5a0db3;
+            transform: scale(0.98);
+        }
+        
+        .button-secondary {
+            background: #f0f0f0;
+            color: #333;
+        }
+        
+        .button-secondary:hover, .button-secondary:active {
+            background: #e0e0e0;
+            transform: scale(0.98);
+        }
+        
+        .widget-toggle {
+            width: 40px;
+            height: 20px;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 10px;
+            position: relative;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .widget-toggle.active {
+            background: rgba(106, 17, 203, 0.7);
+        }
+        
+        .widget-toggle::after {
+            content: '';
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            width: 16px;
+            height: 16px;
+            background: white;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+        }
+        
+        .widget-toggle.active::after {
+            left: 22px;
+        }
+        
+        .widget-settings {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-top: 15px;
+        }
+        
+        .widget-setting-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .widget-setting-label {
+            font-weight: 500;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @keyframes slideInRight {
+            from { opacity: 0; transform: translateX(30px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-10px); }
+            60% { transform: translateY(-5px); }
+        }
+        
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+        
+        .bounce {
+            animation: bounce 2s infinite;
+        }
+        
+        @media (max-width: 1024px) {
+            .content-grid {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+            
+            .widgets-section {
+                animation: slideUp 1s ease 0.5s both;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .header {
+                padding: 12px 16px;
+                margin-bottom: 30px;
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .header-time {
+                align-items: center;
+                width: 100%;
+            }
+            
+            .title {
+                font-size: 20px;
+            }
+            
+            .search-container {
+                margin-bottom: 40px;
+            }
+            
+            .websites-grid {
+                grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+                gap: 16px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .header {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .logo {
+                margin-right: 0;
+                margin-bottom: 12px;
+            }
+            
+            .websites-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+            
+            .widget {
+                padding: 15px;
+            }
+            
+            .calculator-buttons {
+                grid-template-columns: repeat(4, 1fr);
+                gap: 6px;
+            }
+            
+            .calc-btn {
+                padding: 10px 0;
+                font-size: 14px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="logo-container">
+                <image src="logo.png">         
+            <h1 class="title">株洲市南方中学网址导航</h1>
+        </div>
+        
+        <div class="header-time">
+            <div class="time-display" id="header-time">00:00:00</div>
+            <div class="date-display" id="header-date">2023年1月1日 星期一</div>
+        </div>
+    </div>
+    
+    <div class="main-content">
+        <div class="search-container">
+            <input type="text" class="search-input" placeholder="搜索网页..." id="search-input">
+            <button class="search-button" id="search-button">
+                <i class="material-icons">search</i>
+            </button>
+        </div>
+        
+        <div class="content-grid">
+            <div class="websites-section">
+                <h2 class="section-title">常用网站</h2>
+                <div class="websites-grid" id="websites-grid">
+                    <!-- 网站卡片将通过JavaScript动态生成 -->
+                </div>
+            </div>
+            
+            <div class="widgets-section" id="widgets-section">
+                <!-- 小组件将通过JavaScript动态生成 -->
+            </div>
+        </div>
+    </div>
+    
+    <div class="settings-button" id="settings-button">
+        <i class="material-icons">settings</i>
+    </div>
+    
+    <!-- 设置模态框 -->
+    <div class="modal" id="settings-modal">
+        <div class="modal-content">
+            <h2 class="modal-title">自定义设置</h2>
+            
+            <div class="form-group">
+                <label class="form-label">上传背景图片</label>
+                <input type="file" class="form-input" id="background-upload" accept="image/*">
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label">添加新网站</label>
+                <input type="text" class="form-input" id="new-website-name" placeholder="网站名称">
+                <input type="text" class="form-input" id="new-website-url" placeholder="网站URL" style="margin-top: 8px;">
+                <button class="button button-primary" id="add-website-button" style="margin-top: 8px; width: 100%;">添加网站</button>
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label">倒计日设置</label>
+                <input type="text" class="form-input" id="countdown-title" placeholder="倒计日标题，例如：离高考还有">
+                <input type="date" class="form-input" id="countdown-date" style="margin-top: 8px;">
+                <button class="button button-primary" id="save-countdown" style="margin-top: 8px; width: 100%;">保存倒计日</button>
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label">小组件设置</label>
+                <div class="widget-settings">
+                    <div class="widget-setting-item">
+                        <span class="widget-setting-label">倒计日组件</span>
+                        <div class="widget-toggle" id="countdown-toggle"></div>
+                    </div>
+                    <div class="widget-setting-item">
+                        <span class="widget-setting-label">计算器组件</span>
+                        <div class="widget-toggle" id="calculator-toggle"></div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="modal-actions">
+                <button class="button button-secondary" id="close-modal">关闭</button>
+                <button class="button button-primary" id="reset-settings">重置默认设置</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 默认网站列表
+        const defaultWebsites = [
+            { name: "B站", url: "https://www.bilibili.com", icon: "play_circle" },
+            { name: "抖音", url: "https://www.douyin.com", icon: "music_note" },
+            { name: "GitHub", url: "https://github.com", icon: "code" },
+            { name: "南方中学", url: "https://zznfzx.cn", icon: "school" }
+        ];
+        
+        // 初始化函数
+        function init() {
+            // 从localStorage加载设置，如果没有则使用默认值
+            const savedWebsites = localStorage.getItem('websites');
+            const savedBackground = localStorage.getItem('background');
+            const savedWidgets = localStorage.getItem('widgets');
+            const savedCountdown = localStorage.getItem('countdown');
+            
+            // 设置背景
+            if (savedBackground) {
+                document.body.style.backgroundImage = `url(${savedBackground})`;
+            }
+            
+            // 渲染网站列表
+            renderWebsites(savedWebsites ? JSON.parse(savedWebsites) : defaultWebsites);
+            
+            // 初始化小组件
+            initWidgets(savedWidgets ? JSON.parse(savedWidgets) : {
+                countdown: true,
+                calculator: false
+            });
+            
+            // 初始化倒计日
+            if (savedCountdown) {
+                const countdownData = JSON.parse(savedCountdown);
+                document.getElementById('countdown-title').value = countdownData.title;
+                document.getElementById('countdown-date').value = countdownData.date;
+            }
+            
+            // 设置搜索功能
+            document.getElementById('search-button').addEventListener('click', performSearch);
+            document.getElementById('search-input').addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    performSearch();
+                }
+            });
+            
+            // 设置模态框功能
+            document.getElementById('settings-button').addEventListener('click', openSettingsModal);
+            document.getElementById('close-modal').addEventListener('click', closeSettingsModal);
+            document.getElementById('reset-settings').addEventListener('click', resetSettings);
+            document.getElementById('background-upload').addEventListener('change', handleBackgroundUpload);
+            document.getElementById('add-website-button').addEventListener('click', addNewWebsite);
+            document.getElementById('save-countdown').addEventListener('click', saveCountdown);
+            
+            // 点击模态框外部关闭
+            document.getElementById('settings-modal').addEventListener('click', function(e) {
+                if (e.target === this) {
+                    closeSettingsModal();
+                }
+            });
+            
+            // 初始化时钟
+            updateClock();
+            setInterval(updateClock, 1000);
+            
+            // 初始化计算器
+            initCalculator();
+            
+            // 初始化倒计日
+            updateCountdown();
+            setInterval(updateCountdown, 1000);
+        }
+        
+        // 渲染网站列表
+        function renderWebsites(websites) {
+            const grid = document.getElementById('websites-grid');
+            grid.innerHTML = '';
+            
+            websites.forEach(website => {
+                const card = document.createElement('a');
+                card.className = 'website-card';
+                card.href = website.url;
+                card.target = '_blank';
+                
+                card.innerHTML = `
+                    <div class="website-icon">
+                        <i class="material-icons">${website.icon}</i>
+                    </div>
+                    <div class="website-name">${website.name}</div>
+                `;
+                
+                grid.appendChild(card);
+            });
+            
+            // 添加"添加网站"卡片
+            const addCard = document.createElement('div');
+            addCard.className = 'add-website';
+            addCard.addEventListener('click', openSettingsModal);
+            
+            addCard.innerHTML = `
+                <div class="add-icon">
+                    <i class="material-icons">add</i>
+                </div>
+                <div class="website-name">添加网站</div>
+            `;
+            
+            grid.appendChild(addCard);
+            
+            // 保存到localStorage
+            localStorage.setItem('websites', JSON.stringify(websites));
+        }
+        
+        // 初始化小组件
+        function initWidgets(widgets) {
+            // 更新小组件状态
+            updateWidget('countdown', widgets.countdown);
+            updateWidget('calculator', widgets.calculator);
+            
+            // 设置小组件切换事件
+            document.getElementById('countdown-toggle').addEventListener('click', function() {
+                toggleWidget('countdown');
+            });
+            
+            document.getElementById('calculator-toggle').addEventListener('click', function() {
+                toggleWidget('calculator');
+            });
+            
+            // 更新模态框中的小组件开关状态
+            updateModalToggles();
+        }
+        
+        // 更新小组件状态
+        function updateWidget(widget, active) {
+            const toggle = document.getElementById(`${widget}-toggle`);
+            
+            if (active) {
+                toggle.classList.add('active');
+                renderWidget(widget);
+            } else {
+                toggle.classList.remove('active');
+                removeWidget(widget);
+            }
+            
+            // 保存到localStorage
+            const savedWidgets = localStorage.getItem('widgets');
+            const widgets = savedWidgets ? JSON.parse(savedWidgets) : {};
+            widgets[widget] = active;
+            localStorage.setItem('widgets', JSON.stringify(widgets));
+        }
+        
+        // 切换小组件状态
+        function toggleWidget(widget) {
+            const toggle = document.getElementById(`${widget}-toggle`);
+            const isActive = toggle.classList.contains('active');
+            updateWidget(widget, !isActive);
+        }
+        
+        // 渲染小组件
+        function renderWidget(widget) {
+            const widgetsSection = document.getElementById('widgets-section');
+            
+            // 如果小组件已经存在，先移除
+            const existingWidget = document.getElementById(`${widget}-widget`);
+            if (existingWidget) {
+                existingWidget.remove();
+            }
+            
+            if (widget === 'countdown') {
+                const countdownWidget = document.createElement('div');
+                countdownWidget.className = 'widget countdown-widget';
+                countdownWidget.id = 'countdown-widget';
+                
+                countdownWidget.innerHTML = `
+                    <div class="countdown-title" id="countdown-widget-title">离高考还有</div>
+                    <div class="countdown-display" id="countdown-widget-display">00天00时00分00秒</div>
+                `;
+                
+                widgetsSection.appendChild(countdownWidget);
+                updateCountdown();
+            } else if (widget === 'calculator') {
+                const calculatorWidget = document.createElement('div');
+                calculatorWidget.className = 'widget calculator-widget';
+                calculatorWidget.id = 'calculator-widget';
+                
+                calculatorWidget.innerHTML = `
+                    <input type="text" class="calculator-display" id="calculator-display" readonly value="0">
+                    <div class="calculator-buttons">
+                        <button class="calc-btn" data-action="clear">C</button>
+                        <button class="calc-btn" data-action="backspace">⌫</button>
+                        <button class="calc-btn operator" data-action="divide">/</button>
+                        <button class="calc-btn operator" data-action="multiply">×</button>
+                        <button class="calc-btn" data-action="7">7</button>
+                        <button class="calc-btn" data-action="8">8</button>
+                        <button class="calc-btn" data-action="9">9</button>
+                        <button class="calc-btn operator" data-action="subtract">-</button>
+                        <button class="calc-btn" data-action="4">4</button>
+                        <button class="calc-btn" data-action="5">5</button>
+                        <button class="calc-btn" data-action="6">6</button>
+                        <button class="calc-btn operator" data-action="add">+</button>
+                        <button class="calc-btn" data-action="1">1</button>
+                        <button class="calc-btn" data-action="2">2</button>
+                        <button class="calc-btn" data-action="3">3</button>
+                        <button class="calc-btn operator" data-action="equals" style="grid-row: span 2;">=</button>
+                        <button class="calc-btn" data-action="0" style="grid-column: span 2;">0</button>
+                        <button class="calc-btn" data-action="decimal">.</button>
+                    </div>
+                `;
+                
+                widgetsSection.appendChild(calculatorWidget);
+                initCalculator();
+            }
+        }
+        
+        // 移除小组件
+        function removeWidget(widget) {
+            const widgetElement = document.getElementById(`${widget}-widget`);
+            if (widgetElement) {
+                widgetElement.remove();
+            }
+        }
+        
+        // 更新模态框中的开关状态
+        function updateModalToggles() {
+            const savedWidgets = localStorage.getItem('widgets');
+            const widgets = savedWidgets ? JSON.parse(savedWidgets) : {};
+            
+            document.getElementById('countdown-toggle').className = 
+                `widget-toggle ${widgets.countdown ? 'active' : ''}`;
+            document.getElementById('calculator-toggle').className = 
+                `widget-toggle ${widgets.calculator ? 'active' : ''}`;
+        }
+        
+        // 更新时钟
+        function updateClock() {
+            const now = new Date();
+            const time = now.toLocaleTimeString('zh-CN');
+            const date = now.toLocaleDateString('zh-CN', { 
+                year: 'numeric', 
+                month: 'long', 
+                day: 'numeric',
+                weekday: 'long'
+            });
+            
+            document.getElementById('header-time').textContent = time;
+            document.getElementById('header-date').textContent = date;
+        }
+        
+        // 初始化计算器
+        function initCalculator() {
+            const display = document.getElementById('calculator-display');
+            if (!display) return;
+            
+            let currentInput = '0';
+            let previousInput = '';
+            let operation = null;
+            let resetScreen = false;
+            
+            document.querySelectorAll('.calc-btn').forEach(button => {
+                button.addEventListener('click', function() {
+                    const action = this.getAttribute('data-action');
+                    
+                    if (action === 'clear') {
+                        currentInput = '0';
+                        previousInput = '';
+                        operation = null;
+                        resetScreen = false;
+                    } else if (action === 'backspace') {
+                        if (currentInput.length === 1) {
+                            currentInput = '0';
+                        } else {
+                            currentInput = currentInput.slice(0, -1);
+                        }
+                    } else if (action === 'decimal') {
+                        if (!currentInput.includes('.')) {
+                            currentInput += '.';
+                        }
+                    } else if (['add', 'subtract', 'multiply', 'divide'].includes(action)) {
+                        if (previousInput !== '') {
+                            calculate();
+                        }
+                        operation = action;
+                        previousInput = currentInput;
+                        resetScreen = true;
+                    } else if (action === 'equals') {
+                        if (previousInput !== '' && operation !== null) {
+                            calculate();
+                            operation = null;
+                            previousInput = '';
+                        }
+                    } else {
+                        if (currentInput === '0' || resetScreen) {
+                            currentInput = action;
+                            resetScreen = false;
+                        } else {
+                            currentInput += action;
+                        }
+                    }
+                    
+                    display.value = currentInput;
+                });
+            });
+            
+            function calculate() {
+                let result;
+                const prev = parseFloat(previousInput);
+                const current = parseFloat(currentInput);
+                
+                if (isNaN(prev) || isNaN(current)) return;
+                
+                switch (operation) {
+                    case 'add':
+                        result = prev + current;
+                        break;
+                    case 'subtract':
+                        result = prev - current;
+                        break;
+                    case 'multiply':
+                        result = prev * current;
+                        break;
+                    case 'divide':
+                        if (current === 0) {
+                            result = '错误';
+                        } else {
+                            result = prev / current;
+                        }
+                        break;
+                    default:
+                        return;
+                }
+                
+                currentInput = result.toString();
+                resetScreen = true;
+            }
+        }
+        
+        // 更新倒计日
+        function updateCountdown() {
+            const savedCountdown = localStorage.getItem('countdown');
+            if (!savedCountdown) return;
+            
+            const countdownData = JSON.parse(savedCountdown);
+            const targetDate = new Date(countdownData.date).getTime();
+            const now = new Date().getTime();
+            const distance = targetDate - now;
+            
+            if (distance < 0) {
+                document.getElementById('countdown-widget-title').textContent = countdownData.title + '已过';
+                document.getElementById('countdown-widget-display').textContent = '00天00时00分00秒';
+                return;
+            }
+            
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+            
+            document.getElementById('countdown-widget-title').textContent = countdownData.title;
+            document.getElementById('countdown-widget-display').textContent = 
+                `${days}天${hours.toString().padStart(2, '0')}时${minutes.toString().padStart(2, '0')}分${seconds.toString().padStart(2, '0')}秒`;
+        }
+        
+        // 保存倒计日
+        function saveCountdown() {
+            const title = document.getElementById('countdown-title').value.trim();
+            const date = document.getElementById('countdown-date').value;
+            
+            if (!title || !date) {
+                alert('请填写倒计日标题和日期');
+                return;
+            }
+            
+            const countdownData = {
+                title: title,
+                date: date
+            };
+            
+            localStorage.setItem('countdown', JSON.stringify(countdownData));
+            
+            // 更新倒计日显示
+            if (document.getElementById('countdown-widget')) {
+                updateCountdown();
+            }
+            
+            alert('倒计日设置已保存');
+        }
+        
+        // 执行搜索
+        function performSearch() {
+            const query = document.getElementById('search-input').value.trim();
+            if (query) {
+                window.open(`https://www.bing.com/search?q=${encodeURIComponent(query)}`, '_blank');
+            }
+        }
+        
+        // 打开设置模态框
+        function openSettingsModal() {
+            document.getElementById('settings-modal').style.display = 'flex';
+            updateModalToggles();
+        }
+        
+        // 关闭设置模态框
+        function closeSettingsModal() {
+            document.getElementById('settings-modal').style.display = 'none';
+        }
+        
+        // 重置设置
+        function resetSettings() {
+            localStorage.removeItem('websites');
+            localStorage.removeItem('background');
+            localStorage.removeItem('widgets');
+            localStorage.removeItem('countdown');
+            document.body.style.backgroundImage = '';
+            renderWebsites(defaultWebsites);
+            initWidgets({
+                countdown: true,
+                calculator: false
+            });
+            document.getElementById('countdown-title').value = '';
+            document.getElementById('countdown-date').value = '';
+            closeSettingsModal();
+        }
+        
+        // 处理背景图片上传
+        function handleBackgroundUpload(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(event) {
+                    const backgroundUrl = event.target.result;
+                    document.body.style.backgroundImage = `url(${backgroundUrl})`;
+                    localStorage.setItem('background', backgroundUrl);
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+        
+        // 添加新网站
+        function addNewWebsite() {
+            const name = document.getElementById('new-website-name').value.trim();
+            const url = document.getElementById('new-website-url').value.trim();
+            
+            if (name && url) {
+                // 确保URL格式正确
+                let formattedUrl = url;
+                if (!url.startsWith('http://') && !url.startsWith('https://')) {
+                    formattedUrl = 'https://' + url;
+                }
+                
+                // 获取当前网站列表
+                const currentWebsites = JSON.parse(localStorage.getItem('websites')) || defaultWebsites;
+                
+                // 添加新网站
+                currentWebsites.push({
+                    name: name,
+                    url: formattedUrl,
+                    icon: 'language' // 默认图标
+                });
+                
+                // 重新渲染网站列表
+                renderWebsites(currentWebsites);
+                
+                // 清空输入框
+                document.getElementById('new-website-name').value = '';
+                document.getElementById('new-website-url').value = '';
+            }
+        }
+        
+        // 页面加载完成后初始化
+        document.addEventListener('DOMContentLoaded', init);
+    </script>
+</body>
+</html>
