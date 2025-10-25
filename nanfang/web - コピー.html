@@ -6,7 +6,6 @@
     <title>株洲市南方中学网址导航</title>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
-    <meta name="description" content="株洲市南方中学内部使用的网址导航">
     <style>
         * {
             margin: 0;
@@ -22,29 +21,11 @@
             background-attachment: fixed;
             color: #fff;
             min-height: 100vh;
-            transition: all 0.5s ease;
+            transition: background 0.5s ease;
             padding: 20px;
             display: flex;
             flex-direction: column;
             overflow-x: hidden;
-            position: relative;
-        }
-        
-        body::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: inherit;
-            filter: blur(0px) brightness(1);
-            z-index: -1;
-            transition: all 0.5s ease;
-        }
-        
-        body.search-focused::before {
-            filter: blur(10px) brightness(0.7);
         }
         
         .header {
@@ -54,13 +35,6 @@
             padding: 16px 24px;
             margin-bottom: 40px;
             animation: fadeInDown 0.8s ease;
-            transition: all 0.5s ease;
-            transform: translateY(0);
-        }
-        
-        body.search-focused .header {
-            transform: translateY(-20px);
-            opacity: 0.8;
         }
         
         .logo-container {
@@ -126,11 +100,6 @@
             flex-direction: column;
             justify-content: center;
             padding: 20px;
-            transition: all 0.5s ease;
-        }
-        
-        body.search-focused .main-content {
-            transform: scale(0.98);
         }
         
         .search-container {
@@ -147,18 +116,6 @@
             animation: slideUp 0.8s ease;
             display: flex;
             align-items: center;
-            transition: all 0.5s ease;
-            position: relative;
-            z-index: 10;
-        }
-        
-        body.search-focused .search-container {
-            transform: scale(1.05);
-            box-shadow: 
-                0 20px 60px rgba(0, 0, 0, 0.4),
-                0 5px 15px rgba(255, 255, 255, 0.2) inset,
-                0 0 0 3px rgba(255, 255, 255, 0.3);
-            background: rgba(255, 255, 255, 0.25);
         }
         
         .search-input {
@@ -198,17 +155,10 @@
             display: grid;
             grid-template-columns: 1fr 300px;
             gap: 30px;
-            transition: all 0.5s ease;
-        }
-        
-        body.search-focused .content-grid {
-            transform: translateY(20px);
-            opacity: 0.8;
         }
         
         .websites-section {
             animation: fadeIn 1s ease 0.3s both;
-            transition: all 0.5s ease;
         }
         
         .widgets-section {
@@ -216,7 +166,6 @@
             flex-direction: column;
             gap: 20px;
             animation: slideInRight 1s ease 0.5s both;
-            transition: all 0.5s ease;
         }
         
         .section-title {
@@ -273,17 +222,6 @@
                 0 2px 8px rgba(255, 255, 255, 0.2) inset;
         }
         
-        /* 网站卡片点击特效 */
-        .website-card:active {
-            animation: cardClick 0.3s ease;
-        }
-        
-        @keyframes cardClick {
-            0% { transform: translateY(-5px) scale(1.03); }
-            50% { transform: translateY(-5px) scale(1.08); }
-            100% { transform: translateY(-5px) scale(1.03); }
-        }
-        
         .website-icon {
             width: 56px;
             height: 56px;
@@ -332,17 +270,6 @@
             box-shadow: 
                 0 12px 40px rgba(0, 0, 0, 0.25),
                 0 2px 8px rgba(255, 255, 255, 0.2) inset;
-        }
-        
-        /* 小组件点击特效 */
-        .widget:active {
-            animation: widgetClick 0.3s ease;
-        }
-        
-        @keyframes widgetClick {
-            0% { transform: translateY(-3px); }
-            50% { transform: translateY(-3px) scale(1.05); }
-            100% { transform: translateY(-3px); }
         }
         
         .countdown-widget {
@@ -396,17 +323,6 @@
         
         .countdown-btn:hover, .countdown-btn:active {
             background: rgba(255, 255, 255, 0.3);
-        }
-        
-        /* 按钮点击特效 */
-        .countdown-btn:active, .calc-btn:active, .button:active {
-            animation: buttonClick 0.2s ease;
-        }
-        
-        @keyframes buttonClick {
-            0% { transform: scale(1); }
-            50% { transform: scale(0.95); }
-            100% { transform: scale(1); }
         }
         
         .calculator-widget {
@@ -485,17 +401,6 @@
             box-shadow: 
                 0 12px 40px rgba(0, 0, 0, 0.3),
                 0 2px 8px rgba(255, 255, 255, 0.2) inset;
-        }
-        
-        /* 设置按钮点击特效 */
-        .settings-button:active {
-            animation: settingsClick 0.3s ease;
-        }
-        
-        @keyframes settingsClick {
-            0% { transform: scale(1.1) rotate(30deg); }
-            50% { transform: scale(1.2) rotate(45deg); }
-            100% { transform: scale(1.1) rotate(30deg); }
         }
         
         .add-website {
@@ -713,153 +618,6 @@
             font-weight: 500;
         }
         
-        /* 资讯小组件样式 */
-        .news-widget {
-            max-height: 300px;
-            overflow-y: auto;
-        }
-        
-        /* 自定义滚动条样式 - 兼容所有浏览器 */
-        .news-widget {
-            scrollbar-width: thin;
-            scrollbar-color: rgba(255, 255, 255, 0.3) rgba(255, 255, 255, 0.1);
-        }
-        
-        .news-widget::-webkit-scrollbar {
-            width: 8px;
-        }
-        
-        .news-widget::-webkit-scrollbar-track {
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 4px;
-        }
-        
-        .news-widget::-webkit-scrollbar-thumb {
-            background: rgba(255, 255, 255, 0.3);
-            border-radius: 4px;
-        }
-        
-        .news-widget::-webkit-scrollbar-thumb:hover {
-            background: rgba(255, 255, 255, 0.5);
-        }
-        
-        .news-list {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-        }
-        
-        .news-item {
-            padding: 12px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 8px;
-            transition: all 0.3s ease;
-            cursor: pointer;
-            text-decoration: none;
-            color: white;
-            display: block;
-        }
-        
-        .news-item:hover {
-            background: rgba(255, 255, 255, 0.2);
-            transform: translateX(5px);
-        }
-        
-        /* 资讯项点击特效 */
-        .news-item:active {
-            animation: newsClick 0.2s ease;
-        }
-        
-        @keyframes newsClick {
-            0% { transform: translateX(5px); }
-            50% { transform: translateX(5px) scale(1.05); }
-            100% { transform: translateX(5px); }
-        }
-        
-        .news-title {
-            font-size: 14px;
-            font-weight: 500;
-            margin-bottom: 4px;
-        }
-        
-        .news-date {
-            font-size: 12px;
-            opacity: 0.7;
-        }
-        
-        /* 删除按钮样式 - 白色叉号，无背景 */
-        .delete-button {
-            position: absolute;
-            top: 5px;
-            right: 5px;
-            width: 20px;
-            height: 20px;
-            background: transparent;
-            border: none;
-            border-radius: 0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 18px;
-            color: white;
-            opacity: 1;
-            transition: all 0.3s ease;
-            cursor: pointer;
-            z-index: 10;
-            padding: 0;
-        }
-        
-        .delete-button:hover {
-            color: rgba(255, 255, 255, 0.8);
-            transform: scale(1.1);
-        }
-        
-        /* 图标选择器样式 */
-        .icon-selector {
-            display: grid;
-            grid-template-columns: repeat(5, 1fr);
-            gap: 8px;
-            margin-top: 8px;
-            max-height: 200px;
-            overflow-y: auto;
-            padding: 8px;
-            background: rgba(0, 0, 0, 0.05);
-            border-radius: 8px;
-        }
-        
-        .icon-option {
-            padding: 8px;
-            border-radius: 8px;
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.2s ease;
-        }
-        
-        .icon-option:hover {
-            background: rgba(106, 17, 203, 0.1);
-        }
-        
-        .icon-option.selected {
-            background: rgba(106, 17, 203, 0.2);
-            border: 1px solid #6a11cb;
-        }
-        
-        /* 搜索特效遮罩 */
-        .search-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: transparent;
-            z-index: 5;
-            display: none;
-        }
-        
-        body.search-focused .search-overlay {
-            display: block;
-        }
-        
         @keyframes fadeIn {
             from { opacity: 0; }
             to { opacity: 1; }
@@ -936,16 +694,6 @@
                 grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
                 gap: 16px;
             }
-            
-            .delete-button {
-                width: 24px;
-                height: 24px;
-                font-size: 20px;
-            }
-            
-            .icon-selector {
-                grid-template-columns: repeat(4, 1fr);
-            }
         }
         
         @media (max-width: 480px) {
@@ -976,28 +724,13 @@
                 padding: 10px 0;
                 font-size: 14px;
             }
-            
-            .delete-button {
-                width: 22px;
-                height: 22px;
-                font-size: 18px;
-            }
-            
-            .icon-selector {
-                grid-template-columns: repeat(3, 1fr);
-            }
         }
     </style>
 </head>
 <body>
-    <!-- 搜索特效遮罩 -->
-    <div class="search-overlay" id="search-overlay"></div>
-    
     <div class="header">
         <div class="logo-container">
-            <div class="logo">
-                <i class="material-icons">school</i>
-            </div>
+                <image src="logo.png">         
             <h1 class="title">株洲市南方中学网址导航</h1>
         </div>
         
@@ -1047,10 +780,6 @@
                 <label class="form-label">添加新网站</label>
                 <input type="text" class="form-input" id="new-website-name" placeholder="网站名称">
                 <input type="text" class="form-input" id="new-website-url" placeholder="网站URL" style="margin-top: 8px;">
-                <div class="form-label" style="margin-top: 8px;">选择图标</div>
-                <div class="icon-selector" id="icon-selector">
-                    <!-- 图标选项将通过JavaScript动态生成 -->
-                </div>
                 <button class="button button-primary" id="add-website-button" style="margin-top: 8px; width: 100%;">添加网站</button>
             </div>
             
@@ -1072,16 +801,12 @@
                         <span class="widget-setting-label">计算器组件</span>
                         <div class="widget-toggle" id="calculator-toggle"></div>
                     </div>
-                    <div class="widget-setting-item">
-                        <span class="widget-setting-label">资讯组件</span>
-                        <div class="widget-toggle" id="news-toggle"></div>
-                    </div>
                 </div>
             </div>
             
             <div class="modal-actions">
                 <button class="button button-secondary" id="close-modal">关闭</button>
-                <button class="button button-primary" id="clear-cache">清除缓存</button>
+                <button class="button button-primary" id="reset-settings">重置默认设置</button>
             </div>
         </div>
     </div>
@@ -1089,34 +814,10 @@
     <script>
         // 默认网站列表
         const defaultWebsites = [
-            { name: "暗网通道", url: "https://www.bilibili.com", icon: "play_circle" },
-            { name: "神秘视频", url: "https://www.douyin.com", icon: "music_note" },
-            { name: "某个Hub", url: "https://github.com", icon: "code" },
-            { name: "南方官网", url: "http://www.zznfzx.cn/", icon: "school" },
-            { name: "电教之家", url: "https://xxtsoft.top/nanfang", icon: "computer" }
-        ];
-        
-        // 默认资讯数据
-        const defaultNews = [
-            { title: "欢迎加入电教委员交流QQ群 1021156150", date: "2099-12-31", url: "#" },
-            { title: "株洲市南方中学召开整治“校园餐”、校服征订、教辅资料选用等群众身边腐败和不正之风专项工作推进会", date: "2025-10-17", url: "http://www.zznfzx.cn/articleShow-21-33004.html" },
-            { title: "守护“舌尖上的安全”，株洲市南方中学学生监督员上岗啦！", date: "2025-10-17", url: "http://www.zznfzx.cn/articleShow-21-33003.html" },
-            { title: "聚焦习惯养成 提升育人品质——株洲市南方中学召开十月班主任会议", date: "2025-10-14", url: "http://www.zznfzx.cn/articleShow-21-32994.html" }
-        ];
-        
-        // 可用图标列表 - 扩展更多图标
-        const availableIcons = [
-            "language", "school", "computer", "play_circle", "music_note", 
-            "code", "book", "dashboard", "email", "forum", 
-            "library_books", "video_library", "photo_library", "cloud", "folder",
-            "home", "search", "settings", "info", "help",
-            "favorite", "star", "thumb_up", "share", "link",
-            "lock", "security", "person", "group", "public",
-            "map", "location_on", "navigation", "directions", "place",
-            "calendar_today", "schedule", "alarm", "timer", "access_time",
-            "chat", "comment", "forum", "message", "feedback",
-            "shopping_cart", "store", "payment", "credit_card", "receipt",
-            "work", "business", "apartment", "house", "build"
+            { name: "B站", url: "https://www.bilibili.com", icon: "play_circle" },
+            { name: "抖音", url: "https://www.douyin.com", icon: "music_note" },
+            { name: "GitHub", url: "https://github.com", icon: "code" },
+            { name: "南方中学", url: "https://zznfzx.cn", icon: "school" }
         ];
         
         // 初始化函数
@@ -1135,15 +836,11 @@
             // 渲染网站列表
             renderWebsites(savedWebsites ? JSON.parse(savedWebsites) : defaultWebsites);
             
-            // 初始化小组件 - 修改默认设置：倒计日隐藏，资讯显示
+            // 初始化小组件
             initWidgets(savedWidgets ? JSON.parse(savedWidgets) : {
-                countdown: false,
-                calculator: false,
-                news: true
+                countdown: true,
+                calculator: false
             });
-            
-            // 初始化图标选择器
-            initIconSelector();
             
             // 初始化倒计日
             if (savedCountdown) {
@@ -1160,32 +857,10 @@
                 }
             });
             
-            // 设置搜索框焦点事件
-            document.getElementById('search-input').addEventListener('focus', function() {
-                document.body.classList.add('search-focused');
-            });
-            
-            // 设置搜索框失焦事件
-            document.getElementById('search-input').addEventListener('blur', function() {
-                // 延迟移除类，以便点击搜索按钮时不会立即关闭效果
-                setTimeout(function() {
-                    if (document.activeElement !== document.getElementById('search-input') && 
-                        document.activeElement !== document.getElementById('search-button')) {
-                        document.body.classList.remove('search-focused');
-                    }
-                }, 200);
-            });
-            
-            // 设置遮罩点击事件
-            document.getElementById('search-overlay').addEventListener('click', function() {
-                document.body.classList.remove('search-focused');
-                document.getElementById('search-input').blur();
-            });
-            
             // 设置模态框功能
             document.getElementById('settings-button').addEventListener('click', openSettingsModal);
             document.getElementById('close-modal').addEventListener('click', closeSettingsModal);
-            document.getElementById('clear-cache').addEventListener('click', clearCache);
+            document.getElementById('reset-settings').addEventListener('click', resetSettings);
             document.getElementById('background-upload').addEventListener('change', handleBackgroundUpload);
             document.getElementById('add-website-button').addEventListener('click', addNewWebsite);
             document.getElementById('save-countdown').addEventListener('click', saveCountdown);
@@ -1214,29 +889,18 @@
             const grid = document.getElementById('websites-grid');
             grid.innerHTML = '';
             
-            websites.forEach((website, index) => {
+            websites.forEach(website => {
                 const card = document.createElement('a');
                 card.className = 'website-card';
                 card.href = website.url;
                 card.target = '_blank';
                 
                 card.innerHTML = `
-                    <button class="delete-button" data-index="${index}">
-                        <i class="material-icons">close</i>
-                    </button>
                     <div class="website-icon">
                         <i class="material-icons">${website.icon}</i>
                     </div>
                     <div class="website-name">${website.name}</div>
                 `;
-                
-                // 添加删除事件
-                const deleteButton = card.querySelector('.delete-button');
-                deleteButton.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    deleteWebsite(index);
-                });
                 
                 grid.appendChild(card);
             });
@@ -1259,54 +923,11 @@
             localStorage.setItem('websites', JSON.stringify(websites));
         }
         
-        // 删除网站
-        function deleteWebsite(index) {
-            const savedWebsites = localStorage.getItem('websites');
-            const websites = savedWebsites ? JSON.parse(savedWebsites) : defaultWebsites;
-            
-            if (confirm(`确定要删除 "${websites[index].name}" 吗(っ °Д °;)っ`)) {
-                websites.splice(index, 1);
-                renderWebsites(websites);
-            }
-        }
-        
-        // 初始化图标选择器
-        function initIconSelector() {
-            const iconSelector = document.getElementById('icon-selector');
-            iconSelector.innerHTML = '';
-            
-            availableIcons.forEach(icon => {
-                const iconOption = document.createElement('div');
-                iconOption.className = 'icon-option';
-                iconOption.dataset.icon = icon;
-                
-                iconOption.innerHTML = `<i class="material-icons">${icon}</i>`;
-                
-                iconOption.addEventListener('click', function() {
-                    // 移除之前选中的图标
-                    document.querySelectorAll('.icon-option').forEach(option => {
-                        option.classList.remove('selected');
-                    });
-                    
-                    // 选中当前图标
-                    this.classList.add('selected');
-                });
-                
-                iconSelector.appendChild(iconOption);
-            });
-            
-            // 默认选择第一个图标
-            if (iconSelector.firstChild) {
-                iconSelector.firstChild.classList.add('selected');
-            }
-        }
-        
         // 初始化小组件
         function initWidgets(widgets) {
             // 更新小组件状态
             updateWidget('countdown', widgets.countdown);
             updateWidget('calculator', widgets.calculator);
-            updateWidget('news', widgets.news);
             
             // 设置小组件切换事件
             document.getElementById('countdown-toggle').addEventListener('click', function() {
@@ -1315,10 +936,6 @@
             
             document.getElementById('calculator-toggle').addEventListener('click', function() {
                 toggleWidget('calculator');
-            });
-            
-            document.getElementById('news-toggle').addEventListener('click', function() {
-                toggleWidget('news');
             });
             
             // 更新模态框中的小组件开关状态
@@ -1404,26 +1021,6 @@
                 
                 widgetsSection.appendChild(calculatorWidget);
                 initCalculator();
-            } else if (widget === 'news') {
-                const newsWidget = document.createElement('div');
-                newsWidget.className = 'widget news-widget';
-                newsWidget.id = 'news-widget';
-                
-                let newsHTML = '<div class="section-title">资讯</div><div class="news-list">';
-                
-                defaultNews.forEach(news => {
-                    newsHTML += `
-                        <a href="${news.url}" target="_blank" class="news-item">
-                            <div class="news-title">${news.title}</div>
-                            <div class="news-date">${news.date}</div>
-                        </a>
-                    `;
-                });
-                
-                newsHTML += '</div>';
-                newsWidget.innerHTML = newsHTML;
-                
-                widgetsSection.appendChild(newsWidget);
             }
         }
         
@@ -1444,8 +1041,6 @@
                 `widget-toggle ${widgets.countdown ? 'active' : ''}`;
             document.getElementById('calculator-toggle').className = 
                 `widget-toggle ${widgets.calculator ? 'active' : ''}`;
-            document.getElementById('news-toggle').className = 
-                `widget-toggle ${widgets.news ? 'active' : ''}`;
         }
         
         // 更新时钟
@@ -1537,7 +1132,7 @@
                         break;
                     case 'divide':
                         if (current === 0) {
-                            result = '你要不要看看你输入的是什么';
+                            result = '错误';
                         } else {
                             result = prev / current;
                         }
@@ -1621,22 +1216,21 @@
             document.getElementById('settings-modal').style.display = 'none';
         }
         
-        // 清除缓存
-        function clearCache() {
-            if (confirm('确定要清除所有缓存数据吗＞︿＜')) {
-                localStorage.clear();
-                document.body.style.backgroundImage = 'url("bg.jpg")';
-                renderWebsites(defaultWebsites);
-                initWidgets({
-                    countdown: false,
-                    calculator: false,
-                    news: true
-                });
-                document.getElementById('countdown-title').value = '';
-                document.getElementById('countdown-date').value = '';
-                closeSettingsModal();
-                alert('缓存已清除，所有设置已重置为默认值');
-            }
+        // 重置设置
+        function resetSettings() {
+            localStorage.removeItem('websites');
+            localStorage.removeItem('background');
+            localStorage.removeItem('widgets');
+            localStorage.removeItem('countdown');
+            document.body.style.backgroundImage = '';
+            renderWebsites(defaultWebsites);
+            initWidgets({
+                countdown: true,
+                calculator: false
+            });
+            document.getElementById('countdown-title').value = '';
+            document.getElementById('countdown-date').value = '';
+            closeSettingsModal();
         }
         
         // 处理背景图片上传
@@ -1665,10 +1259,6 @@
                     formattedUrl = 'https://' + url;
                 }
                 
-                // 获取选中的图标
-                const selectedIconOption = document.querySelector('.icon-option.selected');
-                const icon = selectedIconOption ? selectedIconOption.dataset.icon : 'language';
-                
                 // 获取当前网站列表
                 const currentWebsites = JSON.parse(localStorage.getItem('websites')) || defaultWebsites;
                 
@@ -1676,7 +1266,7 @@
                 currentWebsites.push({
                     name: name,
                     url: formattedUrl,
-                    icon: icon
+                    icon: 'language' // 默认图标
                 });
                 
                 // 重新渲染网站列表
@@ -1685,10 +1275,6 @@
                 // 清空输入框
                 document.getElementById('new-website-name').value = '';
                 document.getElementById('new-website-url').value = '';
-                
-                alert('网站添加成功！');
-            } else {
-                alert('请填写网站名称和URL');
             }
         }
         
