@@ -1,0 +1,1045 @@
+<!DOCTYPE html>
+<!-- saved from url=(0062)https://ymqlgthbsakuradream.github.io/posts/blog/20251005.html -->
+<html lang="zh-CN"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  
+<meta name="viewport" content="width=device-width">
+
+  <link rel="stylesheet" href="./SKToolBox - 打包自己的单文件工具箱 _ ✦ 应 急 食 品 ✦_files/katex.min.css" integrity="sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X" crossorigin="anonymous">
+  <script defer="" src="./SKToolBox - 打包自己的单文件工具箱 _ ✦ 应 急 食 品 ✦_files/katex.min.js.ダウンロード" integrity="sha384-g7c+Jr9ZivxKLnZTDUhnkOnsh30B4H0rpLUpJ4jAIKs4fnJI+sEnkvrMWph2EDg4" crossorigin="anonymous"></script>
+  <script defer="" src="./SKToolBox - 打包自己的单文件工具箱 _ ✦ 应 急 食 品 ✦_files/auto-render.min.js.ダウンロード" integrity="sha384-mll67QQFJfxn0IYznZYonOWZ644AWYC+Pt2cHqMaRhXVrursRwvLnLaebdGIlYNa" crossorigin="anonymous"></script>
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 7.2.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="https://ymqlgthbsakuradream.github.io/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="https://ymqlgthbsakuradream.github.io/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="https://ymqlgthbsakuradream.github.io/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="https://ymqlgthbsakuradream.github.io/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="./SKToolBox - 打包自己的单文件工具箱 _ ✦ 应 急 食 品 ✦_files/main.css">
+
+
+
+<link rel="stylesheet" href="./SKToolBox - 打包自己的单文件工具箱 _ ✦ 应 急 食 品 ✦_files/all.min.css" integrity="sha256-wiz7ZSCn/btzhjKDQBms9Hx4sSeUYsDrTLg7roPstac=" crossorigin="anonymous">
+  <link rel="stylesheet" href="./SKToolBox - 打包自己的单文件工具箱 _ ✦ 应 急 食 品 ✦_files/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"ymqlgthbsakuradream.github.io","root":"/","images":"/images","scheme":"Pisces","darkmode":true,"version":"8.19.2","exturl":false,"sidebar":{"position":"left","width":180,"display":"post","padding":18,"offset":12},"copycode":{"enable":true,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":true,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"gitalk","storage":true,"lazyload":false,"nav":{"disqus":{"text":"Load Disqus","order":-1},"gitalk":{"order":-2}},"activeClass":"gitalk"},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeIn","post_block":"fadeIn","post_header":"fadeIn","coll_header":"fadeIn","sidebar":"fadeIn"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="./SKToolBox - 打包自己的单文件工具箱 _ ✦ 应 急 食 品 ✦_files/config.js.ダウンロード"></script>
+
+
+    <meta name="description" content=".nbttree li::marker {
+   content: &quot;└&quot;;
+   font-size: 20px;
+ }
+ .nbttree ul{
+   padding: 0px 0px 0px 25px
+ }
+ .nbttree img {
+     float: left; 
+     margin: 0px;
+     width: 18px;
+ }
+ 
+ 简介&amp;下载">
+<meta property="og:type" content="article">
+<meta property="og:title" content="SKToolBox - 打包自己的单文件工具箱">
+<meta property="og:url" content="http://ymqlgthbsakuradream.github.io/posts/blog/20251005.html">
+<meta property="og:site_name" content="✦ 应 急 食 品 ✦">
+<meta property="og:description" content=".nbttree li::marker {
+   content: &quot;└&quot;;
+   font-size: 20px;
+ }
+ .nbttree ul{
+   padding: 0px 0px 0px 25px
+ }
+ .nbttree img {
+     float: left; 
+     margin: 0px;
+     width: 18px;
+ }
+ 
+ 简介&amp;下载">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://ymqlgthbsakuradream.github.io/posts/blog/20251005/20251005234444.png">
+<meta property="og:image" content="http://ymqlgthbsakuradream.github.io/posts/blog/20251005/20251006000201.png">
+<meta property="og:image" content="http://ymqlgthbsakuradream.github.io/posts/blog/20251005/head.png">
+<meta property="og:image" content="http://ymqlgthbsakuradream.github.io/posts/blog/20251005/20251006004048.png">
+<meta property="og:image" content="http://ymqlgthbsakuradream.github.io/src/kokomi.jpg">
+<meta property="article:published_time" content="2025-10-04T16:00:00.000Z">
+<meta property="article:modified_time" content="2025-10-05T16:42:55.235Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://ymqlgthbsakuradream.github.io/posts/blog/20251005/20251005234444.png">
+
+
+<link rel="canonical" href="http://ymqlgthbsakuradream.github.io/posts/blog/20251005.html">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":"","permalink":"http://ymqlgthbsakuradream.github.io/posts/blog/20251005.html","path":"posts/blog/20251005.html","title":"SKToolBox - 打包自己的单文件工具箱"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>SKToolBox - 打包自己的单文件工具箱 | ✦ 应 急 食 品 ✦</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<script defer="" src="./SKToolBox - 打包自己的单文件工具箱 _ ✦ 应 急 食 品 ✦_files/tex-mml-chtml.js.ダウンロード" integrity="sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI=" crossorigin="anonymous"></script><style type="text/css" id="ctre_styles">
+			#ctre_wnd {
+				position: fixed; bottom: 0; right: 10px; width: 360px; padding: 10px 20px;
+				box-sizing: content-box;
+				text-align: left; font-family: Helvetica, Arial, sans-serif;
+				background: #fff; box-shadow: 0px 0px 40px rgba(0,0,0,0.15);
+				z-index: 2147483647;
+				font-size: 12px; color: #666;
+			}
+			#ctre_wnd * {
+				line-height: 1.3; font-size: inherit; color: inherit;
+				font-weight: normal; font-style: normal; font-family: inherit;
+				cursor: default;
+			}
+			#ctre_wnd a, #ctre_wnd input[type=checkbox] { cursor: pointer; }
+
+			#ctre_wnd .ct_minimize, #ctre_wnd .ct_close {
+				display: block; cursor: pointer;
+				position: absolute; top: 0; right: 0; width: 32px; line-height: 32px;
+				font-size: 14px; text-align: center;
+				transition: color 0.3s, background 0.3s;
+			}
+			#ctre_wnd .ct_minimize { right: 32px; background: #fff; color: #0fb4d4; }
+			#ctre_wnd .ct_minimize:hover { background: #0fb4d4; color: #fff; }
+			#ctre_wnd .ct_minimize i {
+				display: inline-block; cursor: pointer;
+				transform: rotate(45deg); transition: transform 0.5s;
+			}
+			#ctre_wnd .ct_close { color: #f00; background: #fff0f0; }
+			#ctre_wnd .ct_close:hover { color: #fff; background: #f00; }
+			#ctre_wnd .key {
+				display: inline-block;
+				font-family: monospace;
+				background: #f7f7f7; color: #999;
+				padding: 0 2px; margin: 0 2px;
+				border: solid 1px #d5d5d5; border-radius: 3px;
+			}
+			#ctre_wnd .ct_logo { font-size: 15px; font-weight: bold; }
+			#ctre_wnd .ct_logo.small { display: none; }
+			#ctre_wnd .ct_logo svg {
+				fill: #666; vertical-align: -15%;
+				transform: rotate(-240deg); transition: transform 1s;
+			}
+			#ctre_wnd .ct_logo.anim svg { transform: rotate(0deg); }
+
+			#ctre_wnd .version { color: #bbb; }
+			#ctre_wnd .keys { font-size: 11px; overflow: hidden; margin-top: 4px; color: #bbb; }
+			#ctre_wnd .ct_settings { font-size: 11px; overflow: hidden; margin: 8px 0; color: #bbb; }
+			#ctre_wnd .ct_settings a { color: #999; }
+			#ctre_wnd .ct_settings a:hover { color: #666; }
+			#ctre_wnd .activationKeys { float: left; margin-left: -2px; }
+			#ctre_wnd .transposeKeys { float: right; }
+			#ctre_current_elm {
+				font-family: monospace; background: #f7f7f7; color: #d5d5d5; padding: 2px; margin: 10px 0;
+				max-height: 84px; overflow: hidden;
+			}
+			#ctre_current_elm .pathNode { color: #999; border-bottom: solid 2px rgba(0,0,0,0); }
+			#ctre_current_elm .pathNode.active { border-bottom: solid 2px #555; }
+
+			#ctre_elm_list { display: none; margin: 0 -20px; background: #f7f7f7; border: solid 12px #f7f7f7; border-width: 12px 0 12px 0; max-height: 90px; overflow: auto; }
+			#ctre_elm_list.hasContent { display: block; }
+			#ctre_elm_list table { border: 0; width: 100%; border-spacing: 0; }
+			#ctre_elm_list tr { border: 0; }
+			#ctre_elm_list tr.ct_heading td { color: #bbb; }
+			#ctre_elm_list td { padding: 0; border: 0; background: #f7f7f7; }
+			#ctre_elm_list tr:nth-child(even) td { background: #fcfcfc; }
+			#ctre_elm_list td:nth-child(1) { padding-left: 20px; }
+			#ctre_elm_list td:nth-child(2) { text-align: center; }
+			#ctre_elm_list td:nth-child(3) { padding-right: 20px; }
+			#ctre_elm_list tr:not(.ct_heading) td:nth-child(1) { font-family: monospace; font-size: 11px; }
+			#ctre_elm_list td input { display: inline; -webkit-appearance: checkbox; }
+			#ctre_elm_list td input:before, #ctre_elm_list td input:after { content: none; }
+			#ctre_elm_list .ct_edit_selector { font-family: sans-serif; float: right; opacity: 0; color: #0fb4d4; text-decoration: none; }
+			#ctre_elm_list .ct_edit_selector:hover { color: #000; }
+			#ctre_elm_list tr:hover .ct_edit_selector { opacity: 1; }
+			#ctre_elm_list a.ct_delete { color: #f00; padding: 4px; text-decoration: none; font-size: 14px; }
+			#ctre_elm_list a.ct_delete:hover { color: #fff; background: #f00; }
+
+			#ctre_wnd .ct_more { border-top: solid 1px #f7f7f7; margin: 0 -20px; padding-top: 12px; color: #bbb; font-size: 10px; text-align: center; }
+			#ctre_wnd .ct_more a { color: #0fb4d4; font-size: inherit; text-decoration: none; transition: color 0.5s; }
+			#ctre_wnd .ct_more a:hover { color: #000; }
+
+			#ctre_wnd.minimized { width: 80px; height: 12px; }
+			#ctre_wnd.minimized > * { display: none; }
+			#ctre_wnd.minimized .ct_minimize,
+			#ctre_wnd.minimized .ct_close { display: block; }
+			#ctre_wnd.minimized .ct_minimize i { display: inline-block; transform: rotate(-135deg); }
+			#ctre_wnd.minimized .ct_logo.small { display: block; margin: -4px 0 0 -10px; }
+			</style><style type="text/css">button[data-v-4f04decd]:focus{outline:0}.TransIcon[data-v-4f04decd]{position:fixed !important;transition:all .2s linear;animation:fadeIn-4f04decd .2s linear;z-index:999999999999999;filter:unset;width:34px;height:34px;border-radius:11px;border:1px solid #f1f1f1;overflow:hidden}.TransIcon img[data-v-4f04decd]{width:32px;height:32px;object-fit:cover;pointer-events:none}.TransIcon[data-v-4f04decd]:hover{cursor:pointer}.TransDialog[data-v-4f04decd]{position:fixed !important;animation:fadeIn-4f04decd .2s linear;background:#fff;border-radius:16px;border:1px solid #f1f1f1;box-shadow:0px 8px 40px 0px rgba(0,0,0,.1);overflow:hidden;z-index:999999999999999}.TransDialog .dragBlock[data-v-4f04decd]{position:absolute;top:0;left:0;right:0}.TransDialog .dragBlock[data-v-4f04decd]:hover{cursor:move}.TransDialog .dragBlock .top-drap-block[data-v-4f04decd],.TransDialog .dragBlock .left-drap-block[data-v-4f04decd]{position:absolute;left:0}.TransDialog .dragBlock .top-drap-block[data-v-4f04decd]{right:0;height:15px}.TransDialog .dragBlock .left-drap-block[data-v-4f04decd]{height:55px;right:120px}.TransDialog .dragBlock.preview .left-drap-block[data-v-4f04decd]{width:20px;height:79px;right:160px}.TransDialog .dragBlock.scale .left-drap-block[data-v-4f04decd]{right:53px;left:177px;height:40px}.MOJiWebExtensionpanelObject[data-v-4f04decd]{height:100%;width:calc(100% + 5px);border:none;overflow:hidden;z-index:999999999999999}@keyframes fadeIn-4f04decd{from{opacity:0}to{opacity:1}}
+/*# sourceURL=webpack://src/components/TransDialog/App.vue */
+/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIndlYnBhY2s6Ly9zcmMvY29tcG9uZW50cy9UcmFuc0RpYWxvZy9BcHAudnVlIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUdBLDhCQUNFLFNBQUEsQ0FHRiw0QkFDRSx5QkFBQSxDQUNBLHlCQUFBLENBQ0Esb0NBQUEsQ0FHQSx1QkFYZSxDQVlmLFlBQUEsQ0FDQSxVQUFBLENBQ0EsV0FBQSxDQUNBLGtCQUFBLENBQ0Esd0JBQUEsQ0FDQSxlQUFBLENBQ0EsZ0NBQ0UsVUFBQSxDQUNBLFdBQUEsQ0FDQSxnQkFBQSxDQUNBLG1CQUFBLENBSUosa0NBQ0UsY0FBQSxDQUdGLDhCQUNFLHlCQUFBLENBRUEsb0NBQUEsQ0FHQSxlQUFBLENBQ0Esa0JBQUEsQ0FDQSx3QkFBQSxDQUVBLDBDQUFBLENBQ0EsZUFBQSxDQUNBLHVCQTFDZSxDQTJDZix5Q0FDRSxpQkFBQSxDQUNBLEtBQUEsQ0FDQSxNQUFBLENBQ0EsT0FBQSxDQUdBLCtDQUNFLFdBQUEsQ0FHRixtSEFDRSxpQkFBQSxDQUNBLE1BQUEsQ0FHRix5REFDRSxPQUFBLENBQ0EsV0FBQSxDQUVGLDBEQUNFLFdBQUEsQ0FDQSxXQUFBLENBS0Esa0VBQ0UsVUFBQSxDQUNBLFdBQUEsQ0FDQSxXQUFBLENBTUYsZ0VBQ0UsVUFBQSxDQUNBLFVBQUEsQ0FDQSxXQUFBLENBTVIsOENBQ0UsV0FBQSxDQUNBLHNCQUFBLENBQ0EsV0FBQSxDQUNBLGVBQUEsQ0FFQSx1QkE5RmUsQ0FxR2pCLDJCQUNFLEtBQ0UsU0FBQSxDQUVGLEdBQ0UsU0FBQSxDQUFBIiwic291cmNlc0NvbnRlbnQiOlsiQGltcG9ydCAnQC9zY3NzL3ZhcmlhYmxlcy5zY3NzJztcblxuJGRpYWxvZy16LWluZGV4OiA5OTk5OTk5OTk5OTk5OTk7XG5idXR0b246Zm9jdXMge1xuICBvdXRsaW5lOiAwO1xufVxuXG4uVHJhbnNJY29uIHtcbiAgcG9zaXRpb246IGZpeGVkICFpbXBvcnRhbnQ7XG4gIHRyYW5zaXRpb246IGFsbCAwLjJzIGxpbmVhcjtcbiAgYW5pbWF0aW9uOiBmYWRlSW4gMC4ycyBsaW5lYXI7XG4gIC8vIHdpZHRoOiAyNHB4O1xuICAvLyBoZWlnaHQ6IDI0cHg7XG4gIHotaW5kZXg6ICRkaWFsb2ctei1pbmRleDtcbiAgZmlsdGVyOiB1bnNldDtcbiAgd2lkdGg6IDM0cHg7XG4gIGhlaWdodDogMzRweDtcbiAgYm9yZGVyLXJhZGl1czogMTFweDtcbiAgYm9yZGVyOiAxcHggc29saWQgI0YxRjFGMTtcbiAgb3ZlcmZsb3c6IGhpZGRlbjtcbiAgaW1nIHtcbiAgICB3aWR0aDogMzJweDtcbiAgICBoZWlnaHQ6IDMycHg7XG4gICAgb2JqZWN0LWZpdDogY292ZXI7XG4gICAgcG9pbnRlci1ldmVudHM6IG5vbmU7XG4gIH1cbn1cblxuLlRyYW5zSWNvbjpob3ZlciB7XG4gIGN1cnNvcjogcG9pbnRlcjtcbn1cblxuLlRyYW5zRGlhbG9nIHtcbiAgcG9zaXRpb246IGZpeGVkICFpbXBvcnRhbnQ7XG4gIC8vIHRyYW5zaXRpb246IGFsbCAwLjJzIGxpbmVhcjtcbiAgYW5pbWF0aW9uOiBmYWRlSW4gMC4ycyBsaW5lYXI7XG4gIC8vIHdpZHRoOiAzOTJweDtcbiAgLy8gaGVpZ2h0OiA0NDhweDtcbiAgYmFja2dyb3VuZDogI2ZmZmZmZjtcbiAgYm9yZGVyLXJhZGl1czogMTZweDtcbiAgYm9yZGVyOiAxcHggc29saWQgI2YxZjFmMTtcbiAgLy8gb3ZlcmZsb3c6IGF1dG87XG4gIGJveC1zaGFkb3c6IDBweCA4cHggNDBweCAwcHggcmdiYSgwLCAwLCAwLCAwLjEpO1xuICBvdmVyZmxvdzogaGlkZGVuO1xuICB6LWluZGV4OiAkZGlhbG9nLXotaW5kZXg7XG4gIC5kcmFnQmxvY2sge1xuICAgIHBvc2l0aW9uOiBhYnNvbHV0ZTtcbiAgICB0b3A6MDtcbiAgICBsZWZ0OiAwO1xuICAgIHJpZ2h0OiAwO1xuICAgIC8vIGhlaWdodDogNjBweDtcblxuICAgICY6aG92ZXIge1xuICAgICAgY3Vyc29yOiBtb3ZlO1xuICAgIH1cblxuICAgIC50b3AtZHJhcC1ibG9jaywgLmxlZnQtZHJhcC1ibG9jayB7XG4gICAgICBwb3NpdGlvbjogYWJzb2x1dGU7XG4gICAgICBsZWZ0OiAwO1xuICAgIH1cbiAgICAvLyBkZWZhbHVsdFxuICAgIC50b3AtZHJhcC1ibG9jayB7XG4gICAgICByaWdodDogMDtcbiAgICAgIGhlaWdodDogMTVweDtcbiAgICB9XG4gICAgLmxlZnQtZHJhcC1ibG9jayB7XG4gICAgICBoZWlnaHQ6IDU1cHg7XG4gICAgICByaWdodDogMTIwcHg7XG4gICAgfVxuXG4gICAgLy8gcHJldmlld1xuICAgICYucHJldmlldyB7XG4gICAgICAubGVmdC1kcmFwLWJsb2NrIHtcbiAgICAgICAgd2lkdGg6IDIwcHg7XG4gICAgICAgIGhlaWdodDogNzlweDtcbiAgICAgICAgcmlnaHQ6IDE2MHB4O1xuICAgICAgfVxuICAgIH1cblxuICAgIC8vIGRpYWxvZyB3aXRoIHNjYWxlXG4gICAgJi5zY2FsZSB7XG4gICAgICAubGVmdC1kcmFwLWJsb2NrIHtcbiAgICAgICAgcmlnaHQ6IDUzcHg7XG4gICAgICAgIGxlZnQ6IDE3N3B4O1xuICAgICAgICBoZWlnaHQ6IDQwcHg7XG4gICAgICB9XG4gICAgfVxuICB9XG59XG5cbi5NT0ppV2ViRXh0ZW5zaW9ucGFuZWxPYmplY3Qge1xuICBoZWlnaHQ6IDEwMCU7XG4gIHdpZHRoOiBjYWxjKDEwMCUgKyA1cHgpO1xuICBib3JkZXI6IG5vbmU7XG4gIG92ZXJmbG93OiBoaWRkZW47XG4gIC8vIGJhY2tncm91bmQ6ICNmZmZmZmY7XG4gIHotaW5kZXg6ICRkaWFsb2ctei1pbmRleDtcbiAgLy8g5LiN5pi+56S654Gr54uQaWZyYW1l55qE5rua5Yqo5p2hXG4gIC8vICYuZmlyZWZveC1vYmplY3Qge1xuICAvLyAgIHdpZHRoOiBjYWxjKDEwMCUgKyAxNXB4KTtcbiAgLy8gfVxufVxuXG5Aa2V5ZnJhbWVzIGZhZGVJbiB7XG4gIGZyb20ge1xuICAgIG9wYWNpdHk6IDA7XG4gIH1cbiAgdG8ge1xuICAgIG9wYWNpdHk6IDE7XG4gIH1cbn1cbiJdLCJzb3VyY2VSb290IjoiIn0= */</style><style type="text/css">.CtxtMenu_InfoClose {  top:.2em; right:.2em;}
+.CtxtMenu_InfoContent {  overflow:auto; text-align:left; font-size:80%;  padding:.4em .6em; border:1px inset; margin:1em 0px;  max-height:20em; max-width:30em; background-color:#EEEEEE;  white-space:normal;}
+.CtxtMenu_Info.CtxtMenu_MousePost {outline:none;}
+.CtxtMenu_Info {  position:fixed; left:50%; width:auto; text-align:center;  border:3px outset; padding:1em 2em; background-color:#DDDDDD;  color:black;  cursor:default; font-family:message-box; font-size:120%;  font-style:normal; text-indent:0; text-transform:none;  line-height:normal; letter-spacing:normal; word-spacing:normal;  word-wrap:normal; white-space:nowrap; float:none; z-index:201;  border-radius: 15px;                     /* Opera 10.5 and IE9 */  -webkit-border-radius:15px;               /* Safari and Chrome */  -moz-border-radius:15px;                  /* Firefox */  -khtml-border-radius:15px;                /* Konqueror */  box-shadow:0px 10px 20px #808080;         /* Opera 10.5 and IE9 */  -webkit-box-shadow:0px 10px 20px #808080; /* Safari 3 & Chrome */  -moz-box-shadow:0px 10px 20px #808080;    /* Forefox 3.5 */  -khtml-box-shadow:0px 10px 20px #808080;  /* Konqueror */  filter:progid:DXImageTransform.Microsoft.dropshadow(OffX=2, OffY=2, Color="gray", Positive="true"); /* IE */}
+</style><style type="text/css">.CtxtMenu_MenuClose {  position:absolute;  cursor:pointer;  display:inline-block;  border:2px solid #AAA;  border-radius:18px;  -webkit-border-radius: 18px;             /* Safari and Chrome */  -moz-border-radius: 18px;                /* Firefox */  -khtml-border-radius: 18px;              /* Konqueror */  font-family: "Courier New", Courier;  font-size:24px;  color:#F0F0F0}
+.CtxtMenu_MenuClose span {  display:block; background-color:#AAA; border:1.5px solid;  border-radius:18px;  -webkit-border-radius: 18px;             /* Safari and Chrome */  -moz-border-radius: 18px;                /* Firefox */  -khtml-border-radius: 18px;              /* Konqueror */  line-height:0;  padding:8px 0 6px     /* may need to be browser-specific */}
+.CtxtMenu_MenuClose:hover {  color:white!important;  border:2px solid #CCC!important}
+.CtxtMenu_MenuClose:hover span {  background-color:#CCC!important}
+.CtxtMenu_MenuClose:hover:focus {  outline:none}
+</style><style type="text/css">.CtxtMenu_Menu {  position:absolute;  background-color:white;  color:black;  width:auto; padding:5px 0px;  border:1px solid #CCCCCC; margin:0; cursor:default;  font: menu; text-align:left; text-indent:0; text-transform:none;  line-height:normal; letter-spacing:normal; word-spacing:normal;  word-wrap:normal; white-space:nowrap; float:none; z-index:201;  border-radius: 5px;                     /* Opera 10.5 and IE9 */  -webkit-border-radius: 5px;             /* Safari and Chrome */  -moz-border-radius: 5px;                /* Firefox */  -khtml-border-radius: 5px;              /* Konqueror */  box-shadow:0px 10px 20px #808080;         /* Opera 10.5 and IE9 */  -webkit-box-shadow:0px 10px 20px #808080; /* Safari 3 & Chrome */  -moz-box-shadow:0px 10px 20px #808080;    /* Forefox 3.5 */  -khtml-box-shadow:0px 10px 20px #808080;  /* Konqueror */}
+.CtxtMenu_MenuItem {  padding: 1px 2em;  background:transparent;}
+.CtxtMenu_MenuArrow {  position:absolute; right:.5em; padding-top:.25em; color:#666666;  font-family: null; font-size: .75em}
+.CtxtMenu_MenuActive .CtxtMenu_MenuArrow {color:white}
+.CtxtMenu_MenuArrow.CtxtMenu_RTL {left:.5em; right:auto}
+.CtxtMenu_MenuCheck {  position:absolute; left:.7em;  font-family: null}
+.CtxtMenu_MenuCheck.CtxtMenu_RTL { right:.7em; left:auto }
+.CtxtMenu_MenuRadioCheck {  position:absolute; left: .7em;}
+.CtxtMenu_MenuRadioCheck.CtxtMenu_RTL {  right: .7em; left:auto}
+.CtxtMenu_MenuInputBox {  padding-left: 1em; right:.5em; color:#666666;  font-family: null;}
+.CtxtMenu_MenuInputBox.CtxtMenu_RTL {  left: .1em;}
+.CtxtMenu_MenuComboBox {  left:.1em; padding-bottom:.5em;}
+.CtxtMenu_MenuSlider {  left: .1em;}
+.CtxtMenu_SliderValue {  position:absolute; right:.1em; padding-top:.25em; color:#333333;  font-size: .75em}
+.CtxtMenu_SliderBar {  outline: none; background: #d3d3d3}
+.CtxtMenu_MenuLabel {  padding: 1px 2em 3px 1.33em;  font-style:italic}
+.CtxtMenu_MenuRule {  border-top: 1px solid #DDDDDD;  margin: 4px 3px;}
+.CtxtMenu_MenuDisabled {  color:GrayText}
+.CtxtMenu_MenuActive {  background-color: #606872;  color: white;}
+.CtxtMenu_MenuDisabled:focus {  background-color: #E8E8E8}
+.CtxtMenu_MenuLabel:focus {  background-color: #E8E8E8}
+.CtxtMenu_ContextMenu:focus {  outline:none}
+.CtxtMenu_ContextMenu .CtxtMenu_MenuItem:focus {  outline:none}
+.CtxtMenu_SelectionMenu {  position:relative; float:left;  border-bottom: none; -webkit-box-shadow:none; -webkit-border-radius:0px; }
+.CtxtMenu_SelectionItem {  padding-right: 1em;}
+.CtxtMenu_Selection {  right: 40%; width:50%; }
+.CtxtMenu_SelectionBox {  padding: 0em; max-height:20em; max-width: none;  background-color:#FFFFFF;}
+.CtxtMenu_SelectionDivider {  clear: both; border-top: 2px solid #000000;}
+.CtxtMenu_Menu .CtxtMenu_MenuClose {  top:-10px; left:-10px}
+</style><style id="MJX-CHTML-styles">
+mjx-container[jax="CHTML"] {
+  line-height: 0;
+}
+
+mjx-container [space="1"] {
+  margin-left: .111em;
+}
+
+mjx-container [space="2"] {
+  margin-left: .167em;
+}
+
+mjx-container [space="3"] {
+  margin-left: .222em;
+}
+
+mjx-container [space="4"] {
+  margin-left: .278em;
+}
+
+mjx-container [space="5"] {
+  margin-left: .333em;
+}
+
+mjx-container [rspace="1"] {
+  margin-right: .111em;
+}
+
+mjx-container [rspace="2"] {
+  margin-right: .167em;
+}
+
+mjx-container [rspace="3"] {
+  margin-right: .222em;
+}
+
+mjx-container [rspace="4"] {
+  margin-right: .278em;
+}
+
+mjx-container [rspace="5"] {
+  margin-right: .333em;
+}
+
+mjx-container [size="s"] {
+  font-size: 70.7%;
+}
+
+mjx-container [size="ss"] {
+  font-size: 50%;
+}
+
+mjx-container [size="Tn"] {
+  font-size: 60%;
+}
+
+mjx-container [size="sm"] {
+  font-size: 85%;
+}
+
+mjx-container [size="lg"] {
+  font-size: 120%;
+}
+
+mjx-container [size="Lg"] {
+  font-size: 144%;
+}
+
+mjx-container [size="LG"] {
+  font-size: 173%;
+}
+
+mjx-container [size="hg"] {
+  font-size: 207%;
+}
+
+mjx-container [size="HG"] {
+  font-size: 249%;
+}
+
+mjx-container [width="full"] {
+  width: 100%;
+}
+
+mjx-box {
+  display: inline-block;
+}
+
+mjx-block {
+  display: block;
+}
+
+mjx-itable {
+  display: inline-table;
+}
+
+mjx-row {
+  display: table-row;
+}
+
+mjx-row > * {
+  display: table-cell;
+}
+
+mjx-mtext {
+  display: inline-block;
+}
+
+mjx-mstyle {
+  display: inline-block;
+}
+
+mjx-merror {
+  display: inline-block;
+  color: red;
+  background-color: yellow;
+}
+
+mjx-mphantom {
+  visibility: hidden;
+}
+
+_::-webkit-full-page-media, _:future, :root mjx-container {
+  will-change: opacity;
+}
+
+mjx-assistive-mml {
+  position: absolute !important;
+  top: 0px;
+  left: 0px;
+  clip: rect(1px, 1px, 1px, 1px);
+  padding: 1px 0px 0px 0px !important;
+  border: 0px !important;
+  display: block !important;
+  width: auto !important;
+  overflow: hidden !important;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+mjx-assistive-mml[display="block"] {
+  width: 100% !important;
+}
+
+mjx-c::before {
+  display: block;
+  width: 0;
+}
+
+.MJX-TEX {
+  font-family: MJXZERO, MJXTEX;
+}
+
+.TEX-B {
+  font-family: MJXZERO, MJXTEX-B;
+}
+
+.TEX-I {
+  font-family: MJXZERO, MJXTEX-I;
+}
+
+.TEX-MI {
+  font-family: MJXZERO, MJXTEX-MI;
+}
+
+.TEX-BI {
+  font-family: MJXZERO, MJXTEX-BI;
+}
+
+.TEX-S1 {
+  font-family: MJXZERO, MJXTEX-S1;
+}
+
+.TEX-S2 {
+  font-family: MJXZERO, MJXTEX-S2;
+}
+
+.TEX-S3 {
+  font-family: MJXZERO, MJXTEX-S3;
+}
+
+.TEX-S4 {
+  font-family: MJXZERO, MJXTEX-S4;
+}
+
+.TEX-A {
+  font-family: MJXZERO, MJXTEX-A;
+}
+
+.TEX-C {
+  font-family: MJXZERO, MJXTEX-C;
+}
+
+.TEX-CB {
+  font-family: MJXZERO, MJXTEX-CB;
+}
+
+.TEX-FR {
+  font-family: MJXZERO, MJXTEX-FR;
+}
+
+.TEX-FRB {
+  font-family: MJXZERO, MJXTEX-FRB;
+}
+
+.TEX-SS {
+  font-family: MJXZERO, MJXTEX-SS;
+}
+
+.TEX-SSB {
+  font-family: MJXZERO, MJXTEX-SSB;
+}
+
+.TEX-SSI {
+  font-family: MJXZERO, MJXTEX-SSI;
+}
+
+.TEX-SC {
+  font-family: MJXZERO, MJXTEX-SC;
+}
+
+.TEX-T {
+  font-family: MJXZERO, MJXTEX-T;
+}
+
+.TEX-V {
+  font-family: MJXZERO, MJXTEX-V;
+}
+
+.TEX-VB {
+  font-family: MJXZERO, MJXTEX-VB;
+}
+
+mjx-stretchy-v mjx-c, mjx-stretchy-h mjx-c {
+  font-family: MJXZERO, MJXTEX-S1, MJXTEX-S4, MJXTEX, MJXTEX-A ! important;
+}
+
+@font-face /* 0 */ {
+  font-family: MJXZERO;
+  src: url("https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/output/chtml/fonts/woff-v2/MathJax_Zero.woff") format("woff");
+}
+
+@font-face /* 1 */ {
+  font-family: MJXTEX;
+  src: url("https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/output/chtml/fonts/woff-v2/MathJax_Main-Regular.woff") format("woff");
+}
+
+@font-face /* 2 */ {
+  font-family: MJXTEX-B;
+  src: url("https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/output/chtml/fonts/woff-v2/MathJax_Main-Bold.woff") format("woff");
+}
+
+@font-face /* 3 */ {
+  font-family: MJXTEX-I;
+  src: url("https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/output/chtml/fonts/woff-v2/MathJax_Math-Italic.woff") format("woff");
+}
+
+@font-face /* 4 */ {
+  font-family: MJXTEX-MI;
+  src: url("https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/output/chtml/fonts/woff-v2/MathJax_Main-Italic.woff") format("woff");
+}
+
+@font-face /* 5 */ {
+  font-family: MJXTEX-BI;
+  src: url("https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/output/chtml/fonts/woff-v2/MathJax_Math-BoldItalic.woff") format("woff");
+}
+
+@font-face /* 6 */ {
+  font-family: MJXTEX-S1;
+  src: url("https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/output/chtml/fonts/woff-v2/MathJax_Size1-Regular.woff") format("woff");
+}
+
+@font-face /* 7 */ {
+  font-family: MJXTEX-S2;
+  src: url("https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/output/chtml/fonts/woff-v2/MathJax_Size2-Regular.woff") format("woff");
+}
+
+@font-face /* 8 */ {
+  font-family: MJXTEX-S3;
+  src: url("https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/output/chtml/fonts/woff-v2/MathJax_Size3-Regular.woff") format("woff");
+}
+
+@font-face /* 9 */ {
+  font-family: MJXTEX-S4;
+  src: url("https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/output/chtml/fonts/woff-v2/MathJax_Size4-Regular.woff") format("woff");
+}
+
+@font-face /* 10 */ {
+  font-family: MJXTEX-A;
+  src: url("https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/output/chtml/fonts/woff-v2/MathJax_AMS-Regular.woff") format("woff");
+}
+
+@font-face /* 11 */ {
+  font-family: MJXTEX-C;
+  src: url("https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/output/chtml/fonts/woff-v2/MathJax_Calligraphic-Regular.woff") format("woff");
+}
+
+@font-face /* 12 */ {
+  font-family: MJXTEX-CB;
+  src: url("https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/output/chtml/fonts/woff-v2/MathJax_Calligraphic-Bold.woff") format("woff");
+}
+
+@font-face /* 13 */ {
+  font-family: MJXTEX-FR;
+  src: url("https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/output/chtml/fonts/woff-v2/MathJax_Fraktur-Regular.woff") format("woff");
+}
+
+@font-face /* 14 */ {
+  font-family: MJXTEX-FRB;
+  src: url("https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/output/chtml/fonts/woff-v2/MathJax_Fraktur-Bold.woff") format("woff");
+}
+
+@font-face /* 15 */ {
+  font-family: MJXTEX-SS;
+  src: url("https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/output/chtml/fonts/woff-v2/MathJax_SansSerif-Regular.woff") format("woff");
+}
+
+@font-face /* 16 */ {
+  font-family: MJXTEX-SSB;
+  src: url("https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/output/chtml/fonts/woff-v2/MathJax_SansSerif-Bold.woff") format("woff");
+}
+
+@font-face /* 17 */ {
+  font-family: MJXTEX-SSI;
+  src: url("https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/output/chtml/fonts/woff-v2/MathJax_SansSerif-Italic.woff") format("woff");
+}
+
+@font-face /* 18 */ {
+  font-family: MJXTEX-SC;
+  src: url("https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/output/chtml/fonts/woff-v2/MathJax_Script-Regular.woff") format("woff");
+}
+
+@font-face /* 19 */ {
+  font-family: MJXTEX-T;
+  src: url("https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/output/chtml/fonts/woff-v2/MathJax_Typewriter-Regular.woff") format("woff");
+}
+
+@font-face /* 20 */ {
+  font-family: MJXTEX-V;
+  src: url("https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/output/chtml/fonts/woff-v2/MathJax_Vector-Regular.woff") format("woff");
+}
+
+@font-face /* 21 */ {
+  font-family: MJXTEX-VB;
+  src: url("https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/output/chtml/fonts/woff-v2/MathJax_Vector-Bold.woff") format("woff");
+}
+</style></head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" class="use-motion" style="background-color:rgba(0,0,0,0);">
+<div class="skbg FadeIn" style="z-index:-10;position: fixed;top: 0;bottom: 0;left: 0;right: 0;margin: 0;padding: 0;background-image: url(/src/background_images/sky02.png);background-repeat: no-repeat;background-attachment: fixed;background-size: cover;"></div>
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column" style="opacity: 1; top: 0px;">
+      <header class="header" itemscope="" itemtype="http://schema.org/WPHeader" style="background-color:rgba(0,0,0,0.75);"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button" style="opacity: 1; top: 0px;">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+  
+
+  <div class="site-meta">
+
+    <a href="https://ymqlgthbsakuradream.github.io/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title" style="opacity: 1; top: 0px;">✦ 应 急 食 品 ✦</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description" style="opacity: 1; top: 0px;">Paimon - Emergency Food</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button" style="opacity: 1; top: 0px;">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home animated fadeIn"><a href="https://ymqlgthbsakuradream.github.io/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-tags animated fadeIn"><a href="https://ymqlgthbsakuradream.github.io/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories animated fadeIn"><a href="https://ymqlgthbsakuradream.github.io/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives animated fadeIn"><a href="https://ymqlgthbsakuradream.github.io/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li><li class="menu-item menu-item-saying animated fadeIn"><a href="https://ymqlgthbsakuradream.github.io/folders/saying/" rel="section"><i class="fa-solid fa-star fa-fw"></i>说说</a></li><li class="menu-item menu-item-schedule animated fadeIn"><a href="https://ymqlgthbsakuradream.github.io/folders/schedule/" rel="section"><i class="fa fa-calendar fa-fw"></i>日程表</a></li><li class="menu-item menu-item-sitemap animated fadeIn"><a href="https://ymqlgthbsakuradream.github.io/sitemap.xml" rel="section"><i class="fa fa-sitemap fa-fw"></i>站点地图</a></li><li class="menu-item menu-item-drive animated fadeIn"><a href="https://njfnglql.ap-northeast-1.clawcloudrun.com/" rel="section" target="_blank"><i class="fa-solid fa-hard-drive fa-fw"></i>云盘</a></li><li class="menu-item menu-item-links animated fadeIn"><a href="https://ymqlgthbsakuradream.github.io/folders/links/" rel="section"><i class="fa-solid fa-link fa-fw"></i>链接汇总</a></li><li class="menu-item menu-item-issue animated fadeIn"><a href="https://ymqlgthbsakuradream.github.io/folders/issue/" rel="section"><i class="fa-regular fa-comments fa-fw"></i>留言板</a></li><li class="menu-item menu-item-wiki animated fadeIn"><a href="https://ymqlgthbsakuradream.github.io/folders/wiki/" rel="section"><i class="fa-solid fa-book fa-fw"></i>百科</a></li>
+      <li class="menu-item menu-item-search animated fadeIn">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80" placeholder="搜索..." spellcheck="false" type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active animated fadeIn" style="background-color:rgba(0,0,0,0.75);">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav" style="--height: 55px;"><li class="nav-item nav-level-2 active active-current"><a class="nav-link" href="https://ymqlgthbsakuradream.github.io/posts/blog/20251005.html#%E7%AE%80%E4%BB%8B%E4%B8%8B%E8%BD%BD"><span class="nav-text">简介&amp;下载</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="https://ymqlgthbsakuradream.github.io/posts/blog/20251005.html#%E6%89%93%E5%8C%85%E8%87%AA%E5%B7%B1%E7%9A%84%E5%B7%A5%E5%85%B7%E7%AE%B1"><span class="nav-text">打包自己的工具箱</span></a><ol class="nav-child" style="--height: 55px;"><li class="nav-item nav-level-3"><a class="nav-link" href="https://ymqlgthbsakuradream.github.io/posts/blog/20251005.html#%E7%BC%96%E8%BE%91%E5%86%85%E5%AE%B9"><span class="nav-text">编辑内容</span></a><ol class="nav-child" style="--height: 155px;"><li class="nav-item nav-level-4"><a class="nav-link" href="https://ymqlgthbsakuradream.github.io/posts/blog/20251005.html#sktoolbox.exe"><span class="nav-text">sktoolbox.exe</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="https://ymqlgthbsakuradream.github.io/posts/blog/20251005.html#sktoolbox.py"><span class="nav-text">sktoolbox.py</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="https://ymqlgthbsakuradream.github.io/posts/blog/20251005.html#head.png"><span class="nav-text">head.png</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="https://ymqlgthbsakuradream.github.io/posts/blog/20251005.html#z.exe-7z.dll"><span class="nav-text">7z.exe , 7z.dll</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="https://ymqlgthbsakuradream.github.io/posts/blog/20251005.html#%E6%96%87%E4%BB%B6%E5%A4%B9-tools"><span class="nav-text">文件夹: tools</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="https://ymqlgthbsakuradream.github.io/posts/blog/20251005.html#config.json"><span class="nav-text">config.json</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="https://ymqlgthbsakuradream.github.io/posts/blog/20251005.html#%E6%89%A7%E8%A1%8C%E5%B0%81%E5%8C%85"><span class="nav-text">执行封包</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="" src="./SKToolBox - 打包自己的单文件工具箱 _ ✦ 应 急 食 品 ✦_files/paimon.png">
+  <p class="site-author-name" itemprop="name"></p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+
+          <span class="site-state-item-count">16</span>
+          <span class="site-state-item-name">日志</span>
+
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">4</span>
+        <span class="site-state-item-name">分类</span>
+        
+        
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">1</span>
+        <span class="site-state-item-name">标签</span>
+        
+        
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/ymqlgthbSakuraDream" title="  → https://github.com/ymqlgthbSakuraDream" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:3075961755@qq.com" title="  → mailto:3075961755@qq.com" rel="noopener me" target="_blank"><i class="fa fa-envelope fa-fw"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://space.bilibili.com/1546917549" title="  → https://space.bilibili.com/1546917549" rel="noopener me" target="_blank"><i class="fa-brands fa-bilibili fa-fw"></i></a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+        <div class="back-to-top animated" role="button" aria-label="返回顶部">
+          <i class="fa fa-arrow-up"></i>
+          <span>2%</span>
+        </div>
+    </div>
+
+    
+    <div class="sidebar-inner sidebar-blogroll animated fadeIn">
+      <div class="links-of-blogroll animated">
+        <div class="links-of-blogroll-title"><i class="fa fa-globe fa-fw"></i>
+          链接
+        </div>
+        <ul class="links-of-blogroll-list">
+            <li class="links-of-blogroll-item">
+              <a href="https://example.com/" title="https://example.com" rel="noopener" target="_blank">Title</a>
+            </li>
+        </ul>
+      </div>
+    </div>
+  </aside>
+
+
+    </div>
+    
+
+    <div class="main-inner post posts-expand" style="background-color:rgba(0,0,0,0.75);">
+
+
+  
+
+
+<div class="post-block animated fadeIn">
+  
+  
+
+  <article itemscope="" itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://ymqlgthbsakuradream.github.io/posts/blog/20251005.html">
+
+    <span hidden="" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/paimon.png">
+      <meta itemprop="name" content="">
+    </span>
+
+    <span hidden="" itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="✦ 应 急 食 品 ✦">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden="" itemprop="post" itemscope="" itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="SKToolBox - 打包自己的单文件工具箱 | ✦ 应 急 食 品 ✦">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header animated fadeIn">
+        <h1 class="post-title" itemprop="name headline">
+          SKToolBox - 打包自己的单文件工具箱
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2025-10-05 00:00:00" itemprop="dateCreated datePublished" datetime="2025-10-05T00:00:00+08:00">2025-10-05</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2025-10-06 00:42:55" itemprop="dateModified" datetime="2025-10-06T00:42:55+08:00">2025-10-06</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+          <a href="https://ymqlgthbsakuradream.github.io/categories/%E6%95%99%E7%A8%8B%E8%AE%B0%E5%BD%95/" itemprop="url" rel="index"><span itemprop="name">教程记录</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: inline;">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span id="busuanzi_value_page_pv">8</span>
+    </span>
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>807</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 ≈</span>
+      <span>3 分钟</span>
+    </span>
+</div>
+
+          
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><style>
+.nbttree li::marker {
+  content: "└";
+  font-size: 20px;
+}
+.nbttree ul{
+  padding: 0px 0px 0px 25px
+}
+.nbttree img {
+    float: left; 
+    margin: 0px;
+    width: 18px;
+}
+</style>
+<h2 id="简介下载">简介&amp;下载</h2>
+<p><br><br></p>
+<p>很久之前做的东西了，想着最近有时间就写一下吧...<br>
+起初是为了能在学校的一体机上快速安装并打开一些常用的软件，所以做了这个工具箱</p>
+<ul>
+<li>选项卡分类，管理不同类型的工具</li>
+<li>简介文本框，鼠标悬浮在工具按钮上即可显示该工具的简介</li>
+<li>一键清理，快速删除释放在临时目录的临时文件</li>
+<li>单文件打包，打包后的工具箱仅有单个exe可执行文件</li>
+<li>工具导出，以7z压缩包的形式导出单个工具</li>
+<li>个性化，头图、文本、配色均可修改</li>
+</ul>
+<p>具体效果见图：</p>
+<figure>
+<img src="./SKToolBox - 打包自己的单文件工具箱 _ ✦ 应 急 食 品 ✦_files/20251005234444.png" alt="./20251005/20251005234444.png">
+<figcaption aria-hidden="true">./20251005/20251005234444.png</figcaption>
+</figure>
+<p>如果你需要我打包好的工具箱，可以从这里下载，如果你需要打包自己的工具箱，请看下面的教程
+</p><figure class="highlight plaintext"><div class="code-container notranslate"><div class="table-container"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">SKToolBox</span><br><span class="line">https://www.alipan.com/s/qbhC4AX412u</span><br><span class="line">提取码: 02zk</span><br><span class="line">点击链接保存，或者复制本段内容，打开「阿里云盘」APP ，无需下载极速在线查看，视频原画倍速播放。</span><br></pre></td></tr></tbody></table></div><div class="copy-btn"><i class="fa fa-copy fa-fw"></i></div></div></figure><p></p>
+<h2 id="打包自己的工具箱">打包自己的工具箱</h2>
+<h3 id="编辑内容">编辑内容</h3>
+<p>下载云盘中的<strong>SKToolBox.exe</strong>，这是个压缩文件，因为云盘的限制，所以只能压缩成自解压文件</p>
+<p>这个压缩包里有这些文件:<br>
+下面会说这些文件是干什么用的</p>
+<figure class="highlight plaintext"><div class="code-container notranslate"><div class="table-container"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">SKToolBox</span><br><span class="line">│  7z.dll</span><br><span class="line">│  7z.exe</span><br><span class="line">│  config.json</span><br><span class="line">│  head.png</span><br><span class="line">│  head.psd</span><br><span class="line">│  icon.ico</span><br><span class="line">│  icon.png</span><br><span class="line">│  newtheme.py</span><br><span class="line">│  sktoolbox.exe</span><br><span class="line">│  sktoolbox.py</span><br><span class="line">│  布局.png</span><br><span class="line">│</span><br><span class="line">└─tools</span><br><span class="line">        test.7z</span><br></pre></td></tr></tbody></table></div><div class="copy-btn"><i class="fa fa-copy fa-fw"></i></div></div></figure>
+<h4 id="sktoolbox.exe">sktoolbox.exe</h4>
+<p>主程序文件，双击即可运行，不过现在里面什么都没有，如图所示</p>
+<figure>
+<img src="./SKToolBox - 打包自己的单文件工具箱 _ ✦ 应 急 食 品 ✦_files/20251006000201.png" alt="./20251005/20251006000201.png">
+<figcaption aria-hidden="true">./20251005/20251006000201.png</figcaption>
+</figure>
+<h4 id="sktoolbox.py">sktoolbox.py</h4>
+<p>源代码文件，里面基本上没有硬编码（貌似），exe文件已经编译好了，所以源代码暂时没用</p>
+<h4 id="head.png">head.png</h4>
+<p>软件界面的头图，可以自己修改，需要保持图片原尺寸</p>
+<figure>
+<img src="./SKToolBox - 打包自己的单文件工具箱 _ ✦ 应 急 食 品 ✦_files/head.png" alt="./20251005/head.png">
+<figcaption aria-hidden="true">./20251005/head.png</figcaption>
+</figure>
+<h4 id="z.exe-7z.dll">7z.exe , 7z.dll</h4>
+<p>用于程序内进行7z压缩包解压缩</p>
+<h4 id="文件夹-tools">文件夹: tools</h4>
+<p>此文件夹中存放的是工具的7z压缩包</p>
+<h4 id="config.json">config.json</h4>
+<p>配置文件，当前该文件内容如下</p>
+<figure class="highlight json"><div class="code-container notranslate"><div class="table-container"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-punctuation">{</span></span><br><span class="line">    <span class="hljs-attr">"winTitle"</span><span class="hljs-punctuation">:</span> <span class="hljs-string">"派蒙の后花园"</span><span class="hljs-punctuation">,</span></span><br><span class="line">    <span class="hljs-attr">"winHeadImage"</span><span class="hljs-punctuation">:</span> <span class="hljs-string">"./head.png"</span><span class="hljs-punctuation">,</span></span><br><span class="line">    <span class="hljs-attr">"about"</span><span class="hljs-punctuation">:</span> <span class="hljs-string">"派蒙の后花园 Ver1.0.20241214\n\nP.S. 右键工具按钮可以导出工具\n右键“清理缓存”按钮可以打开缓存文件夹"</span><span class="hljs-punctuation">,</span></span><br><span class="line">    <span class="hljs-attr">"notebooks"</span><span class="hljs-punctuation">:</span><span class="hljs-punctuation">[</span></span><br><span class="line">        <span class="hljs-punctuation">{</span></span><br><span class="line">            <span class="hljs-attr">"name"</span><span class="hljs-punctuation">:</span><span class="hljs-string">"实用工具"</span><span class="hljs-punctuation">,</span></span><br><span class="line">            <span class="hljs-attr">"buttons"</span><span class="hljs-punctuation">:</span><span class="hljs-punctuation">[</span></span><br><span class="line">                <span class="hljs-punctuation">{</span></span><br><span class="line">                    <span class="hljs-attr">"text"</span><span class="hljs-punctuation">:</span> <span class="hljs-string">"测试"</span><span class="hljs-punctuation">,</span></span><br><span class="line">                    <span class="hljs-attr">"info"</span><span class="hljs-punctuation">:</span> <span class="hljs-string">"这是一个测试！"</span><span class="hljs-punctuation">,</span></span><br><span class="line">                    <span class="hljs-attr">"7zFile"</span><span class="hljs-punctuation">:</span> <span class="hljs-string">"test.7z"</span><span class="hljs-punctuation">,</span></span><br><span class="line">                    <span class="hljs-attr">"exeFile"</span><span class="hljs-punctuation">:</span> <span class="hljs-string">"filename.txt"</span></span><br><span class="line">                <span class="hljs-punctuation">}</span></span><br><span class="line">            <span class="hljs-punctuation">]</span></span><br><span class="line">        <span class="hljs-punctuation">}</span></span><br><span class="line">    <span class="hljs-punctuation">]</span></span><br><span class="line"><span class="hljs-punctuation">}</span></span><br></pre></td></tr></tbody></table></div><div class="copy-btn"><i class="fa fa-copy fa-fw"></i></div></div></figure>
+<p>这个文件的结构如下，可以通过修改此文件来修改窗口标题，软件简介，头图，工具按钮等</p>
+<div class="nbttree">
+<ul>
+<li><strong>{ } </strong> 根标签
+<ul>
+<li><strong>winTitle </strong> 窗口的标题</li>
+<li><strong>winHeadImage </strong> 头图的文件路径</li>
+<li><strong>about </strong> '关于'页面中的文本</li>
+<li><strong><i class="fa-solid fa-list"></i> notebooks </strong>
+工具选项卡
+<ul>
+<li><strong>{ } </strong> (一个选项卡)
+<ul>
+<li><strong>name </strong> 该选项卡上的文本</li>
+<li><strong><i class="fa-solid fa-list"></i> buttons </strong>
+该选项卡内的按钮
+<ul>
+<li><strong>{ } </strong> (一个按钮)
+<ul>
+<li><strong>text </strong> 该按钮上的文本</li>
+<li><strong>info </strong>
+鼠标悬浮在该按钮上时，右侧简介文本框显示的文本</li>
+<li><strong>7zFile </strong>
+点击该按钮时，执行工具，该7z文件位于tools文件夹下</li>
+<li><strong>exeFile </strong>
+打开7z文件中的指定文件，可以不是可执行文件</li>
+</ul></li>
+<li><strong>{ } </strong> ...</li>
+</ul></li>
+</ul></li>
+<li><strong>{ } </strong> ...</li>
+</ul></li>
+</ul></li>
+</ul>
+</div>
+<h3 id="执行封包">执行封包</h3>
+<p>使用<strong>Enigma Virtual Box</strong>软件封装单个可执行文件</p>
+<figure>
+<img src="./SKToolBox - 打包自己的单文件工具箱 _ ✦ 应 急 食 品 ✦_files/20251006004048.png" alt="./20251005/20251006004048.png">
+<figcaption aria-hidden="true">./20251005/20251006004048.png</figcaption>
+</figure>
+<p><img src="./SKToolBox - 打包自己的单文件工具箱 _ ✦ 应 急 食 品 ✦_files/kokomi.jpg"></p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+
+        
+
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer" style="background-color: rgb(0, 0, 0); opacity: 1;">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    © 
+    <span itemprop="copyrightYear">2025</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">抽卡就免了吧，保底全歪的样子太可笑了！</span>
+  </div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: inline;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv">1275</span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: inline;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv">2792</span>
+      </span>
+    </span>
+</div>
+
+
+
+<span id="timeDate">SK在此已祈祷 550 天 15 小时 23 分 46 秒.</span>
+<script>
+    var now = new Date();
+    function createtime() {
+        var grt= new Date("4/23/2024 22:00:00"); //修改为你的网站开始运行的时间
+        now.setTime(now.getTime()+250);
+        days = (now - grt ) / 1000 / 60 / 60 / 24; dnum = Math.floor(days);
+        hours = (now - grt ) / 1000 / 60 / 60 - (24 * dnum); hnum = Math.floor(hours);
+        if(String(hnum).length ==1 ){hnum = "0" + hnum;} minutes = (now - grt ) / 1000 /60 - (24 * 60 * dnum) - (60 * hnum);
+        mnum = Math.floor(minutes); if(String(mnum).length ==1 ){mnum = "0" + mnum;}
+        seconds = (now - grt ) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum);
+        snum = Math.round(seconds); if(String(snum).length ==1 ){snum = "0" + snum;}
+        document.getElementById("timeDate").innerHTML = "SK在此已祈祷 "+dnum+" 天 "+hnum + " 小时 " + mnum + " 分 " + snum + " 秒.";
+    }
+setInterval("createtime()",250);
+</script>
+
+<span id="moeicp"><a href="https://icp.gov.moe/?keyword=20252147" target="_blank">萌ICP备20252147号</a></span>
+
+    </div>
+  </footer>
+
+  
+  <a role="button" class="book-mark-link"></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+
+  
+  <script src="./SKToolBox - 打包自己的单文件工具箱 _ ✦ 应 急 食 品 ✦_files/anime.min.js.ダウンロード" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="./SKToolBox - 打包自己的单文件工具箱 _ ✦ 应 急 食 品 ✦_files/comments.js.ダウンロード"></script><script src="./SKToolBox - 打包自己的单文件工具箱 _ ✦ 应 急 食 品 ✦_files/utils.js.ダウンロード"></script><script src="./SKToolBox - 打包自己的单文件工具箱 _ ✦ 应 急 食 品 ✦_files/motion.js.ダウンロード"></script><script src="./SKToolBox - 打包自己的单文件工具箱 _ ✦ 应 急 食 品 ✦_files/next-boot.js.ダウンロード"></script><script src="./SKToolBox - 打包自己的单文件工具箱 _ ✦ 应 急 食 品 ✦_files/bookmark.js.ダウンロード"></script>
+
+  <script src="./SKToolBox - 打包自己的单文件工具箱 _ ✦ 应 急 食 品 ✦_files/search.js.ダウンロード" integrity="sha256-1kfA5uHPf65M5cphT2dvymhkuyHPQp5A53EGZOnOLmc=" crossorigin="anonymous"></script>
+<script src="./SKToolBox - 打包自己的单文件工具箱 _ ✦ 应 急 食 品 ✦_files/local-search.js.ダウンロード"></script>
+
+
+  <script class="next-config" data-name="mermaid" type="application/json">{"enable":true,"theme":{"light":"default","dark":"dark"},"js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mermaid/10.7.0/mermaid.min.js","integrity":"sha256-TtLOdUA8mstPoO6sGvHIGx2ceXrrX4KgIItO06XOn8A="}}</script>
+  <script src="./SKToolBox - 打包自己的单文件工具箱 _ ✦ 应 急 食 品 ✦_files/mermaid.js.ダウンロード"></script>
+
+
+
+
+
+  
+  <script async="" src="./SKToolBox - 打包自己的单文件工具箱 _ ✦ 应 急 食 品 ✦_files/busuanzi.pure.mini.js.ダウンロード"></script>
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">true</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"none","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js","integrity":"sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI="}}</script>
+<script src="./SKToolBox - 打包自己的单文件工具箱 _ ✦ 应 急 食 品 ✦_files/mathjax.js.ダウンロード"></script>
+
+
+<link rel="stylesheet" href="./SKToolBox - 打包自己的单文件工具箱 _ ✦ 应 急 食 品 ✦_files/gitalk.css" integrity="sha256-AJnUHL7dBv6PGaeyPQJcgQPDjt/Hn/PvYZde1iqfp8U=" crossorigin="anonymous">
+
+<script class="next-config" data-name="gitalk" type="application/json">{"enable":true,"github_id":"ymqlgthbSakuraDream","repo":"paimontalk","client_id":"Ov23lipENLXHls9CpUMY","client_secret":"61eac6d23504a2c901bbd67bd50c70a27138e793","admin_user":"ymqlgthbSakuraDream","distraction_free_mode":true,"proxy":"https://proxy-gitalk-api.netlify.app/github_access_token","language":"zh-CN","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/gitalk/1.8.0/gitalk.min.js","integrity":"sha256-MVK9MGD/XJaGyIghSVrONSnoXoGh3IFxLw0zfvzpxR4="},"path_md5":"b37acbf223691d5d9f86e7a0a8716934"}</script>
+<script src="./SKToolBox - 打包自己的单文件工具箱 _ ✦ 应 急 食 品 ✦_files/gitalk.js.ダウンロード"></script>
+
+
+
+
+
+<div data-v-4f04decd="" class="MOJiWebPlugins" style="display: none;"><div data-v-4f04decd="" class="TransIcon" style="left: 1310.48px; top: 508.547px;"><img data-v-4f04decd="" src="chrome-extension://emabploknlbikjjpflbdobllgipnihmj/static/images/logo.png"></div> <div data-v-4f04decd="" id="MOJiWebExtensionpanel" class="TransDialog" style="left: 0px; top: 0px; width: 392px; height: 448px; display: none;"><object data-v-4f04decd="" data="chrome-extension://emabploknlbikjjpflbdobllgipnihmj/panel.html?type=content" type="text/html" class="MOJiWebExtensionpanelObject" style="display: none;"></object> <div data-v-4f04decd="" class="dragBlock icon"><div data-v-4f04decd="" class="top-drap-block"></div> <div data-v-4f04decd="" class="left-drap-block"></div></div></div></div></body></html>

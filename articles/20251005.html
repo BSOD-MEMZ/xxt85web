@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SKToolBox - 打包自己的单文件工具箱 ⭐ xxtsoft</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="header-image">
+        <img src="vista.jpg" alt="标题图片">
+        <div class="title-overlay">
+            <h1>SKToolBox - 打包自己的单文件工具箱</h1>
+        </div>
+    </div>
+    <div class="gradient-divider">
+        <a href="javascript:window.print()" class="button"><img src="printer.png" alt="" width="16" height="16" />
+            打印文章</a>
+    </div>
+    <div class="content-container">
+        <div class="author-info">
+            <p>作者：SK</p>
+            <p>发布日期：2025年10月5日</p>
+        </div>
+        <div class="article-content">
+            <h2 id="简介下载">简介&amp;下载</h2>
+            <p><br><br></p>
+            <p>很久之前做的东西了，想着最近有时间就写一下吧...<br>
+                起初是为了能在学校的一体机上快速安装并打开一些常用的软件，所以做了这个工具箱</p>
+            <ul>
+                <li>选项卡分类，管理不同类型的工具</li>
+                <li>简介文本框，鼠标悬浮在工具按钮上即可显示该工具的简介</li>
+                <li>一键清理，快速删除释放在临时目录的临时文件</li>
+                <li>单文件打包，打包后的工具箱仅有单个exe可执行文件</li>
+                <li>工具导出，以7z压缩包的形式导出单个工具</li>
+                <li>个性化，头图、文本、配色均可修改</li>
+            </ul>
+            <p>具体效果见图：</p>
+            <figure>
+                <img src="./SKToolBox - 打包自己的单文件工具箱 _ ✦ 应 急 食 品 ✦_files/20251005234444.png"
+                    alt="./20251005/20251005234444.png">
+                <figcaption aria-hidden="true">./20251005/20251005234444.png</figcaption>
+            </figure>
+            <p>如果你需要我打包好的工具箱，可以从这里下载，如果你需要打包自己的工具箱，请看下面的教程
+            </p>
+            <figure class="highlight plaintext">
+                <div class="code-container notranslate">
+                    <div class="table-container">
+                        <table>
+                            <tbody>
+                                <tr>
+                                    <td class="gutter">
+                                        <pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre>
+                                    </td>
+                                    <td class="code">
+                                        <pre><span class="line">SKToolBox</span><br><span class="line">https://www.alipan.com/s/qbhC4AX412u</span><br><span class="line">提取码: 02zk</span><br><span class="line">点击链接保存，或者复制本段内容，打开「阿里云盘」APP ，无需下载极速在线查看，视频原画倍速播放。</span><br></pre>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="copy-btn"><i class="fa fa-copy fa-fw"></i></div>
+                </div>
+            </figure>
+            <p></p>
+            <h2 id="打包自己的工具箱">打包自己的工具箱</h2>
+            <h3 id="编辑内容">编辑内容</h3>
+            <p>下载云盘中的<strong>SKToolBox.exe</strong>，这是个压缩文件，因为云盘的限制，所以只能压缩成自解压文件</p>
+            <p>这个压缩包里有这些文件:<br>
+                下面会说这些文件是干什么用的</p>
+            <figure class="highlight plaintext">
+                <div class="code-container notranslate">
+                    <div class="table-container">
+                        <table>
+                            <tbody>
+                                <tr>
+                                    <td class="gutter">
+                                        <pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre>
+                                    </td>
+                                    <td class="code">
+                                        <pre><span class="line">SKToolBox</span><br><span class="line">│  7z.dll</span><br><span class="line">│  7z.exe</span><br><span class="line">│  config.json</span><br><span class="line">│  head.png</span><br><span class="line">│  head.psd</span><br><span class="line">│  icon.ico</span><br><span class="line">│  icon.png</span><br><span class="line">│  newtheme.py</span><br><span class="line">│  sktoolbox.exe</span><br><span class="line">│  sktoolbox.py</span><br><span class="line">│  布局.png</span><br><span class="line">│</span><br><span class="line">└─tools</span><br><span class="line">        test.7z</span><br></pre>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="copy-btn"><i class="fa fa-copy fa-fw"></i></div>
+                </div>
+            </figure>
+            <h4 id="sktoolbox.exe">sktoolbox.exe</h4>
+            <p>主程序文件，双击即可运行，不过现在里面什么都没有，如图所示</p>
+            <figure>
+                <img src="./SKToolBox - 打包自己的单文件工具箱 _ ✦ 应 急 食 品 ✦_files/20251006000201.png"
+                    alt="./20251005/20251006000201.png">
+                <figcaption aria-hidden="true">./20251005/20251006000201.png</figcaption>
+            </figure>
+            <h4 id="sktoolbox.py">sktoolbox.py</h4>
+            <p>源代码文件，里面基本上没有硬编码（貌似），exe文件已经编译好了，所以源代码暂时没用</p>
+            <h4 id="head.png">head.png</h4>
+            <p>软件界面的头图，可以自己修改，需要保持图片原尺寸</p>
+            <figure>
+                <img src="./SKToolBox - 打包自己的单文件工具箱 _ ✦ 应 急 食 品 ✦_files/head.png" alt="./20251005/head.png">
+                <figcaption aria-hidden="true">./20251005/head.png</figcaption>
+            </figure>
+            <h4 id="z.exe-7z.dll">7z.exe , 7z.dll</h4>
+            <p>用于程序内进行7z压缩包解压缩</p>
+            <h4 id="文件夹-tools">文件夹: tools</h4>
+            <p>此文件夹中存放的是工具的7z压缩包</p>
+            <h4 id="config.json">config.json</h4>
+            <p>配置文件，当前该文件内容如下</p>
+            <figure class="highlight json">
+                <div class="code-container notranslate">
+                    <div class="table-container">
+                        <table>
+                            <tbody>
+                                <tr>
+                                    <td class="gutter">
+                                        <pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre>
+                                    </td>
+                                    <td class="code">
+                                        <pre><span class="line"><span class="hljs-punctuation">{</span></span><br><span class="line">    <span class="hljs-attr">"winTitle"</span><span class="hljs-punctuation">:</span> <span class="hljs-string">"派蒙の后花园"</span><span class="hljs-punctuation">,</span></span><br><span class="line">    <span class="hljs-attr">"winHeadImage"</span><span class="hljs-punctuation">:</span> <span class="hljs-string">"./head.png"</span><span class="hljs-punctuation">,</span></span><br><span class="line">    <span class="hljs-attr">"about"</span><span class="hljs-punctuation">:</span> <span class="hljs-string">"派蒙の后花园 Ver1.0.20241214\n\nP.S. 右键工具按钮可以导出工具\n右键“清理缓存”按钮可以打开缓存文件夹"</span><span class="hljs-punctuation">,</span></span><br><span class="line">    <span class="hljs-attr">"notebooks"</span><span class="hljs-punctuation">:</span><span class="hljs-punctuation">[</span></span><br><span class="line">        <span class="hljs-punctuation">{</span></span><br><span class="line">            <span class="hljs-attr">"name"</span><span class="hljs-punctuation">:</span><span class="hljs-string">"实用工具"</span><span class="hljs-punctuation">,</span></span><br><span class="line">            <span class="hljs-attr">"buttons"</span><span class="hljs-punctuation">:</span><span class="hljs-punctuation">[</span></span><br><span class="line">                <span class="hljs-punctuation">{</span></span><br><span class="line">                    <span class="hljs-attr">"text"</span><span class="hljs-punctuation">:</span> <span class="hljs-string">"测试"</span><span class="hljs-punctuation">,</span></span><br><span class="line">                    <span class="hljs-attr">"info"</span><span class="hljs-punctuation">:</span> <span class="hljs-string">"这是一个测试！"</span><span class="hljs-punctuation">,</span></span><br><span class="line">                    <span class="hljs-attr">"7zFile"</span><span class="hljs-punctuation">:</span> <span class="hljs-string">"test.7z"</span><span class="hljs-punctuation">,</span></span><br><span class="line">                    <span class="hljs-attr">"exeFile"</span><span class="hljs-punctuation">:</span> <span class="hljs-string">"filename.txt"</span></span><br><span class="line">                <span class="hljs-punctuation">}</span></span><br><span class="line">            <span class="hljs-punctuation">]</span></span><br><span class="line">        <span class="hljs-punctuation">}</span></span><br><span class="line">    <span class="hljs-punctuation">]</span></span><br><span class="line"><span class="hljs-punctuation">}</span></span><br></pre>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="copy-btn"><i class="fa fa-copy fa-fw"></i></div>
+                </div>
+            </figure>
+            <p>这个文件的结构如下，可以通过修改此文件来修改窗口标题，软件简介，头图，工具按钮等</p>
+            <div class="nbttree">
+                <ul>
+                    <li><strong>{ } </strong> 根标签
+                        <ul>
+                            <li><strong>winTitle </strong> 窗口的标题</li>
+                            <li><strong>winHeadImage </strong> 头图的文件路径</li>
+                            <li><strong>about </strong> '关于'页面中的文本</li>
+                            <li><strong><i class="fa-solid fa-list"></i> notebooks </strong>
+                                工具选项卡
+                                <ul>
+                                    <li><strong>{ } </strong> (一个选项卡)
+                                        <ul>
+                                            <li><strong>name </strong> 该选项卡上的文本</li>
+                                            <li><strong><i class="fa-solid fa-list"></i> buttons </strong>
+                                                该选项卡内的按钮
+                                                <ul>
+                                                    <li><strong>{ } </strong> (一个按钮)
+                                                        <ul>
+                                                            <li><strong>text </strong> 该按钮上的文本</li>
+                                                            <li><strong>info </strong>
+                                                                鼠标悬浮在该按钮上时，右侧简介文本框显示的文本</li>
+                                                            <li><strong>7zFile </strong>
+                                                                点击该按钮时，执行工具，该7z文件位于tools文件夹下</li>
+                                                            <li><strong>exeFile </strong>
+                                                                打开7z文件中的指定文件，可以不是可执行文件</li>
+                                                        </ul>
+                                                    </li>
+                                                    <li><strong>{ } </strong> ...</li>
+                                                </ul>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                    <li><strong>{ } </strong> ...</li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+            <h3 id="执行封包">执行封包</h3>
+            <p>使用<strong>Enigma Virtual Box</strong>软件封装单个可执行文件</p>
+            <figure>
+                <img src="./SKToolBox - 打包自己的单文件工具箱 _ ✦ 应 急 食 品 ✦_files/20251006004048.png"
+                    alt="./20251005/20251006004048.png">
+                <figcaption aria-hidden="true">./20251005/20251006004048.png</figcaption>
+            </figure>
+            <p><img src="./SKToolBox - 打包自己的单文件工具箱 _ ✦ 应 急 食 品 ✦_files/kokomi.jpg"></p>
+
+        </div>
+    </div>
+</body>
+
+</html>

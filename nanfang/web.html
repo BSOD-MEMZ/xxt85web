@@ -4,9 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>株洲市南方中学网址导航</title>
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+    <meta name="description" content="株洲市南方中学内部使用的网址导航">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
-    <meta name="description" content="株洲市南方中学内部使用的网址导航">
     <style>
         * {
             margin: 0;
@@ -56,11 +57,12 @@
             animation: fadeInDown 0.8s ease;
             transition: all 0.5s ease;
             transform: translateY(0);
+            opacity: 1;
         }
         
         body.search-focused .header {
             transform: translateY(-20px);
-            opacity: 0.8;
+            opacity: 0;
         }
         
         .logo-container {
@@ -127,10 +129,7 @@
             justify-content: center;
             padding: 20px;
             transition: all 0.5s ease;
-        }
-        
-        body.search-focused .main-content {
-            transform: scale(0.98);
+            opacity: 1;
         }
         
         .search-container {
@@ -147,18 +146,25 @@
             animation: slideUp 0.8s ease;
             display: flex;
             align-items: center;
-            transition: all 0.5s ease;
+            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             position: relative;
             z-index: 10;
         }
         
         body.search-focused .search-container {
-            transform: scale(1.05);
+            transform: scale(1.1);
             box-shadow: 
-                0 20px 60px rgba(0, 0, 0, 0.4),
-                0 5px 15px rgba(255, 255, 255, 0.2) inset,
-                0 0 0 3px rgba(255, 255, 255, 0.3);
-            background: rgba(255, 255, 255, 0.25);
+                0 25px 80px rgba(0, 0, 0, 0.5),
+                0 8px 25px rgba(255, 255, 255, 0.2) inset,
+                0 0 0 3px rgba(255, 255, 255, 0.4);
+            background: rgba(255, 255, 255, 0.3);
+            animation: searchPulse 2s infinite;
+        }
+        
+        @keyframes searchPulse {
+            0% { box-shadow: 0 25px 80px rgba(0, 0, 0, 0.5), 0 8px 25px rgba(255, 255, 255, 0.2) inset, 0 0 0 3px rgba(255, 255, 255, 0.4); }
+            50% { box-shadow: 0 25px 80px rgba(0, 0, 0, 0.6), 0 8px 25px rgba(255, 255, 255, 0.3) inset, 0 0 0 4px rgba(255, 255, 255, 0.6); }
+            100% { box-shadow: 0 25px 80px rgba(0, 0, 0, 0.5), 0 8px 25px rgba(255, 255, 255, 0.2) inset, 0 0 0 3px rgba(255, 255, 255, 0.4); }
         }
         
         .search-input {
@@ -199,11 +205,12 @@
             grid-template-columns: 1fr 300px;
             gap: 30px;
             transition: all 0.5s ease;
+            opacity: 1;
         }
         
         body.search-focused .content-grid {
             transform: translateY(20px);
-            opacity: 0.8;
+            opacity: 0;
         }
         
         .websites-section {
@@ -300,6 +307,13 @@
                 0 4px 12px rgba(0, 0, 0, 0.1),
                 0 2px 4px rgba(255, 255, 255, 0.1) inset;
             transition: all 0.3s ease;
+            overflow: hidden;
+        }
+        
+        .website-icon img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
         }
         
         .website-card:hover .website-icon, .website-card:active .website-icon {
@@ -833,6 +847,10 @@
             text-align: center;
             cursor: pointer;
             transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 40px;
         }
         
         .icon-option:hover {
@@ -842,6 +860,65 @@
         .icon-option.selected {
             background: rgba(106, 17, 203, 0.2);
             border: 1px solid #6a11cb;
+        }
+        
+        .icon-option img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+        }
+        
+        /* 自定义图标上传区域 */
+        .custom-icon-upload {
+            margin-top: 15px;
+            padding: 15px;
+            background: rgba(0, 0, 0, 0.03);
+            border-radius: 8px;
+            border: 1px dashed #ddd;
+        }
+        
+        .custom-icon-preview {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 10px;
+            max-height: 120px;
+            overflow-y: auto;
+        }
+        
+        .custom-icon-item {
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            overflow: hidden;
+            cursor: pointer;
+            border: 2px solid transparent;
+            transition: all 0.2s ease;
+        }
+        
+        .custom-icon-item:hover {
+            border-color: #6a11cb;
+        }
+        
+        .custom-icon-item.selected {
+            border-color: #6a11cb;
+            box-shadow: 0 0 0 2px rgba(106, 17, 203, 0.3);
+        }
+        
+        .custom-icon-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        /* 隐私声明 */
+        .privacy-notice {
+            margin-top: 20px;
+            padding-top: 15px;
+            border-top: 1px solid #eee;
+            text-align: center;
+            font-size: 12px;
+            color: #777;
         }
         
         /* 搜索特效遮罩 */
@@ -995,9 +1072,7 @@
     
     <div class="header">
         <div class="logo-container">
-            <div class="logo">
-                <i class="material-icons">school</i>
-            </div>
+            <image src="logo.png">
             <h1 class="title">株洲市南方中学网址导航</h1>
         </div>
         
@@ -1051,6 +1126,19 @@
                 <div class="icon-selector" id="icon-selector">
                     <!-- 图标选项将通过JavaScript动态生成 -->
                 </div>
+                
+                <!-- 自定义图标上传区域 -->
+                <div class="custom-icon-upload">
+                    <div class="form-label">上传自定义图标</div>
+                    <input type="file" class="form-input" id="custom-icon-upload" accept="image/*" style="margin-bottom: 10px;">
+                    <button class="button button-secondary" id="upload-icon-button" style="width: 100%;">上传图标</button>
+                    
+                    <div class="form-label" style="margin-top: 15px;">已上传的图标</div>
+                    <div class="custom-icon-preview" id="custom-icon-preview">
+                        <!-- 自定义图标将通过JavaScript动态生成 -->
+                    </div>
+                </div>
+                
                 <button class="button button-primary" id="add-website-button" style="margin-top: 8px; width: 100%;">添加网站</button>
             </div>
             
@@ -1077,6 +1165,12 @@
                         <div class="widget-toggle" id="news-toggle"></div>
                     </div>
                 </div>
+            </div>
+            
+            <!-- 隐私声明 -->
+            <div class="privacy-notice">
+                我们承诺不会收集任何用户个人信息，您的所有设置都保存在本地浏览器中，非常安全。
+                本网站使用AI生成
             </div>
             
             <div class="modal-actions">
@@ -1119,6 +1213,9 @@
             "work", "business", "apartment", "house", "build"
         ];
         
+        // 自定义图标存储
+        let customIcons = [];
+        
         // 初始化函数
         function init() {
             // 从localStorage加载设置，如果没有则使用默认值
@@ -1126,10 +1223,16 @@
             const savedBackground = localStorage.getItem('background');
             const savedWidgets = localStorage.getItem('widgets');
             const savedCountdown = localStorage.getItem('countdown');
+            const savedCustomIcons = localStorage.getItem('customIcons');
             
             // 设置背景
             if (savedBackground) {
                 document.body.style.backgroundImage = `url(${savedBackground})`;
+            }
+            
+            // 加载自定义图标
+            if (savedCustomIcons) {
+                customIcons = JSON.parse(savedCustomIcons);
             }
             
             // 渲染网站列表
@@ -1144,6 +1247,9 @@
             
             // 初始化图标选择器
             initIconSelector();
+            
+            // 初始化自定义图标预览
+            initCustomIconPreview();
             
             // 初始化倒计日
             if (savedCountdown) {
@@ -1189,6 +1295,7 @@
             document.getElementById('background-upload').addEventListener('change', handleBackgroundUpload);
             document.getElementById('add-website-button').addEventListener('click', addNewWebsite);
             document.getElementById('save-countdown').addEventListener('click', saveCountdown);
+            document.getElementById('upload-icon-button').addEventListener('click', uploadCustomIcon);
             
             // 点击模态框外部关闭
             document.getElementById('settings-modal').addEventListener('click', function(e) {
@@ -1220,12 +1327,26 @@
                 card.href = website.url;
                 card.target = '_blank';
                 
+                // 检查是否是自定义图标
+                let iconHTML = '';
+                if (website.icon.startsWith('custom:')) {
+                    const iconId = website.icon.replace('custom:', '');
+                    const customIcon = customIcons.find(icon => icon.id === iconId);
+                    if (customIcon) {
+                        iconHTML = `<img src="${customIcon.data}" alt="${website.name}">`;
+                    } else {
+                        iconHTML = `<i class="material-icons">language</i>`;
+                    }
+                } else {
+                    iconHTML = `<i class="material-icons">${website.icon}</i>`;
+                }
+                
                 card.innerHTML = `
                     <button class="delete-button" data-index="${index}">
                         <i class="material-icons">close</i>
                     </button>
                     <div class="website-icon">
-                        <i class="material-icons">${website.icon}</i>
+                        ${iconHTML}
                     </div>
                     <div class="website-name">${website.name}</div>
                 `;
@@ -1264,7 +1385,7 @@
             const savedWebsites = localStorage.getItem('websites');
             const websites = savedWebsites ? JSON.parse(savedWebsites) : defaultWebsites;
             
-            if (confirm(`确定要删除 "${websites[index].name}" 吗(っ °Д °;)っ`)) {
+            if (confirm(`确定要删除 "${websites[index].name}" 吗？`)) {
                 websites.splice(index, 1);
                 renderWebsites(websites);
             }
@@ -1287,6 +1408,9 @@
                     document.querySelectorAll('.icon-option').forEach(option => {
                         option.classList.remove('selected');
                     });
+                    document.querySelectorAll('.custom-icon-item').forEach(item => {
+                        item.classList.remove('selected');
+                    });
                     
                     // 选中当前图标
                     this.classList.add('selected');
@@ -1299,6 +1423,86 @@
             if (iconSelector.firstChild) {
                 iconSelector.firstChild.classList.add('selected');
             }
+        }
+        
+        // 初始化自定义图标预览
+        function initCustomIconPreview() {
+            const previewContainer = document.getElementById('custom-icon-preview');
+            previewContainer.innerHTML = '';
+            
+            customIcons.forEach((icon, index) => {
+                const iconItem = document.createElement('div');
+                iconItem.className = 'custom-icon-item';
+                iconItem.dataset.index = index;
+                
+                iconItem.innerHTML = `<img src="${icon.data}" alt="自定义图标">`;
+                
+                iconItem.addEventListener('click', function() {
+                    // 移除之前选中的图标
+                    document.querySelectorAll('.icon-option').forEach(option => {
+                        option.classList.remove('selected');
+                    });
+                    document.querySelectorAll('.custom-icon-item').forEach(item => {
+                        item.classList.remove('selected');
+                    });
+                    
+                    // 选中当前图标
+                    this.classList.add('selected');
+                });
+                
+                previewContainer.appendChild(iconItem);
+            });
+        }
+        
+        // 上传自定义图标
+        function uploadCustomIcon() {
+            const fileInput = document.getElementById('custom-icon-upload');
+            const file = fileInput.files[0];
+            
+            if (!file) {
+                alert('请选择要上传的图片文件');
+                return;
+            }
+            
+            // 检查文件类型
+            if (!file.type.startsWith('image/')) {
+                alert('请上传图片文件');
+                return;
+            }
+            
+            // 检查文件大小（限制为1MB）
+            if (file.size > 1024 * 1024) {
+                alert('图片文件大小不能超过1MB');
+                return;
+            }
+            
+            const reader = new FileReader();
+            reader.onload = function(event) {
+                const iconData = event.target.result;
+                
+                // 生成唯一ID
+                const iconId = 'custom_' + Date.now();
+                
+                // 添加到自定义图标列表
+                customIcons.push({
+                    id: iconId,
+                    data: iconData,
+                    name: file.name
+                });
+                
+                // 保存到localStorage
+                localStorage.setItem('customIcons', JSON.stringify(customIcons));
+                
+                // 更新预览
+                initCustomIconPreview();
+                
+                // 清空文件输入
+                fileInput.value = '';
+                
+                alert('图标上传成功！');
+            };
+            
+            reader.readAsDataURL(file);
         }
         
         // 初始化小组件
@@ -1409,7 +1613,7 @@
                 newsWidget.className = 'widget news-widget';
                 newsWidget.id = 'news-widget';
                 
-                let newsHTML = '<div class="section-title">资讯</div><div class="news-list">';
+                let newsHTML = '<div class="section-title">校园资讯</div><div class="news-list">';
                 
                 defaultNews.forEach(news => {
                     newsHTML += `
@@ -1537,7 +1741,7 @@
                         break;
                     case 'divide':
                         if (current === 0) {
-                            result = '你要不要看看你输入的是什么';
+                            result = '错误';
                         } else {
                             result = prev / current;
                         }
@@ -1623,9 +1827,10 @@
         
         // 清除缓存
         function clearCache() {
-            if (confirm('确定要清除所有缓存数据吗＞︿＜')) {
+            if (confirm('确定要清除所有缓存数据吗？这将重置所有设置并回到默认状态。')) {
                 localStorage.clear();
                 document.body.style.backgroundImage = 'url("bg.jpg")';
+                customIcons = [];
                 renderWebsites(defaultWebsites);
                 initWidgets({
                     countdown: false,
@@ -1634,8 +1839,9 @@
                 });
                 document.getElementById('countdown-title').value = '';
                 document.getElementById('countdown-date').value = '';
+                initCustomIconPreview();
                 closeSettingsModal();
-                alert('缓存已清除，所有设置已重置为默认值');
+                alert('缓存已清除，所有设置已重置为默认值。');
             }
         }
         
@@ -1666,8 +1872,16 @@
                 }
                 
                 // 获取选中的图标
+                let selectedIcon = 'language';
                 const selectedIconOption = document.querySelector('.icon-option.selected');
-                const icon = selectedIconOption ? selectedIconOption.dataset.icon : 'language';
+                const selectedCustomIcon = document.querySelector('.custom-icon-item.selected');
+                
+                if (selectedCustomIcon) {
+                    const iconIndex = selectedCustomIcon.dataset.index;
+                    selectedIcon = 'custom:' + customIcons[iconIndex].id;
+                } else if (selectedIconOption) {
+                    selectedIcon = selectedIconOption.dataset.icon;
+                }
                 
                 // 获取当前网站列表
                 const currentWebsites = JSON.parse(localStorage.getItem('websites')) || defaultWebsites;
@@ -1676,7 +1890,7 @@
                 currentWebsites.push({
                     name: name,
                     url: formattedUrl,
-                    icon: icon
+                    icon: selectedIcon
                 });
                 
                 // 重新渲染网站列表
