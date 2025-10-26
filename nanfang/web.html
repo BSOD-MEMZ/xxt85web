@@ -1198,10 +1198,10 @@
             { title: "聚焦习惯养成 提升育人品质——株洲市南方中学召开十月班主任会议", date: "2025-10-14", url: "http://www.zznfzx.cn/articleShow-21-32994.html" }
         ];
         
-        // 可用图标列表 - 扩展更多图标
+        // 可用图标列表 - 扩展更多图标（支持 material icon 名称 和 以 "png:" 前缀的本地 png 路径）
         const availableIcons = [
-            "language", "school", "computer", "play_circle", "music_note", 
-            "code", "book", "dashboard", "email", "forum", 
+            "language", "school", "computer", "play_circle", "music_note",
+            "code", "book", "dashboard", "email", "forum",
             "library_books", "video_library", "photo_library", "cloud", "folder",
             "home", "search", "settings", "info", "help",
             "favorite", "star", "thumb_up", "share", "link",
@@ -1210,7 +1210,20 @@
             "calendar_today", "schedule", "alarm", "timer", "access_time",
             "chat", "comment", "forum", "message", "feedback",
             "shopping_cart", "store", "payment", "credit_card", "receipt",
-            "work", "business", "apartment", "house", "build"
+            "work", "business", "apartment", "house", "build",
+            // 下面是本地 PNG 示例（请把你的 png 文件放到项目中并根据实际路径修改）
+            "png:assets/91.png",
+            "png:assets/abcd.png",
+            "png:assets/derakkuma.png",
+            "png:assets/nanfang.png",
+            "png:assets/en5.png",
+            "png:assets/vscode.png",
+            "png:assets/python.png",
+            "png:assets/cpp.png",
+            "png:assets/h5.png",
+            "png:assets/computer_2k.png",
+            "png:assets/windows.png",
+
         ];
         
         // 自定义图标存储
@@ -1327,9 +1340,9 @@
                 card.href = website.url;
                 card.target = '_blank';
                 
-                // 检查是否是自定义图标
+                // 检查是否是自定义图标或本地 png
                 let iconHTML = '';
-                if (website.icon.startsWith('custom:')) {
+                if (website.icon && website.icon.startsWith('custom:')) {
                     const iconId = website.icon.replace('custom:', '');
                     const customIcon = customIcons.find(icon => icon.id === iconId);
                     if (customIcon) {
@@ -1337,6 +1350,9 @@
                     } else {
                         iconHTML = `<i class="material-icons">language</i>`;
                     }
+                } else if (website.icon && website.icon.startsWith('png:')) {
+                    const path = website.icon.slice(4);
+                    iconHTML = `<img src="${path}" alt="${website.name}">`;
                 } else {
                     iconHTML = `<i class="material-icons">${website.icon}</i>`;
                 }
@@ -1401,7 +1417,13 @@
                 iconOption.className = 'icon-option';
                 iconOption.dataset.icon = icon;
                 
-                iconOption.innerHTML = `<i class="material-icons">${icon}</i>`;
+                // 支持 png 前缀：'png:路径/文件.png'
+                if (typeof icon === 'string' && icon.startsWith('png:')) {
+                    const path = icon.slice(4);
+                    iconOption.innerHTML = `<img src="${path}" alt="" style="max-width:28px; max-height:28px; object-fit:contain;">`;
+                } else {
+                    iconOption.innerHTML = `<i class="material-icons">${icon}</i>`;
+                }
                 
                 iconOption.addEventListener('click', function() {
                     // 移除之前选中的图标
