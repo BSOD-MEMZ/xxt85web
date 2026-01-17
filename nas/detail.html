@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8" />
+  <title>项目详情 - 南方中学数据云存储</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+  <header class="topbar">
+    <div class="logo-area">
+      <img src="logo.png" alt="南方中学黑客联盟 Logo" class="logo" />
+      <span class="org-name">南方中学黑客联盟</span>
+    </div>
+  </header>
+
+  <main class="content">
+    <section class="contact">
+      <h2>账号申请 / 联系我们</h2>
+
+      <p class="contact-desc">
+        如需申请 NAS 账号或扩容空间，请通过以下方式联系维护人员。我们将在校内审核后为您开通服务。
+      </p>
+
+      <div class="contact-box">
+        <div class="contact-item">
+          <span class="label">Email</span>
+          <a href="mailto:xxt8582753@126.com">xxt8582753@126.com</a>
+        </div>
+
+        <div class="contact-item">
+          <span class="label">QQ群</span>
+          <span>1021156150</span>
+        </div>
+      </div>
+      <br />
+      <p class="contact-desc">
+        若不方便在线发送申请，您可以直接联系 2509/2519/2520/2523/2524 班电教委员开通。<br>发送申请时请备注注册用户名、需提前配置的服务、欲开通的云空间大小（128GB 以内所有人可注册，如有大容量需求请备注原因）
+      </p>
+    </section>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <h1>项目详细介绍</h1>
+
+    <section>
+      <h2>项目背景</h2>
+      <p>
+        在校内教学资料、课件与学习文件日益增长的背景下，我们尝试利用现有硬件资源，自主组建一套面向老师与学生的校园 NAS 云存储系统。
+      </p>
+    </section>
+
+    <section>
+      <h2>技术亮点</h2>
+      <ul>
+        <li>基于 J1900 服务器平台部署飞牛 OS 国产 Linux 系统 + NAS 服务</li>
+        <li>使用 Web 管理界面进行用户、权限与空间配额管理</li>
+        <li>支持局域网高速访问与基础文件预览</li>
+        <li>通过公网映射，您可以在南方局域网覆盖之外场合正常使用 NAS 系统</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>服务保障</h2>
+      <ul>
+        <li>目前服务主机位于创新楼 507，有多名专业学生网络安全工程师轮班值守，确保系统稳定运行。</li>
+        <li>您的数据安全储存于校内实体 NAS 系统中，无需顾虑隐私被窃。</li>
+      </ul>
+    </section>
+
+    <section class="gallery">
+      <h2>风采展示</h2>
+      <div class="carousel">
+        <div class="carousel-track" id="carouselTrack">
+          <img src="img/1.jpg" alt="">
+          <img src="img/2.jpg" alt="">
+          <img src="img/3.png" alt="">
+          <img src="img/4.png" alt="">
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <p>
+        这是一次真实的工程实践：从硬件选型、系统部署、网络配置，到软件开发与用户支持，全部由学生完成。
+      </p>
+    </section>
+
+    
+    <br />
+    <br />
+    <a class="cta-button" href="index.html">返回首页</a>
+  </main>
+
+  <footer class="footer">
+    <p>南方中学黑客联盟</p>
+  </footer>
+</body>
+
+</html>
+<script>
+  const track = document.getElementById('carouselTrack');
+  let index = 0;
+
+  setInterval(() => {
+    index = (index + 1) % track.children.length;
+    track.style.transform = `translateX(-${index * 100}%)`;
+  }, 3500);
+</script>
+<script>
+  const logs = [
+    "[OK] NAS online",
+    "[OK] Disk array healthy",
+    "[INFO] User quota loaded",
+    "[INFO] Snapshot service active",
+    "[OK] Network latency < 1ms",
+    "[INFO] Waiting for new connection..."
+  ];
+
+  const list = document.getElementById("statusList");
+  let i = 0;
+
+  setInterval(() => {
+    if (list.children.length > 6) {
+      list.removeChild(list.children[0]);
+    }
+
+    const li = document.createElement("li");
+    li.textContent = logs[i % logs.length];
+    list.appendChild(li);
+    i++;
+  }, 2000);
+</script>

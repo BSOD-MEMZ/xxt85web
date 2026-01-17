@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <title>株洲市南方中学数据云存储一站式解决方案</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div class="logo-area">
+      <img src="logo.png" alt="南方中学黑客联盟 Logo" class="logo" />
+      <span class="org-name">南方中学黑客联盟</span>
+    </div>
+    <div class="banner">
+      <div class="banner-track" id="bannerTrack">
+        <div class="banner-item">语文 李老师已免费注册，获得 128GB 云空间</div>
+        <div class="banner-item">25级 黄同学已免费注册，获得 256GB 云空间</div>
+        <div class="banner-item">25级 汤同学用 NAS 看电影炸膛了</div>
+        <div class="banner-item">25级 肖同学已免费注册，获得 64GB 云空间</div>
+        <div class="banner-item">25级 姜同学开通超大存储，获得 512GB 云空间</div>
+        <div class="banner-item">舒老师 为本项目提供 256GB 固态硬盘</div>
+        <div class="banner-item">Debian 12 操作系统已成功安装</div>
+      </div>
+    </div>
+  </header>
+
+  <main class="hero">
+    <h1>株洲市南方中学<br />数据云存储一站式解决方案</h1>
+    <p class="subtitle">由学生自主设计、部署与维护 · 安全 · 高效 · 校内直达<br />校内师生注册就送 128GB 免费空间</p>
+    <a class="cta-button" href="detail.html">立即注册</a>
+
+    <section class="features">
+      <div class="feature-card">
+        <h3>私有 NAS 架构</h3>
+        <p>基于校内私有 NAS，数据不出校园，延迟低、速度快。</p>
+      </div>
+      <div class="feature-card">
+        <h3>权限与配额管理</h3>
+        <p>按老师 / 学生分配独立空间，支持扩容与审计。</p>
+      </div>
+      <div class="feature-card">
+        <h3>学生运维</h3>
+        <p>由南方中学学生团队负责部署与维护，真实工程实践。</p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <p>感谢舒适老师为本项目提供主板、硬盘等核心部件。</p>
+    <p>感谢所有参与本项目的同学：系统部署、网络维护、文档与测试成员。</p>
+    <p class="small">南方中学黑客联盟 | <a href="https://0xabcd.dev">0xAbCd Log</a> | <a href="https://xxtsoft.top">xxtsoft</a></p>
+  </footer>
+
+  <script>
+    const track = document.getElementById('bannerTrack');
+    let offset = 0;
+    setInterval(() => {
+      offset = (offset + 1) % track.children.length;
+      track.style.transform = `translateX(-${offset * 100}%)`;
+    }, 3000);
+  </script>
+</body>
+</html>
