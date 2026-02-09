@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>一种基于 Electron 的 WinUI3 实现方式（？ ⭐ xxtsoft</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="header-image">
+        <img src="vista.webp" alt="标题图片">
+        <div class="title-overlay">
+            <h1>一种基于 Electron 的 WinUI3 实现方式（？</h1>
+        </div>
+    </div>
+    <div class="gradient-divider">
+        <a href="javascript:window.print()" class="button"><img src="printer.png" alt="" width="16" height="16" /> 打印文章</a>
+    </div>
+    <div class="content-container">
+        <div class="author-info">
+            <p>作者：xxt8582753</p>
+            <p>发布日期：2025年2月9日</p>
+        </div>
+        <div class="article-content">
+            <p>最近玩 Electron，突发奇想能不能让 Electron 桌面程序具有微软 Win11 的 Fluent 风格。</p>
+            <p>这听上去并非天方夜谭，微软很多程序套的 WebView，对于我们这些前端来说，只要长得像就行。</p>
+            <p>于是我就开始了我的探索之旅，还记得我的得意之作<a href="entp.html">EasiNoteThemePatcher</a>吗？这是一个希沃白板的主题补丁工具，使用 qfluentwidget 制作，因此具有了 Fluent 风格的外观，甚至还有 Mica 效果。</p>
+            <p>然后我又看到了 <a href="https://rectify11.com">Rectify 11</a> 的官网。你别说，还挺 Fluent。</p>
+            <img src="assets/rectify11.jpg" alt="Rectify 11" />
+            <p>那还说啥，HTTrack 启动！</p>
+            <p>先对网页进行简单分析，CSS 之类都好理解，就是 JavaScript 控制页面切换，菜单展开/收起等功能比较复杂，这里我把 JavaScript 都删了，然后直接 VibeCoding...</p>
+            <p>但是对于一个 Fluent 窗口，肯定不能用系统自带的标题栏，好在这个网页提供了一个标题栏（header），我们在 header 里保留 logobox，再加入窗口控制元素，代码如下：</p>
+            <img src="assets/winctrl.jpg">
+            <p>再加上一些神奇的 CSS</p>
+            <img src="assets/wincss.jpg">
+            <p>这种 CSS 其实也不是很 Fluent，但是先暂时这么用着，因为后面还有操蛋的 IPC</p>
+            <p>为按钮绑定上事件，搞个全局 API</p>
+            <img src="assets/winctrlapi.jpg">
+            <p>然后在主进程中监听这些事件，调用 Electron 的 API 来实现窗口控制。</p>
+            <p>对了，别忘了把系统的标题栏隐藏一下，frame: false; contextIsolation 我个人不建议开启，因为开了隔离感觉很不方便。</p>
+            <p>我们好不容易做了一个框框，肯定希望它能被多次复用，所以我们把 PageContent 留空，让 JavaScript 自己把需要的内容加载进去。</p>
+            <p>页面切换的话我就直接 a href，其实fetch。。也行？</p>
+            <p>看看 Win11 中的显示效果吧</p>
+            <img src="assets/efluentgallery.png">
+            <p>等等，你哪来的 Mica？</p>
+            <p>骗你的，其实是 linear-gradient。</p>
+            <p>但对于浏览器框架，Mica 并不现实，除非后台挂个程序在窗口背后取色，这样属实不合法还有病。</p>
+            <p>现在框架有了，那组件呢？</p>
+            <p>我估计已经有现成的 CSS 可用了，这里我就不重复造轮子了。</p>
+            <p>总之，这只是一次小小的尝试，现在肯定是有成熟的解决方案的，Just for fun</p>
+        </div>
+    </div>
+</body>
+</html>
