@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QQListener ⭐ xxtsoft</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="header-image">
+        <img src="vista.webp" alt="标题图片">
+        <div class="title-overlay">
+            <h1>QQListener</h1>
+        </div>
+    </div>
+    <div class="gradient-divider">
+        <a href="javascript:window.print()" class="button"><img src="printer.png" alt="" width="16" height="16" /> 打印文章</a>
+    </div>
+    <div class="content-container">
+        <div class="author-info">
+            <p>作者：xxt8582753</p>
+            <p>发布日期：2026年1月23日</p>
+        </div>
+        <div class="article-content">
+            <p>老师经常在班级QQ群内发送通知（比如提醒同学打电话给家长，或者发布参考答案等）电脑端QQ会以Toast形式展现，但它在班级大屏上太不显眼了，很容易错过重要通知。所以我决定用Python编写一个监听器，实时获取QQ群消息并在大屏幕上以更显眼的方式展示。</p>
+            <p><b>注意：本文提供的方法仅适用于新版 NT QQ，旧版QQ根本没法发Windows通知。</b></p>
+            <p>首先我考虑使用NoneBot，这绝对是最优雅的实现方式，因为QQ并没有开放接口，但是我相信没有人（包括我）愿意成为一个机器人。</p>
+            <p>那我们能不能抓取这些Toast呢？</p>
+            <p>考虑到WinRT已经死了有一段时间了，所以我决定使用UIAutomation抓取Toast里的内容。</p>
+            <p>我自己的电脑是 Win10 2009，先使用递归遍历窗口树的方式来硬找。</p>
+<pre><code>
+import time
+
+import uiautomation as auto
+
+root = auto.GetRootControl()
+
+
+def walk(ctrl, depth=0, max_depth=5):
+    if depth > max_depth:
+        return
+    indent = "  " * depth
+    print(
+        f"{indent}- {ctrl.ControlTypeName} | Name='{ctrl.Name}' | Class='{ctrl.ClassName}'"
+    )
+
+    for c in ctrl.GetChildren():
+        walk(c, depth + 1, max_depth)
+
+
+time.sleep(2)
+walk(root)
+
+</code></pre>
+            <p>这个算法还算好理解，walk用来遍历整个窗口树，找到子节点后再调用一次自己，一直这样折腾下去直到达到递归边界。</p>
+            <p>递归深度没必要太大，并且Toast一般都在最上层，所以抓出来一坨取上面那些就行了。</p>
+            <p>我们先找Toast，使用Windows自带的截图工具随便拉个框框，就会弹出一个Toast</p>
+            <img src="assets/screenshot_to_found_toast.jpg" alt="Toast截图">
+            <pre><code>
+bs\x5cdebugpy\x5clauncher' '4730' '--' 'd:\x5cQQListener\x5ctest.py' ;de4c6ea2-0c81-4da9-a1e2-8a4ec81cc460- PaneControl | Name='学習' | Class='#32769'
+  - WindowControl | Name='新しい通知' | Class='Windows.UI.Core.CoreWindow'
+    - WindowControl | Name='切り取り & スケッチ、切り取り領域をクリップボードに保存しました、画像をマークアップして共有するには、ここを選択してください からの新しい通知。写真、切り取られた画面領域' | 
+Class='切り取り & スケッチ、切り取り領域をクリップボードに保存しました、画像をマークアップして共有するには、ここを選択してください からの新しい通知。写真、切り取られた画面領域'
+      - ImageControl | Name='切り取られた画面領域' | Class='Image'
+      - ImageControl | Name='' | Class='Image'
+      - TextControl | Name='切り取り領域をクリップボードに保存しました' | Class='TextBlock'
+      - TextControl | Name='画像をマークアップして共有するには、ここを選択してください' | Class='TextBlock'
+      - ButtonControl | Name='この通知をアクション センターに移動する' | Class='Button'
+        - TextControl | Name='' | Class='TextBlock'
+      - ButtonControl | Name='この通知の設定' | Class='Button'
+        - TextControl | Name='' | Class='TextBlock'
+            </code></pre>
+            <p>不难发现，Toast的宿主是Windows.UI.Core.CoreWindow，具体的内容则在TextControl中。</p>
+            <p>接下来，我们需要从这些TextControl中提取出有用的信息，比如通知的标题和内容，需要注意的是判断字符个数，像那些只有一两个字符的可能是Segoe UI图标字体（老师嗯一下你也没必要抓出来吧）</p>
+            <pre><code>
+try:
+    for pane in desktop.GetChildren():
+        if pane.ClassName != "Windows.UI.Core.CoreWindow":
+            continue
+
+        for win in pane.GetChildren():
+            if win.ControlTypeName != "WindowControl":
+                continue
+
+            texts = []
+            for c in win.GetChildren():
+                if c.ControlTypeName == "TextControl" and c.Name:
+                    texts.append(c.Name)
+
+            if len(texts) >= 2:
+                texts_list.append(texts)
+
+except:  # noqa: E722
+    pass
+            </code></pre>
+            <p><b>但是！</b>Win10的通知居然和Win11的不一样！</p>
+            <p>没错，我在Win11机子上测试发现的，我本想继续使用这种方法，但发现Win11的Toast结构与Win10有很大不同，这下真的得在屎里找金子了。</p>
+            <p>你知道Win11有多乱吗？</p>
+            <p>FlexibleToastView什么的都是一坨大的，我也懒得管了，索性Vibe Coding。</p>
+            <p>按理来说只要加个版本号判断（22000）做Win10和Win11两个大版本的适配就行了（我不打算适配7 or 8.1）但是Win10那么多次更新，不同版本Toast还是有差异的。就比如说1507，他只有最基本的文本展示功能的Toast，没有交互功能，至于那些成熟的版本就更复杂了。</p>
+            <p>事实证明，我也无须适配1507/1511，因为PySide6在早期版本Win10根本跑不起来。。。</p>
+            <p>不过，Gemini的一句话倒是提醒了我，为什么不WinSDK？</p>
+            <p>WinSDK提供了一个叫做Windows.UI.Notifications的命名空间，可以用来创建和管理Toast通知。</p>
+        </div>
+    </div>
+</body>
+</html>
