@@ -2,10 +2,35 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>项目详情 - QQListener</title>
     <link rel="stylesheet" href="style.css">
+    <style>
+        /* 针对详情页微调一点点样式，不删你原来的 */
+        .detail-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+        .step-img {
+            max-width: 100%;
+            border-radius: 8px;
+            margin: 1rem 0;
+            display: block;
+        }
+        .instruction-list {
+            padding-left: 1.5rem;
+            line-height: 1.8;
+        }
+        .instruction-list li {
+            margin-bottom: 2rem;
+        }
+    </style>
 </head>
 <body>
+    <div class="mouse-glow" id="glow"></div>
+
     <nav>
         <div class="logo">QQListener</div>
         <div class="links">
@@ -16,27 +41,70 @@
     </nav>
 
     <div class="container">
-        <div class="card">
-            <h2>详细工作原理</h2>
-            <p>QQListener 提供了两种工作模式：</p>
-            <ul>
-                <li><strong>WinSDK 模式：</strong> 通过监听 Windows 通知中心（Toast）实现。功耗极低，推荐使用。</li>
-                <li><strong>UIA 模式：</strong> 针对不支持通知的老旧环境，通过 UI 自动化技术直接抓取窗口元素。</li>
-            </ul>
+        <div class="section-title">
+            <h1>项目<span class="highlight">详情</span></h1>
+            <p style="color: var(--text-muted);">了解 QQListener 的运行机制与配置方法</p>
         </div>
 
-        <div class="card" style="border-left: 5px solid #d83b01;">
-            <h2>使用方法</h2>
-            <ol>
-                <li><strong>版本限制：</strong>本程序只支持NT QQ，因为旧版QQ根本没法发通知<a href="https://im.qq.com" class="link">下载新版QQ</a>。本程序只能在Windows 10 1903及以上版本工作</li>
-                <li><strong>软件安装：</strong>将 QQListener 安装到你想要的位置</li>
-                <li><strong>权限申请：</strong>请务必在 Windows 设置中开启 QQ 的“在操作中心显示通知”，并且允许 QQ 发送 Windows 通知</li>
-                <img src="assets/qqsetting.png">
-                <img src="assets/enablewintoast.png">
-                <li><strong>路径配置：</strong>在设置中找到聊天记录保存位置，然后填入 QQListener 的聊天记录保存文件夹</li>
-                <img src="assets/tencentfile.png">
-            </ol>
+        <div class="detail-grid">
+            <section class="feature-card">
+                <div class="icon-box">
+                    <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path d="M13 10V3L4 14h7v7l9-11h-7z" />
+                    </svg>
+                </div>
+                <h2>详细工作原理</h2>
+                <p style="margin: 1rem 0; color: var(--text-muted);">QQListener 灵活支持多种环境，确保消息抓取的稳定性：</p>
+                <ul class="instruction-list">
+                    <li><strong>WinSDK 模式：</strong> 通过监听 Windows 通知中心（Toast）实现。这是最佳实践，功耗极低，几乎不占资源，墙裂推荐。</li>
+                    <li><strong>UIA 模式：</strong> 备选方案。针对不支持通知的老旧环境，通过 UI 自动化技术直接从窗口元素中“扒”消息。</li>
+                </ul>
+            </section>
+
+            <section class="feature-card">
+                <div class="icon-box">
+                    <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                </div>
+                <h2>快速上手指南</h2>
+                <ol class="instruction-list">
+                    <li>
+                        <strong>版本限制：</strong> 
+                        必须使用 <span class="highlight">NT QQ</span>。老版 QQ 不发 Windows 通知，带不动。系统要求 Win10 1903+。
+                        <br>
+                        <a href="https://im.qq.com" class="btn secondary" style="margin-top: 10px; padding: 5px 15px; font-size: 0.8rem;">下载新版 QQ</a>
+                    </li>
+                    
+                    <li>
+                        <strong>权限申请：</strong> 
+                        在 Windows 设置里把 QQ 的“在操作中心显示通知”打开。
+                        <div class="window-frame" style="position: relative; animation: none; margin-top: 1rem;">
+                            <img src="assets/qqsetting.png" class="step-img" alt="QQ设置">
+                        </div>
+                        <div class="window-frame" style="position: relative; animation: none; margin-top: 1rem;">
+                            <img src="assets/enablewintoast.png" class="step-img" alt="开启通知">
+                        </div>
+                    </li>
+
+                    <li>
+                        <strong>路径配置：</strong> 
+                        在设置里找到聊天记录保存位置，同步填入 QQListener 的保存目录。
+                        <div class="window-frame" style="position: relative; animation: none; margin-top: 1rem;">
+                            <img src="assets/tencentfile.png" class="step-img" alt="路径配置">
+                        </div>
+                    </li>
+                </ol>
+            </section>
         </div>
     </div>
+
+    <script>
+        const glow = document.getElementById('glow');
+        window.addEventListener('mousemove', (e) => {
+            glow.style.left = e.clientX + 'px';
+            glow.style.top = e.clientY + 'px';
+        });
+    </script>
 </body>
 </html>
