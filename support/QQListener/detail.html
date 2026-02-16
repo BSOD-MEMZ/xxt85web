@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>项目详情 - QQListener</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <nav>
+        <div class="logo">QQListener</div>
+        <div class="links">
+            <a href="index.html">首页</a>
+            <a href="detail.html">详情</a>
+            <a href="translation.html">翻译</a>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="card">
+            <h2>详细工作原理</h2>
+            <p>QQListener 提供了两种工作模式：</p>
+            <ul>
+                <li><strong>WinSDK 模式：</strong> 通过监听 Windows 通知中心（Toast）实现。功耗极低，推荐使用。</li>
+                <li><strong>UIA 模式：</strong> 针对不支持通知的老旧环境，通过 UI 自动化技术直接抓取窗口元素。</li>
+            </ul>
+        </div>
+
+        <div class="card" style="border-left: 5px solid #d83b01;">
+            <h2>使用方法</h2>
+            <ol>
+                <li><strong>版本限制：</strong>本程序只支持NT QQ，因为旧版QQ根本没法发通知<a href="https://im.qq.com" class="link">下载新版QQ</a>。本程序只能在Windows 10 1903及以上版本工作</li>
+                <li><strong>软件安装：</strong>将 QQListener 安装到你想要的位置</li>
+                <li><strong>权限申请：</strong>请务必在 Windows 设置中开启 QQ 的“在操作中心显示通知”，并且允许 QQ 发送 Windows 通知</li>
+                <img src="assets/qqsetting.png">
+                <img src="assets/enablewintoast.png">
+                <li><strong>路径配置：</strong>在设置中找到聊天记录保存位置，然后填入 QQListener 的聊天记录保存文件夹</li>
+                <img src="assets/tencentfile.png">
+            </ol>
+        </div>
+    </div>
+</body>
+</html>
