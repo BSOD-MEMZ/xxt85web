@@ -95,7 +95,7 @@ nav .links a {
     font-size: 0.8rem;
     font-weight: 600;
     box-shadow: 0 2px 4px rgba(0,0,0,0.02);
-    margin-right: 10px;
+
 }
 .badge-red {
     display: inline-block;
@@ -106,7 +106,7 @@ nav .links a {
     font-size: 0.8rem;
     font-weight: 600;
     box-shadow: 0 2px 4px rgba(0,0,0,0.02);
-    margin-right: 10px;
+    margin-left: 10px;
 }
 .btn {
     padding: 12px 32px;
