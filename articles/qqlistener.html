@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>QQListener ⭐ xxtsoft</title>
     <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
     <div class="header-image">
         <img src="vista.webp" alt="标题图片">
@@ -14,7 +16,8 @@
         </div>
     </div>
     <div class="gradient-divider">
-        <a href="javascript:window.print()" class="button"><img src="printer.png" alt="" width="16" height="16" /> 打印文章</a>
+        <a href="javascript:window.print()" class="button"><img src="printer.png" alt="" width="16" height="16" />
+            打印文章</a>
     </div>
     <div class="content-container">
         <div class="author-info">
@@ -22,13 +25,16 @@
             <p>发布日期：2026年1月23日</p>
         </div>
         <div class="article-content">
-            <p>老师经常在班级QQ群内发送通知（比如提醒同学打电话给家长，或者发布参考答案等）电脑端QQ会以Toast形式展现，但它在班级大屏上太不显眼了，很容易错过重要通知。所以我决定用Python编写一个监听器，实时获取QQ群消息并在大屏幕上以更显眼的方式展示。</p>
+            <a href="../support/QQListener/index.html">建议直接看这个</a>
+            <img src="assets/qqlistener-header.png">
+            <p>老师经常在班级QQ群内发送通知（比如提醒同学打电话给家长，或者发布参考答案等）电脑端QQ会以Toast形式展现，但它在班级大屏上太不显眼了，很容易错过重要通知。所以我决定用Python编写一个监听器，实时获取QQ群消息并在大屏幕上以更显眼的方式展示。
+            </p>
             <p><b>注意：本文提供的方法仅适用于新版 NT QQ，旧版QQ根本没法发Windows通知。</b></p>
             <p>首先我考虑使用NoneBot，这绝对是最优雅的实现方式，因为QQ并没有开放接口，但是我相信没有人（包括我）愿意成为一个机器人。</p>
             <p>那我们能不能抓取这些Toast呢？</p>
             <p>考虑到WinRT已经死了有一段时间了，所以我决定使用UIAutomation抓取Toast里的内容。</p>
             <p>我自己的电脑是 Win10 2009，先使用递归遍历窗口树的方式来硬找。</p>
-<pre><code>
+            <pre><code>
 import time
 
 import uiautomation as auto
@@ -97,11 +103,26 @@ except:  # noqa: E722
             <p>没错，我在Win11机子上测试发现的，我本想继续使用这种方法，但发现Win11的Toast结构与Win10有很大不同，这下真的得在屎里找金子了。</p>
             <p>你知道Win11有多乱吗？</p>
             <p>FlexibleToastView什么的都是一坨大的，我也懒得管了，索性Vibe Coding。</p>
-            <p>按理来说只要加个版本号判断（22000）做Win10和Win11两个大版本的适配就行了（我不打算适配7 or 8.1）但是Win10那么多次更新，不同版本Toast还是有差异的。就比如说1507，他只有最基本的文本展示功能的Toast，没有交互功能，至于那些成熟的版本就更复杂了。</p>
+            <p>按理来说只要加个版本号判断（22000）做Win10和Win11两个大版本的适配就行了（我不打算适配7 or
+                8.1）但是Win10那么多次更新，不同版本Toast还是有差异的。就比如说1507，他只有最基本的文本展示功能的Toast，没有交互功能，至于那些成熟的版本就更复杂了。</p>
             <p>事实证明，我也无须适配1507/1511，因为PySide6在早期版本Win10根本跑不起来。。。</p>
             <p>不过，Gemini的一句话倒是提醒了我，为什么不WinSDK？</p>
             <p>WinSDK提供了一个叫做Windows.UI.Notifications的命名空间，可以用来创建和管理Toast通知。</p>
+            <p>然后我得吃了。</p>
+            <p>具体实现方法大家去 Github 翻吧，不过我确实在和 Windows 各种斗智斗勇，比如Windows开启专注模式我就炸了，旧版Windows可以注入注册表，但新版的就不行了。</p>
+            <p>另外我还想实现一个功能，老师可能会在班级群里发图片，我们不妨把图片抓出来。</p>
+            <p>QQ肯定是不会发带图片的Toast的，但我们都知道QQ会下载缩略图，缩略图怎么找呢？</p>
+            <pre><code>
+Thumb = (setting["Tencent_Files_Path"] + "\\" + setting["User_QQ"] + "\\nt_qq\\nt_data\\Pic\\" + time.strftime("%Y-%m") + "\\Thumb")              
+            </code></pre>
+            <p>对，聊天记录保存位置，你的QQ号，以及日期（YYYY-MM）Ori是原图，Thumb是缩略图，我尝试watchdog抓，但这样不好，所以我换成修改时间判断谁是刚下下来的缩略图。</p>
+            <p>然而，新版QQ<b>必须在前台激活</b>情况下才会下载！后台挂着不会下载缩略图！</p>
+            <p>我有点累了，就让GPT帮我写了点，总算实现了</p>
+            <p>notify那里就是Vibe Coding重灾区了，设置界面自己用pyside6搓</p>
+            <p>好像。。也能用？</p>
+            <a href="../support/QQListener/index.html">QQListener</a>
         </div>
     </div>
 </body>
+
 </html>
