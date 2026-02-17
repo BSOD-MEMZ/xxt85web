@@ -194,7 +194,7 @@
                     </ul>
                 </div>
             </div>
-<!--  
+            <!--  
             <div class="window">
                 <div class="window-titlebar">xxtsoft 新站</div>
                 <div class="window-content">
@@ -232,27 +232,28 @@
     </div>
 </body>
 <script>
-(function () {
-    const KEY = "hide_newsite_widget";
-    if (localStorage.getItem(KEY) === "1") {
-        return;
-    }
+    console.log("-----终端测试-----\n正しいのがどれか悩んでいりゃ\nどれも不正解というオチでした\n本日の 宿題は\n無個性な 僕のこと\n過不足無い 不自由無い\n最近に 生きていて\nでもどうして僕達は\n時々に いや毎日\n悲しいって言うんだ\n淋しいって言うんだ");
+    (function () {
+        const KEY = "hide_newsite_widget";
+        if (localStorage.getItem(KEY) === "1") {
+            return;
+        }
 
-    const widget = document.getElementById("newsite-widget");
-    if (!widget) return;
+        const widget = document.getElementById("newsite-widget");
+        if (!widget) return;
 
-    widget.style.display = "block";
+        widget.style.display = "block";
 
-    const checkbox = document.getElementById("hideNewSiteWidget");
-    if (checkbox) {
-        checkbox.addEventListener("change", function () {
-            if (this.checked) {
-                localStorage.setItem(KEY, "1");
-                widget.style.display = "none";
-            }
-        });
-    }
-})();
+        const checkbox = document.getElementById("hideNewSiteWidget");
+        if (checkbox) {
+            checkbox.addEventListener("change", function () {
+                if (this.checked) {
+                    localStorage.setItem(KEY, "1");
+                    widget.style.display = "none";
+                }
+            });
+        }
+    })();
 </script>
 
 <script language="javascript" type="text/javascript">
@@ -293,6 +294,5 @@
         }
     });
 </script>
-<!-- 操你妈的株洲市南方中学，你妈死了，放寒假补你妈的课，老子不想起那么早 -->
 
 </html>
