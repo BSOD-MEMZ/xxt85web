@@ -89,14 +89,25 @@ nav .links a {
 .badge {
     display: inline-block;
     padding: 4px 12px;
-    background: white;
+    background: rgb(232, 241, 255);
     border: 1px solid rgba(0,0,0,0.08);
     border-radius: 4px;
     font-size: 0.8rem;
     font-weight: 600;
     box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+    margin-right: 10px;
 }
-
+.badge-red {
+    display: inline-block;
+    padding: 4px 12px;
+    background: rgb(255, 227, 227);
+    border: 1px solid rgba(255, 0, 0, 0.08);
+    border-radius: 4px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+    margin-right: 10px;
+}
 .btn {
     padding: 12px 32px;
     border-radius: 6px;
@@ -320,8 +331,42 @@ footer {
     font-size: 0.8rem;
     color: #aaa;
 }
+/* 追加样式：增强交互感 */
+.feature-card {
+    border: 1px solid rgba(0, 0, 0, 0.03) !important;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.02);
+}
 
-/* 响应式微调 */
+.feature-card:hover {
+    border-color: var(--primary) !important;
+    background: rgba(255, 255, 255, 0.9) !important;
+    box-shadow: 0 20px 40px rgba(0, 120, 212, 0.1) !important;
+}
+
+/* 链接平滑动效 */
+nav .links a {
+    position: relative;
+    transition: color 0.3s;
+}
+
+nav .links a::after {
+    content: '';
+    position: absolute;
+    bottom: -4px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: var(--primary);
+    transition: width 0.3s;
+}
+
+nav .links a:hover::after {
+    width: 100%;
+}
+
+
+
+
 @media (max-width: 768px) {
     .screenshot-item, .screenshot-item.reverse {
         grid-template-columns: 1fr;
@@ -334,7 +379,6 @@ footer {
         gap: 30px;
     }
 
-    /* 1. 导航栏收缩 */
     nav {
         padding: 0.8rem 5%;
     }
@@ -343,20 +387,19 @@ footer {
         font-size: 0.85rem;
     }
 
-    /* 2. Hero 屏改为上下布局 */
     .hero {
         height: auto;
         padding: 120px 5% 60px;
     }
 
     .hero-content {
-        grid-template-columns: 1fr; /* 变成单列 */
+        grid-template-columns: 1fr;
         text-align: center;
         gap: 30px;
     }
 
     .hero-text h1 {
-        font-size: 2.2rem; /* 别让大字撑破屏幕 */
+        font-size: 2.2rem;
     }
 
     .btn-group {
@@ -369,18 +412,16 @@ footer {
         margin-left: 0;
     }
 
-    /* 3. 隐藏多余的装饰窗口，只留主预览图 */
     .hero-visual {
-        height: 250px;
-        display: none; /* 在手机端隐藏 hero-visual */
+        display: none;
     }
 
     .scroll-indicator {
-        display: none; /* 手机端隐藏滚动指示器 */
+        display: none;
     }
 
     .sub-window {
-        display: none; /* 手机屏太小，别套娃了 */
+        display: none;
     }
 
     .main-window {
@@ -389,7 +430,6 @@ footer {
         left: 0;
     }
 
-    /* 4. 特性卡片从 3 列变 1 列 */
     .features-grid {
         grid-template-columns: 1fr;
     }
@@ -398,7 +438,6 @@ footer {
         padding: 1.5rem;
     }
 
-    /* 5. 截图展示区调整 */
     .screenshot-item, .screenshot-item.reverse {
         grid-template-columns: 1fr;
         gap: 20px;
@@ -408,9 +447,12 @@ footer {
         text-align: center;
     }
 
-    /* 6. 那个晃眼睛的光晕在手机上太吃性能，建议缩小 */
     .mouse-glow {
-        width: 200px;
-        height: 200px;
+        display: none;
+    }
+
+    .instruction-list li {
+        padding-left: 1rem;
+        margin-bottom: 1.5rem;
     }
 }

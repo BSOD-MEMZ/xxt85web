@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -13,21 +14,67 @@
             gap: 2rem;
             margin-top: 2rem;
         }
+
         .step-img {
             max-width: 100%;
-            border-radius: 8px;
-            margin: 1rem 0;
+            border-radius: 12px; /* 圆角稍微加大一点，更有果冻感 */
+            margin: 1.5rem 0;
             display: block;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.08); /* 给截图加个呼吸感阴影 */
+            border: 1px solid rgba(0,0,0,0.05);
+            transition: transform 0.3s ease;
         }
+        
+        .step-img:hover {
+            transform: scale(1.01); /* 鼠标划过微动 */
+        }
+
         .instruction-list {
-            padding-left: 1.5rem;
+            padding-left: 0; /* 改用无缩进布局，靠 margin 撑开 */
+            list-style: none; /* 去掉原生圆点 */
             line-height: 1.8;
         }
+
         .instruction-list li {
-            margin-bottom: 2rem;
+            margin-bottom: 2.5rem;
+            position: relative;
+            padding-left: 1.5rem;
+            border-left: 3px solid rgba(0, 120, 212, 0.1); /* 左侧加个引导线 */
+            transition: border-color 0.3s;
+        }
+        
+        .instruction-list li:hover {
+            border-left-color: var(--primary);
+        }
+
+        .faq-q {
+            color: var(--primary);
+            font-weight: 600;
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+        .feature-card {
+            animation: slideUp 0.6s ease-out forwards;
+            opacity: 0;
+        }
+
+        @keyframes slideUp {
+            from { transform: translateY(30px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        /* 强迫症修复：给图片加个描述文本样式 */
+        .img-desc {
+            display: block;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            text-align: center;
+            margin-top: -1rem;
+            margin-bottom: 1.5rem;
         }
     </style>
 </head>
+
 <body>
     <div class="mouse-glow" id="glow"></div>
 
@@ -47,7 +94,7 @@
         </div>
 
         <div class="detail-grid">
-            <section class="feature-card">
+            <section class="feature-card" style="animation-delay: 0.1s;">
                 <div class="icon-box">
                     <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                         <path d="M13 10V3L4 14h7v7l9-11h-7z" />
@@ -56,12 +103,12 @@
                 <h2>详细工作原理</h2>
                 <p style="margin: 1rem 0; color: var(--text-muted);">QQListener 灵活支持多种环境，确保消息抓取的稳定性：</p>
                 <ul class="instruction-list">
-                    <li><strong>WinSDK 模式：</strong> 通过监听 Windows 通知中心（Toast）实现。这是最佳实践，功耗极低，几乎不占资源，墙裂推荐。</li>
-                    <li><strong>UIA 模式：</strong> 备选方案。针对不支持通知的老旧环境，通过 UI 自动化技术直接从窗口元素中“扒”消息。</li>
+                    <li><strong>WinSDK 模式：</strong> 通过监听 Windows 通知中心（Toast）实现。功耗极低，几乎不占资源，支持智能信息筛选，强烈推荐。</li>
+                    <li><strong>UIA 模式：</strong> 备选方案。通过 UI 自动化技术直接从窗口元素中“扒”消息。</li>
                 </ul>
             </section>
 
-            <section class="feature-card">
+            <section class="feature-card" style="animation-delay: 0.2s;">
                 <div class="icon-box">
                     <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                         <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
@@ -70,31 +117,61 @@
                 <h2>快速上手指南</h2>
                 <ol class="instruction-list">
                     <li>
-                        <strong>版本限制：</strong> 
+                        <strong>版本限制：</strong>
                         必须使用 <span class="highlight">NT QQ</span>。老版 QQ 不发 Windows 通知。系统要求 Win10 1903+。
                         <br>
-                        <a href="https://im.qq.com" class="btn secondary" style="margin-top: 10px; padding: 5px 15px; font-size: 0.8rem;">下载新版 QQ</a>
+                        <a href="https://im.qq.com" class="btn secondary"
+                            style="margin-top: 15px; padding: 8px 20px; font-size: 0.85rem; border-radius: 8px;">下载新版 QQ</a>
                     </li>
-                    
                     <li>
-                        <strong>权限申请：</strong> 
-                        在 Windows 设置里把 QQ 的“在操作中心显示通知”打开。
-                        <div class="window-frame" style="position: relative; animation: none; margin-top: 1rem;">
-                            <img src="assets/qqsetting.png" class="step-img" alt="QQ设置">
-                        </div>
-                        <div class="window-frame" style="position: relative; animation: none; margin-top: 1rem;">
-                            <img src="assets/enablewintoast.png" class="step-img" alt="开启通知">
-                        </div>
+                        <strong>安装软件：</strong>
+                        一路无脑下一步即可，建议加入开机自启。
+                        <img src="assets/install.png" class="step-img" alt="安装界面">
+                    </li>
+                    <li>
+                        <strong>权限申请：</strong>
+                        打开 Windows 设置 -> 系统，关闭专注模式，并禁用自动启用专注模式。
+                        <img src="assets/disablezzzs.png" class="step-img" alt="禁用专注模式">
+                        此外，还需要允许 QQ 发送通知：
+                        <img src="assets/qqsetting.png" class="step-img" alt="QQ设置">
+                        <img src="assets/enablewintoast.png" class="step-img" alt="开启通知">
                     </li>
 
                     <li>
-                        <strong>路径配置：</strong> 
+                        <strong>基础配置：</strong>
                         在设置里找到聊天记录保存位置，同步填入 QQListener 的保存目录。
-                        <div class="window-frame" style="position: relative; animation: none; margin-top: 1rem;">
-                            <img src="assets/tencentfile.png" class="step-img" alt="路径配置">
-                        </div>
+                        <img src="assets/tencentfile.png" class="step-img" alt="路径配置">
+                        顺便把你的 QQ 号填一下：
+                        <img src="assets/enterprofile.png" class="step-img" alt="填入账号">
                     </li>
                 </ol>
+            </section>
+
+            <section class="feature-card" style="animation-delay: 0.3s;">
+                <div class="icon-box">
+                    <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                </div>
+                <h2>常见问题 FAQ</h2>
+                <ul class="instruction-list">
+                    <li>
+                        <span class="faq-q">通知捕获不工作？</span>
+                        这是测试版，不会自动启用捕获，在调试页面运行 mainsdk
+                    </li>
+                    <li>
+                        <span class="faq-q">为什么 EdgeTTS 无法使用？</span>
+                        这个暂时属于玄学范畴。如果不行，请在设置中将其禁用，切换为系统自带的 TTS（没错，就是那个 Windows 讲述人）
+                    </li>
+                    <li>
+                        <span class="faq-q">通知捕获还是不工作？</span>
+                        看一下任务栏右下角托盘区有没有 QQListener，没有的话就在 QQListener 设置页面 -> 调试中强制启用 mainsdk，或者看下勿扰模式是不是开了
+                    </li>
+                    <li>
+                        <span class="faq-q">一上来就 QtCore 报错？</span>
+                        更新你的 Windows。1507、1511 肯定用不了，Win7/8/8.1 想都别想。如果你们有需求我拿 PySide2 重新搞一份
+                    </li>
+                </ul>
             </section>
         </div>
     </div>
@@ -102,9 +179,12 @@
     <script>
         const glow = document.getElementById('glow');
         window.addEventListener('mousemove', (e) => {
-            glow.style.left = e.clientX + 'px';
-            glow.style.top = e.clientY + 'px';
+            requestAnimationFrame(() => {
+                glow.style.left = e.clientX + 'px';
+                glow.style.top = e.clientY + 'px';
+            });
         });
     </script>
 </body>
+
 </html>
