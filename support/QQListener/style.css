@@ -333,4 +333,84 @@ footer {
         flex-direction: column;
         gap: 30px;
     }
+
+    /* 1. 导航栏收缩 */
+    nav {
+        padding: 0.8rem 5%;
+    }
+    nav .links a {
+        margin-left: 1rem;
+        font-size: 0.85rem;
+    }
+
+    /* 2. Hero 屏改为上下布局 */
+    .hero {
+        height: auto;
+        padding: 120px 5% 60px;
+    }
+
+    .hero-content {
+        grid-template-columns: 1fr; /* 变成单列 */
+        text-align: center;
+        gap: 30px;
+    }
+
+    .hero-text h1 {
+        font-size: 2.2rem; /* 别让大字撑破屏幕 */
+    }
+
+    .btn-group {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .btn.secondary {
+        margin-left: 0;
+    }
+
+    /* 3. 隐藏多余的装饰窗口，只留主预览图 */
+    .hero-visual {
+        height: 250px;
+        display: none; /* 在手机端隐藏 hero-visual */
+    }
+
+    .scroll-indicator {
+        display: none; /* 手机端隐藏滚动指示器 */
+    }
+
+    .sub-window {
+        display: none; /* 手机屏太小，别套娃了 */
+    }
+
+    .main-window {
+        width: 100%;
+        position: relative;
+        left: 0;
+    }
+
+    /* 4. 特性卡片从 3 列变 1 列 */
+    .features-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .feature-card {
+        padding: 1.5rem;
+    }
+
+    /* 5. 截图展示区调整 */
+    .screenshot-item, .screenshot-item.reverse {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+    
+    .screenshot-info {
+        text-align: center;
+    }
+
+    /* 6. 那个晃眼睛的光晕在手机上太吃性能，建议缩小 */
+    .mouse-glow {
+        width: 200px;
+        height: 200px;
+    }
 }
