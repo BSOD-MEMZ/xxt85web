@@ -433,3 +433,112 @@ a:hover {
     display: table;
     clear: both;
 }
+/* 1. 预览框容器 */
+.preview-box {
+    pointer-events: auto;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateX(-10px);
+    transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s;
+    position: absolute;
+    left: 105%;
+    top: 0;
+    width: 240px;
+    background: #fff;
+    border: 1px solid #7da2ce;
+    box-shadow: 2px 2px 15px rgba(0, 0, 0, 0.3);
+    z-index: 9999;
+    border-radius: 4px;
+    padding: 0;
+    overflow: hidden;
+    display: block;
+    /* 强制重置容器内文字对齐和行高，防止受外部 li 影响 */
+    text-align: left;
+    line-height: 1.4;
+}
+
+/* 2. 预览图 */
+.preview-box > img {
+    display: block;
+    width: 100% !important;
+    height: auto !important;
+    max-height: 135px;
+    object-fit: cover;
+    border-bottom: 1px solid #7da2ce;
+}
+
+/* 3. 文字区层级修复 */
+.preview-info {
+    padding: 10px;
+    background: #fff;
+    box-sizing: border-box;
+}
+
+/* 标题：深蓝色，大一点 */
+.preview-info strong {
+    display: block;
+    color: #003399 !important; /* 保持你的 Windows 经典蓝 */
+    font-size: 14px !important;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+/* 作者和描述：回归灰色/黑色，小一点 */
+.preview-info span, 
+.preview-info p {
+    display: block;
+    color: #555 !important;   /* 强制变回灰色 */
+    font-size: 11px !important; /* 缩小字号 */
+    margin: 3px 0;
+    text-decoration: none !important; /* 彻底掐掉下划线 */
+}
+
+/* 4. 操作列表 - 模拟 Windows 列表焦点样式 */
+.preview-actions {
+    background: #fdfdfd;
+    border-top: 1px solid #ccc;
+    padding: 2px; /* 留点内边距给选中框 */
+}
+
+.preview-link {
+    display: flex !important;
+    align-items: center;
+    padding: 5px 12px;
+    color: #333 !important;
+    font-size: 12px;
+    text-decoration: none !important;
+    border: 1px solid transparent; /* 预留边框位置防止抖动 */
+    border-radius: 3px;
+    margin: 1px 0;
+}
+
+/* 重点：模仿 Windows 7 资源管理器列表项 Hover 效果 */
+.preview-link:hover {
+    background: linear-gradient(to bottom, #f1f8fe 0%, #e1effa 100%) !important;
+    border: 1px solid #a8d8ea !important;
+    color: #000 !important;
+    box-shadow: inset 0 0 1px #fff;
+}
+
+/* 5. 图标大小锁定 */
+.preview-link img {
+    width: 16px !important;
+    height: 16px !important;
+    margin-right: 8px !important;
+    display: inline-block !important;
+    border: none !important;
+}
+
+/* 鼠标悬停显示 */
+.mainarticles ul li a:hover .preview-box {
+    opacity: 1 !important;
+    visibility: visible !important;
+    transform: translateX(0);
+}
+/* 针对 IE11 的特殊降级处理（IE11 不支持 transform 动画太复杂会卡，只保留透明度） */
+@media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
+    .preview-box {
+        background: #f0f0f0; /* IE 不支持 rgba 模糊，用实色 */
+        transition: opacity 0.2s ease;
+    }
+}

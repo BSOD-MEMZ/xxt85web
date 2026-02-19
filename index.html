@@ -232,6 +232,260 @@
     </div>
 </body>
 <script>
+    (function () {
+        var articleData = {
+            // 根目录或特殊路径
+            "index.html": {
+                title: "QQListener - 监听班级 QQ 群消息",
+                author: "xxt8582753",
+                desc: "针对班级群消息的实时监听工具，再也不怕漏掉老师发的通知（或作业）了。",
+                img: "images/previews/qqlistener.png"
+            },
+            // articles 目录
+            "qqlistener.html": {
+                title: "QQListener 的技术实现",
+                author: "xxt8582753",
+                desc: "深入探讨 QQ 消息监听的底层原理与 Python 实现细节。",
+                img: "images/previews/qqlistener.png"
+            },
+            "efluentwidget.html": {
+                title: "一种基于 Electron 的 WinUI3 实现方式（？",
+                author: "xxt8582753",
+                desc: "尝试用 Web 技术复刻 Windows 11 质感的 UI 界面",
+                img: "images/previews/efluentgallery.png"
+            },
+            "webuildnas.html": {
+                title: "垃圾佬在学校里开网吧惨遭制裁",
+                author: "xxt8582753",
+                desc: "记一次惊心动魄的校园NAS折腾史",
+                img: "images/previews/nasin507.jpg"
+            },
+            "eyes.html": {
+                title: "眼睛",
+                author: "Cookie",
+                desc: "据说是xxt8582753的一个同学失恋时写的",
+                img: "images/previews/eyes_1.png"
+            },
+            "entp.html": {
+                title: "EasiNote Theme Patcher - 希沃白板课堂活动资源替换器",
+                author: "xxt8582753",
+                desc: "希沃白板太单调？来试试给它换个皮肤，让课堂活动更有趣。",
+                img: "images/previews/entp.png"
+            },
+            "fucknfzx.html": {
+                title: "校园电子产品生存指南",
+                author: "xxt8582753",
+                desc: "学校不让带电子产品？没关系，这份指南教你如何在校园里安全使用各种电子设备，避免被没收！",
+                img: "images/previews/fucknfzx.jpg"
+            },
+            "wefuckedsalt.html": {
+                title: "我和AbCd白嫖了一台 12 代 i5 电脑！",
+                author: "xxt8582753",
+                desc: "我们开发者很缺算力，学校机房拉完了，但有一台12代英特尔希沃竟然闲置着！于是我们就RDP上去白嫖了它。",
+                img: "images/previews/wefcukedsalt.jpg"
+            },
+            "748-exitboard-fang-xue-dao-ji-shi": {
+                title: "【外链】ExitBoard 放学倒计时",
+                author: "xxt8582753",
+                desc: "每一秒的流逝都是为了迎接最后的自由。吸附在任务栏上的放学倒计时程序。",
+                img: "images/previews/exitboard.png"
+            },
+            "740-360tuo-tang-wei-shi": {
+                title: "【外链】360 拖堂卫士 - 守护珍贵的课间十分钟！",
+                author: "xxt8582753",
+                desc: "针对某些喜欢拖堂的老师开发的工具，你敢拖堂就强制查杀希沃白板/PPT等软件！",
+                img: "images/previews/360classguard.jpg"
+            },
+            "20251005.html": {
+                title: "SKToolBox - 打包自己的单文件工具箱",
+                author: "SK",
+                desc: "SKToolBox 相关内容",
+                img: "images/previews/toolbox.jpg"
+            },
+            "athomevideofucker.html": {
+                title: "《 掌 上 看 冢 采 集 端 》",
+                author: "xxt8582753",
+                desc: "老师喜欢用《掌上看家采集端》这个程序监控我们。做个假的骗骗Ta？",
+                img: "images/previews/athomevideofucker.JPG"
+            },
+            "win10remaster.html": {
+                title: "Win10 优化宗师",
+                author: "xxt8582753",
+                desc: "自制工具让Win10更好用",
+                img: "images/previews/win10.jpg"
+            },
+            "fuckjunxun.html": {
+                title: "强烈建议取消军训",
+                author: "xxt8582753",
+                desc: "个人感言，关于军训形式与实际意义的吐槽与思考。",
+                img: "images/previews/junxun.jpg"
+            },
+            "fuckbihuo.html": {
+                title: "千万不要用必火推广！",
+                author: "xxt8582753",
+                desc: "B站你妈死了",
+                img: "images/previews/bihuo.jpg"
+            },
+            "playmaimaiwithabcd.html": {
+                title: "记与AbCd夜拼机",
+                author: "xxt8582753",
+                desc: "音游人的快乐就是这么简单。和好哥们去机厅拼机、刷分的日常。",
+                img: "images/previews/maimai.jpg"
+            },
+            "openduolingo.html": {
+                title: "自学两周 PyQt6，做出来的日语假名学习程序—— OpenDuolingo",
+                author: "xxt8582753",
+                desc: "边学边练，用 Python 写了一个练习日语假名的小工具，自测好用。",
+                img: "images/previews/japanese.jpg"
+            },
+            "enji_but_pyqt": {
+                title: "【外链】欸，我不是窗口吗？——胭脂，但是 Windows",
+                author: "AbCd",
+                desc: "关于窗口绘制的一些奇妙探索。",
+                img: "images/previews/enji.jpg"
+            },
+            "winres.html": {
+                title: "【保姆级教程】提取 Windows 中的资源素材",
+                author: "xxt8582753",
+                desc: "教你如何从系统 DLL 或 EXE 中挖掘那些漂亮的图标和素材。",
+                img: "images/previews/winres.jpg"
+            },
+            "textract.html": {
+                title: "【保姆级教程】用 Python textract 库读取 Word、Excel、PPT",
+                author: "xxt8582753",
+                desc: "告别繁琐的 Office 套件，直接用 Python 高效提取文档中的文本内容。",
+                img: "images/previews/python_office.jpg"
+            },
+            "explorerkiller.html": {
+                title: "Explorer 控制工具——ExplorerKiller",
+                author: "xxt8582753",
+                desc: "当资源管理器卡死时，这个工具就是你的救命稻草。",
+                img: "images/previews/killer.jpg"
+            },
+            "saltai.html": {
+                title: "谁能拒绝一只可爱的纱露朵住进自己电脑呢？Python+DeepSeek API 开发实战演练！",
+                author: "xxt8582753",
+                desc: "ソルト最可爱了嘿嘿嘿",
+                img: "images/previews/ai.jpg"
+            },
+            "fuckgit.html": {
+                title: "git 缓存清不掉，试试再建一个文件夹",
+                author: "xxt8582753",
+                desc: "Git 的脑瘫时刻，简单粗暴的解决那些清理不掉的缓存难题。",
+                img: "images/previews/git.jpg"
+            },
+            "pass.html": {
+                title: "无题",
+                author: "xxt8582753",
+                desc: "",
+                img: "images/previews/none.jpg"
+            },
+            "an_old_music_game.html": {
+                title: "很久以前的自制音游，十分甚至九分难绷",
+                author: "xxt8582753",
+                desc: "回顾以前易语言写的“逆天”代码和令人绝望的判定机制。",
+                img: "images/previews/old_game.jpg"
+            },
+            "reviewsomething.html": {
+                title: "回忆往事",
+                author: "xxt8582753",
+                desc: "人老了（15岁）总喜欢回忆，看看过去做过的那些事儿。",
+                img: "images/previews/review.jpg"
+            },
+            "fuck11.html": {
+                title: "Windows 11, **都不用",
+                author: "AbCd",
+                desc: "关于 Win11 各种反人类设计以及无尽 Bug 的愤怒吐槽。",
+                img: "images/previews/fuck11.jpg"
+            },
+            "upload.html": {
+                title: "投稿指南",
+                author: "xxt8582753",
+                desc: "想让你的文章出现在本站？快来看看具体的投稿流程吧。",
+                img: "images/previews/upload.jpg"
+            },
+            "test.html": {
+                title: "测试文章",
+                author: "xxt8582753",
+                desc: "这是一个单纯的测试，用来看看样式有没有崩坏。",
+                img: "images/previews/test.jpg"
+            }
+
+        };
+
+        // 2. 获取所有文章链接
+        var links = document.querySelectorAll('.mainarticles ul li a');
+
+        for (var i = 0; i < links.length; i++) {
+            var link = links[i];
+            var href = link.getAttribute('href');
+
+            // 检查这个链接是否在我们的预览数据库里（取文件名部分）
+            var fileName = href.split('/').pop();
+
+            if (articleData[fileName]) {
+                var data = articleData[fileName];
+                var previewBox = document.createElement('div');
+                previewBox.className = 'preview-box';
+
+                var imgTag = '';
+                if (data.img && data.img !== "") {
+                    imgTag = '<img src="' + data.img + '" onerror="this.style.display=\'none\';">';
+                }
+
+                // 处理描述，如果没有描述就不显示 p 标签
+                var descTag = data.desc ? '<p>' + data.desc + '</p>' : '';
+
+                // 构造操作按钮的 HTML
+                // 注意：mailto 里的主题我帮你写好了
+                // 注意：我在外层 div 加上了 onclick，用来阻止点击事件往上传给父级的 <a>
+                // 构造操作列表的 HTML
+                var actionsHtml = '<div class="preview-actions" onclick="event.preventDefault(); event.stopPropagation(); return false;">' +
+                    // 阅读全文
+                    '<div class="preview-link" onclick="window.location.href=\'' + href + '\'">' +
+                    '<img src="images/icons/start2.png">阅读全文' +
+                    '</div>' +
+
+                    // 复制链接
+                    '<div class="preview-link" onclick="copyToClipboard(\'' + href + '\')">' +
+                    '<img src="images/icons/copy.png">复制链接' +
+                    '</div>' +
+
+                    // 反馈
+                    '<div class="preview-link" onclick="window.location.href=\'mailto:xxt8582753@126.com?subject=关于文章 ' + data.title + ' 的反馈\'">' +
+                    '<img src="images/icons/mail.png">发送反馈' +
+                    '</div>' +
+                    '</div>';
+
+                previewBox.innerHTML = imgTag +
+                    '<div class="preview-info">' +
+                    '<strong>' + data.title + '</strong>' +
+                    '<span>作者：' + data.author + '</span>' +
+                    descTag +
+                    '</div>' + actionsHtml;
+
+                link.style.position = 'relative';
+                link.appendChild(previewBox);
+            }
+        }
+    })();
+    window.copyToClipboard = function (text) {
+        var fullUrl = window.location.origin + '/' + text;
+        // 兼容现代浏览器和部分老浏览器的做法
+        var textArea = document.createElement("textarea");
+        textArea.value = fullUrl;
+        document.body.appendChild(textArea);
+        textArea.select();
+        try {
+            document.execCommand('copy');
+            alert('链接已复制到剪贴板！');
+        } catch (err) {
+            alert('复制失败，请手动复制：' + fullUrl);
+        }
+        document.body.removeChild(textArea);
+    };
+</script>
+<script>
     console.log("-----终端测试-----\n正しいのがどれか悩んでいりゃ\nどれも不正解というオチでした\n本日の 宿題は\n無個性な 僕のこと\n過不足無い 不自由無い\n最近に 生きていて\nでもどうして僕達は\n時々に いや毎日\n悲しいって言うんだ\n淋しいって言うんだ");
     (function () {
         const KEY = "hide_newsite_widget";
