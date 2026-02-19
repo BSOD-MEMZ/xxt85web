@@ -490,12 +490,19 @@
         for (var i = 0; i < links.length; i++) {
             var link = links[i];
             var href = link.getAttribute('href');
+            if (!href) continue;
 
-            // 检查这个链接是否在我们的预览数据库里（取文件名部分）
-            var fileName = href.split('/').pop();
+            // 1. 拿到纯文件名，去掉路径和后缀
+            // 比如 "olds/ACDSaw.html" -> "ACDSaw"
+            var pureName = href.split('/').pop().replace('.html', '');
 
-            if (articleData[fileName]) {
-                var data = articleData[fileName];
+            // 2. 同时也准备一个带后缀的备选
+            var fileNameWithHtml = pureName + ".html";
+
+            // 3. 只要 articleData 里有其中一个 Key，就说明匹配中了
+            var data = articleData[fileNameWithHtml] || articleData[pureName];
+
+            if (data) {
                 var previewBox = document.createElement('div');
                 previewBox.className = 'preview-box';
 
