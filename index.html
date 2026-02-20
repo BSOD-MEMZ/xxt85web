@@ -8,8 +8,7 @@
     <meta name="description" content="xxt8582753（BSOD-MEMZ）的个人网站，分享Python开发、创意视频、生活趣事的个人博客，也可以下载站长的开源程序">
     <link rel="icon" href="favicon.ico" type="image/x-icon">
     <link rel="stylesheet" href="style.css" type="text/css" />
-    <meta name="baidu-site-verification" content="codeva-7ukXIgmL8M" />
-    <meta name="algolia-site-verification" content="7C7C14722FD2B50F" />
+    <base target="_blank">
     <!-- <script src="https://xxtsoft.top/live2d-widget/dist/autoload.js"></script> -->
     <script defer src="https://cloud.umami.is/script.js"
         data-website-id="340048fa-ac87-4757-8011-6ade14611b24"></script>
@@ -49,6 +48,7 @@
                 <p>特别感谢@AbCd给本站加了响应式！</p>
                 <p>PS：手机用户将页面滑动至最底部就可以看到侧边栏啦</p>
             </div>
+            <br>
             <div class="window mainarticles">
                 <div class="window-titlebar">主页</div>
                 <div class="window-content">
@@ -189,25 +189,62 @@
                                     src="images/icons/douyin.png" alt="" width="16" height="16" /> 抖音</a></li>
                         <li><img src="images/icons/group.png" alt="" width="16" height="16" /> QQ群：821944413</li>
                         <br>
-                        <li><a href="javascript:void(0);" onclick="alert('2692386819')"><img
+                        <li><a href="javascript:void(0);" onclick="alert('2692386819')" target="_self"><img
                                     src="images/qq_offline.gif"></a></li>
                     </ul>
                 </div>
             </div>
-            <!--  
             <div class="window">
-                <div class="window-titlebar">xxtsoft 新站</div>
+                <div class="window-titlebar">项目进度</div>
                 <div class="window-content">
-                    <div style="display: flex; justify-content: center; height: 100px;">
-                        <a href="new/index.html"><img src="images/new.png"></a>
+                    <div class="progress-item">
+                        <div class="progress-label">QQListener</div>
+                        <div class="vista-progress-track">
+                            <div class="vista-progress-fill" style="width: 60%;"></div>
+                        </div>
                     </div>
-                    <label>
-                        <input type="checkbox" id="hideNewSiteWidget">
-                        以后不再显示
-                    </label>
+
+                    <div class="progress-item" style="margin-top: 12px;">
+                        <div class="progress-label">ExitBoard & 360-Class-Guard 系列</div>
+                        <div class="vista-progress-track">
+                            <div class="vista-progress-fill" style="width: 90%;"></div>
+                        </div>
+                    </div>
+
                 </div>
             </div>
-            -->
+            <div class="window">
+                <div class="window-titlebar">Windows Media Player</div>
+                <div class="window-content aero-player">
+                    <p id="wmp-info">背景音乐来源于网络，点击列表项目播放</p>
+                    <div class="wmp-screen">
+                        <div class="wmp-album-art">
+                            <img id="album-img" src="images/default_album.png" alt="Album Art">
+                        </div>
+                        <div id="lyric-wrapper">就绪</div>
+                    </div>
+
+                    <div class="wmp-progress-container" id="wmp-track">
+                        <div class="wmp-progress-bar" id="wmp-fill"></div>
+                        <img src="images/wmpdot.png" id="wmp-dot" class="wmp-dot">
+                    </div>
+
+                    <div class="wmp-controls">
+                        <a href="javascript:void(0);" onclick="prevSong()" target="_self"><img
+                                src="media/assets/prev.png" alt="Prev"></a>
+                        <a href="javascript:void(0);" onclick="togglePlay()" target="_self"><img
+                                src="media/assets/play.png" id="play-img" alt="Play"></a>
+                        <a href="javascript:void(0);" onclick="nextSong()" target="_self"><img
+                                src="media/assets/next.png" alt="Next"></a>
+                    </div>
+
+                    <div class="wmp-playlist">
+                        <ul id="playlist-ul">
+                        </ul>
+                    </div>
+                    <audio id="main-audio"></audio>
+                </div>
+            </div>
         </div>
         <div class="clear"></div>
     </div>
@@ -216,21 +253,265 @@
             <p>版权没有 2019-2026 湖南省株洲市xxt软件 不保留任何权利</p>
             <p>Best view at 1024x768</p>
             <p>欢迎访问站长的另外一个网页：<a href="http://8582753.xyz/">LegacyDownload</a></p>
-            <!--<div style="text-align: center; margin-top: 10px;">
-                 <a href="https://frutigeraeroarchive.org/"><img src="images/footer/frutigeraeroarchive_button.png" -->
-            <!-- alt="Frutiger Aero Archive" width="88" height="31" style="margin-right: 8px;" /></a> 
-                <a href="https://creativecommons.org/publicdomain/zero/1.0/deed.zh"><img
-                        src="images/footer/publicdomain.png" alt="本站所有文章除特殊说明外以CC0协议发布" width="88" height="31"
-                        style="margin-right: 8px;" /></a>
-                <img src="images/footer/https.png" alt="https加密" width="88" height="31" style="margin-right: 8px;" />
-                <a href="https://fan.leilukin.com/programming/"><img src="images/footer/program88x31.png"
-                        alt="Coding Geeks - computer programming Fanlisting" width="88" height="31"
-                        style="margin-right: 8px;" /></a>
-                <img src="images/footer/xxt85.gif" alt="xxt8582753个人网站按钮" width="88" height="31">
-            </div>-->
         </div>
     </div>
 </body>
+<script>
+    var lrckaminomanimani = [
+        { t: 0.134, c: "神のまにまに - 初音未来 (初音ミク)/GUMI (グミ)/镜音铃(鏡音リン)" },
+        { t: 4.559, c: "词：れるりり" },
+        { t: 5.486, c: "曲：れるりり" },
+        { t: 23.441, c: "思い通りにいかないことだらけ" },
+        { t: 27.337, c: "どうしようもなく自己嫌悪" },
+        { t: 30.554, c: "八百万の痛みや悲しみから" },
+        { t: 34.542, c: "逃げ出す場所を探してる" },
+        { t: 38.381, c: "いっそ岩の隙間に引きこもって" },
+        { t: 42.449, c: "月も太陽も無視して眠ろう" },
+        { t: 45.454, c: "生まれてきたことの意味なんて" },
+        { t: 49.626, c: "知らない 分かんないよ" },
+        { t: 52.898, c: "でもそんな風に思えるもの" },
+        { t: 56.632, c: "大切な何かがあるから" },
+        { t: 61.278, c: "ちょっとあっち向いて笑って 太陽が昇る" },
+        { t: 65.340, c: "君の笑顔が照らすよ" },
+        { t: 68.618, c: "何があってもいいさ" },
+        { t: 70.925, c: "幸せになろう" },
+        { t: 72.484, c: "だってもっとずっと明日を待っていたいんだ" },
+        { t: 76.242, c: "ならいっそ誰も彼も 右往左往して" },
+        { t: 80.375, c: "讃え合おうよ 人生を" },
+        { t: 83.504, c: "世界はもっともっと" },
+        { t: 85.954, c: "素晴らしいはずさ" },
+        { t: 89.479, c: "神のまにまに" },
+        { t: 93.385, c: "仰せのままに" },
+        { t: 102.264, c: "誰かのせいにしたいことだらけ" },
+        { t: 106.155, c: "どうしようもなく誰かのせい" },
+        { t: 109.281, c: "気に入らないもの全部壊して" },
+        { t: 113.332, c: "いないいないばあでさよなら" },
+        { t: 117.155, c: "そうさ結局心は鏡だって" },
+        { t: 121.134, c: "昨日も明日も映してるんだよ" },
+        { t: 124.238, c: "だったら笑ったもん勝ちじゃない" },
+        { t: 128.384, c: "楽しんだもん勝ちじゃない" },
+        { t: 131.810, c: "もしもなんてことはないよ" },
+        { t: 135.343, c: "変えられるのは自分だけ" },
+        { t: 140.061, c: "ちょっとこっち向いて笑って 太陽が昇る" },
+        { t: 144.132, c: "君の笑顔が照らすよ" },
+        { t: 147.341, c: "何があってもいいさ" },
+        { t: 149.689, c: "幸せになろう" },
+        { t: 151.272, c: "だってもっとずっと明日を待っていたいんだ" },
+        { t: 155.071, c: "ならいっそ誰も彼も 右往左往して" },
+        { t: 159.083, c: "讃え合おうよ 人生を" },
+        { t: 162.296, c: "世界はもっともっと" },
+        { t: 164.839, c: "素晴らしいはずさ" },
+        { t: 168.225, c: "神のまにまに" },
+        { t: 172.181, c: "仰せのままに" },
+        { t: 191.077, c: "本当に大事なものなんて" },
+        { t: 194.887, c: "案外くだらないことの中にあるよ" },
+        { t: 211.332, c: "ちょっとあっち向いて笑って 太陽が昇る" },
+        { t: 215.352, c: "君の笑顔が照らすよ" },
+        { t: 218.618, c: "何があってもいいさ" },
+        { t: 220.941, c: "幸せになろう" },
+        { t: 222.483, c: "だってもっとずっと明日を待っていたいんだ" },
+        { t: 226.257, c: "ならいっそ誰も彼も 右往左往して" },
+        { t: 230.342, c: "讃え合おうよ 人生を" },
+        { t: 233.513, c: "世界はもっともっと" },
+        { t: 236.035, c: "素晴らしいはずさ" },
+        { t: 239.467, c: "神のまにまに" },
+        { t: 243.344, c: "仰せのままに" },
+        { t: 247.014, c: "地球のまにまに" },
+        { t: 250.751, c: "君のまにまに" },
+        { t: 254.512, c: "神のまにまに" },
+        { t: 283.475, c: "泥んこだけど歩いて行こう" },
+        { t: 287.572, c: "泥んこだけど歩いて行こう" },
+        { t: 291.206, c: "まだまだ先は長いさ" },
+        { t: 294.597, c: "本当に大事なものなんて" },
+        { t: 297.868, c: "案外くだらないことの中にあるよ" },
+        { t: 302.098, c: "ときにはみんなで馬鹿騒ぎ" },
+        { t: 304.862, c: "裸踊りで大笑い" }
+    ];
+    var lrcosatouaika = [
+        { t: 0, c: "お砂糖哀歌 (feat. 初音ミク) - MIMI" },
+        { t: 5.117, c: "词：MIMI" },
+        { t: 6.076, c: "曲：MIMI" },
+        { t: 7.675, c: "やがては 単純に 傷ついた 感情に" },
+        { t: 11.596, c: "このまま最終便 連れ去ってくれよ" },
+        { t: 14.815, c: "嗚呼 ねぇどうしてねぇどうして" },
+        { t: 17.848, c: "明日は来ちゃうの" },
+        { t: 19.870, c: "問いかける夜の中" },
+        { t: 23.658, c: "君のその声が連れ出した" },
+        { t: 27.019, c: "2人の逃避行 たった数秒前の" },
+        { t: 29.535, c: "アイロニ も涙に" },
+        { t: 31.468, c: "とろ火で溶かした ハートに" },
+        { t: 34.152, c: "混ざるように" },
+        { t: 35.274, c: "最後は君にタラッタッタララ" },
+        { t: 37.305, c: "愛して って言えたら" },
+        { t: 39.155, c: "ありのまま居れるの なんてね" },
+        { t: 50.855, c: "何だって 仄かには考えて" },
+        { t: 54.208, c: "このまま劣等感" },
+        { t: 55.634, c: "消えないままでさ 嗚呼" },
+        { t: 58.313, c: "ねぇどうしてどうしてもさ" },
+        { t: 100.537, c: "明日がくるなら 君と歌わせてよ" },
+        { t: 106.128, c: "えぃ 最低温度の結露に" },
+        { t: 107.938, c: "灯す 静かな感情舞うよに" },
+        { t: 110.109, c: "かすかに揺らいで溶けだす 心 だけ" },
+        { t: 114.015, c: "及第点のオールデイならば" },
+        { t: 116.022, c: "これ以上何も求めないで居たい" },
+        { t: 118.584, c: "目を瞑る" },
+        { t: 121.197, c: "月夜の逃避行 たった3分間の" },
+        { t: 123.660, c: "ランデブー 覚えてる" },
+        { t: 125.650, c: "その魔法が解けるまで 待っててよ" },
+        { t: 129.477, c: "最後に全部 タラッタッタララ" },
+        { t: 131.555, c: "愛だけ 抱きしめて 君と踊りたいの" },
+        { t: 136.344, c: "このまま逃避行 たった数秒前の" },
+        { t: 139.059, c: "アイロニ も涙に" },
+        { t: 141.128, c: "とろ火で溶かした ハートに" },
+        { t: 143.814, c: "混ざるように" },
+        { t: 144.909, c: "最後は君にタラッタッタララ" },
+        { t: 147.009, c: "愛して って言えたら" },
+        { t: 148.834, c: "ありのまま居れるの なんてね" },
+        { t: 152.707, c: "なんにもないまま待ってる" },
+        { t: 154.600, c: "週末の明けに待ってる" },
+        { t: 156.642, c: "持ち越せない気持ち" },
+        { t: 159.371, c: "このまま 嗚呼" },
+        { t: 160.913, c: "鮮やかなまま 君と舞う この逃避行" },
+        { t: 164.414, c: "明日が来る前に 来る前に" }
+    ];
+    var lrcicantwait = [
+        { t: 0.000, c: "I Can't Wait - GUMI (グミ)" },
+        { t: 3.112, c: "I can't wait" },
+        { t: 4.216, c: "No mistake" },
+        { t: 5.791, c: "I'm in love" },
+        { t: 6.983, c: "Like a drug" },
+        { t: 8.496, c: "Pick me up" },
+        { t: 9.897, c: "These feelings" },
+        { t: 11.346, c: "Will never leave my heart" },
+        { t: 14.232, c: "Love me" },
+        { t: 15.031, c: "Love me ahh" },
+        { t: 18.272, c: "I can't wait" },
+        { t: 19.152, c: "No mistake" },
+        { t: 20.650, c: "I'm in love" },
+        { t: 21.944, c: "Like a drug" },
+        { t: 23.376, c: "Pick me up" },
+        { t: 24.853, c: "These feelings" },
+        { t: 26.256, c: "Will never leave my heart" },
+        { t: 29.164, c: "Love me love me ahh" },
+        { t: 33.122, c: "（Teto sax solo ♪）" },
+        { t: 48.971, c: "ドキドキ 愛してる" },
+        { t: 52.343, c: "ずっと離さない" },
+        { t: 55.259, c: "この feeling good" },
+        { t: 60.077, c: "愛して愛して aaa" },
+        { t: 63.916, c: "I can't wait" },
+        { t: 64.954, c: "No mistake" },
+        { t: 66.417, c: "I'm in love" },
+        { t: 67.787, c: "Like a drug" },
+        { t: 69.139, c: "Pick me up" },
+        { t: 70.594, c: "These feelings" },
+        { t: 71.902, c: "Will never leave my heart" },
+        { t: 74.879, c: "Love me love me ahh" },
+    ];
+
+    var songs = [
+        { title: "神のまにまに", author: "初音ミク/GUMI/鏡音リン/れるりり", url: "music/初音ミク 鏡音リン GUMI れるりり - 神のまにまに.mp3", lrc: lrckaminomanimani, cover: "music/kaminomanimani.png" },
+        { title: "お砂糖哀歌 (feat. 初音ミク)", author: "MIMI/初音ミク", url: "music/MIMI,初音ミク - お砂糖哀歌 (feat. 初音ミク).mp3", lrc: lrcosatouaika, cover: "music/osatouaika.jpg" },
+        { title: "I Can't Wait (feat. GUMI)", author: "d0tc0mmie/GUMI", url: "music/d0tc0mmie,GUMI - I Can't Wait (feat. GUMI).mp3", lrc: lrcicantwait, cover: "music/icantwait.jpg" },
+    ];
+    var currentIndex = 0;
+    var audio = document.getElementById('main-audio');
+    var fill = document.getElementById('wmp-fill');
+    var dot = document.getElementById('wmp-dot');
+    var lyricTxt = document.getElementById('lyric-wrapper');
+    var wmpInfo = document.getElementById('wmp-info');
+    function initPlaylist() {
+        var ul = document.getElementById('playlist-ul');
+        for (var i = 0; i < songs.length; i++) {
+            var li = document.createElement('li');
+            li.innerHTML = songs[i].title;
+            li.setAttribute('onclick', 'playSong(' + i + ')');
+            li.id = 'song-' + i;
+            ul.appendChild(li);
+        }
+    }
+
+    function playSong(index) {
+        currentIndex = index;
+        audio.src = songs[index].url + "?v=" + Math.random();
+
+        // 更新封面图
+        var albumImg = document.getElementById('album-img');
+        if (songs[index].cover) {
+            albumImg.src = songs[index].cover;
+        } else {
+            albumImg.src = 'images/default_album.png'; // 备用图
+        }
+        wmpInfo.innerHTML = "<strong>" + songs[index].title + "</strong> - " + (songs[index].author || "未知作者");
+        audio.play();
+        document.getElementById('play-img').src = 'media/assets/pause.png'; // 记得你有这张图
+
+        // 更新列表选中样式
+        var lis = document.querySelectorAll('.wmp-playlist li');
+        for (var j = 0; j < lis.length; j++) lis[j].className = '';
+        document.getElementById('song-' + index).className = 'active';
+    }
+
+    function togglePlay() {
+        if (audio.paused) {
+            audio.play();
+            document.getElementById('play-img').src = 'media/assets/pause.png';
+        } else {
+            audio.pause();
+            document.getElementById('play-img').src = 'media/assets/play.png';
+        }
+    }
+
+    function nextSong() {
+        currentIndex = (currentIndex + 1) % songs.length;
+        playSong(currentIndex);
+    }
+
+    function prevSong() {
+        currentIndex = (currentIndex - 1 + songs.length) % songs.length;
+        playSong(currentIndex);
+    }
+    audio.addEventListener('ended', function () {
+        nextSong(); // 播完了直接调你写好的下一首函数
+    });
+    audio.addEventListener('timeupdate', function () {
+        if (!audio.duration) return;
+        var pct = (audio.currentTime / audio.duration) * 100;
+        fill.style.width = pct + '%';
+        dot.style.left = pct + '%';
+        var curLrc = songs[currentIndex].lrc;
+        if (!curLrc) {
+            lyricTxt.innerHTML = "无歌词";
+            return;
+        }
+
+        var currentText = "";
+        for (var i = 0; i < curLrc.length; i++) {
+            if (audio.currentTime > curLrc[i].t) {
+                currentText = curLrc[i].c;
+            } else {
+                break;
+            }
+        }
+
+        if (currentText) {
+            lyricTxt.innerHTML = currentText;
+        }
+    });
+    var track = document.getElementById('wmp-track');
+    track.style.cursor = 'pointer'; // 增加手型光标
+
+    track.addEventListener('click', function (e) {
+        if (!audio.duration) return;
+        // 获取点击位置占总长度的比例
+        var rect = track.getBoundingClientRect();
+        var offsetX = e.clientX - rect.left;
+        var pct = offsetX / rect.width;
+        // 跳转进度
+        audio.currentTime = pct * audio.duration;
+    });
+
+    initPlaylist();
+</script>
 <script>
     (function () {
         var articleData = {
@@ -483,17 +764,12 @@
                 img: "images/old_archive.png"
             }
         };
-
-        // 2. 获取所有文章链接
         var links = document.querySelectorAll('.mainarticles ul li a');
 
         for (var i = 0; i < links.length; i++) {
             var link = links[i];
             var href = link.getAttribute('href');
             if (!href) continue;
-
-            // 1. 拿到纯文件名，去掉路径和后缀
-            // 比如 "olds/ACDSaw.html" -> "ACDSaw"
             var pureName = href.split('/').pop().replace('.html', '');
 
             // 2. 同时也准备一个带后缀的备选
@@ -510,14 +786,7 @@
                 if (data.img && data.img !== "") {
                     imgTag = '<img src="' + data.img + '" onerror="this.style.display=\'none\';">';
                 }
-
-                // 处理描述，如果没有描述就不显示 p 标签
                 var descTag = data.desc ? '<p>' + data.desc + '</p>' : '';
-
-                // 构造操作按钮的 HTML
-                // 注意：mailto 里的主题我帮你写好了
-                // 注意：我在外层 div 加上了 onclick，用来阻止点击事件往上传给父级的 <a>
-                // 构造操作列表的 HTML
                 var actionsHtml = '<div class="preview-actions" onclick="event.preventDefault(); event.stopPropagation(); return false;">' +
                     // 阅读全文
                     '<div class="preview-link" onclick="window.location.href=\'' + href + '\'">' +

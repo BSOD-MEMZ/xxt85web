@@ -1,6 +1,6 @@
 body {
     font-size: 13px;
-    /* font-family: "Segoe UI", "Microsoft YaHei UI"; */
+    font-family: "Segoe UI", "Microsoft YaHei UI";
     color: #000;
     background: #F0F0F0;
     background-image: url("background.webp");
@@ -433,13 +433,13 @@ a:hover {
     display: table;
     clear: both;
 }
-/* 1. 预览框容器 */
+
 .preview-box {
     pointer-events: auto;
     opacity: 0;
     visibility: hidden;
-    transform: translateX(-10px);
-    transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s;
+    transform: translateX(-5px);
+    transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s;
     position: absolute;
     left: 105%;
     top: 0;
@@ -452,12 +452,10 @@ a:hover {
     padding: 0;
     overflow: hidden;
     display: block;
-    /* 强制重置容器内文字对齐和行高，防止受外部 li 影响 */
     text-align: left;
-    line-height: 1.4;
+    line-height: 1.2;
 }
 
-/* 2. 预览图 */
 .preview-box > img {
     display: block;
     width: 100% !important;
@@ -495,7 +493,7 @@ a:hover {
 
 /* 4. 操作列表 - 模拟 Windows 列表焦点样式 */
 .preview-actions {
-    background: #fdfdfd;
+    background: #EEF3FA;
     border-top: 1px solid #ccc;
     padding: 2px; /* 留点内边距给选中框 */
 }
@@ -503,7 +501,7 @@ a:hover {
 .preview-link {
     display: flex !important;
     align-items: center;
-    padding: 5px 12px;
+    padding: 2px 12px;
     color: #333 !important;
     font-size: 12px;
     text-decoration: none !important;
@@ -535,7 +533,169 @@ a:hover {
     visibility: visible !important;
     transform: translateX(0);
 }
-/* 针对 IE11 的特殊降级处理（IE11 不支持 transform 动画太复杂会卡，只保留透明度） */
+.progress-item {
+    margin-bottom: 10px;
+}
+
+/* 文字注释样式 */
+.progress-label {
+    font-size: 12px;
+    color: #1a1a1a;
+    margin-bottom: 4px; /* 和进度条拉开一点距离 */
+    font-family: "Segoe UI", "Microsoft YaHei", sans-serif;
+}
+/* 进度条底槽 */
+.vista-progress-track {
+    height: 14px;
+    /* 假设你的底图 bg.png 左右各有 2px 的圆角细节 */
+    border-width: 0 2px; 
+    border-style: solid;
+    /* 核心：2 代表切分左右各 2px，stretch 代表中间拉伸 */
+    border-image: url('static/bg.png') 0 2 fill stretch;
+    display: block;
+    overflow: hidden;
+}
+
+/* 进度条填充 */
+.vista-progress-fill {
+    height: 100%; /* 填满父容器高度 */
+    min-width: 4px; /* 至少得有左右各4px的宽度，不然圆角会挤在一起 */
+    border-width: 0 2px;
+    border-style: solid;
+    border-image: url('static/fill.png') 0 4 fill stretch;
+    
+    /* 平滑动画，改变 width 时会有那种“涨上去”的效果 */
+    transition: width 0.4s cubic-bezier(0.1, 0.7, 0.1, 1);
+}
+
+/* 进度条条目容器 */
+.progress-item {
+    margin-bottom: 10px;
+}
+
+/* 文字注释样式 */
+.progress-label {
+    font-size: 12px;
+    color: #1a1a1a;
+    margin-bottom: 4px;
+}
+
+.wmp-screen {
+    background: linear-gradient(to bottom, #FFFFFF 0%,#E6F0FA 50%,#DCE6F4 51%,#DDE9F7 100%);/* 半透明黑，更有玻璃感 */
+    display: flex;
+    align-items: center;
+    padding: 12px;
+    height: 96px; /* 固定高度，防止歌词太多撑开 */
+    overflow: hidden;
+    border-radius: 4px;
+    border: 1px solid #BFC7CF;
+}
+
+/* 左侧封面容器 */
+.wmp-album-art {
+    width: 64px;
+    height: 64px;
+    flex-shrink: 0; /* 禁止图片被挤压 */
+    
+    margin-right: 15px;
+}
+
+.wmp-album-art img {
+    width: 100%;
+    height: 100%;
+    border-radius: 4px;
+    object-fit: cover; /* 保证图片不拉伸 */
+}
+
+/* 右侧歌词 */
+#lyric-wrapper {
+    flex-grow: 1;
+    color: #00025C;
+    font-size: 14px;
+    text-align: left;
+    line-height: 1.6;
+    padding-right: 5px;
+    transition: opacity 0.2s ease-in-out;
+}
+
+/* 蓝色细线进度条 */
+.wmp-progress-container {
+    height: 2px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 2px;
+    border: 1px solid #BEC3CB;
+    position: relative;
+    margin: 15px 5px; /* 留出空间给 dot.png */
+    cursor: pointer;
+}
+
+.wmp-progress-bar {
+    height: 100%;
+    width: 0%;
+    background: #0F41CD; /* WMP 经典蓝色 */
+    border-radius: 2px;
+}
+
+/* 进度条上的坨坨 dot.png */
+.wmp-dot {
+    position: absolute;
+    top: 50%;
+    left: 0%;
+    transform: translate(-50%, -50%);
+    width: 16px; /* 根据你的图片大小调整 */
+    height: 9px;
+    pointer-events: none; /* 防止挡住进度条点击 */
+}
+
+/* 按钮布局 */
+.wmp-controls {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0px;
+    margin-bottom: 10px;
+}
+
+.wmp-controls img {
+    cursor: pointer;
+    transition: opacity 0.2s;
+}
+
+.wmp-controls img:hover {
+    opacity: 0.8;
+}
+
+/* 列表样式 */
+.wmp-playlist {
+    max-height: 100px;
+    overflow-y: auto;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.wmp-playlist ul {
+    list-style: none;
+    padding: 0;
+    margin: 5px 0;
+}
+
+.wmp-playlist li {
+    padding: 3px 8px;
+    font-size: 12px;
+    cursor: pointer;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.wmp-playlist li:hover {
+    background: rgba(255, 255, 255, 0.5);
+}
+
+.wmp-playlist li.active {
+    background: rgba(0, 120, 215, 0.2);
+    font-weight: bold;
+    color: #005a9e;
+}
 @media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
     .preview-box {
         background: #f0f0f0; /* IE 不支持 rgba 模糊，用实色 */
