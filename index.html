@@ -9,7 +9,7 @@
     <link rel="icon" href="favicon.ico" type="image/x-icon">
     <link rel="stylesheet" href="style.css" type="text/css" />
     <base target="_blank">
-    <!-- <script src="https://xxtsoft.top/live2d-widget/dist/autoload.js"></script> -->
+    <script src="https://xxtsoft.top/live2d-widget/dist/autoload.js"></script>
     <script defer src="https://cloud.umami.is/script.js"
         data-website-id="340048fa-ac87-4757-8011-6ade14611b24"></script>
 </head>
@@ -433,19 +433,15 @@
     function playSong(index) {
         currentIndex = index;
         audio.src = songs[index].url + "?v=" + Math.random();
-
-        // 更新封面图
         var albumImg = document.getElementById('album-img');
         if (songs[index].cover) {
             albumImg.src = songs[index].cover;
         } else {
-            albumImg.src = 'images/default_album.png'; // 备用图
+            albumImg.src = 'images/default_album.png';
         }
         wmpInfo.innerHTML = "<strong>" + songs[index].title + "</strong> - " + (songs[index].author || "未知作者");
         audio.play();
-        document.getElementById('play-img').src = 'media/assets/pause.png'; // 记得你有这张图
-
-        // 更新列表选中样式
+        document.getElementById('play-img').src = 'media/assets/pause.png';
         var lis = document.querySelectorAll('.wmp-playlist li');
         for (var j = 0; j < lis.length; j++) lis[j].className = '';
         document.getElementById('song-' + index).className = 'active';
@@ -538,7 +534,7 @@
             "webuildnas.html": {
                 title: "垃圾佬在学校里开网吧惨遭制裁",
                 author: "xxt8582753",
-                desc: "记一次惊心动魄的校园NAS折腾史",
+                desc: "我们在学校里找到一些垃圾配件，居然组了一台NAS？",
                 img: "images/previews/nasin507.jpg"
             },
             "eyes.html": {
@@ -581,7 +577,7 @@
                 title: "SKToolBox - 打包自己的单文件工具箱",
                 author: "SK",
                 desc: "SKToolBox 相关内容",
-                img: "images/previews/toolbox.jpg"
+                img: "images/previews/sktb.jpg"
             },
             "athomevideofucker.html": {
                 title: "《 掌 上 看 冢 采 集 端 》",
@@ -593,13 +589,13 @@
                 title: "Win10 优化宗师",
                 author: "xxt8582753",
                 desc: "自制工具让Win10更好用",
-                img: "images/previews/win10.jpg"
+                img: ""
             },
             "fuckjunxun.html": {
                 title: "强烈建议取消军训",
                 author: "xxt8582753",
                 desc: "个人感言，关于军训形式与实际意义的吐槽与思考。",
-                img: "images/previews/junxun.jpg"
+                img: ""
             },
             "fuckbihuo.html": {
                 title: "千万不要用必火推广！",
@@ -611,13 +607,13 @@
                 title: "记与AbCd夜拼机",
                 author: "xxt8582753",
                 desc: "音游人的快乐就是这么简单。和好哥们去机厅拼机、刷分的日常。",
-                img: "images/previews/maimai.jpg"
+                img: ""
             },
             "openduolingo.html": {
                 title: "自学两周 PyQt6，做出来的日语假名学习程序—— OpenDuolingo",
                 author: "xxt8582753",
                 desc: "边学边练，用 Python 写了一个练习日语假名的小工具，自测好用。",
-                img: "images/previews/japanese.jpg"
+                img: ""
             },
             "enji_but_pyqt": {
                 title: "【外链】欸，我不是窗口吗？——胭脂，但是 Windows",
@@ -677,19 +673,19 @@
                 title: "Windows 11, **都不用",
                 author: "AbCd",
                 desc: "关于 Win11 各种反人类设计以及无尽 Bug 的愤怒吐槽。",
-                img: "images/previews/fuck11.jpg"
+                img: ""
             },
             "upload.html": {
                 title: "投稿指南",
                 author: "xxt8582753",
                 desc: "想让你的文章出现在本站？快来看看具体的投稿流程吧。",
-                img: "images/previews/upload.jpg"
+                img: ""
             },
             "test.html": {
                 title: "测试文章",
                 author: "xxt8582753",
                 desc: "这是一个单纯的测试，用来看看样式有没有崩坏。",
-                img: "images/previews/test.jpg"
+                img: ""
             },
             "ACDSaw.html": {
                 title: "ACDSaw",

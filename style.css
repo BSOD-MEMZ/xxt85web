@@ -353,6 +353,10 @@ a:hover {
     .window-content ul {
         margin-left: 10px;
     }
+    
+    #waifu {
+        display: none !important;
+    }
 }
 
 .search-container {
