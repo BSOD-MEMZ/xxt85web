@@ -1,15 +1,5 @@
-/*!
- * Live2D Widget
- * https://github.com/stevenjoezhang/live2d-widget
- */
-
-// Recommended to use absolute path for live2d_path parameter
-// live2d_path 参数建议使用绝对路径
 const live2d_path = 'https://xxtsoft.top/live2d-widget/dist/';
-// const live2d_path = '/dist/';
 
-// Method to encapsulate asynchronous resource loading
-// 封装异步加载资源的方法
 function loadExternalResource(url, type) {
   return new Promise((resolve, reject) => {
     let tag;
@@ -33,10 +23,6 @@ function loadExternalResource(url, type) {
 }
 
 (async () => {
-
-
-  // Avoid cross-origin issues with image resources
-  // 避免图片资源跨域问题
   const OriginalImage = window.Image;
   window.Image = function(...args) {
     const img = new OriginalImage(...args);
@@ -44,21 +30,17 @@ function loadExternalResource(url, type) {
     return img;
   };
   window.Image.prototype = OriginalImage.prototype;
-  // Load waifu.css and waifu-tips.js
-  // 加载 waifu.css 和 waifu-tips.js
   await Promise.all([
     loadExternalResource(live2d_path + 'waifu.css', 'css'),
     loadExternalResource(live2d_path + 'waifu-tips.js', 'js')
   ]);
-  // For detailed usage of configuration options, see README.en.md
-  // 配置选项的具体用法见 README.md
   initWidget({
     waifuPath: live2d_path + 'waifu-tips.json',
     // cdnPath: 'https://fastly.jsdelivr.net/gh/fghrsh/live2d_api/',
     cubism2Path: live2d_path + 'live2d.min.js',
     cubism5Path: 'https://cubism.live2d.com/sdk-web/cubismcore/live2dcubismcore.min.js',
     //tools: ['hitokoto', 'asteroids', 'switch-model', 'switch-texture', 'search', 'info', 'quit'],
-    tools: ['search', 'hitokoto', 'asteroids', 'switch-model', 'switch-texture', 'chat', 'quit'],
+    tools: ['search', 'hitokoto', 'asteroids', 'switch-model', 'chat', 'quit'],
     logLevel: 'warn',
     drag: false,
   });

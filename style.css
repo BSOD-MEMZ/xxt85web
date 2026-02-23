@@ -541,43 +541,35 @@ a:hover {
     margin-bottom: 10px;
 }
 
-/* 文字注释样式 */
 .progress-label {
     font-size: 12px;
     color: #1a1a1a;
-    margin-bottom: 4px; /* 和进度条拉开一点距离 */
+    margin-bottom: 4px;
     font-family: "Segoe UI", "Microsoft YaHei", sans-serif;
 }
-/* 进度条底槽 */
+
 .vista-progress-track {
     height: 14px;
-    /* 假设你的底图 bg.png 左右各有 2px 的圆角细节 */
     border-width: 0 2px; 
     border-style: solid;
-    /* 核心：2 代表切分左右各 2px，stretch 代表中间拉伸 */
     border-image: url('static/bg.png') 0 2 fill stretch;
     display: block;
     overflow: hidden;
 }
 
-/* 进度条填充 */
 .vista-progress-fill {
-    height: 100%; /* 填满父容器高度 */
-    min-width: 4px; /* 至少得有左右各4px的宽度，不然圆角会挤在一起 */
+    height: 100%;
+    min-width: 4px; 
     border-width: 0 2px;
     border-style: solid;
     border-image: url('static/fill.png') 0 4 fill stretch;
-    
-    /* 平滑动画，改变 width 时会有那种“涨上去”的效果 */
     transition: width 0.4s cubic-bezier(0.1, 0.7, 0.1, 1);
 }
 
-/* 进度条条目容器 */
 .progress-item {
     margin-bottom: 10px;
 }
 
-/* 文字注释样式 */
 .progress-label {
     font-size: 12px;
     color: #1a1a1a;
