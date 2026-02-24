@@ -46,4 +46,4 @@ function loadExternalResource(url, type) {
   });
 })();
 
-console.log(`\n%cLive2D%cWidget%c\n`, 'padding: 8px; background: #cd3e45; font-weight: bold; font-size: large; color: white;', 'padding: 8px; background: #ff5450; font-size: large; color: #eee;', '');
+console.log("Live2D 加载成功");
