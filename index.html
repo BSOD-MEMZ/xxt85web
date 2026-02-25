@@ -623,7 +623,7 @@
             "748-exitboard-fang-xue-dao-ji-shi": {
                 title: "【外链】ExitBoard 放学倒计时",
                 author: "xxt8582753",
-                desc: "每一秒的流逝都是为了迎接最后的自由。吸附在任务栏上的放学倒计时程序。",
+                desc: "每一秒的流逝都是为了迎接最后的自由。吸附在任务栏上的放学倒计时程序，放学全屏提醒效果",
                 img: "images/previews/exitboard.png"
             },
             "740-360tuo-tang-wei-shi": {
@@ -671,13 +671,13 @@
             "openduolingo.html": {
                 title: "自学两周 PyQt6，做出来的日语假名学习程序—— OpenDuolingo",
                 author: "xxt8582753",
-                desc: "边学边练，用 Python 写了一个练习日语假名的小工具，自测好用。",
+                desc: "边学边练，用 Python 写了一个练习日语假名的小工具",
                 img: ""
             },
             "enji_but_pyqt": {
                 title: "【外链】欸，我不是窗口吗？——胭脂，但是 Windows",
                 author: "AbCd",
-                desc: "关于窗口绘制的一些奇妙探索。",
+                desc: "一个使用PySide6仿照《胭脂》PV制作的窗口动画程序",
                 img: "images/previews/enji.jpg"
             },
             "winres.html": {
@@ -719,7 +719,7 @@
             "an_old_music_game.html": {
                 title: "很久以前的自制音游，十分甚至九分难绷",
                 author: "xxt8582753",
-                desc: "回顾以前易语言写的“逆天”代码和令人绝望的判定机制。",
+                desc: "回顾以前易语言写的逆天代码和令人绝望的判定机制。",
                 img: "images/previews/old_game.jpg"
             },
             "reviewsomething.html": {
@@ -731,7 +731,7 @@
             "fuck11.html": {
                 title: "Windows 11, **都不用",
                 author: "AbCd",
-                desc: "关于 Win11 各种反人类设计以及无尽 Bug 的愤怒吐槽。",
+                desc: "关于 Win11 各种 Bug 的愤怒吐槽。",
                 img: ""
             },
             "upload.html": {
@@ -761,7 +761,7 @@
             "Fun_2_Rhyme.html": {
                 title: "Fun Rhyme 2",
                 author: "xxt8582753",
-                desc: "提升你的英语词汇量，拼写押韵的单词",
+                desc: "提升您的英语词汇量和拼写能力。程序会给出4个不完整的单词，尝试补全它们",
                 img: "images/old_archive.png"
             },
             "homobomb.html": {
@@ -843,17 +843,12 @@
                 }
                 var descTag = data.desc ? '<p>' + data.desc + '</p>' : '';
                 var actionsHtml = '<div class="preview-actions" onclick="event.preventDefault(); event.stopPropagation(); return false;">' +
-                    // 阅读全文
                     '<div class="preview-link" onclick="window.location.href=\'' + href + '\'">' +
                     '<img src="images/icons/start2.png">阅读全文' +
                     '</div>' +
-
-                    // 复制链接
                     '<div class="preview-link" onclick="copyToClipboard(\'' + href + '\')">' +
                     '<img src="images/icons/copy.png">复制链接' +
                     '</div>' +
-
-                    // 反馈
                     '<div class="preview-link" onclick="window.location.href=\'mailto:xxt8582753@126.com?subject=关于文章 ' + data.title + ' 的反馈\'">' +
                     '<img src="images/icons/mail.png">发送反馈' +
                     '</div>' +
@@ -880,7 +875,6 @@
         textArea.select();
         try {
             document.execCommand('copy');
-            alert('链接已复制到剪贴板！');
         } catch (err) {
             alert('复制失败，请手动复制：' + fullUrl);
         }
