@@ -571,14 +571,6 @@
 <script>
     (function () {
         var articleData = {
-            // 根目录或特殊路径
-            "index.html": {
-                title: "QQListener - 监听班级 QQ 群消息",
-                author: "xxt8582753",
-                desc: "针对班级群消息的实时监听工具，再也不怕漏掉老师发的通知（或作业）了。",
-                img: "images/previews/qqlistener.png"
-            },
-            // articles 目录
             "nanfangfm.html": {
                 title: "提前开学脸都给你丢光！学校里的“黑广播”",
                 author: "xxt8582753",
@@ -833,13 +825,8 @@
             var href = link.getAttribute('href');
             if (!href) continue;
             var pureName = href.split('/').pop().replace('.html', '');
-
-            // 2. 同时也准备一个带后缀的备选
             var fileNameWithHtml = pureName + ".html";
-
-            // 3. 只要 articleData 里有其中一个 Key，就说明匹配中了
             var data = articleData[fileNameWithHtml] || articleData[pureName];
-
             if (data) {
                 var previewBox = document.createElement('div');
                 previewBox.className = 'preview-box';
@@ -860,7 +847,6 @@
                     '<img src="images/icons/mail.png">发送反馈' +
                     '</div>' +
                     '</div>';
-
                 previewBox.innerHTML = imgTag +
                     '<div class="preview-info">' +
                     '<strong>' + data.title + '</strong>' +
@@ -875,7 +861,6 @@
     })();
     window.copyToClipboard = function (text) {
         var fullUrl = window.location.origin + '/' + text;
-        // 兼容现代浏览器和部分老浏览器的做法
         var textArea = document.createElement("textarea");
         textArea.value = fullUrl;
         document.body.appendChild(textArea);
