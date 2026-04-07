@@ -2,12 +2,19 @@ document.addEventListener('DOMContentLoaded', function () {
     const video = document.getElementById('main-video');
     const playPauseBtn = document.getElementById('play-pause');
     const progressBar = document.getElementById('progress-bar');
+    const progressDot = document.getElementById('progress-dot');
     const timeDisplay = document.getElementById('time-display');
     const muteBtn = document.getElementById('mute');
     const volumeSlider = document.getElementById('volume-slider');
     const fullscreenBtn = document.getElementById('fullscreen');
     const progressContainer = document.querySelector('.progress-container');
     const loader = document.getElementById('loader');
+
+    function setProgressPercent(percent) {
+        const safePercent = Number.isFinite(percent) ? Math.min(100, Math.max(0, percent)) : 0;
+        progressBar.style.width = `${safePercent}%`;
+        if (progressDot) progressDot.style.left = `${safePercent}%`;
+    }
 
     playPauseBtn.addEventListener('click', function () {
         if (video.paused) {
@@ -20,8 +27,9 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     video.addEventListener('timeupdate', function () {
+        if (!video.duration) return;
         const percent = (video.currentTime / video.duration) * 100;
-        progressBar.style.width = `${percent}%`;
+        setProgressPercent(percent);
 
         // 更新时间显示
         const currentMinutes = Math.floor(video.currentTime / 60);
@@ -36,8 +44,12 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // 点击进度条跳转
     progressContainer.addEventListener('click', function (e) {
-        const pos = (e.pageX - this.getBoundingClientRect().left) / this.offsetWidth;
-        video.currentTime = pos * video.duration;
+        if (!video.duration) return;
+        const rect = this.getBoundingClientRect();
+        const pos = (e.clientX - rect.left) / rect.width;
+        const safePos = Math.min(1, Math.max(0, pos));
+        video.currentTime = safePos * video.duration;
+        setProgressPercent(safePos * 100);
     });
 
     // 音量控制
@@ -156,5 +168,6 @@ document.addEventListener('DOMContentLoaded', function () {
         const durationMinutes = Math.floor(video.duration / 60);
         const durationSeconds = Math.floor(video.duration % 60);
         timeDisplay.textContent = `00:00 / ${String(durationMinutes).padStart(2, '0')}:${String(durationSeconds).padStart(2, '0')}`;
+        setProgressPercent(0);
     });
 });
