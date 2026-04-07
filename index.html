@@ -216,7 +216,7 @@
                     <div class="progress-item" style="margin-top: 12px;">
                         <div class="progress-label">在株洲市南方中学坐牢</div>
                         <div class="vista-progress-track">
-                            <div class="vista-progress-fill" style="width: 0%;"></div>
+                            <div class="vista-progress-fill" style="width: 20%;"></div>
                         </div>
                     </div>
                 </div>
@@ -435,7 +435,7 @@
     ];
     var lrcicantwait = [
         { t: 0.000, c: "I Can't Wait - GUMI (グミ)" },
-        { t: 3.112, c: "I can't wait<br>test" },
+        { t: 3.112, c: "I can't wait" },
         { t: 4.216, c: "No mistake" },
         { t: 5.791, c: "I'm in love" },
         { t: 6.983, c: "Like a drug" },
@@ -527,7 +527,7 @@
         playSong(currentIndex);
     }
     audio.addEventListener('ended', function () {
-        nextSong(); // 播完了直接调你写好的下一首函数
+        nextSong();
     });
     audio.addEventListener('timeupdate', function () {
         if (!audio.duration) return;
@@ -554,15 +554,13 @@
         }
     });
     var track = document.getElementById('wmp-track');
-    track.style.cursor = 'pointer'; // 增加手型光标
+    track.style.cursor = 'pointer';
 
     track.addEventListener('click', function (e) {
         if (!audio.duration) return;
-        // 获取点击位置占总长度的比例
         var rect = track.getBoundingClientRect();
         var offsetX = e.clientX - rect.left;
         var pct = offsetX / rect.width;
-        // 跳转进度
         audio.currentTime = pct * audio.duration;
     });
 
