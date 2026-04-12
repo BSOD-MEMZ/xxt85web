@@ -38,15 +38,15 @@
             <h3>基础对话</h3>
             <p>很明显，这玩意已经被我调教坏了，自己拿到手后改下prompt吧</p>
             <p>（我这里剪了一下，DeepSeek反应比较迟钝）</p>
-            <img src="assets/saltai.gif">
+            <img alt="" src="assets/saltai.gif">
             <h3>/web 指令</h3>
             <p>用requests库爬取指定网页，这比AI在那里瞎几把搜索好多了，注意要在/web 后输入完整URL，包括协议头（例如输入https://xxtsoft.top而不是xxtsoft.top）否则会出问题</p>
-            <img src="assets/saltai2.gif">
+            <img alt="" src="assets/saltai2.gif">
             <p>点击“回复”按钮，可以继续和AI对话；点击查看按钮，会弹出信息框显示模型的具体回答内容</p>
-            <img src="assets/saltai3.gif">
+            <img alt="" src="assets/saltai3.gif">
             <h3>/file 指令</h3>
             <p>让纱露朵读入文件，会打开tk文件选择框，在/file 后面加上你要说的话，目前支持纯文本内容（比如txt，py，cpp等）Office文档（docx，xlsx，pptx）PDF，具体请见textract那篇文章，目前只能读取文本内容，总不可能搞个ocr吧</p>
-            <img src="assets/saltai4.gif">
+            <img alt="" src="assets/saltai4.gif">
             <h3>/cmd 指令</h3>
             <p>若加上/cmd 前缀，你的信息完全不会发送给AI，而是直接作为命令执行，和用CMD执行没有区别。例如输入“/cmd taskmgr”，立即打开任务管理器</p>
             <h3>@bat 指令</h3>
@@ -73,9 +73,9 @@
             </pre>
             <h2>使用方法</h2>
             <p>我打包了个exe，没测试，不知道能不能用，反正代码可以跑。自己注册一个DeepSeek APIKey，填入apikey.ini<b>（这一步很重要，不填APIkey就用不了，API也不贵，像我这种人20块钱够用一年了）</b></p>
-            <img src="assets/saltai1.JPG">
+            <img alt="" src="assets/saltai1.JPG">
             <p>如果不填或者填错就会这样↓</p>
-            <img src="assets/saltai2.JPG">
+            <img alt="" src="assets/saltai2.JPG">
             <h2>注意事项</h2>
             <p>DeepSeek的错觉相当离谱，包括和她对话也有明显的角色扮演痕迹，要么prompt写严点，要么Temperature调低点（我也不知道调Temperature能不能解决问题）</p>
             <p>DeepSeek就算用API审查也相当严，如果你有那方面需求，建议换个模型</p>

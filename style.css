@@ -692,9 +692,60 @@ a:hover {
     font-weight: bold;
     color: #005a9e;
 }
+.vista-dialog {
+    background: rgba(240, 240, 240) !important;
+    border: 1px solid #7da2ce !important;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5) !important;
+    border-radius: 3px;
+}
+
+.vista-dialog .window-titlebar {
+    background: linear-gradient(to bottom, #98B4D0 0%, #B9D1EA 100%) !important;
+    color: #000;
+    font-weight: normal;
+    
+}
+
+.vista-dialog button {
+    background: linear-gradient(to bottom, #f2f2f2, #ebebeb 50%, #dddddd 51%, #cfcfcf);
+    border: 1px solid #707070;
+    border-radius: 3px;
+    cursor: pointer;
+}
+
+.vista-dialog button:hover {
+    border-color: #3c7fb1;
+    background: linear-gradient(to bottom, #e9f5ff, #d8eaff 50%, #c4e0ff 51%, #b3d5ff);
+}
+
+.vista-close-btn {
+    float: right;
+    cursor: pointer;
+    width: 28px; 
+    height: 17px;
+    margin-top: 1px;
+    margin-right: 2px;
+    transition: filter 0.2s;
+}
+
+.vista-close-btn:hover {
+    filter: brightness(1.2);
+}
+
+.vista-close-btn:active {
+    filter: brightness(0.8);
+}
+
+.window-titlebar .settings-titlebar{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 0 0 8px !important; 
+    height: 25px;
+}
 @media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
     .preview-box {
-        background: #f0f0f0; /* IE 不支持 rgba 模糊，用实色 */
+        background: #f0f0f0;
         transition: opacity 0.2s ease;
     }
 }

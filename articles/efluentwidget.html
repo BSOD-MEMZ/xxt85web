@@ -31,18 +31,18 @@
             <p>那还说啥，HTTrack 启动！</p>
             <p>先对网页进行简单分析，CSS 之类都好理解，就是 JavaScript 控制页面切换，菜单展开/收起等功能比较复杂，这里我把 JavaScript 都删了，然后直接 VibeCoding...</p>
             <p>但是对于一个 Fluent 窗口，肯定不能用系统自带的标题栏，好在这个网页提供了一个标题栏（header），我们在 header 里保留 logobox，再加入窗口控制元素，代码如下：</p>
-            <img src="assets/winctrl.jpg">
+            <img alt="" src="assets/winctrl.jpg">
             <p>再加上一些神奇的 CSS</p>
-            <img src="assets/wincss.jpg">
+            <img alt="" src="assets/wincss.jpg">
             <p>这种 CSS 其实也不是很 Fluent，但是先暂时这么用着，因为后面还有操蛋的 IPC</p>
             <p>为按钮绑定上事件，搞个全局 API</p>
-            <img src="assets/winctrlapi.jpg">
+            <img alt="" src="assets/winctrlapi.jpg">
             <p>然后在主进程中监听这些事件，调用 Electron 的 API 来实现窗口控制。</p>
             <p>对了，别忘了把系统的标题栏隐藏一下，frame: false; contextIsolation 我个人不建议开启，因为开了隔离感觉很不方便。</p>
             <p>我们好不容易做了一个框框，肯定希望它能被多次复用，所以我们把 PageContent 留空，让 JavaScript 自己把需要的内容加载进去。</p>
             <p>页面切换的话我就直接 a href，其实fetch。。也行？</p>
             <p>看看 Win11 中的显示效果吧</p>
-            <img src="assets/efluentgallery.png">
+            <img alt="" src="assets/efluentgallery.png">
             <p>等等，你哪来的 Mica？</p>
             <p>骗你的，其实是 linear-gradient。</p>
             <p>但对于浏览器框架，Mica 并不现实，除非后台挂个程序在窗口背后取色，这样属实不合法还有病。</p>
