@@ -469,6 +469,7 @@ const app = createApp({
     const appsView = ref('list');
     const activeApp = ref(null);
     const appTools = [
+      { key: 'xuexi', name: '学习强国', description: '学习强国官网', icon: 'book', url: 'https://xuexi.cn' },
       { key: 'classwork', name: 'ClassWork 作业板', description: '显示作业内容和管理班级信息', icon: 'dashboard', url: 'https://classworks.wuyuan.dev/' },
       { key: 'cutdown', name: '倒计时', description: '在线倒计时', icon: 'alarm', url: 'https://www.lddgo.net/common/countdown' },
       { key: 'ua', name: 'User-Agent在线分析', description: '查看班牌的浏览器内核和系统信息', icon: 'app_shortcut', url: 'https://www.lddgo.net/network/useragent' },
@@ -888,29 +889,32 @@ const app = createApp({
       settingsSection.value = 'root';
     }
 
-    const screenOffRipple = reactive({
-      active: false,
-      x: 0,
-      y: 0
-    });
+    const isFullscreen = ref(false);
 
-    function powerOffScreen(event) {
-      const btn = event?.currentTarget;
-      const rect = btn && btn.getBoundingClientRect ? btn.getBoundingClientRect() : null;
-      const x = rect ? rect.left + rect.width / 2 : window.innerWidth - 36;
-      const y = rect ? rect.top + rect.height / 2 : window.innerHeight - 92;
-      screenOffRipple.x = Math.round(x);
-      screenOffRipple.y = Math.round(y);
-      screenOffRipple.active = true;
-      setTimeout(() => {
-        screenOff.value = true;
-        screenOffRipple.active = false;
-      }, 480);
+    function toggleFullscreen() {
+      if (!document.fullscreenElement) {
+        document.documentElement.requestFullscreen().then(() => {
+          isFullscreen.value = true;
+          snackbar({ message: '已进入全屏模式，按 ESC 退出' });
+        }).catch(() => {
+          snackbar({ message: '全屏模式不可用' });
+        });
+      } else {
+        document.exitFullscreen().then(() => {
+          isFullscreen.value = false;
+          snackbar({ message: '已退出全屏模式' });
+        }).catch(() => {
+          isFullscreen.value = false;
+        });
+      }
+    }
+
+    function powerOffScreen() {
+      screenOff.value = true;
     }
 
     function wakeScreen() {
       screenOff.value = false;
-      screenOffRipple.active = false;
     }
 
     function openXxtsoftDialog() {
@@ -1101,7 +1105,7 @@ const app = createApp({
     const topBarTitle = computed(() => {
       if (activeTab.value === 'settings' && settingsSection.value !== 'root') return currentSettingsTitle.value;
       if (activeTab.value === 'apps' && appsView.value === 'web' && activeApp.value) return activeApp.value.name;
-      return 'SaltOS 南方中学电子班牌';
+      return '株洲市南方中学电子班牌';
     });
     function handleTopBack() {
       if (activeTab.value === 'settings' && settingsSection.value !== 'root') {
@@ -1146,7 +1150,6 @@ const app = createApp({
       screenOff,
       powerOffScreen,
       wakeScreen,
-      screenOffRipple,
       todayLessonsExpanded,
       appsView,
       activeApp,
@@ -1157,16 +1160,23 @@ const app = createApp({
       handleTopBack,
       onDeviceModelTap,
       fakeDevEnabled,
-      currentSettingsTitle
+      currentSettingsTitle,
+      isFullscreen,
+      toggleFullscreen
     };
   },
   template: `
     <div class="app-shell" :class="{ 'webview-mode': activeTab === 'apps' && appsView === 'web' }">
       <mdui-top-app-bar v-if="!screenOff" variant="small" class="app-top-bar" scroll-target=".page-body">
-        <mdui-button-icon v-if="showTopBack" @click="handleTopBack">
+        <mdui-button-icon v-if="showTopBack" slot="navigationIcon" @click="handleTopBack">
           <span class="material-symbols-rounded icon-glyph">arrow_back</span>
         </mdui-button-icon>
-        <mdui-top-app-bar-title @click="handleTopBack">{{ topBarTitle }}</mdui-top-app-bar-title>
+        <mdui-top-app-bar-title>{{ topBarTitle }}</mdui-top-app-bar-title>
+        <mdui-top-app-bar-action v-if="activeTab === 'home'">
+          <mdui-button-icon @click="activeTab = 'apps'; openAppTool({ key: 'xuexi', name: '学习强国', description: '学习强国官网', icon: 'book', url: 'https://xuexi.cn' })">
+            <span class="material-symbols-rounded icon-glyph">book</span>
+          </mdui-button-icon>
+        </mdui-top-app-bar-action>
       </mdui-top-app-bar>
 
       <main class="page-body">
@@ -1261,6 +1271,12 @@ const app = createApp({
                   <input id="theme-color" class="color-input" type="color" :value="settingsDraft.themeColor" @input="setThemeColor($event.target.value)" />
                   <mdui-text-field label="主题色 HEX" :value="settingsDraft.themeColor" @input="setThemeColor($event.target.value)"></mdui-text-field>
                 </div>
+                <div class="actions">
+                  <mdui-button :variant="isFullscreen ? 'filled' : 'outlined'" @click="toggleFullscreen">
+                    <span slot="icon" class="material-symbols-outlined">{{ isFullscreen ? 'fullscreen_exit' : 'fullscreen' }}</span>
+                    {{ isFullscreen ? '退出全屏' : '全屏显示' }}
+                  </mdui-button>
+                </div>
               </div>
             </mdui-card>
 
@@ -1334,7 +1350,7 @@ const app = createApp({
                   <div slot="custom" class="device-row"><span>型号</span><span class="device-value">NFZX-EDU-01</span></div>
                 </mdui-list-item>
                 <mdui-list-item nonclickable>
-                  <div slot="custom" class="device-row"><span>SaltOS 版本</span><span class="device-value">0.1.1</span></div>
+                  <div slot="custom" class="device-row"><span>ClassBoard 版本</span><span class="device-value">0.1.1</span></div>
                 </mdui-list-item>
                 <mdui-list-item nonclickable>
                   <div slot="custom" class="device-row"><span>Android 版本</span><span class="device-value">5.1.1</span></div>
@@ -1433,7 +1449,6 @@ const app = createApp({
         </mdui-navigation-bar>
       </footer>
 
-      <div v-if="screenOffRipple.active" class="screen-off-ripple" :style="{ '--ripple-x': screenOffRipple.x + 'px', '--ripple-y': screenOffRipple.y + 'px' }"></div>
       <div v-if="screenOff" class="screen-off-overlay" @click="wakeScreen"></div>
 
       <mdui-dialog :open="xxtsoftDialogOpen" @close="xxtsoftDialogOpen = false" close-on-overlay-click close-on-esc>
