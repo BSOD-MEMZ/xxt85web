@@ -575,6 +575,91 @@
             color: rgba(0, 0, 0, .7);
         }
 
+        /* ============ LYRICS PANEL ============ */
+        .lyrics-panel {
+            position: fixed;
+            top: 120px;
+            right: 32px;
+            z-index: 55;
+            text-align: right;
+            max-width: 480px;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 1s ease;
+        }
+        .lyrics-panel.visible {
+            opacity: 1;
+            pointer-events: auto;
+        }
+        .lyrics-line {
+            font-size: 20px;
+            letter-spacing: 3px;
+            color: #2c3e50;
+            text-shadow: 0 1px 8px rgba(255,255,255,.6);
+            min-height: 30px;
+            line-height: 1.6;
+        }
+        .lyrics-line .hl {
+            color: #39c5bb;
+            font-weight: bold;
+        }
+        .lyrics-line.switching {
+            animation: lyricSwitch 0.55s ease-out;
+        }
+        @keyframes lyricSwitch {
+            0% {
+                opacity: 0;
+                transform: translateY(16px);
+                filter: blur(4px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+                filter: blur(0);
+            }
+        }
+        .lyrics-line.fading {
+            animation: lyricFade 0.35s ease-in forwards;
+        }
+        @keyframes lyricFade {
+            0% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+            100% {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+        }
+        .lyrics-toggle {
+            position: fixed;
+            top: 84px;
+            right: 32px;
+            z-index: 56;
+            background: rgba(44,62,80,.08);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            border: 1px solid rgba(44,62,80,.15);
+            border-radius: 20px;
+            color: #5a6c7d;
+            font-size: 12px;
+            letter-spacing: 2px;
+            padding: 6px 16px;
+            cursor: pointer;
+            opacity: 0;
+            pointer-events: none;
+            transition: all 0.4s ease;
+            font-family: inherit;
+        }
+        .lyrics-toggle.visible {
+            opacity: 1;
+            pointer-events: auto;
+        }
+        .lyrics-toggle:hover {
+            background: rgba(57,197,187,.15);
+            color: #39c5bb;
+            border-color: rgba(57,197,187,.35);
+        }
         @media (max-width: 640px) {
             .start-btn {
                 width: 100px;
@@ -594,6 +679,21 @@
             }
             .hero {
                 padding: 60px 20px 40px;
+            }
+            .lyrics-panel {
+                top: 90px;
+                right: 12px;
+                max-width: 260px;
+            }
+            .lyrics-line {
+                font-size: 15px;
+                letter-spacing: 1px;
+            }
+            .lyrics-toggle {
+                top: 60px;
+                right: 12px;
+                font-size: 10px;
+                padding: 4px 12px;
             }
         }
     </style>
@@ -714,7 +814,14 @@
         <small>SCROLL</small>
     </div>
 
+    <!-- LYRICS -->
+    <div class="lyrics-panel" id="lyricsPanel">
+        <div class="lyrics-line" id="lyricsLine"></div>
+    </div>
+    <button class="lyrics-toggle" id="lyricsToggle">JP / CN</button>
+
     <!-- HIDDEN AUDIO -->
+    <audio id="introAudio" preload="auto" loop></audio>
     <audio id="bgm" preload="auto" loop></audio>
 
     <script>
@@ -731,6 +838,7 @@
             const orb2 = document.getElementById('orb2');
             const orb3 = document.getElementById('orb3');
             const bgm = document.getElementById('bgm');
+            const introAudio = document.getElementById('introAudio');
             const backLink = document.getElementById('backLink');
             const scrollIndicator = document.getElementById('scrollIndicator');
             const particlesContainer = document.getElementById('particles');
@@ -751,9 +859,10 @@
 
             const videoSrc = '../support/aikotoba/intro.mp4';
             const audioSrc = '../support/aikotoba/bgm.mp3';
+            const introSrc = '../support/aikotoba/intro.mp3';
 
             let mediaLoaded = 0;
-            const totalMedia = 2;
+            const totalMedia = 3;
 
             function mediaReady() {
                 mediaLoaded++;
@@ -762,6 +871,9 @@
                         preloader.classList.add('hidden');
                         startBtn.disabled = false;
                         startBtn.textContent = '开 始';
+                        // Start intro.mp3 loop on landing
+                        introAudio.volume = 0.3;
+                        introAudio.play().catch(() => {});
                     }, 600);
                 }
             }
@@ -772,6 +884,9 @@
             bgm.src = audioSrc;
             bgm.load();
             bgm.addEventListener('canplaythrough', mediaReady, { once: true });
+            introAudio.src = introSrc;
+            introAudio.load();
+            introAudio.addEventListener('canplaythrough', mediaReady, { once: true });
 
             // Safety
             setTimeout(() => {
@@ -780,6 +895,8 @@
                     preloader.classList.add('hidden');
                     startBtn.disabled = false;
                     startBtn.textContent = '开 始';
+                    introAudio.volume = 0.3;
+                    introAudio.play().catch(() => {});
                 }
             }, 8000);
 
@@ -790,6 +907,10 @@
                 if (started || startBtn.disabled) return;
                 started = true;
                 startBtn.disabled = true;
+
+                // Stop intro audio, start BGM
+                introAudio.pause();
+                introAudio.currentTime = 0;
 
                 // BGM fade in
                 bgm.volume = 0;
@@ -838,6 +959,136 @@
                 introVideo.addEventListener('error', onVideoEnded, { once: true });
             }
 
+            // ===== LYRICS DATA =====
+            const lyricData = [
+                [21.378,25.214,"ねえいくつ夢に出会った？","呐 我们在梦中几度相遇？"],
+                [25.214,28.708,"そのいくつを叶えた？","又有几回实现了呢？"],
+                [28.708,31.136,"次の旅へ行こうか","踏上下一段旅途吧"],
+                [31.136,34.135,"わっはー　We're おニューなキメラ","哇哈— 我们就是崭新的奇美拉"],
+                [34.135,37.921,"一人じゃダメなら　二人になればいい","独自一人不够的话 那就两个人一起嘛"],
+                [37.921,41.060,"一緒ランド作りっこしよ","一起造出我们的乐园吧"],
+                [41.060,44.763,"おすわりしてても　じれったくなるんでしょ","就算乖乖坐着 也还是会心急难耐吧"],
+                [44.763,48.466,"だったら進むだけ　それでいいじゃん","那就只管向前 不也挺好吗"],
+                [48.466,51.420,"愛とか恋とか僕とか君とかいつもデビってんのん？","爱啊恋啊我啊你啊 总像小恶魔一样吗？"],
+                [51.420,54.871,"好きとか嫌いでウダウダ　たまには死ぬほどピュアピュアやってんのん","为了爱啊恨啊去烦恼 偶尔也想装纯装到死"],
+                [54.871,58.341,"君に歌ってほしい歌　まだあるや","我还有好多歌想让你去唱"],
+                [58.341,61.512,"ねえ全部いけるかな","呐 这些都能实现吗"],
+                [61.512,62.134,"君が","因为你"],
+                [62.134,63.902,"何回だって想うから","无论多少次 都会再次想起"],
+                [63.902,65.637,"何回だって歌うよ\"39\"","无论多少次 都会唱出\"39\""],
+                [65.637,68.362,"何回だって聴いてね　約束ね","无论多少次 都请侧耳聆听 说好了哦"],
+                [68.362,70.877,"きっと1からゴールへ　その先だって","想必从零到终点 甚至在终点的前方"],
+                [70.877,75.405,"君がやめらんない　愛言葉は終わらせない","我都戒不掉你了 爱语不休"],
+                [75.405,76.054,"僕は","而我"],
+                [76.054,77.782,"何回だって変わるけど","无论多少次 都已不再如前"],
+                [77.782,79.557,"何回だって歌うよ\"39\"","可无论多少次 我都还会再唱出\"39\""],
+                [79.557,82.368,"何回だっておいでよ　ここにいる","无论多少次 都过来吧 我就在这等着哦"],
+                [82.368,84.722,"きっと1からゴールへ　その先だって","想必从1到终点 甚至在终点的前方"],
+                [84.722,88.637,"君がやめらんない　愛言葉はいつまでも","我都戒不掉你了 这句爱语直到永远都"],
+                [88.637,92.760,"ありがとう","谢谢你"],
+                [92.760,96.199,"例えば　君が消えてしまうなら","假如 你会就此消失的话"],
+                [96.199,99.670,"例えば　僕はやめてしまうでしょう","假如 那我也会就此放弃吧"],
+                [99.670,103.156,"例えば　そんなのはごめんなの","假如 我可绝对不能接受"],
+                [103.156,106.765,"だからさ　これからも戦うみょん","所以 从今往后也要继续战斗下去喵"],
+                [106.765,107.265,"ああああ","啊啊啊啊"],
+                [107.265,110.401,"ポップとロックでハイ&ロー　サイコなチャンバラやってんのん","随着Pop和Rock 高潮与低谷间 刀光剑影疯狂起舞"],
+                [110.401,113.681,"あたしまだまだまだまだまだまだまだまだやれる　決まってんの","人家还还还还还还能继续下去 那还用说"],
+                [113.681,117.130,"届いたテレパシ　やっと会えた","传出一份心灵感应 终于与你相遇"],
+                [117.130,134.841,"やあ　ちゃんと見えてるかい","喂 你在好好看着我吗"],
+                [134.841,138.310,"声が好き　…バカ。","喜欢你的声音 …笨蛋"],
+                [138.310,141.607,"顔が好き　…バカ。","喜欢你的脸 …笨蛋"],
+                [141.607,147.802,"バカだもん　これだけは一生言うんだもん","我就这么傻 这句话我要说一辈子"],
+                [147.802,148.892,"…バカ。","…笨蛋"],
+                [149.683,150.433,"君が","因为你"],
+                [150.433,152.086,"何回だって想うから","无论多少次 都会再次想起"],
+                [152.086,153.813,"何回だって歌うよ\"39\"","无论多少次 都会唱出\"39\""],
+                [153.813,156.615,"何回だって聴いてね　約束ね","无论多少次 都请侧耳聆听 说好了哦"],
+                [156.615,159.019,"きっと1からゴールへ　その先だって","想必从零到终点 甚至在终点的前方"],
+                [159.019,163.509,"君がやめらんない　愛言葉は終わらせない","我都戒不掉你了 爱语不休"],
+                [163.509,164.177,"僕は","而我"],
+                [164.177,165.925,"何回だって変わるけど","无论多少次 都已经变了"],
+                [165.925,167.624,"何回だって歌うよ\"39\"","可无论多少次 我都还会再唱出\"39\""],
+                [167.624,170.495,"何回だっておいでよ　ここにいる","无论多少次 都过来吧 我就在这等着哦"],
+                [170.495,172.833,"きっと1からゴールへ　その先だって","想必从1到终点 甚至在终点的前方"],
+                [172.833,176.715,"君がやめらんない　愛言葉はいつまでも","我都戒不掉你了 这句爱语直到永远都"],
+                [176.715,177.925,"ありがとう","谢谢你"],
+                [177.925,184.001,"好好好のラブ連単　君としたいことがいっぱい","好好好的恋爱连胜 我还有好多想和你一起做的事"],
+                [184.001,191.348,"サラマンダー　ホットが良くない？やっぱ大成功","Salamander 炽热一点不好吗？就知道会大获全胜"],
+                [191.348,193.511,"もうやっぱアピってラビったらいいじゃん","真是的 摇起兔尾巴去大胆诱惑就好了吧"],
+                [193.511,195.246,"サッドな愛も　歌ったらいいじゃん","注定沦为悲剧的爱 也唱作歌声不就好了嘛"],
+                [195.246,197.455,"みっともないけど　嫉妬しちゃうけど　どうか許してね","虽然有点狼狈 虽然会吃醋 不过要原谅我哦"],
+                [197.832,198,"どんな歌だってずっと　君と届け続けるよ","无论什么歌 我都会永远和你一起传递下去"]
+            ];
+            const lyricsPanel = document.getElementById('lyricsPanel');
+            const lyricsLine = document.getElementById('lyricsLine');
+            const lyricsToggle = document.getElementById('lyricsToggle');
+            let lyricsMode = 'jp'; // 'jp' | 'cn'
+            let lastLyricIdx = -1;
+
+            lyricsToggle.addEventListener('click', () => {
+                lyricsMode = lyricsMode === 'jp' ? 'cn' : 'jp';
+                lyricsToggle.textContent = lyricsMode === 'jp' ? 'JP' : 'CN';
+                // Refresh current lyric
+                const t = bgm.currentTime;
+                lastLyricIdx = -1;
+                updateLyric(t);
+            });
+
+            function updateLyric(t) {
+                let idx = -1;
+                for (let i = 0; i < lyricData.length; i++) {
+                    if (t >= lyricData[i][0] && t < lyricData[i][1]) {
+                        idx = i;
+                        break;
+                    }
+                }
+                if (idx !== lastLyricIdx) {
+                    // Fade out old lyric
+                    if (lastLyricIdx >= 0) {
+                        lyricsLine.classList.remove('switching');
+                        lyricsLine.classList.add('fading');
+                        // Wait for fade animation then update
+                        setTimeout(() => {
+                            lyricsLine.classList.remove('fading');
+                            setLyricHTML(idx);
+                        }, 300);
+                    } else {
+                        setLyricHTML(idx);
+                    }
+                    lastLyricIdx = idx;
+                }
+            }
+
+            function setLyricHTML(idx) {
+                if (idx < 0) {
+                    lyricsLine.innerHTML = '';
+                    return;
+                }
+                let text = lyricsMode === 'jp' ? lyricData[idx][2] : lyricData[idx][3];
+                // Highlight special words
+                text = text.replace(/(39)/g, '<span class="hl">$1</span>');
+                text = text.replace(/(ありがとう)/g, '<span class="hl">$1</span>');
+                lyricsLine.innerHTML = text;
+                lyricsLine.classList.remove('switching');
+                void lyricsLine.offsetWidth; // force reflow
+                lyricsLine.classList.add('switching');
+            }
+
+            // Start lyrics sync after video ends
+            function startLyricsSync() {
+                lyricsPanel.classList.add('visible');
+                lyricsToggle.classList.add('visible');
+                lyricsLine.innerHTML = '';
+                lyricsLine.classList.remove('switching', 'fading');
+                lastLyricIdx = -1;
+                function tick() {
+                    if (bgm.paused) { requestAnimationFrame(tick); return; }
+                    updateLyric(bgm.currentTime);
+                    requestAnimationFrame(tick);
+                }
+                requestAnimationFrame(tick);
+            }
+
             startBtn.addEventListener('click', doStart);
 
             document.addEventListener('keydown', (e) => {
@@ -876,6 +1127,9 @@
                 const hideIndicator = () => scrollIndicator.classList.remove('visible');
                 mainContent.addEventListener('scroll', hideIndicator, { once: true });
                 window.addEventListener('wheel', hideIndicator, { once: true });
+
+                // Start lyrics
+                startLyricsSync();
             }
         })();
     </script>
