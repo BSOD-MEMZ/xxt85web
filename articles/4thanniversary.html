@@ -1,0 +1,884 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>xxtsoft 四周年纪念</title>
+    <style>
+        :root {
+            --bg-start: #0a0a1a;
+            --accent: #6ec6f8;
+            --accent2: #f0a0d0;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html,
+        body {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            font-family: "Microsoft YaHei", "PingFang SC", "Noto Sans SC", sans-serif;
+            background: var(--bg-start);
+            user-select: none;
+            -webkit-user-select: none;
+        }
+
+        /* ============ PRELOADER ============ */
+        #preloader {
+            position: fixed;
+            inset: 0;
+            z-index: 9999;
+            background: var(--bg-start);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            transition: opacity 0.6s ease;
+        }
+        #preloader.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+        #preloader .loader-ring {
+            width: 48px;
+            height: 48px;
+            border: 3px solid rgba(255, 255, 255, .15);
+            border-top-color: var(--accent);
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+        #preloader .loader-text {
+            color: rgba(255, 255, 255, .5);
+            font-size: 13px;
+            margin-top: 16px;
+            letter-spacing: 2px;
+        }
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* ============ LANDING ============ */
+        #landing {
+            position: fixed;
+            inset: 0;
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            background: radial-gradient(ellipse at center, #0d1b2a 0%, #020812 100%);
+            transition: opacity 1s ease;
+        }
+        #landing.fadeout {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        /* floating particles */
+        .particles {
+            position: absolute;
+            inset: 0;
+            overflow: hidden;
+            pointer-events: none;
+        }
+        .particle {
+            position: absolute;
+            width: 3px;
+            height: 3px;
+            background: var(--accent);
+            border-radius: 50%;
+            opacity: 0;
+            animation: floatUp linear infinite;
+        }
+        @keyframes floatUp {
+            0% {
+                transform: translateY(100vh) scale(0);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.8;
+            }
+            90% {
+                opacity: 0.2;
+            }
+            100% {
+                transform: translateY(-10vh) scale(1.5);
+                opacity: 0;
+            }
+        }
+
+        /* start button */
+        .start-btn-wrap {
+            position: relative;
+            z-index: 2;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 24px;
+        }
+        .start-btn {
+            width: 140px;
+            height: 140px;
+            border-radius: 50%;
+            border: 2px solid rgba(255, 255, 255, .3);
+            background: rgba(255, 255, 255, .04);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            color: #fff;
+            font-size: 18px;
+            letter-spacing: 4px;
+            cursor: pointer;
+            position: relative;
+            transition: all 0.4s ease;
+            animation: btnPulse 3s ease-in-out infinite;
+            outline: none;
+        }
+        .start-btn::before {
+            content: '';
+            position: absolute;
+            inset: -6px;
+            border-radius: 50%;
+            border: 1px solid rgba(110, 198, 248, .25);
+            animation: btnRing 3s ease-in-out infinite;
+        }
+        .start-btn::after {
+            content: '';
+            position: absolute;
+            inset: -14px;
+            border-radius: 50%;
+            border: 1px solid rgba(110, 198, 248, .1);
+            animation: btnRing 3s ease-in-out 0.5s infinite;
+        }
+        .start-btn:hover {
+            background: rgba(255, 255, 255, .1);
+            border-color: var(--accent);
+            box-shadow: 0 0 60px rgba(110, 198, 248, .25);
+            transform: scale(1.05);
+        }
+        .start-btn:active {
+            transform: scale(0.95);
+            transition: transform 0.1s ease;
+        }
+        @keyframes btnPulse {
+            0%,
+            100% {
+                box-shadow: 0 0 20px rgba(110, 198, 248, .15);
+            }
+            50% {
+                box-shadow: 0 0 50px rgba(110, 198, 248, .35);
+            }
+        }
+        @keyframes btnRing {
+            0%,
+            100% {
+                transform: scale(1);
+                opacity: 0.5;
+            }
+            50% {
+                transform: scale(1.08);
+                opacity: 1;
+            }
+        }
+        .start-hint {
+            color: rgba(255, 255, 255, .45);
+            font-size: 13px;
+            letter-spacing: 3px;
+            animation: hintFade 2s ease-in-out infinite;
+        }
+        @keyframes hintFade {
+            0%,
+            100% {
+                opacity: 0.35;
+            }
+            50% {
+                opacity: 0.7;
+            }
+        }
+        .landing-sub {
+            color: rgba(255, 255, 255, .25);
+            font-size: 12px;
+            letter-spacing: 1px;
+            margin-top: -8px;
+        }
+
+        /* ============ VIDEO OVERLAY ============ */
+        #video-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 200;
+            background: #000;
+            display: none;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        #video-overlay.active {
+            display: block;
+            opacity: 1;
+        }
+        #video-overlay video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* ============ WHITE FLASH ============ */
+        #flash {
+            position: fixed;
+            inset: 0;
+            z-index: 300;
+            background: #fff;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.15s ease;
+        }
+
+        /* ============ MAIN CONTENT ============ */
+        #main-content {
+            position: fixed;
+            inset: 0;
+            z-index: 50;
+            overflow-y: auto;
+            overflow-x: hidden;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.8s ease;
+            scroll-behavior: smooth;
+        }
+        #main-content.visible {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        /* gradient BG */
+        .bg-gradient {
+            position: fixed;
+            inset: 0;
+            z-index: -2;
+            background: #fff;
+            transition: background 2s ease;
+        }
+        .bg-gradient.animate {
+            background: linear-gradient(135deg,
+                    #fdfcfb 0%, #e2d1c3 20%, #f5e6d8 40%,
+                    #e8d5f0 60%, #d4e8f9 80%, #fdfcfb 100%);
+            background-size: 400% 400%;
+            animation: gradientShift 20s ease infinite;
+        }
+        @keyframes gradientShift {
+            0%,
+            100% {
+                background-position: 0% 50%;
+            }
+            25% {
+                background-position: 100% 0%;
+            }
+            50% {
+                background-position: 100% 100%;
+            }
+            75% {
+                background-position: 0% 100%;
+            }
+        }
+
+        /* floating orbs */
+        .orb {
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(80px);
+            z-index: -1;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 2s ease;
+        }
+        .orb.visible {
+            opacity: 0.35;
+        }
+        .orb-1 {
+            width: 400px;
+            height: 400px;
+            background: #c8dff5;
+            top: -100px;
+            left: -100px;
+            animation: orbFloat1 18s ease-in-out infinite;
+        }
+        .orb-2 {
+            width: 350px;
+            height: 350px;
+            background: #f0d0e0;
+            bottom: -80px;
+            right: -80px;
+            animation: orbFloat2 22s ease-in-out infinite;
+        }
+        .orb-3 {
+            width: 250px;
+            height: 250px;
+            background: #d0e8d0;
+            top: 50%;
+            left: 50%;
+            animation: orbFloat3 15s ease-in-out infinite;
+        }
+        @keyframes orbFloat1 {
+            0%,
+            100% {
+                transform: translate(0, 0);
+            }
+            33% {
+                transform: translate(80px, 60px);
+            }
+            66% {
+                transform: translate(-30px, -40px);
+            }
+        }
+        @keyframes orbFloat2 {
+            0%,
+            100% {
+                transform: translate(0, 0);
+            }
+            33% {
+                transform: translate(-70px, -50px);
+            }
+            66% {
+                transform: translate(40px, 30px);
+            }
+        }
+        @keyframes orbFloat3 {
+            0%,
+            100% {
+                transform: translate(-50%, -50%) scale(1);
+            }
+            50% {
+                transform: translate(-40%, -60%) scale(1.2);
+            }
+        }
+
+        /* content sections */
+        .story-wrap {
+            position: relative;
+            z-index: 1;
+            max-width: 720px;
+            margin: 0 auto;
+            padding: 120px 32px 160px;
+        }
+
+        .story-section {
+            margin-bottom: 80px;
+            opacity: 0;
+            transform: translateY(40px);
+            transition: opacity 1s ease, transform 1s ease;
+        }
+        .story-section.reveal {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .story-section h2 {
+            font-size: 28px;
+            font-weight: 300;
+            color: #2c3e50;
+            margin-bottom: 24px;
+            letter-spacing: 2px;
+            position: relative;
+            display: inline-block;
+        }
+        .story-section h2::after {
+            content: '';
+            position: absolute;
+            bottom: -6px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(90deg, #6ec6f8, #f0a0d0);
+            transition: width 1.2s ease 0.4s;
+        }
+        .story-section.reveal h2::after {
+            width: 100%;
+        }
+        .story-section p {
+            font-size: 17px;
+            line-height: 2;
+            color: #444;
+            margin-bottom: 14px;
+            letter-spacing: 0.5px;
+        }
+        .story-section a {
+            color: #5b9bd5;
+            text-decoration: none;
+            border-bottom: 1px dashed #aac8e8;
+            transition: all 0.2s;
+        }
+        .story-section a:hover {
+            color: #3a7cc3;
+            border-bottom-color: #3a7cc3;
+        }
+        .story-section ul {
+            list-style: none;
+            padding: 0;
+        }
+        .story-section ul li {
+            padding: 10px 0;
+            font-size: 16px;
+            line-height: 1.8;
+            color: #444;
+            border-bottom: 1px solid rgba(0, 0, 0, .06);
+        }
+        .story-section ul li b {
+            color: #2c3e50;
+        }
+        .story-section blockquote {
+            border-left: 3px solid #d4e8f9;
+            margin: 28px 0;
+            padding: 16px 24px;
+            background: rgba(255, 255, 255, .5);
+            border-radius: 0 8px 8px 0;
+            font-style: italic;
+            color: #666;
+        }
+
+        /* hero */
+        .hero {
+            text-align: center;
+            padding: 100px 24px 60px;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 1.4s ease 0.3s, transform 1.4s ease 0.3s;
+        }
+        .hero.reveal {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .hero h1 {
+            font-size: clamp(32px, 6vw, 56px);
+            font-weight: 200;
+            color: #1a1a2e;
+            letter-spacing: 6px;
+            margin-bottom: 12px;
+        }
+        .hero .subtitle {
+            font-size: 16px;
+            color: #888;
+            letter-spacing: 4px;
+            font-weight: 300;
+        }
+        .hero .years {
+            font-size: 14px;
+            color: #bbb;
+            margin-top: 20px;
+            letter-spacing: 2px;
+        }
+
+        /* finale */
+        .finale {
+            text-align: center;
+            padding: 60px 0 100px;
+            opacity: 0;
+            transform: translateY(40px);
+            transition: opacity 1s ease, transform 1s ease;
+        }
+        .finale.reveal {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .finale .big-text {
+            font-size: clamp(26px, 5vw, 44px);
+            font-weight: 200;
+            color: #1a1a2e;
+            letter-spacing: 4px;
+            margin-bottom: 8px;
+        }
+        .finale .small-text {
+            font-size: 15px;
+            color: #999;
+            letter-spacing: 2px;
+        }
+        .finale .emoji-row {
+            font-size: 36px;
+            margin-top: 20px;
+            animation: emojiBounce 1.5s ease-in-out infinite;
+        }
+        @keyframes emojiBounce {
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-12px);
+            }
+        }
+
+        /* scroll indicator */
+        .scroll-indicator {
+            position: fixed;
+            bottom: 32px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 60;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 6px;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 1s ease;
+        }
+        .scroll-indicator.visible {
+            opacity: 0.6;
+        }
+        .scroll-indicator span {
+            width: 1px;
+            height: 28px;
+            background: #999;
+            animation: scrollLine 2s ease-in-out infinite;
+        }
+        .scroll-indicator small {
+            font-size: 10px;
+            letter-spacing: 2px;
+            color: #999;
+        }
+        @keyframes scrollLine {
+            0%,
+            100% {
+                transform: scaleY(0.3);
+                opacity: 0.3;
+            }
+            50% {
+                transform: scaleY(1);
+                opacity: 1;
+            }
+        }
+
+        /* back link */
+        .back-link {
+            position: fixed;
+            top: 24px;
+            left: 24px;
+            z-index: 70;
+            color: rgba(0, 0, 0, .35);
+            text-decoration: none;
+            font-size: 13px;
+            letter-spacing: 2px;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 1s ease;
+        }
+        .back-link.visible {
+            opacity: 1;
+            pointer-events: auto;
+        }
+        .back-link:hover {
+            color: rgba(0, 0, 0, .7);
+        }
+
+        @media (max-width: 640px) {
+            .start-btn {
+                width: 100px;
+                height: 100px;
+                font-size: 14px;
+                letter-spacing: 2px;
+            }
+            .story-wrap {
+                padding: 80px 20px 120px;
+            }
+            .story-section h2 {
+                font-size: 22px;
+            }
+            .story-section p {
+                font-size: 15px;
+                line-height: 1.8;
+            }
+            .hero {
+                padding: 60px 20px 40px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- PRELOADER -->
+    <div id="preloader">
+        <div class="loader-ring"></div>
+        <div class="loader-text">LOADING</div>
+    </div>
+
+    <!-- LANDING -->
+    <div id="landing">
+        <div class="particles" id="particles"></div>
+        <div class="start-btn-wrap">
+            <button class="start-btn" id="startBtn" disabled>LOADING</button>
+            <span class="start-hint">PRESS START</span>
+            <span class="landing-sub">xxtsoft 4th Anniversary</span>
+        </div>
+    </div>
+
+    <!-- VIDEO OVERLAY -->
+    <div id="video-overlay">
+        <video id="introVideo" preload="auto" playsinline></video>
+    </div>
+
+    <!-- WHITE FLASH -->
+    <div id="flash"></div>
+
+    <!-- MAIN CONTENT -->
+    <div id="main-content">
+        <div class="bg-gradient" id="gradientBg"></div>
+        <div class="orb orb-1" id="orb1"></div>
+        <div class="orb orb-2" id="orb2"></div>
+        <div class="orb orb-3" id="orb3"></div>
+
+        <div class="story-wrap">
+            <div class="hero" data-reveal>
+                <h1>xxtsoft 四周年</h1>
+                <div class="subtitle">一个小站 · 四年光阴</div>
+                <div class="years">2022 — 2026</div>
+            </div>
+
+            <div class="story-section" data-reveal>
+                <p>草，这个网站居然活了四年了。</p>
+                <p>四年前的这个时候，我还是个连 HTML 是啥都不知道的小屁孩，靠着朋友帮忙搭了个 WordPress 就算"有网站"了。那时候觉得，哇，我在互联网上有自己的地盘了，虽然那个地盘基本都是别人帮我砌的墙。</p>
+                <p>四年后，我坐在这里，用着 VSCode 一个字一个字地敲下这些文字。旁边是那台从404教室里"解放"出来的电脑，Win11 的云母效果在 4K 屏幕上流光溢彩。我甚至有点恍惚——我居然真的学会了怎么写网页。</p>
+            </div>
+
+            <div class="story-section" data-reveal>
+                <h2>四年，五个网站</h2>
+                <p>如果你去看<a href="../museum.html">博物馆</a>，你会发现我搞过五个版本的网站。第一个是 WordPress 套皮，第二个第三个用了 Hexo，第四个是 Halo，第五个——也就是你现在看到的——是<a href="../index.html">纯手搓的静态 HTML</a>。</p>
+                <p>说实话，每次换网站都像是一次重生。旧的域名过期了，旧的截图找不到了，旧的记忆也模糊了。但每次重新开始，我都比上一次更懂一点。第一个网站我连 FTP 都不会用，现在我已经能自己写 CSS、搞响应式、配 Git 了。</p>
+                <blockquote>这大概就是成长的证据吧。</blockquote>
+            </div>
+
+            <div class="story-section" data-reveal>
+                <h2>这个网站对我意味着什么</h2>
+                <p>废话，当然是我的赛博垃圾桶啊。</p>
+                <p>在学校被老师压榨，回家被作业淹没，唯一能让我喘口气的地方就是这里。我可以在这里骂学校、骂应试教育、骂一切我想骂的东西，不用担心被叫去年级组办公室喝茶。我可以在这里分享我写的破程序，虽然没几个人用，但自己看着爽就行。</p>
+                <p>更重要的是，这个网站是我存在过的证明。若干年后，也许没人记得 xxt8582753 是谁，但只要这个域名还在、这些 HTML 文件还在，就有人知道我曾在互联网上留下过痕迹。</p>
+            </div>
+
+            <div class="story-section" data-reveal>
+                <h2>数据很难看，但我很开心</h2>
+                <p>四年了，本站的访问量还不如别人一篇 CSDN 水文的多。必应搜索量还没我 GitHub 提交次数多。但我一点都不在乎——好吧，其实有一点点在乎。</p>
+                <p>因为这不是一个商业网站，没有 SEO 优化，没有广告，没有引流。它就是一个高中生的个人空间，用着 Vista 风格的 UI，写着一些别人看不懂的碎碎念。如果有人偶然点进来，看到这些文字，笑了或者怒了，那这个网站就值了。</p>
+                <p>而且你知道吗，虽然数据惨淡，但我确实收到过一些陌生人的反馈。有人说我的程序帮到了他，有人说看了我的文章觉得有意思。这些零星的正面反馈，比一万个 AI 洗稿网站的流量都有意义。</p>
+            </div>
+
+            <div class="story-section" data-reveal>
+                <h2>感谢名单</h2>
+                <p>四年了，这个网站不是我一个人撑起来的。</p>
+                <ul>
+                    <li><b>AbCd</b> — 我最好的朋友，帮我买域名、搭服务器、写代码、在404教室放风。没有你就没有这个网站。</li>
+                    <li><b>LAGSNES</b> — 提供了最早的服务器，让我的网站能在互联网上生根，而不是孤独地躺在本地磁盘里。</li>
+                    <li><b>SK</b> — 在本站投稿了 SKToolBox，让我知道这个网站也能成为别人分享的平台。</li>
+                    <li><b>所有在B站关注我的人</b> — 虽然视频质量不咋地，但你们的点赞和评论是我继续下去的动力。</li>
+                    <li><b>每一个点进来看过的人</b> — 感谢你在这个信息爆炸的时代，愿意花时间看一个高中生的碎碎念。</li>
+                </ul>
+            </div>
+
+            <div class="story-section" data-reveal>
+                <h2>四年来的变化</h2>
+                <p>四年前我还在搞 Scratch，现在已经能写 PyQt 桌面应用了。</p>
+                <p>四年前我用的是那台开机三分钟的破笔记本，现在我有了一台 12 代 i5。</p>
+                <p>四年前我只会用 WordPress 模板，现在我能手搓整个网站。</p>
+                <p>四年前我在初中混日子，现在我在高中继续混日子。</p>
+                <p>但最大的变化大概是——我开始有自己的想法了。四年前我只会跟着别人走，现在我知道自己想要什么、想做什么、想成为什么样的人。虽然前路依然迷茫，但至少我不再是那个只会复制粘贴代码的小白了。</p>
+            </div>
+
+            <div class="story-section" data-reveal>
+                <h2>未来？</h2>
+                <p>说实话，我不知道这个网站还能活多久。</p>
+                <p>域名需要续费，高中学业越来越重，大学的门槛也越来越高。也许哪一天我累了，不想再更新了，这个网站就会变成数字废墟，静静地躺在 Netlify 的服务器上，等待域名过期的那一天。</p>
+                <p>但在那之前，我会继续写下去。</p>
+                <p>继续写代码，继续写文章，继续骂学校，继续分享我觉得有意思的东西。因为这个网站是我在压抑的高中生活中唯一的自由之地，是我向这个世界喊话的扩音器——虽然音量不大，但至少我在喊。</p>
+                <p>四年了，xxtsoft 还在。</p>
+                <p>希望下一个四年，我们还在这里。</p>
+            </div>
+
+            <div class="finale" data-reveal>
+                <div class="big-text">🎉 xxtsoft 四周年快乐！</div>
+                <div class="small-text">2022 — 2026</div>
+                <div class="emoji-row">✨</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- BACK LINK -->
+    <a href="../index.html" class="back-link" id="backLink">← 返回首页</a>
+
+    <!-- SCROLL INDICATOR -->
+    <div class="scroll-indicator" id="scrollIndicator">
+        <span></span>
+        <small>SCROLL</small>
+    </div>
+
+    <!-- HIDDEN AUDIO -->
+    <audio id="bgm" preload="auto" loop></audio>
+
+    <script>
+        (function() {
+            const preloader = document.getElementById('preloader');
+            const landing = document.getElementById('landing');
+            const startBtn = document.getElementById('startBtn');
+            const videoOverlay = document.getElementById('video-overlay');
+            const introVideo = document.getElementById('introVideo');
+            const flash = document.getElementById('flash');
+            const mainContent = document.getElementById('main-content');
+            const gradientBg = document.getElementById('gradientBg');
+            const orb1 = document.getElementById('orb1');
+            const orb2 = document.getElementById('orb2');
+            const orb3 = document.getElementById('orb3');
+            const bgm = document.getElementById('bgm');
+            const backLink = document.getElementById('backLink');
+            const scrollIndicator = document.getElementById('scrollIndicator');
+            const particlesContainer = document.getElementById('particles');
+
+            // ===== PARTICLES =====
+            for (let i = 0; i < 50; i++) {
+                const p = document.createElement('div');
+                p.classList.add('particle');
+                p.style.left = Math.random() * 100 + '%';
+                p.style.animationDuration = (8 + Math.random() * 16) + 's';
+                p.style.animationDelay = Math.random() * 10 + 's';
+                const s = (2 + Math.random() * 3) + 'px';
+                p.style.width = s;
+                p.style.height = s;
+                if (Math.random() > 0.5) p.style.background = '#f0a0d0';
+                particlesContainer.appendChild(p);
+            }
+
+            const videoSrc = '../support/aikotoba/intro.mp4';
+            const audioSrc = '../support/aikotoba/bgm.mp3';
+
+            let mediaLoaded = 0;
+            const totalMedia = 2;
+
+            function mediaReady() {
+                mediaLoaded++;
+                if (mediaLoaded >= totalMedia) {
+                    setTimeout(() => {
+                        preloader.classList.add('hidden');
+                        startBtn.disabled = false;
+                        startBtn.textContent = '开 始';
+                    }, 600);
+                }
+            }
+
+            introVideo.src = videoSrc;
+            introVideo.load();
+            introVideo.addEventListener('canplaythrough', mediaReady, { once: true });
+            bgm.src = audioSrc;
+            bgm.load();
+            bgm.addEventListener('canplaythrough', mediaReady, { once: true });
+
+            // Safety
+            setTimeout(() => {
+                if (mediaLoaded < totalMedia) {
+                    mediaLoaded = totalMedia;
+                    preloader.classList.add('hidden');
+                    startBtn.disabled = false;
+                    startBtn.textContent = '开 始';
+                }
+            }, 8000);
+
+            // ===== START =====
+            let started = false;
+
+            function doStart() {
+                if (started || startBtn.disabled) return;
+                started = true;
+                startBtn.disabled = true;
+
+                // BGM fade in
+                bgm.volume = 0;
+                bgm.play().then(() => {
+                    let vol = 0;
+                    const iv = setInterval(() => {
+                        vol += 0.025;
+                        if (vol >= 0.5) { vol = 0.5;
+                            clearInterval(iv); }
+                        bgm.volume = Math.min(vol, 0.5);
+                    }, 100);
+                }).catch(() => {});
+
+                landing.classList.add('fadeout');
+
+                setTimeout(() => {
+                    videoOverlay.classList.add('active');
+                    introVideo.currentTime = 0;
+                    introVideo.play().catch(() => {});
+                }, 800);
+
+                function onVideoEnded() {
+                    flash.style.opacity = '1';
+                    setTimeout(() => {
+                        videoOverlay.classList.remove('active');
+                        videoOverlay.style.display = 'none';
+                    }, 100);
+
+                    setTimeout(() => {
+                        flash.style.transition = 'opacity 1.2s ease';
+                        flash.style.opacity = '0';
+                        gradientBg.classList.add('animate');
+                        orb1.classList.add('visible');
+                        orb2.classList.add('visible');
+                        orb3.classList.add('visible');
+                        mainContent.classList.add('visible');
+                        backLink.classList.add('visible');
+                        requestAnimationFrame(() => revealContent());
+                        setTimeout(() => scrollIndicator.classList.add('visible'), 2000);
+                    }, 300);
+
+                    setTimeout(() => { flash.style.display = 'none'; }, 2000);
+                }
+
+                introVideo.addEventListener('ended', onVideoEnded, { once: true });
+                introVideo.addEventListener('error', onVideoEnded, { once: true });
+            }
+
+            startBtn.addEventListener('click', doStart);
+
+            document.addEventListener('keydown', (e) => {
+                if ((e.code === 'Space' || e.code === 'Enter') && !started && !startBtn
+                    .disabled) {
+                    e.preventDefault();
+                    doStart();
+                }
+            });
+
+            // ===== REVEAL =====
+            function revealContent() {
+                const hero = document.querySelector('.hero');
+                const finale = document.querySelector('.finale');
+                const sections = document.querySelectorAll('.story-section');
+
+                setTimeout(() => hero.classList.add('reveal'), 200);
+
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('reveal'); });
+                }, { threshold: 0.2, rootMargin: '0px 0px -40px 0px' });
+
+                sections.forEach(el => observer.observe(el));
+                observer.observe(finale);
+
+                // Cascade visible ones
+                setTimeout(() => {
+                    sections.forEach((s, i) => {
+                        if (s.getBoundingClientRect().top < window.innerHeight)
+                            setTimeout(() => s.classList.add('reveal'), i * 150);
+                    });
+                    if (finale.getBoundingClientRect().top < window.innerHeight)
+                        setTimeout(() => finale.classList.add('reveal'), sections.length * 150 + 300);
+                }, 600);
+
+                const hideIndicator = () => scrollIndicator.classList.remove('visible');
+                mainContent.addEventListener('scroll', hideIndicator, { once: true });
+                window.addEventListener('wheel', hideIndicator, { once: true });
+            }
+        })();
+    </script>
+</body>
+
+</html>
