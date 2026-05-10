@@ -7,9 +7,9 @@
     <title>xxtsoft 四周年纪念</title>
     <style>
         :root {
-            --bg-start: #0a0a1a;
-            --accent: #6ec6f8;
-            --accent2: #f0a0d0;
+            --bg-start: #0a0e18;
+            --accent: #0fd;
+            --accent2: #39c5bb;
         }
 
         * {
@@ -29,17 +29,109 @@
             -webkit-user-select: none;
         }
 
+        /* ============ QUALITY SELECT ============ */
+        #qualitySelect {
+            position: fixed;
+            inset: 0;
+            z-index: 10000;
+            background: radial-gradient(ellipse at center, #14182a 0%, #060a14 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            transition: opacity 0.6s ease;
+        }
+        #qualitySelect.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+        #qualitySelect .qs-title {
+            color: #0fd;
+            font-size: 22px;
+            font-weight: 300;
+            letter-spacing: 4px;
+            margin-bottom: 40px;
+        }
+        #qualitySelect .qs-group {
+            margin-bottom: 28px;
+            text-align: center;
+        }
+        #qualitySelect .qs-label {
+            color: rgba(255,255,255,.5);
+            font-size: 12px;
+            letter-spacing: 3px;
+            margin-bottom: 12px;
+            text-transform: uppercase;
+        }
+        #qualitySelect .qs-options {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+        }
+        #qualitySelect .qs-opt {
+            padding: 10px 24px;
+            border-radius: 8px;
+            border: 1px solid rgba(255,255,255,.2);
+            background: rgba(255,255,255,.04);
+            color: rgba(255,255,255,.6);
+            font-size: 14px;
+            cursor: pointer;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+            font-family: inherit;
+            outline: none;
+        }
+        #qualitySelect .qs-opt:hover {
+            border-color: var(--accent);
+            color: #fff;
+            background: rgba(0,255,221,.08);
+        }
+        #qualitySelect .qs-opt.selected {
+            border-color: #39c5bb;
+            background: rgba(57,197,187,.15);
+            color: #39c5bb;
+            box-shadow: 0 0 16px rgba(57,197,187,.2);
+        }
+        #qualitySelect .qs-opt .qs-sub {
+            display: block;
+            font-size: 10px;
+            opacity: 0.5;
+            letter-spacing: 1px;
+            margin-top: 2px;
+        }
+        #qualitySelect .qs-confirm {
+            margin-top: 32px;
+            padding: 12px 48px;
+            border-radius: 24px;
+            border: 1px solid var(--accent);
+            background: rgba(0,255,221,.1);
+            color: var(--accent);
+            font-size: 15px;
+            letter-spacing: 3px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: inherit;
+            outline: none;
+        }
+        #qualitySelect .qs-confirm:hover {
+            background: rgba(0,255,221,.2);
+            box-shadow: 0 0 30px rgba(0,255,221,.3);
+        }
+
         /* ============ PRELOADER ============ */
         #preloader {
             position: fixed;
             inset: 0;
             z-index: 9999;
             background: var(--bg-start);
-            display: flex;
+            display: none;
             align-items: center;
             justify-content: center;
             flex-direction: column;
             transition: opacity 0.6s ease;
+        }
+        #preloader.active {
+            display: flex;
         }
         #preloader.hidden {
             opacity: 0;
@@ -74,7 +166,7 @@
             align-items: center;
             justify-content: center;
             flex-direction: column;
-            background: radial-gradient(ellipse at center, #0d1b2a 0%, #020812 100%);
+            background: radial-gradient(ellipse at center, #14182a 0%, #060a14 100%);
             transition: opacity 1s ease;
         }
         #landing.fadeout {
@@ -146,7 +238,7 @@
             position: absolute;
             inset: -6px;
             border-radius: 50%;
-            border: 1px solid rgba(110, 198, 248, .25);
+            border: 1px solid rgba(0,255,221,.25);
             animation: btnRing 3s ease-in-out infinite;
         }
         .start-btn::after {
@@ -154,13 +246,13 @@
             position: absolute;
             inset: -14px;
             border-radius: 50%;
-            border: 1px solid rgba(110, 198, 248, .1);
+            border: 1px solid rgba(0,255,221,.1);
             animation: btnRing 3s ease-in-out 0.5s infinite;
         }
         .start-btn:hover {
             background: rgba(255, 255, 255, .1);
             border-color: var(--accent);
-            box-shadow: 0 0 60px rgba(110, 198, 248, .25);
+            box-shadow: 0 0 60px rgba(0,255,221,.25);
             transform: scale(1.05);
         }
         .start-btn:active {
@@ -170,10 +262,10 @@
         @keyframes btnPulse {
             0%,
             100% {
-                box-shadow: 0 0 20px rgba(110, 198, 248, .15);
+                box-shadow: 0 0 20px rgba(0,255,221,.15);
             }
             50% {
-                box-shadow: 0 0 50px rgba(110, 198, 248, .35);
+                box-shadow: 0 0 50px rgba(0,255,221,.35);
             }
         }
         @keyframes btnRing {
@@ -227,6 +319,36 @@
             width: 100%;
             height: 100%;
             object-fit: cover;
+        }
+        #skipBtn {
+            position: fixed;
+            bottom: 36px;
+            right: 36px;
+            z-index: 210;
+            background: rgba(255,255,255,.08);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            border: 1px solid rgba(255,255,255,.25);
+            border-radius: 20px;
+            color: rgba(255,255,255,.7);
+            font-size: 13px;
+            letter-spacing: 2px;
+            padding: 8px 22px;
+            cursor: pointer;
+            font-family: inherit;
+            opacity: 0;
+            pointer-events: none;
+            transition: all 0.3s ease;
+            outline: none;
+        }
+        #skipBtn.visible {
+            opacity: 1;
+            pointer-events: auto;
+        }
+        #skipBtn:hover {
+            background: rgba(255,255,255,.18);
+            color: #fff;
+            border-color: rgba(255,255,255,.45);
         }
 
         /* ============ WHITE FLASH ============ */
@@ -381,7 +503,7 @@
         .story-section h2 {
             font-size: 28px;
             font-weight: 300;
-            color: #2c3e50;
+            color: #555774;
             margin-bottom: 24px;
             letter-spacing: 2px;
             position: relative;
@@ -394,7 +516,7 @@
             left: 0;
             width: 0;
             height: 2px;
-            background: linear-gradient(90deg, #6ec6f8, #f0a0d0);
+            background: linear-gradient(90deg, #0fd, #39c5bb);
             transition: width 1.2s ease 0.4s;
         }
         .story-section.reveal h2::after {
@@ -408,14 +530,14 @@
             letter-spacing: 0.5px;
         }
         .story-section a {
-            color: #5b9bd5;
+            color: #39c5bb;
             text-decoration: none;
-            border-bottom: 1px dashed #aac8e8;
+            border-bottom: 1px dashed #90d5d2;
             transition: all 0.2s;
         }
         .story-section a:hover {
-            color: #3a7cc3;
-            border-bottom-color: #3a7cc3;
+            color: #2aa89e;
+            border-bottom-color: #39c5bb;
         }
         .story-section ul {
             list-style: none;
@@ -429,10 +551,10 @@
             border-bottom: 1px solid rgba(0, 0, 0, .06);
         }
         .story-section ul li b {
-            color: #2c3e50;
+            color: #555774;
         }
         .story-section blockquote {
-            border-left: 3px solid #d4e8f9;
+            border-left: 3px solid #39c5bb;
             margin: 28px 0;
             padding: 16px 24px;
             background: rgba(255, 255, 255, .5);
@@ -456,7 +578,7 @@
         .hero h1 {
             font-size: clamp(32px, 6vw, 56px);
             font-weight: 200;
-            color: #1a1a2e;
+            color: #555774;
             letter-spacing: 6px;
             margin-bottom: 12px;
         }
@@ -468,7 +590,7 @@
         }
         .hero .years {
             font-size: 14px;
-            color: #bbb;
+            color: #aaa;
             margin-top: 20px;
             letter-spacing: 2px;
         }
@@ -488,7 +610,7 @@
         .finale .big-text {
             font-size: clamp(26px, 5vw, 44px);
             font-weight: 200;
-            color: #1a1a2e;
+            color: #555774;
             letter-spacing: 4px;
             margin-bottom: 8px;
         }
@@ -572,32 +694,59 @@
             pointer-events: auto;
         }
         .back-link:hover {
-            color: rgba(0, 0, 0, .7);
+            color: #39c5bb;
         }
 
-        /* ============ LYRICS PANEL ============ */
-        .lyrics-panel {
+        /* ============ LYRICS BAR (TOP RIGHT) ============ */
+        .lyrics-bar {
             position: fixed;
-            top: 120px;
-            right: 32px;
+            top: 12px;
+            right: 24px;
             z-index: 55;
-            text-align: right;
-            max-width: 480px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            justify-content: flex-end;
+            max-width: 520px;
             opacity: 0;
             pointer-events: none;
             transition: opacity 1s ease;
         }
-        .lyrics-panel.visible {
+        .lyrics-bar.visible {
             opacity: 1;
             pointer-events: auto;
         }
+        .lyrics-toggle {
+            flex-shrink: 0;
+            background: rgba(44,62,80,.06);
+            backdrop-filter: blur(6px);
+            -webkit-backdrop-filter: blur(6px);
+            border: 1px solid rgba(44,62,80,.12);
+            border-radius: 16px;
+            color: #5a6c7d;
+            font-size: 11px;
+            letter-spacing: 2px;
+            padding: 4px 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: inherit;
+            outline: none;
+        }
+        .lyrics-toggle:hover {
+            background: rgba(57,197,187,.15);
+            color: #39c5bb;
+            border-color: rgba(57,197,187,.3);
+        }
         .lyrics-line {
-            font-size: 20px;
-            letter-spacing: 3px;
+            text-align: right;
+            font-size: 18px;
+            letter-spacing: 2px;
             color: #2c3e50;
-            text-shadow: 0 1px 8px rgba(255,255,255,.6);
-            min-height: 30px;
+            text-shadow: 0 1px 6px rgba(255,255,255,.5);
             line-height: 1.6;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
         .lyrics-line .hl {
             color: #39c5bb;
@@ -631,35 +780,7 @@
                 transform: translateY(-10px);
             }
         }
-        .lyrics-toggle {
-            position: fixed;
-            top: 84px;
-            right: 32px;
-            z-index: 56;
-            background: rgba(44,62,80,.08);
-            backdrop-filter: blur(8px);
-            -webkit-backdrop-filter: blur(8px);
-            border: 1px solid rgba(44,62,80,.15);
-            border-radius: 20px;
-            color: #5a6c7d;
-            font-size: 12px;
-            letter-spacing: 2px;
-            padding: 6px 16px;
-            cursor: pointer;
-            opacity: 0;
-            pointer-events: none;
-            transition: all 0.4s ease;
-            font-family: inherit;
-        }
-        .lyrics-toggle.visible {
-            opacity: 1;
-            pointer-events: auto;
-        }
-        .lyrics-toggle:hover {
-            background: rgba(57,197,187,.15);
-            color: #39c5bb;
-            border-color: rgba(57,197,187,.35);
-        }
+
         @media (max-width: 640px) {
             .start-btn {
                 width: 100px;
@@ -680,26 +801,43 @@
             .hero {
                 padding: 60px 20px 40px;
             }
-            .lyrics-panel {
-                top: 90px;
-                right: 12px;
-                max-width: 260px;
+            .lyrics-bar {
+                right: 8px;
+                max-width: 240px;
             }
             .lyrics-line {
-                font-size: 15px;
+                font-size: 13px;
                 letter-spacing: 1px;
             }
             .lyrics-toggle {
-                top: 60px;
-                right: 12px;
                 font-size: 10px;
-                padding: 4px 12px;
+                padding: 3px 8px;
             }
         }
     </style>
 </head>
 
 <body>
+
+    <!-- QUALITY SELECT -->
+    <div id="qualitySelect">
+        <div class="qs-title">输出质量设置</div>
+        <div class="qs-group">
+            <div class="qs-label">视频质量</div>
+            <div class="qs-options" id="qsVideo">
+                <button class="qs-opt" data-val="1080">1080p<span class="qs-sub">60fps · 推荐</span></button>
+                <button class="qs-opt" data-val="720">720p<span class="qs-sub">30fps · 省流</span></button>
+            </div>
+        </div>
+        <div class="qs-group">
+            <div class="qs-label">音频质量</div>
+            <div class="qs-options" id="qsAudio">
+                <button class="qs-opt" data-val="320">320kbps<span class="qs-sub">高音质 · 推荐</span></button>
+                <button class="qs-opt" data-val="96">96kbps<span class="qs-sub">省流</span></button>
+            </div>
+        </div>
+        <button class="qs-confirm" id="qsConfirm">确 定</button>
+    </div>
 
     <!-- PRELOADER -->
     <div id="preloader">
@@ -712,14 +850,15 @@
         <div class="particles" id="particles"></div>
         <div class="start-btn-wrap">
             <button class="start-btn" id="startBtn" disabled>LOADING</button>
-            <span class="start-hint">PRESS START</span>
-            <span class="landing-sub">xxtsoft 4th Anniversary</span>
+            <span class="start-hint">xxtsoft 4th Anniversary</span>
+            <span class="landing-sub">本页面 CSS 使用 AI 生成</span>
         </div>
     </div>
 
     <!-- VIDEO OVERLAY -->
     <div id="video-overlay">
         <video id="introVideo" preload="auto" playsinline></video>
+        <button id="skipBtn">跳 过</button>
     </div>
 
     <!-- WHITE FLASH -->
@@ -740,9 +879,9 @@
             </div>
 
             <div class="story-section" data-reveal>
-                <p>草，这个网站居然活了四年了。</p>
+                <p>四年转瞬即逝，但我还记得<a href="https://www.bilibili.com/video/BV1vY4y157U2/">2022/5/22在B站发布的第一个视频</a>，那不仅仅是一个简单的 Windows 教学视频，更是我对世界喊出的第一声“Hello World”。</p>
                 <p>四年前的这个时候，我还是个连 HTML 是啥都不知道的小屁孩，靠着朋友帮忙搭了个 WordPress 就算"有网站"了。那时候觉得，哇，我在互联网上有自己的地盘了，虽然那个地盘基本都是别人帮我砌的墙。</p>
-                <p>四年后，我坐在这里，用着 VSCode 一个字一个字地敲下这些文字。旁边是那台从404教室里"解放"出来的电脑，Win11 的云母效果在 4K 屏幕上流光溢彩。我甚至有点恍惚——我居然真的学会了怎么写网页。</p>
+                <p>四年后，我坐在这里，用着 VSCode 一个字一个字地敲下这些文字。我甚至有点恍惚——我居然真的学会了怎么写网页。</p>
             </div>
 
             <div class="story-section" data-reveal>
@@ -750,13 +889,6 @@
                 <p>如果你去看<a href="../museum.html">博物馆</a>，你会发现我搞过五个版本的网站。第一个是 WordPress 套皮，第二个第三个用了 Hexo，第四个是 Halo，第五个——也就是你现在看到的——是<a href="../index.html">纯手搓的静态 HTML</a>。</p>
                 <p>说实话，每次换网站都像是一次重生。旧的域名过期了，旧的截图找不到了，旧的记忆也模糊了。但每次重新开始，我都比上一次更懂一点。第一个网站我连 FTP 都不会用，现在我已经能自己写 CSS、搞响应式、配 Git 了。</p>
                 <blockquote>这大概就是成长的证据吧。</blockquote>
-            </div>
-
-            <div class="story-section" data-reveal>
-                <h2>这个网站对我意味着什么</h2>
-                <p>废话，当然是我的赛博垃圾桶啊。</p>
-                <p>在学校被老师压榨，回家被作业淹没，唯一能让我喘口气的地方就是这里。我可以在这里骂学校、骂应试教育、骂一切我想骂的东西，不用担心被叫去年级组办公室喝茶。我可以在这里分享我写的破程序，虽然没几个人用，但自己看着爽就行。</p>
-                <p>更重要的是，这个网站是我存在过的证明。若干年后，也许没人记得 xxt8582753 是谁，但只要这个域名还在、这些 HTML 文件还在，就有人知道我曾在互联网上留下过痕迹。</p>
             </div>
 
             <div class="story-section" data-reveal>
@@ -770,9 +902,9 @@
                 <h2>感谢名单</h2>
                 <p>四年了，这个网站不是我一个人撑起来的。</p>
                 <ul>
-                    <li><b>AbCd</b> — 我最好的朋友，帮我买域名、搭服务器、写代码、在404教室放风。没有你就没有这个网站。</li>
+                    <li><b>AbCd</b> — 我最好的朋友，我有很多项目都经过他的 Refactor，没有他，我不可能接触到最新的技术栈。</li>
                     <li><b>LAGSNES</b> — 提供了最早的服务器，让我的网站能在互联网上生根，而不是孤独地躺在本地磁盘里。</li>
-                    <li><b>SK</b> — 在本站投稿了 SKToolBox，让我知道这个网站也能成为别人分享的平台。</li>
+                    <li><b>Kingstar</b> — 我的同班同学，他和我在学校里坏事做尽，但也是他以实际行动教会我热爱生活，享受青春最纯粹的美好。</li>
                     <li><b>所有在B站关注我的人</b> — 虽然视频质量不咋地，但你们的点赞和评论是我继续下去的动力。</li>
                     <li><b>每一个点进来看过的人</b> — 感谢你在这个信息爆炸的时代，愿意花时间看一个高中生的碎碎念。</li>
                 </ul>
@@ -780,9 +912,9 @@
 
             <div class="story-section" data-reveal>
                 <h2>四年来的变化</h2>
-                <p>四年前我还在搞 Scratch，现在已经能写 PyQt 桌面应用了。</p>
-                <p>四年前我用的是那台开机三分钟的破笔记本，现在我有了一台 12 代 i5。</p>
-                <p>四年前我只会用 WordPress 模板，现在我能手搓整个网站。</p>
+                <p>四年前我还在搞 Scratch 和编程猫，现在已经能写 PyQt 桌面应用了。</p>
+                <p>四年前我用的是那台开机三分钟的破笔记本，现在我有了一台 12 代 i7。</p>
+                <p>四年前我热衷于修电脑，装系统，现在我更喜欢开发属于我自己的东西。</p>
                 <p>四年前我在初中混日子，现在我在高中继续混日子。</p>
                 <p>但最大的变化大概是——我开始有自己的想法了。四年前我只会跟着别人走，现在我知道自己想要什么、想做什么、想成为什么样的人。虽然前路依然迷茫，但至少我不再是那个只会复制粘贴代码的小白了。</p>
             </div>
@@ -790,9 +922,9 @@
             <div class="story-section" data-reveal>
                 <h2>未来？</h2>
                 <p>说实话，我不知道这个网站还能活多久。</p>
-                <p>域名需要续费，高中学业越来越重，大学的门槛也越来越高。也许哪一天我累了，不想再更新了，这个网站就会变成数字废墟，静静地躺在 Netlify 的服务器上，等待域名过期的那一天。</p>
+                <p>高中学业越来越重，大学的门槛也越来越高。如今我所掌握的技能，以后几乎都会被 AI 取代。也许哪一天我累了，不想再更新了，这个网站就会变成数字废墟，静静地躺在 Netlify 的服务器上，等待域名过期的那一天。</p>
                 <p>但在那之前，我会继续写下去。</p>
-                <p>继续写代码，继续写文章，继续骂学校，继续分享我觉得有意思的东西。因为这个网站是我在压抑的高中生活中唯一的自由之地，是我向这个世界喊话的扩音器——虽然音量不大，但至少我在喊。</p>
+                <p>继续写代码，继续写文章，继续分享我觉得有意思的东西。因为这个网站是我在压抑的高中生活中唯一的自由之地，是我向这个世界喊话的扩音器——虽然音量不大，但至少我在喊。</p>
                 <p>四年了，xxtsoft 还在。</p>
                 <p>希望下一个四年，我们还在这里。</p>
             </div>
@@ -814,11 +946,11 @@
         <small>SCROLL</small>
     </div>
 
-    <!-- LYRICS -->
-    <div class="lyrics-panel" id="lyricsPanel">
+    <!-- LYRICS BAR -->
+    <div class="lyrics-bar" id="lyricsBar">
         <div class="lyrics-line" id="lyricsLine"></div>
+        <button class="lyrics-toggle" id="lyricsToggle">JP</button>
     </div>
-    <button class="lyrics-toggle" id="lyricsToggle">JP / CN</button>
 
     <!-- HIDDEN AUDIO -->
     <audio id="introAudio" preload="auto" loop></audio>
@@ -826,6 +958,27 @@
 
     <script>
         (function() {
+            // ===== QUALITY SELECTION =====
+            const qualitySelect = document.getElementById('qualitySelect');
+            let selVideo = '1080';
+            let selAudio = '320';
+
+            function initQualityButtons(groupId, defaultValue) {
+                const group = document.getElementById(groupId);
+                const buttons = group.querySelectorAll('.qs-opt');
+                buttons.forEach(btn => {
+                    if (btn.dataset.val === defaultValue) btn.classList.add('selected');
+                    btn.addEventListener('click', () => {
+                        buttons.forEach(b => b.classList.remove('selected'));
+                        btn.classList.add('selected');
+                        if (groupId === 'qsVideo') selVideo = btn.dataset.val;
+                        else selAudio = btn.dataset.val;
+                    });
+                });
+            }
+            initQualityButtons('qsVideo', '1080');
+            initQualityButtons('qsAudio', '320');
+
             const preloader = document.getElementById('preloader');
             const landing = document.getElementById('landing');
             const startBtn = document.getElementById('startBtn');
@@ -842,6 +995,9 @@
             const backLink = document.getElementById('backLink');
             const scrollIndicator = document.getElementById('scrollIndicator');
             const particlesContainer = document.getElementById('particles');
+            const lyricsBar = document.getElementById('lyricsBar');
+            const lyricsLine = document.getElementById('lyricsLine');
+            const lyricsToggle = document.getElementById('lyricsToggle');
 
             // ===== PARTICLES =====
             for (let i = 0; i < 50; i++) {
@@ -853,14 +1009,12 @@
                 const s = (2 + Math.random() * 3) + 'px';
                 p.style.width = s;
                 p.style.height = s;
-                if (Math.random() > 0.5) p.style.background = '#f0a0d0';
+                if (Math.random() > 0.5) p.style.background = '#39c5bb';
                 particlesContainer.appendChild(p);
             }
 
-            const videoSrc = '../support/aikotoba/intro.mp4';
-            const audioSrc = '../support/aikotoba/bgm.mp3';
             const introSrc = '../support/aikotoba/intro.mp3';
-
+            let videoSrc, audioSrc;
             let mediaLoaded = 0;
             const totalMedia = 3;
 
@@ -869,36 +1023,61 @@
                 if (mediaLoaded >= totalMedia) {
                     setTimeout(() => {
                         preloader.classList.add('hidden');
+                        preloader.classList.remove('active');
                         startBtn.disabled = false;
                         startBtn.textContent = '开 始';
-                        // Start intro.mp3 loop on landing
-                        introAudio.volume = 0.3;
+                        introAudio.volume = 0.8;
                         introAudio.play().catch(() => {});
                     }, 600);
                 }
             }
 
-            introVideo.src = videoSrc;
-            introVideo.load();
-            introVideo.addEventListener('canplaythrough', mediaReady, { once: true });
-            bgm.src = audioSrc;
-            bgm.load();
-            bgm.addEventListener('canplaythrough', mediaReady, { once: true });
-            introAudio.src = introSrc;
-            introAudio.load();
-            introAudio.addEventListener('canplaythrough', mediaReady, { once: true });
+            function startLoading() {
+                videoSrc = selVideo === '1080'
+                    ? '../support/aikotoba/intro_1080.mp4'
+                    : '../support/aikotoba/Intro.mp4';
+                audioSrc = selAudio === '320'
+                    ? '../support/aikotoba/bgm_320.mp3'
+                    : '../support/aikotoba/bgm.mp3';
 
-            // Safety
-            setTimeout(() => {
-                if (mediaLoaded < totalMedia) {
-                    mediaLoaded = totalMedia;
-                    preloader.classList.add('hidden');
-                    startBtn.disabled = false;
-                    startBtn.textContent = '开 始';
-                    introAudio.volume = 0.3;
-                    introAudio.play().catch(() => {});
+                mediaLoaded = 0;
+                preloader.classList.add('active');
+
+                introVideo.src = videoSrc;
+                introVideo.load();
+                introVideo.addEventListener('canplaythrough', mediaReady, { once: true });
+                bgm.src = audioSrc;
+                bgm.load();
+                bgm.addEventListener('canplaythrough', mediaReady, { once: true });
+                introAudio.src = introSrc;
+                introAudio.load();
+                introAudio.addEventListener('canplaythrough', mediaReady, { once: true });
+
+                setTimeout(() => {
+                    if (mediaLoaded < totalMedia) {
+                        mediaLoaded = totalMedia;
+                        preloader.classList.add('hidden');
+                        preloader.classList.remove('active');
+                        startBtn.disabled = false;
+                        startBtn.textContent = '开 始';
+                        introAudio.volume = 0.3;
+                        introAudio.play().catch(() => {});
+                    }
+                }, 8000);
+            }
+
+            // Quality confirm
+            document.getElementById('qsConfirm').addEventListener('click', () => {
+                qualitySelect.classList.add('hidden');
+                startLoading();
+            });
+            document.addEventListener('keydown', function qsKey(e) {
+                if (e.code === 'Enter' && !qualitySelect.classList.contains('hidden')) {
+                    e.preventDefault();
+                    qualitySelect.classList.add('hidden');
+                    startLoading();
                 }
-            }, 8000);
+            });
 
             // ===== START =====
             let started = false;
@@ -933,6 +1112,7 @@
                 }, 800);
 
                 function onVideoEnded() {
+                    skipBtn.classList.remove('visible');
                     flash.style.opacity = '1';
                     setTimeout(() => {
                         videoOverlay.classList.remove('active');
@@ -957,6 +1137,15 @@
 
                 introVideo.addEventListener('ended', onVideoEnded, { once: true });
                 introVideo.addEventListener('error', onVideoEnded, { once: true });
+
+                // Skip button
+                const skipBtn = document.getElementById('skipBtn');
+                skipBtn.classList.add('visible');
+                skipBtn.addEventListener('click', () => {
+                    skipBtn.classList.remove('visible');
+                    introVideo.pause();
+                    onVideoEnded();
+                }, { once: true });
             }
 
             // ===== LYRICS DATA =====
@@ -1019,10 +1208,7 @@
                 [195.246,197.455,"みっともないけど　嫉妬しちゃうけど　どうか許してね","虽然有点狼狈 虽然会吃醋 不过要原谅我哦"],
                 [197.832,198,"どんな歌だってずっと　君と届け続けるよ","无论什么歌 我都会永远和你一起传递下去"]
             ];
-            const lyricsPanel = document.getElementById('lyricsPanel');
-            const lyricsLine = document.getElementById('lyricsLine');
-            const lyricsToggle = document.getElementById('lyricsToggle');
-            let lyricsMode = 'jp'; // 'jp' | 'cn'
+            let lyricsMode = 'jp';
             let lastLyricIdx = -1;
 
             lyricsToggle.addEventListener('click', () => {
@@ -1076,8 +1262,7 @@
 
             // Start lyrics sync after video ends
             function startLyricsSync() {
-                lyricsPanel.classList.add('visible');
-                lyricsToggle.classList.add('visible');
+                lyricsBar.classList.add('visible');
                 lyricsLine.innerHTML = '';
                 lyricsLine.classList.remove('switching', 'fading');
                 lastLyricIdx = -1;
