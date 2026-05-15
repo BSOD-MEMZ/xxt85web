@@ -130,4 +130,87 @@ body {
 .article-content img {
     max-width: 100%;
     height: auto;
+    cursor: pointer;
 }
+
+/* 图片查看器样式 */
+.image-viewer-modal {
+    display: none;
+    position: fixed;
+    z-index: 9999;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+    animation: fadeIn 0.3s ease;
+}
+
+.image-viewer-modal.active {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.image-viewer-content {
+    position: relative;
+    max-width: 90%;
+    max-height: 90vh;
+    animation: slideIn 0.3s ease;
+}
+
+.image-viewer-img {
+    max-width: 100%;
+    max-height: 85vh;
+    object-fit: contain;
+}
+
+.image-viewer-close {
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    width: 38px;
+    height: 30px;
+    cursor: pointer;
+    user-select: none;
+}
+
+.image-viewer-nav {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 38px;
+    height: 44px;
+    cursor: pointer;
+    user-select: none;
+
+}
+
+.image-viewer-prev {
+    left: 10px;
+}
+
+.image-viewer-next {
+    right: 10px;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
