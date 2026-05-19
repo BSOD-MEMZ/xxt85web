@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>xxtsoft · 休息室</title>
+    <link rel="stylesheet" href="style.css" type="text/css" />
+    <!-- <script src="https://xxtsoft.top/live2d-widget/dist/autoload.js"></script> -->
+</head>
+
+<body>
+    <div class="titlebar">
+        <div class="wrap">
+            <h1>xxtsoft.top</h1>
+        </div>
+    </div>
+    <div class="navbar">
+        <div class="wrap">
+            <ul>
+                <li><a href="index.html">首页(H)</a></li>
+                <li><a href="articles.html">文章(A)</a></li>
+                <li><a href="downloads.html">下载(D)</a></li>
+                <li><a href="medias.html">多媒体(M)</a></li>
+                <li><a href="about.html">关于(A)</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="content wrap">
+        <div class="main">
+            <h2><span style="color: #003399;">休息室</span></h2>
+            <div class="tips">
+                <p><img src="images/icons/info.png" alt="" width="16" height="16"
+                        style="vertical-align: middle;" /><b> 为什么我会被跳转到这里？</b></p>
+                <p>如果你点击了一个正在维护的链接，或者我认为你需要休息一下，可能会被跳转到此页面————这里并不是404，只是你我都没准备好。</p>
+                <p>如果我没猜错的话，<span id="display"></span></p>
+            </div>
+            <div class="tips">
+                <p><img src="images/icons/info.png" alt="" width="16" height="16"
+                        style="vertical-align: middle;" /><b> 现在我可以干什么？</b></p>
+                <p>你可以在这里放松一下，或者看看有什么有趣的内容。</p>
+            </div>
+            <div class="tips">
+                <p><img src="images/icons/info.png" alt="" width="16" height="16"
+                        style="vertical-align: middle;" /><b> 现在我可以回主页吗？</b></p>
+                <p>当然可以，点击<a href="index.html">这里</a>回到主页。</p>
+            </div>
+        </div>
+    </div>
+    <video autoplay="autoplay" src="music/restroom.mp3" controls="controls" preload id="p-music" loop="loop"
+        hidden="true"></video>
+</body>
+<script>
+    const urlParams = new URLSearchParams(window.location.search);
+    const text = urlParams.get('text');
+
+    if (text) {
+        document.getElementById('display').innerText = decodeURIComponent(text);
+    } else {
+        document.getElementById('display').innerText = '没有传入任何内容';
+    }
+</script>
+<script language="javascript" type="text/javascript">
+    document.onclick = function (event) {
+        event = (event || window.event);
+        var audio = document.getElementById('p-music');
+        audio.play();
+        audio.muted = false;
+    }
+</script>
+
+</html>
