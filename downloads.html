@@ -40,6 +40,10 @@
             <div class="window">
                 <div class="window-titlebar">主页</div>
                 <div class="window-content">
+                    <div class="view-toggle-container" id="viewToggle">
+                        <button class="view-toggle-btn active" data-view="list" onclick="setDownloadView('list')">列表</button>
+                        <button class="view-toggle-btn" data-view="card" onclick="setDownloadView('card')">卡片</button>
+                    </div>
                     <h3><img src="images/icons/projects.png" alt="" width="16" height="16" /> 年代并不是很久远但我没挂到主页的程序（2025）</h3>
                     <ul>
                         <li><a href="https://www.123912.com/s/LQJuVv-rLcNd"><img src="images/icons/program.png" alt=""
@@ -124,16 +128,112 @@
         </div>
     </div>
     </div>
-    <video autoplay="autoplay" src="music/Embrace.mp3" controls="controls" preload id="p-music" loop="loop"
-        hidden="true"></video>
+    <audio src="music/Embrace.mp3" preload id="p-music" loop hidden></audio>
 </body>
 <script language="javascript" type="text/javascript">
     document.onclick = function (event) {
         event = (event || window.event);
         var audio = document.getElementById('p-music');
-        audio.play();
-        audio.muted = false;
+        if (audio) {
+            audio.play().catch(function() {});
+            audio.muted = false;
+        }
     }
+</script>
+<script language="javascript" type="text/javascript">
+(function() {
+    var container = document.getElementById('viewToggle');
+    if (!container) return;
+    container.classList.add('visible');
+
+    var windowContent = document.querySelector('.main .window-content');
+    if (!windowContent) return;
+
+    var uls = windowContent.querySelectorAll('ul');
+    for (var u = 0; u < uls.length; u++) {
+        var ul = uls[u];
+        var cardsDiv = document.createElement('div');
+        cardsDiv.className = 'download-cards';
+
+        var lis = ul.querySelectorAll('li');
+        for (var i = 0; i < lis.length; i++) {
+            var link = lis[i].querySelector('a');
+            var icon = link ? link.querySelector('img') : null;
+            if (link && icon) {
+                var item = {
+                    title: link.textContent.replace(/^\s+|\s+$/g, ''),
+                    href: link.href,
+                    icon: icon ? icon.getAttribute('src') : '',
+                    description: ''
+                };
+                // 检查下一个 li 是否为描述文本（不含链接）
+                if (i + 1 < lis.length) {
+                    var next = lis[i + 1];
+                    if (!next.querySelector('a')) {
+                        item.description = next.textContent.replace(/^\s+|\s+$/g, '');
+                        i++;
+                    }
+                }
+                // 构建卡片
+                var a = document.createElement('a');
+                a.className = 'download-card';
+                a.href = item.href;
+
+                var largeIcon = item.icon;
+                if (largeIcon && largeIcon.indexOf('images/icons/') !== -1) {
+                    largeIcon = largeIcon.replace('images/icons/', 'images/icons/large/');
+                }
+
+                var html = '<div class="download-card-icon">';
+                html += '<img src="' + largeIcon + '" alt=""';
+                if (largeIcon !== item.icon) {
+                    html += ' onerror="this.src=\'' + item.icon + '\'"';
+                }
+                html += ' /></div>';
+                html += '<div class="download-card-title">' + item.title + '</div>';
+                if (item.description) {
+                    html += '<div class="download-card-desc">' + item.description + '</div>';
+                }
+                a.innerHTML = html;
+                cardsDiv.appendChild(a);
+            }
+        }
+
+        if (cardsDiv.children.length > 0) {
+            ul.parentNode.insertBefore(cardsDiv, ul.nextSibling);
+        }
+    }
+
+    // 切换视图
+    window.setDownloadView = function(mode) {
+        document.body.classList.remove('view-list', 'view-card');
+        document.body.classList.add('view-' + mode);
+        try {
+            localStorage.setItem('download-view', mode);
+        } catch(e) {}
+
+        var btns = container.querySelectorAll('.view-toggle-btn');
+        for (var b = 0; b < btns.length; b++) {
+            var isActive = btns[b].getAttribute('data-view') === mode;
+            if (isActive) {
+                btns[b].classList.add('active');
+            } else {
+                btns[b].classList.remove('active');
+            }
+        }
+    };
+
+    // 恢复用户偏好
+    var saved;
+    try {
+        saved = localStorage.getItem('download-view');
+    } catch(e) {}
+    if (saved === 'card') {
+        setDownloadView('card');
+    } else {
+        setDownloadView('list');
+    }
+})();
 </script>
 
 </html>

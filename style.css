@@ -743,6 +743,136 @@ a:hover {
     padding: 0 0 0 8px !important; 
     height: 25px;
 }
+/* ===== 下载页视图切换 & 卡片布局 ===== */
+
+.view-toggle-container {
+    display: none;
+    float: right;
+    margin-top: -4px;
+    margin-bottom: 6px;
+    margin-left: 10px;
+}
+
+.view-toggle-container.visible {
+    display: block;
+}
+
+.view-toggle-btn {
+    padding: 1px 12px;
+    font-size: 12px;
+    font-family: "Segoe UI", "Microsoft YaHei UI";
+    background: linear-gradient(to bottom, #fefefe 0%, #E5EAF5 30%, #D4DBED 31%, #E1E6F6 100%);
+    border: 1px solid #8b8b8b;
+    cursor: pointer;
+    color: #000;
+    float: left;
+}
+
+.view-toggle-btn:first-child {
+    border-radius: 3px 0 0 3px;
+}
+
+.view-toggle-btn:last-child {
+    border-radius: 0 3px 3px 0;
+    border-left: 0;
+}
+
+.view-toggle-btn:hover {
+    background: #a7a7a7;
+}
+
+.view-toggle-btn.active {
+    background: #C4CDDA;
+    border-color: #666;
+    box-shadow: inset 0 1px 2px rgba(0,0,0,0.2);
+}
+
+/* 卡片容器 */
+.download-cards {
+    display: none;
+    margin: 10px 0 20px;
+}
+
+.view-card .download-cards {
+    display: block;
+}
+
+.view-card .main .window-content > ul {
+    display: none;
+}
+
+.download-cards:after {
+    content: "";
+    display: table;
+    clear: both;
+}
+
+/* 单张卡片 */
+.download-card {
+    display: block;
+    padding: 10px 12px;
+    margin-bottom: 6px;
+    background: linear-gradient(to bottom, #ffffff 0%, #CADAEF 100%);
+    border: 1px solid #767676;
+    border-radius: 3px;
+    text-decoration: none;
+    color: #000;
+    overflow: hidden;
+}
+
+.download-card:hover {
+    background: linear-gradient(to bottom, #E5F0FF 0%, #B8D0EE 100%);
+    border-color: #3C7FB1;
+    text-decoration: none;
+}
+
+.download-card-icon {
+    float: left;
+    width: 48px;
+    height: 48px;
+    margin-right: 12px;
+}
+
+.download-card-icon img {
+    width: 48px;
+    height: 48px;
+}
+
+.download-card-title {
+    font-size: 13px;
+    font-weight: bold;
+    color: #003399;
+    margin-bottom: 4px;
+    line-height: 1.3;
+    overflow: hidden;
+}
+
+.download-card-desc {
+    font-size: 12px;
+    color: #444;
+    line-height: 1.4;
+    overflow: hidden;
+}
+
+/* 响应式 */
+@media screen and (max-width: 1000px) {
+    .download-card-icon {
+        width: 40px;
+        height: 40px;
+    }
+
+    .download-card-icon img {
+        width: 40px;
+        height: 40px;
+    }
+
+    .view-toggle-container {
+        float: none;
+        margin-top: 0;
+        margin-bottom: 10px;
+    }
+}
+
 @media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
     .preview-box {
         background: #f0f0f0;
