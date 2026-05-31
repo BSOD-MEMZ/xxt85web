@@ -149,3 +149,75 @@
         init();
     }
 })();
+
+// ==================== 代码块包裹 + 复制按钮（IE 兼容） ====================
+(function () {
+    function initCodeCopy() {
+        var pres = document.querySelectorAll('.article-content pre');
+        for (var i = 0; i < pres.length; i++) {
+            (function (pre) {
+                // 跳过已被包裹的
+                if (pre.parentNode.className === 'xxt-code-block') return;
+
+                // 检测语言类型，设置标题
+                var codeEl = pre.querySelector('code');
+                var rawText = (codeEl ? (codeEl.innerText || codeEl.textContent) : (pre.innerText || pre.textContent)) || '';
+                var langLabel = /^[ \t]*(import |from |def |class |if __name__)/m.test(rawText) ? 'Python' : '\u4ee3\u7801';
+
+                // 创建外层容器
+                var wrapper = document.createElement('div');
+                wrapper.className = 'xxt-code-block';
+
+                // 创建标题栏
+                var title = document.createElement('div');
+                title.className = 'xxt-code-title';
+                title.appendChild(document.createTextNode(langLabel));
+
+                // 创建复制按钮
+                var copyBtn = document.createElement('div');
+                copyBtn.className = 'xxt-copy-btn';
+                copyBtn.title = '\u590d\u5236\u4ee3\u7801';
+
+                // 将 <pre> 包裹进容器
+                pre.parentNode.insertBefore(wrapper, pre);
+                wrapper.appendChild(title);
+                wrapper.appendChild(pre);
+                wrapper.appendChild(copyBtn);
+
+                // 绑定复制事件
+                copyBtn.onclick = function (e) {
+                    e.stopPropagation();
+                    var codeText = pre.innerText || pre.textContent || '';
+
+                    // IE 兼容
+                    if (window.clipboardData && window.clipboardData.setData) {
+                        window.clipboardData.setData('Text', codeText);
+                    } else {
+                        var ta = document.createElement('textarea');
+                        ta.value = codeText;
+                        ta.style.position = 'fixed';
+                        ta.style.left = '-9999px';
+                        ta.style.top = '-9999px';
+                        document.body.appendChild(ta);
+                        ta.select();
+                        try { document.execCommand('copy'); } catch (err) {}
+                        document.body.removeChild(ta);
+                    }
+
+                    // 反馈：闪烁效果
+                    copyBtn.className = 'xxt-copy-btn xxt-copied';
+                    clearTimeout(copyBtn._t);
+                    copyBtn._t = setTimeout(function () {
+                        copyBtn.className = 'xxt-copy-btn';
+                    }, 1500);
+                };
+            })(pres[i]);
+        }
+    }
+
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initCodeCopy);
+    } else {
+        initCodeCopy();
+    }
+})();

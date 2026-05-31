@@ -40,27 +40,27 @@
             <p>考虑到WinRT已经死了有一段时间了，所以我决定使用UIAutomation抓取Toast里的内容。</p>
             <p>我自己的电脑是 Win10 2009，先使用递归遍历窗口树的方式来硬找。</p>
             <pre><code>
-import time
+<span class="hljs-keyword">import</span> time
 
-import uiautomation as auto
+<span class="hljs-keyword">import</span> uiautomation <span class="hljs-keyword">as</span> auto
 
 root = auto.GetRootControl()
 
 
-def walk(ctrl, depth=0, max_depth=5):
-    if depth > max_depth:
-        return
-    indent = "  " * depth
-    print(
-        f"{indent}- {ctrl.ControlTypeName} | Name='{ctrl.Name}' | Class='{ctrl.ClassName}'"
+<span class="hljs-keyword">def</span> <span class="hljs-function">walk</span>(ctrl, depth=0, max_depth=5):
+    <span class="hljs-keyword">if</span> depth &gt; max_depth:
+        <span class="hljs-keyword">return</span>
+    indent = <span class="hljs-string">"  "</span> * depth
+    <span class="hljs-keyword">print</span>(
+        f<span class="hljs-string">"{indent}- {ctrl.ControlTypeName} | Name='{ctrl.Name}' | Class='{ctrl.ClassName}'"</span>
     )
 
-    for c in ctrl.GetChildren():
-        walk(c, depth + 1, max_depth)
+    <span class="hljs-keyword">for</span> c <span class="hljs-keyword">in</span> ctrl.GetChildren():
+        <span class="hljs-function">walk</span>(c, depth + 1, max_depth)
 
 
-time.sleep(2)
-walk(root)
+time.<span class="hljs-function">sleep</span>(2)
+<span class="hljs-function">walk</span>(root)
 
 </code></pre>
             <p>这个算法还算好理解，walk用来遍历整个窗口树，找到子节点后再调用一次自己，一直这样折腾下去直到达到递归边界。</p>

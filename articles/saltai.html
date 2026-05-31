@@ -64,18 +64,17 @@
             <p>可以随意修改纱露朵的“记忆”————只需要修改context.json，这样就可以删除误导性的内容以确保生成结果的准确性，并且也可以节省Token（如果你真打算和这个AI聊一段时间，64k估计不够用）</p>
             <h3>特有的功能</h3>
             <p>鉴于ソルト的特殊属性，我整了个知识库（虽然是网上抄的，而且直接当prompt导入），经过训练后可以回答一些问题，比如这样</p>
-            <pre>
-                <code>
+            <pre><code>
   {
-    "role": "user",
-    "content": "你知道maimai里面定数15的两首歌分别是什么吗"
+    <span class="hljs-string">"role"</span>: <span class="hljs-string">"user"</span>,
+    <span class="hljs-string">"content"</span>: <span class="hljs-string">"你知道maimai里面定数15的两首歌分别是什么吗"</span>
   },
   {
-    "role": "assistant",
-    "content": "当然知道啦！是PANDORA PARADOXXX和系ぎて的白谱哦~"
+    <span class="hljs-string">"role"</span>: <span class="hljs-string">"assistant"</span>,
+    <span class="hljs-string">"content"</span>: <span class="hljs-string">"当然知道啦！是PANDORA PARADOXXX和系ぎて的白谱哦~"</span>
   },
-                </code>
-            </pre>
+                
+</code></pre>
             <h2>使用方法</h2>
             <p>我打包了个exe，没测试，不知道能不能用，反正代码可以跑。自己注册一个DeepSeek APIKey，填入apikey.ini<b>（这一步很重要，不填APIkey就用不了，API也不贵，像我这种人20块钱够用一年了）</b></p>
             <img alt="" src="assets/saltai1.JPG">

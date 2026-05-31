@@ -1,5 +1,8 @@
 document.addEventListener('DOMContentLoaded', function () {
     const video = document.getElementById('main-video');
+    // 如果不是视频类型（如 Flash 页面），不初始化播放器控件
+    if (!video) return;
+
     const playPauseBtn = document.getElementById('play-pause');
     const progressBar = document.getElementById('progress-bar');
     const progressDot = document.getElementById('progress-dot');

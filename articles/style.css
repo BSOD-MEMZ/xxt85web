@@ -214,3 +214,113 @@ body {
     }
 }
 
+/* ===== 代码块样式（Dev-C++ 风格） ===== */
+
+/* 代码块容器 — JS 动态包裹 <pre> */
+.xxt-code-block {
+    position: relative;
+    margin: 15px 0;
+    border: 1px solid #8DB2CE;
+    background: #FFFFFF;
+    overflow: hidden;
+}
+
+/* 标题栏 */
+.xxt-code-block .xxt-code-title {
+    height: 22px;
+    line-height: 22px;
+    background: #D6E5F0;
+    border-bottom: 1px solid #8DB2CE;
+    padding: 0 30px 0 8px;
+    font-size: 11px;
+    font-family: "Segoe UI", "Microsoft YaHei UI", sans-serif;
+    color: #333;
+}
+
+/* 代码内容 */
+.xxt-code-block pre {
+    margin: 0;
+    padding: 10px 14px;
+    background: #FFFFFF;
+    font-family: Consolas, "Courier New", monospace;
+    font-size: 13px;
+    line-height: 1.6;
+    overflow-x: auto;
+    white-space: pre;
+    color: #000000;
+    border: none;
+    border-radius: 0;
+    -ms-overflow-style: -ms-autohiding-scrollbar;
+}
+
+.xxt-code-block pre code {
+    font-family: inherit;
+    font-size: inherit;
+    color: inherit;
+    background: none;
+    padding: 0;
+}
+
+/* 复制按钮 */
+.xxt-code-block .xxt-copy-btn {
+    position: absolute;
+    top: 2px;
+    right: 4px;
+    width: 18px;
+    height: 18px;
+    cursor: pointer;
+    border: none;
+    background: url("copy.png") no-repeat center;
+    background-size: 16px 16px;
+    opacity: 0.45;
+    filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=45);
+}
+
+.xxt-code-block:hover .xxt-copy-btn {
+    opacity: 0.85;
+    filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=85);
+}
+
+.xxt-code-block .xxt-copy-btn:hover {
+    opacity: 1;
+    filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=100);
+}
+
+/* 复制成功反馈 */
+.xxt-code-block .xxt-copy-btn.xxt-copied {
+    background: url("copy.png") no-repeat center;
+    background-size: 16px 16px;
+    opacity: 1;
+    filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=100);
+}
+
+/* ===== 语法高亮（Dev-C++ / 经典 IDE 浅色风格） ===== */
+.hljs-punctuation { color: #000000; }
+.hljs-attr        { color: #FF0000; }
+.hljs-string      { color: #A31515; }
+.hljs-number      { color: #098658; }
+.hljs-keyword     { color: #0000FF; }
+.hljs-comment     { color: #008000; font-style: italic; }
+.hljs-function    { color: #795E26; }
+.hljs-type        { color: #267F99; }
+.hljs-built_in    { color: #0000FF; }
+.hljs-literal     { color: #0000FF; }
+.hljs-title       { color: #795E26; }
+.hljs-params      { color: #000000; }
+.hljs-meta        { color: #808080; }
+.hljs-tag         { color: #800000; }
+.hljs-name        { color: #800000; }
+.hljs-selector-class { color: #800000; }
+.hljs-selector-id  { color: #800000; }
+
+/* IE 兼容 */
+@media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
+    .xxt-code-block .xxt-copy-btn {
+        transition: none;
+    }
+    .xxt-code-block pre {
+        white-space: pre-wrap;
+        word-wrap: break-word;
+    }
+}
+

@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>xxtsoft · 媒体库播放器</title>
+    <link rel="stylesheet" href="style.css" type="text/css" />
+    <link rel="icon" href="medias.ico" type="image/x-icon">
+    <script src="videos.js"></script>
+    <script src="player.js"></script>
+</head>
+
+<body>
+    <div class="titlebar">
+        <div class="wrap">
+            <h1>xxtsoft.top 媒体库</h1>
+        </div>
+    </div>
+    <div class="content wrap">
+        <div class="video-container">
+            <h2 class="video-title" id="video-title"></h2>
+
+            <div class="video-player" id="video-player">
+                <!-- 由 JS 动态填充 -->
+            </div>
+
+            <div class="video-info">
+                <div class="video-meta" id="video-meta"></div>
+                <div class="video-description" id="video-desc"></div>
+            </div>
+        </div>
+
+        <!-- 下载区域（动态填充） -->
+        <div class="download-section" id="download-section" style="display:none;">
+            <h3>下载视频原片</h3>
+            <p id="download-note">您正在试看标清影片，单击下方链接下载高清视频</p>
+            <div id="download-links"></div>
+        </div>
+
+        <!-- 未找到视频时的提示 -->
+        <div id="not-found" style="display:none; text-align:center; padding:40px;">
+            <h2>视频未找到</h2>
+            <p>请检查链接是否正确，或返回 <a href="../medias.html">媒体库首页</a>。</p>
+        </div>
+    </div>
+
+    <script>
+    (function () {
+        var params = new URLSearchParams(window.location.search);
+        var id = parseInt(params.get('id'), 10);
+        var video = null;
+
+        // 查找视频数据
+        if (!isNaN(id)) {
+            for (var i = 0; i < XSOFT_VIDEOS.length; i++) {
+                if (XSOFT_VIDEOS[i].id === id) {
+                    video = XSOFT_VIDEOS[i];
+                    break;
+                }
+            }
+        }
+
+        if (!video) {
+            document.getElementById('not-found').style.display = 'block';
+            document.querySelector('.video-container').style.display = 'none';
+            return;
+        }
+
+        // 设置页面标题
+        document.title = 'xxtsoft · ' + video.title;
+
+        // 设置视频标题
+        document.getElementById('video-title').textContent = video.title;
+
+        // 构建播放器
+        var playerEl = document.getElementById('video-player');
+        if (video.type === 'flash') {
+            playerEl.innerHTML =
+                '<embed src="' + video.src + '" width="' + (video.width || 550) + '" height="' + (video.height || 400) + '">';
+        } else {
+            playerEl.innerHTML =
+                '<video id="main-video" poster="' + video.poster + '">' +
+                '<source src="' + video.src + '" type="video/mp4">' +
+                '</video>' +
+                '<div class="loader" id="loader"></div>' +
+                '<div class="player-controls">' +
+                '<button class="control-button play-btn" id="play-pause"></button>' +
+                '<div class="progress-container">' +
+                '<div class="progress-bar" id="progress-bar"></div>' +
+                '<img src="assets/wmpdot.png" id="progress-dot" class="progress-dot" alt="">' +
+                '</div>' +
+                '<div class="time-display" id="time-display">00:00 / ' + video.duration + '</div>' +
+                '<div class="volume-container">' +
+                '<button class="control-button mute-btn" id="mute"></button>' +
+                '<input type="range" class="volume-slider" id="volume-slider" min="0" max="1" step="0.1" value="1">' +
+                '</div>' +
+                '<button class="control-button fullscreen-btn" id="fullscreen"></button>' +
+                '</div>';
+        }
+
+        // 元数据
+        document.getElementById('video-meta').innerHTML =
+            '<span>作者：' + video.author + '</span> | ' +
+            '<span>发布时间：' + video.date + '</span> | ' +
+            '<span>类型：' + video.mediaType + '</span> | ' +
+            '<span>时长：' + video.duration + '</span>';
+
+        // 描述
+        document.getElementById('video-desc').innerHTML = video.description;
+
+        // 下载区域
+        var dlSection = document.getElementById('download-section');
+        if (video.downloadNote && !video.downloads) {
+            // 仅提示，无下载链接
+            dlSection.style.display = 'block';
+            document.getElementById('download-note').textContent = video.downloadNote;
+            document.getElementById('download-links').innerHTML = '';
+        } else if (video.downloads && video.downloads.length > 0) {
+            dlSection.style.display = 'block';
+            var linksHtml = '';
+            for (var j = 0; j < video.downloads.length; j++) {
+                var d = video.downloads[j];
+                linksHtml +=
+                    '<a href="' + d.url + '" class="download-link">' +
+                    '<img src="' + d.icon + '" alt="" width="16" height="16"> ' + d.label +
+                    '</a>';
+            }
+            document.getElementById('download-links').innerHTML = linksHtml;
+        }
+    })();
+    </script>
+</body>
+
+</html>

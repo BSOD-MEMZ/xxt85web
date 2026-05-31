@@ -50,11 +50,13 @@
             </p>
             <h2 id='进adb'>进ADB</h2>
             <p>万幸的是，很久以前我就在这台设备上启用了ADB调试，现在我放假了，正好有电脑。我将设备用数据线连接到电脑上。</p>
-            <pre><code class='language-shell' lang='shell'>C:\Users\Administrator&gt;adb devices
+            <pre><code class='language-shell' lang='shell'>
+<span class="hljs-meta">C:\Users\Administrator&gt;</span>adb devices
 * daemon not running; starting now at tcp:5037
 * daemon started successfully
 List of devices attached
 0123456789ABCDEF        unauthorized
+
 </code></pre>
             <p>这就很操蛋了，显然，ADB已经成功识别到我的设备，但是没有授权。</p>
             <h2 id='尝试进行授权'>尝试进行授权</h2>
@@ -69,7 +71,9 @@ List of devices attached
             <p><strong>注意，以<a href='https://scrcpyapp.org/guides/otg/'>OTG 模式</a>运行 scrcpy 不需要 USB 调试。</strong></p>
             <h2 id='解决'>解决！</h2>
             <p>后面的事情就不用说了，我立刻在自己电脑上安装Scrcpy，启用OTG模式</p>
-            <pre><code class='language-shell' lang='shell'>scrcpy --otg
+            <pre><code class='language-shell' lang='shell'>
+<span class="hljs-built_in">scrcpy</span> <span class="hljs-attr">--otg</span>
+
 </code></pre>
             <img src="assets/fuckoverlay4.jpg">
             <p>诶？我的鼠标怎么没反应？原来我的键鼠操作已经进入安卓设备里了。</p>
@@ -79,7 +83,9 @@ List of devices attached
             <p><strong>允许！</strong></p>
             <p>那一刻，我感觉我已被授予安卓世界中最强大的力量，下一步就是把遮罩干掉。</p>
             <p>通过网络搜索，我得知这个半透明遮罩其实是叫overlay_display_devices的东西，我们尝试全局put一下设置项</p>
-            <pre><code class='language-shell' lang='shell'>adb shell settings put global overlay_display_devices null
+            <pre><code class='language-shell' lang='shell'>
+<span class="hljs-built_in">adb</span> shell settings put global overlay_display_devices <span class="hljs-literal">null</span>
+
 </code></pre>
             <p>回车后，显示终于正常了，我松了一口气。看似简单的操作，花了我近半个小时。我疲惫的瘫在椅子上。</p>
             <h2 id='总结'>总结</h2>
