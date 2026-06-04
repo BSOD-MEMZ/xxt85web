@@ -80,7 +80,22 @@ body {
     color: #000000;
     text-decoration: none;
     padding: 0px 12px 6px 6px;
-    /*border-right: 1px solid #8b8b8b;*/
+}
+
+/* 顶部横幅 */
+.banner {
+    width: 100%;
+    background: linear-gradient(to bottom, #fff8dc 0%, #ffeaa7 50%, #fdcb6e 100%);
+    border-bottom: 1px solid #d4a017;
+    padding: 4px 0;
+    text-align: center;
+}
+
+.banner p {
+    margin: 0;
+    font-size: 12px;
+    font-weight: bold;
+    color: #6b5200;
 }
 
 .navbar a:hover {

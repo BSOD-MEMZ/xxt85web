@@ -191,7 +191,8 @@
         title: "南方中学的居民和强盗",
         author: "xxt8582753",
         desc: "有一天，几个来自年级组的强盗闯进了班级。一个强盗洗劫手机，另一个强盗在搜MP4。似乎得胜之后，便可以动手行窃了。他们对班级进行了大规模的劫掠，赃物由几个胜利者均分...",
-        img: ""
+        img: "",
+        disturbing: true
       },
       "boring.html": {
         title: "无聊时可以干什么",
@@ -203,7 +204,8 @@
         title: "提前开学脸都给你丢光！学校里的“黑广播”",
         author: "xxt8582753",
         desc: "提前开学的乐子学校理应得到制裁！",
-        img: "images/previews/vncto404.jpg"
+        img: "images/previews/vncto404.jpg",
+        disturbing: true
       },
       "qqlistener.html": {
         title: "QQListener 的技术实现",
