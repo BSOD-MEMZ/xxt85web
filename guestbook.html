@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>xxtsoft · 留言本</title>
+    <meta name="description" content="xxtsoft 留言本 - 由 Giscus 驱动，使用 GitHub 账号登录即可留言">
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+    <div class="titlebar">
+        <div class="wrap">
+            <h1>xxtsoft.top</h1>
+        </div>
+    </div>
+
+    <div class="navbar">
+        <div class="wrap">
+            <ul>
+                <li><a href="index.html">首页(H)</a></li>
+                <li><a href="articles.html">文章(A)</a></li>
+                <li><a href="downloads.html">下载(D)</a></li>
+                <li><a href="medias.html">多媒体(M)</a></li>
+                <li><a href="about.html">关于(A)</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="content wrap">
+        <div class="main" style="width: 100%;">
+            <h2><span style="color: #003399;">留言本</span></h2>
+            <p style="margin-bottom: 16px;">
+                欢迎留言！使用 <b>GitHub 账号</b> 登录即可发言。反应（Reaction）功能已启用，可以给留言点赞 👍
+            </p>
+
+            <!-- ========== Giscus 评论区 ========== -->
+            <div class="giscus" style="margin-top: 20px;"></div>
+            <script src="js/giscus-loader.js"></script>
+            <!-- ========== Giscus END ========== -->
+
+            <noscript>
+                <div class="window" style="margin-top: 20px;">
+                    <div class="window-titlebar">提示</div>
+                    <div class="window-content">
+                        <p>留言本需要启用 JavaScript 才能正常加载。请在你的浏览器设置中启用 JavaScript。</p>
+                        <p>或者你可以直接前往 <a href="https://github.com/BSOD-MEMZ/xxt85web/discussions">GitHub Discussions</a> 留言。</p>
+                    </div>
+                </div>
+            </noscript>
+        </div>
+    </div>
+
+    <div class="footer" style="text-align: center; padding: 20px; color: #666; font-size: 14px;">
+        <p>留言本由 <a href="https://giscus.app/zh-CN" target="_blank">Giscus</a> 驱动 · 数据存储在 GitHub Discussions</p>
+    </div>
+
+</body>
+
+</html>

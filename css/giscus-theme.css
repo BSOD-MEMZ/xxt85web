@@ -1,0 +1,262 @@
+/* ============================================
+   Giscus 自定义主题 — xxtsoft Vista/Aero 风格
+   匹配网站整体配色：蓝色系 + 圆角 + 柔和阴影
+   ============================================ */
+
+main {
+  /* 基础配色 */
+  --color-prettylights-syntax-comment: #6e7781;
+  --color-prettylights-syntax-constant: #0550ae;
+  --color-prettylights-syntax-entity: #8250df;
+  --color-prettylights-syntax-storage-modifier-import: #24292f;
+  --color-prettylights-syntax-entity-tag: #116329;
+  --color-prettylights-syntax-keyword: #cf222e;
+  --color-prettylights-syntax-string: #0a3069;
+  --color-prettylights-syntax-variable: #953800;
+  --color-prettylights-syntax-brackethighlighter-unmatched: #82071e;
+  --color-prettylights-syntax-invalid-illegal-text: #f6f8fa;
+  --color-prettylights-syntax-invalid-illegal-bg: #82071e;
+  --color-prettylights-syntax-carriage-return-text: #f6f8fa;
+  --color-prettylights-syntax-carriage-return-bg: #cf222e;
+  --color-prettylights-syntax-string-regexp: #116329;
+  --color-prettylights-syntax-markup-list: #3b2300;
+  --color-prettylights-syntax-markup-heading: #0550ae;
+  --color-prettylights-syntax-markup-italic: #24292f;
+  --color-prettylights-syntax-markup-bold: #24292f;
+  --color-prettylights-syntax-markup-deleted-text: #82071e;
+  --color-prettylights-syntax-markup-deleted-bg: #ffebe9;
+  --color-prettylights-syntax-markup-inserted-text: #116329;
+  --color-prettylights-syntax-markup-inserted-bg: #dafbe1;
+  --color-prettylights-syntax-markup-changed-text: #953800;
+  --color-prettylights-syntax-markup-changed-bg: #ffd8b5;
+  --color-prettylights-syntax-markup-ignored-text: #eaeef2;
+  --color-prettylights-syntax-markup-ignored-bg: #0550ae;
+  --color-prettylights-syntax-meta-diff-range: #8250df;
+  --color-prettylights-syntax-brackethighlighter-angle: #57606a;
+  --color-prettylights-syntax-sublimelinter-gutter-mark: #8c959f;
+  --color-prettylights-syntax-constant-other-reference-link: #0a3069;
+
+  /* 按钮色 */
+  --color-btn-primary-bg: #003399;
+  --color-btn-primary-hover-bg: #0047cc;
+  --color-btn-primary-text: #ffffff;
+  --color-btn-primary-disabled-bg: #99b3e6;
+  --color-btn-primary-disabled-text: #ffffff;
+
+  --color-btn-outline-text: #003399;
+  --color-btn-outline-hover-text: #ffffff;
+  --color-btn-outline-hover-bg: #003399;
+  --color-btn-outline-selected-bg: #e6eeff;
+
+  --color-btn-danger-hover-bg: #c41e3a;
+  --color-btn-danger-text: #cf222e;
+
+  /* 背景 & 文字 */
+  --color-bg-primary: #ffffff;
+  --color-bg-secondary: #F0F0F0;
+  --color-bg-tertiary: #e8ecf1;
+  --color-bg-canvas: #F0F0F0;
+
+  --color-text-primary: #000000;
+  --color-text-secondary: #444444;
+  --color-text-tertiary: #666666;
+  --color-text-link: #003399;
+
+  /* 输入框 */
+  --color-input-bg: #ffffff;
+  --color-input-border: #a0b4d0;
+  --color-input-focus-border: #003399;
+  --color-input-focus-ring: rgba(0, 51, 153, 0.15);
+
+  /* 边框 & 阴影 */
+  --color-border-primary: #c0d0e8;
+  --color-border-secondary: #d8e0ec;
+  --color-shadow-medium: rgba(0, 0, 0, 0.12);
+  --color-shadow-large: rgba(0, 0, 0, 0.18);
+
+  /* 品牌色 */
+  --color-accent-fg: #003399;
+  --color-accent-emphasis: #003399;
+  --color-accent-subtle: #e8f0ff;
+
+  /* 状态色 */
+  --color-success-fg: #1a7f37;
+  --color-success-emphasis: #1f883d;
+  --color-attention-fg: #9a6700;
+  --color-attention-emphasis: #bf8700;
+  --color-danger-fg: #cf222e;
+  --color-danger-emphasis: #cf222e;
+
+  /* 圆角 — 匹配 Vista 风格 */
+  --borderRadius-medium: 6px;
+  --borderRadius-large: 8px;
+
+  /* 字体 — 匹配网站 */
+  --fontStack-primary: "Segoe UI", "Microsoft YaHei UI", "Microsoft YaHei", -apple-system, BlinkMacSystemFont, sans-serif;
+
+  /* 基础样式 */
+  font-family: var(--fontStack-primary);
+  font-size: 13px;
+  color: var(--color-text-primary);
+  background: var(--color-bg-canvas);
+}
+
+/* 评论区头部 "N 条评论" */
+main .gsc-header {
+  padding-bottom: 12px;
+  border-bottom: 2px solid var(--color-border-primary);
+  margin-bottom: 16px;
+}
+
+main .gsc-header h4 {
+  font-size: 16px;
+  font-weight: 600;
+  color: #003399;
+}
+
+/* 评论卡片 */
+main .gsc-comment {
+  padding: 12px 0;
+  border-bottom: 1px solid var(--color-border-secondary);
+}
+
+main .gsc-comment:hover {
+  background: var(--color-bg-secondary);
+  border-radius: 4px;
+  padding-left: 8px;
+  padding-right: 8px;
+  margin: 0 -8px;
+  transition: background 0.15s ease;
+}
+
+/* 输入框容器 — 模拟 Vista 窗口效果 */
+main .gsc-comment-box {
+  border: 1px solid var(--color-input-border);
+  border-radius: var(--borderRadius-medium);
+  background: #ffffff;
+  box-shadow: 0 1px 2px var(--color-shadow-medium);
+}
+
+main .gsc-comment-box:focus-within {
+  border-color: var(--color-input-focus-border);
+  box-shadow: 0 0 0 2px var(--color-input-focus-ring);
+}
+
+/* 输入框 tabs (Write / Preview) */
+main .gsc-comment-box-tabs {
+  border-bottom: 1px solid var(--color-border-secondary);
+  background: linear-gradient(to bottom, #fefefe 0%, #E5EAF5 30%, #D4DBED 31%, #E1E6F6 100%);
+  border-radius: var(--borderRadius-medium) var(--borderRadius-medium) 0 0;
+}
+
+main .gsc-comment-box-tabs button {
+  font-size: 12px;
+  color: #000;
+}
+
+main .gsc-comment-box-tabs button[aria-selected="true"] {
+  color: #003399;
+  font-weight: 600;
+}
+
+/* 文本输入区域 */
+main .gsc-comment-box textarea {
+  font-family: var(--fontStack-primary);
+  font-size: 13px;
+  background: #ffffff;
+}
+
+/* 按钮 — Vista 风格 */
+main .gsc-comment-box button[type="submit"],
+main .gsc-reply-box button[type="submit"] {
+  font-family: var(--fontStack-primary);
+  font-size: 12px;
+  background: linear-gradient(to bottom, #fefefe 0%, #E5EAF5 30%, #D4DBED 31%, #E1E6F6 100%);
+  border: 1px solid #8ba0c0;
+  border-radius: 4px;
+  color: #000;
+  padding: 4px 16px;
+  cursor: pointer;
+}
+
+main .gsc-comment-box button[type="submit"]:hover,
+main .gsc-reply-box button[type="submit"]:hover {
+  background: linear-gradient(to bottom, #fefefe 0%, #c8d8f0 40%, #b0c4e0 41%, #d0dff8 100%);
+  border-color: #003399;
+}
+
+/* 登录按钮 */
+main .gsc-social-button {
+  font-family: var(--fontStack-primary);
+  font-size: 12px;
+  border: 1px solid var(--color-input-border);
+  border-radius: var(--borderRadius-medium);
+  background: linear-gradient(to bottom, #ffffff 0%, #e8eef6 100%);
+}
+
+main .gsc-social-button:hover {
+  background: linear-gradient(to bottom, #e8f0ff 0%, #d0e0ff 100%);
+  border-color: #003399;
+}
+
+/* Reaction 表情区域 */
+main .gsc-reactions {
+  margin-bottom: 16px;
+}
+
+main .gsc-reactions button {
+  border-radius: var(--borderRadius-medium);
+  border: 1px solid transparent;
+  transition: all 0.15s ease;
+}
+
+main .gsc-reactions button:hover {
+  background: var(--color-accent-subtle);
+  border-color: var(--color-border-primary);
+}
+
+main .gsc-reactions button[data-reaction-clicked="true"] {
+  background: var(--color-accent-subtle);
+  border-color: #003399;
+}
+
+/* 分页 */
+main .gsc-pagination button {
+  border-radius: var(--borderRadius-medium);
+  border: 1px solid var(--color-input-border);
+  font-size: 12px;
+}
+
+main .gsc-pagination button:hover {
+  background: var(--color-bg-secondary);
+  border-color: #003399;
+}
+
+/* 回复框 */
+main .gsc-reply-box textarea {
+  font-family: var(--fontStack-primary);
+  font-size: 13px;
+  border: 1px solid var(--color-input-border);
+  border-radius: var(--borderRadius-medium);
+}
+
+main .gsc-reply-box textarea:focus {
+  border-color: var(--color-input-focus-border);
+  box-shadow: 0 0 0 2px var(--color-input-focus-ring);
+}
+
+/* 时间戳 */
+main .gsc-timestamp {
+  font-size: 11px;
+  color: var(--color-text-tertiary);
+}
+
+/* 链接 */
+main a {
+  color: #003399;
+}
+
+main a:hover {
+  color: #0047cc;
+  text-decoration: underline;
+}

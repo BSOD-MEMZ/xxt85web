@@ -117,8 +117,7 @@
 
   // ==================== 留言本 ====================
   window.gotoguestbook = function () {
-    alert("本留言本非xxtsoft提供，点击确定后将跳转到第三方留言本。请注意文明发言，勿相信任何广告!");
-    window.location.href = "http://users3.smartgb.com/g/g.php?a=s&i=g36-39291-be";
+    window.location.href = "guestbook.html";
   };
 
   // ==================== 看板娘动态加载 ====================
