@@ -87,7 +87,7 @@ body {
     width: 100%;
     background: linear-gradient(to bottom, #fff8dc 0%, #ffeaa7 50%, #fdcb6e 100%);
     border-bottom: 1px solid #d4a017;
-    padding: 4px 0;
+    padding: 2px 0;
     text-align: center;
 }
 
@@ -96,6 +96,25 @@ body {
     font-size: 12px;
     font-weight: bold;
     color: #6b5200;
+}
+
+.banner .wrap {
+    position: relative;
+}
+
+.banner-close-btn {
+    position: absolute;
+    right: 6px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 14px;
+    height: 14px;
+    cursor: pointer;
+    opacity: 0.6;
+}
+
+.banner-close-btn:hover {
+    opacity: 1;
 }
 
 .navbar a:hover {

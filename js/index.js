@@ -115,10 +115,52 @@
     }
   }
 
-  // ==================== 留言本 ====================
-  window.gotoguestbook = function () {
+  // ==================== Banner 关闭按钮 ====================
+  var siteBanner = document.getElementById('siteBanner');
+  var closeBannerBtn = document.getElementById('closeBanner');
+  if (siteBanner && closeBannerBtn) {
+    if (localStorage.getItem('banner_closed') === 'true') {
+      siteBanner.style.display = 'none';
+    }
+    closeBannerBtn.addEventListener('click', function () {
+      siteBanner.style.display = 'none';
+      localStorage.setItem('banner_closed', 'true');
+    });
+  }
+
+  // ==================== 留言本选择对话框 ====================
+  var guestbookDialog = document.getElementById('guestbookDialog');
+  var guestbookOverlay = document.getElementById('dialogOverlay');
+  var closeGuestbookBtn = document.getElementById('closeGuestbookDialog');
+
+  window.showGuestbookDialog = function () {
+    guestbookDialog.style.display = 'block';
+    guestbookOverlay.style.display = 'block';
+  };
+
+  function hideGuestbookDialog() {
+    guestbookDialog.style.display = 'none';
+    guestbookOverlay.style.display = 'none';
+  }
+
+  window.goGiscus = function () {
     window.location.href = "guestbook.html";
   };
+
+  window.goSmartGB = function () {
+    alert("本留言本非xxtsoft提供，点击确定后将跳转到第三方留言本。请注意文明发言，勿相信任何广告!");
+    window.location.href = "http://users3.smartgb.com/g/g.php?a=s&i=g36-39291-be";
+  };
+
+  if (closeGuestbookBtn) closeGuestbookBtn.addEventListener('click', hideGuestbookDialog);
+  if (guestbookOverlay) {
+    guestbookOverlay.addEventListener('click', function(e) {
+      // 只在使用留言本对话框时关闭
+      if (guestbookDialog.style.display === 'block') {
+        hideGuestbookDialog();
+      }
+    });
+  }
 
   // ==================== 看板娘动态加载 ====================
   function initLive2D() {

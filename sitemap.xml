@@ -4,144 +4,431 @@
       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
       xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
             http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
-<!-- created with Free Online Sitemap Generator www.xml-sitemaps.com -->
 
+  <!-- ======== 首页 ======== -->
+  <url>
+    <loc>https://xxtsoft.top/</loc>
+    <lastmod>2026-06-06</lastmod>
+    <priority>1.00</priority>
+  </url>
 
-<url>
-  <loc>https://xxtsoft.top/</loc>
-  <lastmod>2025-07-19T14:34:16+00:00</lastmod>
-  <priority>1.00</priority>
-</url>
-<url>
-  <loc>https://xxtsoft.top/articles</loc>
-  <lastmod>2025-07-19T14:34:16+00:00</lastmod>
-  <priority>0.80</priority>
-</url>
-<url>
-  <loc>https://xxtsoft.top/downloads</loc>
-  <lastmod>2025-07-19T14:34:16+00:00</lastmod>
-  <priority>0.80</priority>
-</url>
-<url>
-  <loc>https://xxtsoft.top/medias</loc>
-  <lastmod>2025-07-19T14:34:16+00:00</lastmod>
-  <priority>0.80</priority>
-</url>
-<url>
-  <loc>https://xxtsoft.top/about</loc>
-  <lastmod>2025-07-19T14:34:16+00:00</lastmod>
-  <priority>0.80</priority>
-</url>
-<url>
-  <loc>https://xxtsoft.top/articles/fuckgit</loc>
-  <lastmod>2025-07-19T14:34:16+00:00</lastmod>
-  <priority>0.80</priority>
-</url>
-<url>
-  <loc>https://xxtsoft.top/articles/pass</loc>
-  <lastmod>2025-07-19T14:34:16+00:00</lastmod>
-  <priority>0.80</priority>
-</url>
-<url>
-  <loc>https://xxtsoft.top/articles/an_old_music_game</loc>
-  <lastmod>2025-07-19T14:34:16+00:00</lastmod>
-  <priority>0.80</priority>
-</url>
-<url>
-  <loc>https://xxtsoft.top/articles/reviewsomething</loc>
-  <lastmod>2025-07-19T14:34:16+00:00</lastmod>
-  <priority>0.80</priority>
-</url>
-<url>
-  <loc>https://xxtsoft.top/articles/fuck11</loc>
-  <lastmod>2025-07-19T14:34:16+00:00</lastmod>
-  <priority>0.80</priority>
-</url>
-<url>
-  <loc>https://xxtsoft.top/articles/upload</loc>
-  <lastmod>2025-07-19T14:34:16+00:00</lastmod>
-  <priority>0.80</priority>
-</url>
-<url>
-  <loc>https://xxtsoft.top/articles/test</loc>
-  <lastmod>2025-07-19T14:34:16+00:00</lastmod>
-  <priority>0.80</priority>
-</url>
-<url>
-  <loc>https://xxtsoft.top/olds/acdsaw</loc>
-  <lastmod>2025-07-19T14:34:16+00:00</lastmod>
-  <priority>0.80</priority>
-</url>
-<url>
-  <loc>https://xxtsoft.top/olds/fuckyourmother</loc>
-  <lastmod>2025-07-19T14:34:16+00:00</lastmod>
-  <priority>0.80</priority>
-</url>
-<url>
-  <loc>https://xxtsoft.top/olds/fun_2_rhyme</loc>
-  <lastmod>2025-07-19T14:34:16+00:00</lastmod>
-  <priority>0.80</priority>
-</url>
-<url>
-  <loc>https://xxtsoft.top/olds/homobomb</loc>
-  <lastmod>2025-07-19T14:34:16+00:00</lastmod>
-  <priority>0.80</priority>
-</url>
-<url>
-  <loc>https://xxtsoft.top/olds/how-to-use-img-in-vmware-or-limbo</loc>
-  <lastmod>2025-07-19T14:34:16+00:00</lastmod>
-  <priority>0.80</priority>
-</url>
-<url>
-  <loc>https://xxtsoft.top/olds/lian-xiang-dian-nao-chu-xian-error1962-no-operating-system-found.ye-xu-bu-shi-cao-zuo-xi-tong-de-wen-ti</loc>
-  <lastmod>2025-07-19T14:34:16+00:00</lastmod>
-  <priority>0.80</priority>
-</url>
-<url>
-  <loc>https://xxtsoft.top/olds/longhorn_tool</loc>
-  <lastmod>2025-07-19T14:34:16+00:00</lastmod>
-  <priority>0.80</priority>
-</url>
-<url>
-  <loc>https://xxtsoft.top/olds/microsoft_agent_character_editor_%E5%AE%8C%E7%BE%8E%E6%B1%89%E5%8C%96%E7%89%88</loc>
-  <lastmod>2025-07-19T14:34:16+00:00</lastmod>
-  <priority>0.80</priority>
-</url>
-<url>
-  <loc>https://xxtsoft.top/olds/oierhelper</loc>
-  <lastmod>2025-07-19T14:34:16+00:00</lastmod>
-  <priority>0.80</priority>
-</url>
-<url>
-  <loc>https://xxtsoft.top/olds/rectify8.1_project</loc>
-  <lastmod>2025-07-19T14:34:16+00:00</lastmod>
-  <priority>0.80</priority>
-</url>
-<url>
-  <loc>https://xxtsoft.top/olds/win%208%20beta%20build%208014%20%E6%B1%89%E5%8C%96%E5%8C%85%E5%8F%91%E5%B8%83</loc>
-  <lastmod>2025-07-19T14:34:16+00:00</lastmod>
-  <priority>0.80</priority>
-</url>
-<url>
-  <loc>https://xxtsoft.top/olds/win8%20beta%208155%20%E6%B1%89%E5%8C%96%E5%8C%85</loc>
-  <lastmod>2025-07-19T14:34:16+00:00</lastmod>
-  <priority>0.80</priority>
-</url>
-<url>
-  <loc>https://xxtsoft.top/media/id2</loc>
-  <lastmod>2025-07-19T14:34:16+00:00</lastmod>
-  <priority>0.64</priority>
-</url>
-<url>
-  <loc>https://xxtsoft.top/media/id1</loc>
-  <lastmod>2025-07-19T14:34:16+00:00</lastmod>
-  <priority>0.64</priority>
-</url>
-<url>
-  <loc>https://xxtsoft.top/donate</loc>
-  <lastmod>2025-07-19T14:34:16+00:00</lastmod>
-  <priority>0.64</priority>
-</url>
+  <!-- ======== 主要页面 ======== -->
+  <url>
+    <loc>https://xxtsoft.top/about.html</loc>
+    <lastmod>2026-06-06</lastmod>
+    <priority>0.90</priority>
+  </url>
+  <url>
+    <loc>https://xxtsoft.top/downloads.html</loc>
+    <lastmod>2026-06-06</lastmod>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://xxtsoft.top/medias.html</loc>
+    <lastmod>2026-06-06</lastmod>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://xxtsoft.top/guestbook.html</loc>
+    <lastmod>2026-06-06</lastmod>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://xxtsoft.top/search.html</loc>
+    <lastmod>2026-01-02</lastmod>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://xxtsoft.top/museum.html</loc>
+    <lastmod>2026-06-06</lastmod>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://xxtsoft.top/donate.html</loc>
+    <lastmod>2026-06-06</lastmod>
+    <priority>0.64</priority>
+  </url>
+  <url>
+    <loc>https://xxtsoft.top/sign.html</loc>
+    <lastmod>2026-06-06</lastmod>
+    <priority>0.50</priority>
+  </url>
+  <url>
+    <loc>https://xxtsoft.top/restroom.html</loc>
+    <lastmod>2026-06-06</lastmod>
+    <priority>0.50</priority>
+  </url>
+  <url>
+    <loc>https://xxtsoft.top/aerowebring.html</loc>
+    <lastmod>2026-06-06</lastmod>
+    <priority>0.50</priority>
+  </url>
+  <url>
+    <loc>https://xxtsoft.top/nanfang.html</loc>
+    <lastmod>2026-06-06</lastmod>
+    <priority>0.64</priority>
+  </url>
 
+  <!-- ======== 文章 ======== -->
+  <url>
+    <loc>https://xxtsoft.top/articles/entertainingisland.html</loc>
+    <lastmod>2026-06-06</lastmod>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://xxtsoft.top/articles/vibelikehuman.html</loc>
+    <lastmod>2026-05-29</lastmod>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://xxtsoft.top/articles/competition.html</loc>
+    <lastmod>2026-05-16</lastmod>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://xxtsoft.top/articles/superfactory.html</loc>
+    <lastmod>2026-05-14</lastmod>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://xxtsoft.top/articles/wefuckedsalt.html</loc>
+    <lastmod>2026-05-13</lastmod>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://xxtsoft.top/articles/wefuckedsalt-full.html</loc>
+    <lastmod>2026-05-13</lastmod>
+    <priority>0.50</priority>
+  </url>
+  <url>
+    <loc>https://xxtsoft.top/articles/4thanniversary.html</loc>
+    <lastmod>2026-06-06</lastmod>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://xxtsoft.top/articles/scrcpy.html</loc>
+    <lastmod>2026-04-30</lastmod>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://xxtsoft.top/articles/robberofnfzx.html</loc>
+    <lastmod>2026-04-19</lastmod>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://xxtsoft.top/articles/boring.html</loc>
+    <lastmod>2026-04-10</lastmod>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://xxtsoft.top/articles/nanfangfm.html</loc>
+    <lastmod>2026-02-28</lastmod>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://xxtsoft.top/articles/ninjawasinvincible.html</loc>
+    <lastmod>2026-02-06</lastmod>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://xxtsoft.top/articles/webuildnas.html</loc>
+    <lastmod>2026-01-23</lastmod>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://xxtsoft.top/articles/qqlistener.html</loc>
+    <lastmod>2026-01-23</lastmod>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://xxtsoft.top/articles/eyes.html</loc>
+    <lastmod>2026-01-18</lastmod>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://xxtsoft.top/articles/fucknfzx.html</loc>
+    <lastmod>2025-12-20</lastmod>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://xxtsoft.top/articles/entp.html</loc>
+    <lastmod>2025-12-07</lastmod>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://xxtsoft.top/articles/athomevideofucker.html</loc>
+    <lastmod>2025-09-05</lastmod>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://xxtsoft.top/articles/20251005.html</loc>
+    <lastmod>2025-10-05</lastmod>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://xxtsoft.top/articles/win10remaster.html</loc>
+    <lastmod>2025-08-22</lastmod>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://xxtsoft.top/articles/fuckjunxun.html</loc>
+    <lastmod>2025-08-22</lastmod>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://xxtsoft.top/articles/fuckbihuo.html</loc>
+    <lastmod>2025-08-15</lastmod>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://xxtsoft.top/articles/playmaimaiwithabcd.html</loc>
+    <lastmod>2025-08-09</lastmod>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://xxtsoft.top/articles/openduolingo.html</loc>
+    <lastmod>2025-08-01</lastmod>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://xxtsoft.top/articles/winres.html</loc>
+    <lastmod>2025-07-28</lastmod>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://xxtsoft.top/articles/explorerkiller.html</loc>
+    <lastmod>2025-07-27</lastmod>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://xxtsoft.top/articles/textract.html</loc>
+    <lastmod>2025-07-27</lastmod>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://xxtsoft.top/articles/saltai.html</loc>
+    <lastmod>2025-07-23</lastmod>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://xxtsoft.top/articles/fuckgit.html</loc>
+    <lastmod>2025-07-18</lastmod>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://xxtsoft.top/articles/pass.html</loc>
+    <lastmod>2025-07-08</lastmod>
+    <priority>0.64</priority>
+  </url>
+  <url>
+    <loc>https://xxtsoft.top/articles/an_old_music_game.html</loc>
+    <lastmod>2025-07-02</lastmod>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://xxtsoft.top/articles/reviewsomething.html</loc>
+    <lastmod>2025-07-02</lastmod>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://xxtsoft.top/articles/fuck11.html</loc>
+    <lastmod>2025-06-29</lastmod>
+    <priority>0.64</priority>
+  </url>
+  <url>
+    <loc>https://xxtsoft.top/articles/upload.html</loc>
+    <lastmod>2025-06-26</lastmod>
+    <priority>0.64</priority>
+  </url>
+  <url>
+    <loc>https://xxtsoft.top/articles/test.html</loc>
+    <lastmod>2025-06-25</lastmod>
+    <priority>0.30</priority>
+  </url>
+  <url>
+    <loc>https://xxtsoft.top/articles/efluentwidget.html</loc>
+    <lastmod>2025-02-09</lastmod>
+    <priority>0.64</priority>
+  </url>
+  <url>
+    <loc>https://xxtsoft.top/articles/aeronopeak.html</loc>
+    <lastmod>2022-08-10</lastmod>
+    <priority>0.64</priority>
+  </url>
+
+  <!-- ======== 专栏页面 ======== -->
+  <url>
+    <loc>https://xxtsoft.top/projects/dick.html</loc>
+    <lastmod>2026-06-06</lastmod>
+    <priority>0.64</priority>
+  </url>
+  <url>
+    <loc>https://xxtsoft.top/projects/fuckschool.html</loc>
+    <lastmod>2026-06-06</lastmod>
+    <priority>0.64</priority>
+  </url>
+  <url>
+    <loc>https://xxtsoft.top/projects/python.html</loc>
+    <lastmod>2026-06-06</lastmod>
+    <priority>0.64</priority>
+  </url>
+
+  <!-- ======== 多媒体详情页 ======== -->
+  <url>
+    <loc>https://xxtsoft.top/media/player.html</loc>
+    <lastmod>2026-06-06</lastmod>
+    <priority>0.64</priority>
+  </url>
+  <url>
+    <loc>https://xxtsoft.top/media/id1.html</loc>
+    <lastmod>2026-06-06</lastmod>
+    <priority>0.64</priority>
+  </url>
+  <url>
+    <loc>https://xxtsoft.top/media/id2.html</loc>
+    <lastmod>2026-06-06</lastmod>
+    <priority>0.64</priority>
+  </url>
+  <url>
+    <loc>https://xxtsoft.top/media/id3.html</loc>
+    <lastmod>2026-06-06</lastmod>
+    <priority>0.64</priority>
+  </url>
+  <url>
+    <loc>https://xxtsoft.top/media/id4.html</loc>
+    <lastmod>2026-06-06</lastmod>
+    <priority>0.64</priority>
+  </url>
+  <url>
+    <loc>https://xxtsoft.top/media/id5.html</loc>
+    <lastmod>2026-06-06</lastmod>
+    <priority>0.64</priority>
+  </url>
+  <url>
+    <loc>https://xxtsoft.top/media/id6.html</loc>
+    <lastmod>2026-06-06</lastmod>
+    <priority>0.64</priority>
+  </url>
+  <url>
+    <loc>https://xxtsoft.top/media/id7.html</loc>
+    <lastmod>2026-06-06</lastmod>
+    <priority>0.64</priority>
+  </url>
+  <url>
+    <loc>https://xxtsoft.top/media/id8.html</loc>
+    <lastmod>2026-06-06</lastmod>
+    <priority>0.64</priority>
+  </url>
+  <url>
+    <loc>https://xxtsoft.top/media/id9.html</loc>
+    <lastmod>2026-06-06</lastmod>
+    <priority>0.64</priority>
+  </url>
+  <url>
+    <loc>https://xxtsoft.top/media/id10.html</loc>
+    <lastmod>2026-06-06</lastmod>
+    <priority>0.64</priority>
+  </url>
+
+  <!-- ======== NAS 页面 ======== -->
+  <url>
+    <loc>https://xxtsoft.top/nas/index.html</loc>
+    <lastmod>2026-06-06</lastmod>
+    <priority>0.64</priority>
+  </url>
+  <url>
+    <loc>https://xxtsoft.top/nas/detail.html</loc>
+    <lastmod>2026-06-06</lastmod>
+    <priority>0.64</priority>
+  </url>
+
+  <!-- ======== 南方中学专题子页面 ======== -->
+  <url>
+    <loc>https://xxtsoft.top/nanfang/1.html</loc>
+    <lastmod>2026-06-06</lastmod>
+    <priority>0.64</priority>
+  </url>
+  <url>
+    <loc>https://xxtsoft.top/nanfang/res.html</loc>
+    <lastmod>2026-06-06</lastmod>
+    <priority>0.64</priority>
+  </url>
+  <url>
+    <loc>https://xxtsoft.top/nanfang/web.html</loc>
+    <lastmod>2026-06-06</lastmod>
+    <priority>0.64</priority>
+  </url>
+  <url>
+    <loc>https://xxtsoft.top/nanfang/xc.html</loc>
+    <lastmod>2026-06-06</lastmod>
+    <priority>0.64</priority>
+  </url>
+  <url>
+    <loc>https://xxtsoft.top/nanfang/files/index.html</loc>
+    <lastmod>2026-06-06</lastmod>
+    <priority>0.50</priority>
+  </url>
+
+  <!-- ======== 曾经的旧文章 ======== -->
+  <url>
+    <loc>https://xxtsoft.top/olds/ACDSaw.html</loc>
+    <lastmod>2025-07-19</lastmod>
+    <priority>0.50</priority>
+  </url>
+  <url>
+    <loc>https://xxtsoft.top/olds/fuckyourmother.html</loc>
+    <lastmod>2025-07-19</lastmod>
+    <priority>0.50</priority>
+  </url>
+  <url>
+    <loc>https://xxtsoft.top/olds/Fun_2_Rhyme.html</loc>
+    <lastmod>2025-07-19</lastmod>
+    <priority>0.50</priority>
+  </url>
+  <url>
+    <loc>https://xxtsoft.top/olds/homobomb.html</loc>
+    <lastmod>2025-07-19</lastmod>
+    <priority>0.50</priority>
+  </url>
+  <url>
+    <loc>https://xxtsoft.top/olds/how-to-use-img-in-vmware-or-limbo.html</loc>
+    <lastmod>2025-07-19</lastmod>
+    <priority>0.50</priority>
+  </url>
+  <url>
+    <loc>https://xxtsoft.top/olds/lian-xiang-dian-nao-chu-xian-error1962-no-operating-system-found.ye-xu-bu-shi-cao-zuo-xi-tong-de-wen-ti.html</loc>
+    <lastmod>2025-07-19</lastmod>
+    <priority>0.50</priority>
+  </url>
+  <url>
+    <loc>https://xxtsoft.top/olds/Longhorn_Tool.html</loc>
+    <lastmod>2025-07-19</lastmod>
+    <priority>0.50</priority>
+  </url>
+  <url>
+    <loc>https://xxtsoft.top/olds/Microsoft_Agent_Character_Editor_%E5%AE%8C%E7%BE%8E%E6%B1%89%E5%8C%96%E7%89%88.html</loc>
+    <lastmod>2025-07-19</lastmod>
+    <priority>0.50</priority>
+  </url>
+  <url>
+    <loc>https://xxtsoft.top/olds/OIerHelper.html</loc>
+    <lastmod>2025-07-19</lastmod>
+    <priority>0.50</priority>
+  </url>
+  <url>
+    <loc>https://xxtsoft.top/olds/Rectify8.1_project.html</loc>
+    <lastmod>2025-07-19</lastmod>
+    <priority>0.50</priority>
+  </url>
+  <url>
+    <loc>https://xxtsoft.top/olds/Win%208%20Beta%20Build%208014%20%E6%B1%89%E5%8C%96%E5%8C%85%E5%8F%91%E5%B8%83.html</loc>
+    <lastmod>2025-07-19</lastmod>
+    <priority>0.50</priority>
+  </url>
+  <url>
+    <loc>https://xxtsoft.top/olds/Win8%20beta%208155%20%E6%B1%89%E5%8C%96%E5%8C%85.html</loc>
+    <lastmod>2025-07-19</lastmod>
+    <priority>0.50</priority>
+  </url>
 
 </urlset>

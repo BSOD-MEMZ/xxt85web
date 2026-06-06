@@ -9,11 +9,8 @@
     <link rel="icon" href="favicon.ico" type="image/x-icon">
     <link rel="stylesheet" href="style.css" type="text/css" />
     <base target="_blank">
-    <!-- 资源提示：预连接第三方域名 -->
     <link rel="preconnect" href="https://cloud.umami.is">
     <link rel="preconnect" href="https://xxtsoft.top">
-    <!-- 看板娘由 js/index.js 根据用户设置动态加载，低性能设备默认不加载 -->
-    <!-- Umami 统计分析（异步加载，不阻塞渲染） -->
     <script defer src="https://cloud.umami.is/script.js"
         data-website-id="340048fa-ac87-4757-8011-6ade14611b24"></script>
 </head>
@@ -38,9 +35,10 @@
         </div>
     </div>
 
-    <div class="banner">
+    <div class="banner" id="siteBanner">
         <div class="wrap">
-            <p>从即日起，网站将进行大幅度升级改造，所有文章和媒体内容将停止更新，预计在2026年8月完成升级。</p>
+            <p>当前 xxtsoft.top 版本（PRiSM v5.9）将在 2026/7/31 结束生命周期，敬请期待全新版本！</p>
+            <img src="images/icons/close.png" id="closeBanner" class="banner-close-btn" alt="关闭" title="关闭通知" />
         </div>
     </div>
 
@@ -157,7 +155,7 @@
                         <li><img src="images/icons/loves.png" alt="" width="16" height="16" /> 收藏本站 带你找到回家的路</li>
                         <li><a href="search.html" class="search"><img alt="" src="images/icons/search.png" width="16"
                                     height="16" /> 搜索</a></li>
-                        <li><a href="guestbook.html" class="guestbook"><img alt=""
+                        <li><a href="#" class="guestbook" onclick="showGuestbookDialog(); return false;"><img alt=""
                                     src="images/icons/guestbook.png" width="16" height="16" /> 留言本</a></li>
                         <li><a href="https://www.wjx.cn/vm/eUaty0H.aspx" class="diaocha"><img alt=""
                                     src="images/icons/sheet.png" width="16" height="16" /> 调查</a></li>
@@ -190,6 +188,7 @@
                 <div class="window-titlebar">新闻</div>
                 <div class="window-content news">
                     <ul>
+                        <li><img src="images/icons/dot.png" alt="" width="15" height="15" /> 网站现已支持文章和视频评论区</li>
                         <li><img src="images/icons/dot.png" alt="" width="15" height="15" /> BSOD-MEMZ 4周年活动区域解锁！</li>
                     </ul>
                 </div>
@@ -315,6 +314,26 @@
                 <button id="saveSettings" style="padding:2px 10px;">确定</button>
             </div>
             <label><img alt="" src="images/icons/info.png" width="16" height="16" />某些设置项需要刷新网页才能应用</label>
+        </div>
+    </div>
+    <!-- 留言本选择对话框 -->
+    <div id="guestbookDialog" class="window vista-dialog"
+        style="display:none; position:fixed; top:50%; left:50%; transform:translate(-50%, -50%); z-index:10000; width:300px;">
+        <div class="window-titlebar settings-titlebar">
+            选择留言本
+            <img src="static/Window_CloseButton.png" id="closeGuestbookDialog" class="vista-close-btn" alt="关闭" />
+        </div>
+        <div class="window-content" style="text-align:center;">
+            <div style="margin-bottom:10px;">
+                <button onclick="goGiscus();" style="display:block; width:100%; margin-bottom:8px;">
+                    新版留言本 (Giscus)<br>
+                    <small style="color:#555;">支持MarkDown，但是要GitHub登录</small>
+                </button>
+                <button onclick="goSmartGB();" style="display:block; width:100%;">
+                    旧版留言本 (SmartGB)<br>
+                    <small style="color:#555;">基于第三方服务，无需登录</small>
+                </button>
+            </div>
         </div>
     </div>
     <div id="dialogOverlay"
