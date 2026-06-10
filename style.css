@@ -586,7 +586,7 @@ a:hover {
     height: 14px;
     border-width: 0 2px; 
     border-style: solid;
-    border-image: url('static/bg.png') 0 2 fill stretch;
+    border-image: url('images/bg.png') 0 2 fill stretch;
     display: block;
     overflow: hidden;
 }
@@ -596,9 +596,18 @@ a:hover {
     min-width: 4px; 
     border-width: 0 2px;
     border-style: solid;
-    border-image: url('static/fill.png') 0 4 fill stretch;
+    border-image: url('images/fill.png') 0 4 fill stretch;
     transition: width 0.4s cubic-bezier(0.1, 0.7, 0.1, 1);
 }
+.vista-progress-fill-pause {
+    height: 100%;
+    min-width: 4px; 
+    border-width: 0 2px;
+    border-style: solid;
+    border-image: url('images/fill_pause.png') 0 4 fill stretch;
+    transition: width 0.4s cubic-bezier(0.1, 0.7, 0.1, 1);
+}
+
 
 .progress-item {
     margin-bottom: 10px;

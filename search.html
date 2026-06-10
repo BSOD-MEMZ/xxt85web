@@ -1,4 +1,3 @@
-<!-- 这个页面是AI写的，因为我懒 -->
 <!DOCTYPE html>
 <html lang="zh-CN">
 
@@ -8,7 +7,6 @@
     <title>搜索 · xxtsoft</title>
     <meta name="description" content="搜索xxt8582753（BSOD-MEMZ）的个人网站内容">
     <link rel="icon" href="search.ico" type="image/x-icon">
-    <!-- <script src="https://xxtsoft.top/live2d-widget/dist/autoload.js"></script> -->
     <link rel="stylesheet" href="style.css" type="text/css" />
 </head>
 
@@ -44,16 +42,34 @@
                             <button id="searchButton">搜索</button>
                         </div>
                     </div>
-                    <div class="tips">
-                        <p><img alt="" src="images/icons/warning.png"> <b>警告</b></p>
-                        <p>搜索数据库可能更新不及时！上次更新：2026/1/2</p>
+                    <div class="tips" style="margin-bottom: 12px;">
+                        <p><img alt="提示" src="images/icons/info.png" style="vertical-align:middle;" width="16" height="16"> <b>提示</b></p>
+                        <p>搜索范围涵盖全部<b>文章、程序下载、视频媒体</b>，数据随网站同步更新。</p>
                     </div>
+
+                    <div id="categoryFilters" style="margin-bottom: 10px;">
+                        <button class="cat-btn active" data-cat="all">全部</button>
+                        <button class="cat-btn" data-cat="article"><img src="images/icons/articles.png" alt="" width="16" height="16" style="vertical-align:middle;margin-right:3px;">文章</button>
+                        <button class="cat-btn" data-cat="program"><img src="images/icons/program.png" alt="" width="16" height="16" style="vertical-align:middle;margin-right:3px;">程序</button>
+                        <button class="cat-btn" data-cat="media"><img src="images/icons/downvideo.png" alt="" width="16" height="16" style="vertical-align:middle;margin-right:3px;">媒体</button>
+                    </div>
+                    <div id="resultCount" style="font-size:12px; color:#666; margin-bottom:8px;"></div>
+
                     <div id="searchResults" class="search-results">
-                        <h3>所有文章</h3>
-                        <ul class="article-list" id="articleList">
-                            <!-- 文章列表将通过JavaScript动态生成 -->
-                        </ul>
+                        <div id="catArticle" class="result-category">
+                            <h3><img src="images/icons/articles.png" alt="" width="16" height="16"> 文章</h3>
+                            <ul class="article-list" id="articleList"></ul>
+                        </div>
+                        <div id="catProgram" class="result-category">
+                            <h3><img src="images/icons/program.png" alt="" width="16" height="16"> 程序</h3>
+                            <ul class="article-list" id="programList"></ul>
+                        </div>
+                        <div id="catMedia" class="result-category">
+                            <h3><img src="images/icons/downvideo.png" alt="" width="16" height="16"> 媒体</h3>
+                            <ul class="article-list" id="mediaList"></ul>
+                        </div>
                     </div>
+                    <div class="no-results" id="noResults" style="display:none;">没有找到匹配的内容</div>
                 </div>
             </div>
         </div>
@@ -62,126 +78,15 @@
             <div class="window">
                 <div class="window-titlebar">提示</div>
                 <div class="window-content">
-                    <p>在此页面您可以搜索站内所有文件。</p>
-                    <p>输入关键词后点击搜索按钮，匹配的标题会高亮显示。</p>
+                    <p>在此页面您可以搜索站内所有内容。</p>
+                    <p>输入关键词后点击搜索按钮或按回车，匹配标题会高亮显示。</p>
+                    <p>也可通过URL参数直接搜索：<br><code style="font-size:11px;">search.html?s=南方中学</code></p>
                 </div>
             </div>
         </div>
         <div class="clear"></div>
     </div>
 </body>
-<script>
-        // 文章数据
-        const articles = [
-            { title: "校园电子产品生存指南", url: "articles/fucknfzx.html" },
-            { title: "我和AbCd白嫖了一台12代i5电脑！", url: "articles/wefuckedsalt.html" },
-            { title: "【外链】ExitBoard放学倒计时", url: "https://forum.smart-teach.cn/d/748-exitboard-fang-xue-dao-ji-shi" },
-            { title: "【外链】360拖堂卫士 - 守护珍贵的课间十分钟！", url: "https://forum.smart-teach.cn/d/740-360tuo-tang-wei-shi" },
-            { title: "SKToolBox - 打包自己的单文件工具箱", url: "articles/20251005.html" },
-            { title: "《 掌 上 看 冢 采 集 端 》", url: "articles/athomevideofucker.html" },
-            { title: "Win10优化宗师", url: "articles/win10remaster.html" },
-            { title: "强烈建议取消军训", url: "articles/fuckjunxun.html" },
-            { title: "千万不要用必火推广！", url: "articles/fuckbihuo.html" },
-            { title: "记与AbCd夜拼机", url: "articles/playmaimaiwithabcd.html" },
-            { title: "自学两周PyQt6，做出来的假名学习程序——OpenDuolingo", url: "articles/openduolingo.html" },
-            { title: "提取Windows中的资源素材", url: "articles/winres.html" },
-            { title: "用Python textract库读取Word、Excel、PPT", url: "articles/textract.html" },
-            { title: "ExplorerKiller", url: "articles/explorerkiller.html" },
-            { title: "谁能拒绝一只可爱的纱露朵住进自己电脑呢？浅谈Python+DeepSeek API开发", url: "articles/saltai.html" },
-            { title: "git缓存清不掉，试试再建一个文件夹", url: "articles/fuckgit.html" },
-            { title: "无题", url: "articles/pass.html" },
-            { title: "很久以前的自制音游，十分甚至九分难绷", url: "articles/an_old_music_game.html" },
-            { title: "回忆往事", url: "articles/reviewsomething.html" },
-            { title: "Windows 11, **都不用", url: "articles/fuck11.html" },
-            { title: "投稿指南", url: "articles/upload.html" },
-            { title: "测试文章", url: "articles/test.html" },
-            // 曾经的文章
-            { title: "ACDSaw", url: "olds/ACDSaw.html" },
-            { title: "我 抄 你 妈", url: "olds/fuckyourmother.html" },
-            { title: "Fun Rhyme 2", url: "olds/Fun_2_Rhyme.html" },
-            { title: "沼气弹引爆器", url: "olds/homobomb.html" },
-            { title: "如何在VMware和Limbo上使用img软盘镜像", url: "olds/how-to-use-img-in-vmware-or-limbo.html" },
-            { title: "电脑出现error1962 no operating system found的解决方案", url: "olds/lian-xiang-dian-nao-chu-xian-error1962-no-operating-system-found.ye-xu-bu-shi-cao-zuo-xi-tong-de-wen-ti.html" },
-            { title: "Longhorn Tool", url: "olds/Longhorn_Tool.html" },
-            { title: "Microsoft_Agent_Character_Editor_完美汉化版", url: "olds/Microsoft_Agent_Character_Editor_完美汉化版.html" },
-            { title: "OIerHelper", url: "olds/OIerHelper.html" },
-            { title: "Rectify8.1项目", url: "olds/Rectify8.1_project.html" },
-            { title: "Win 8 Beta Build 8014 汉化包发布", url: "olds/Win 8 Beta Build 8014 汉化包发布.html" },
-            { title: "Win 8 Beta Build 8155 汉化包发布", url: "olds/Win8 beta 8155 汉化包.html" },
-            // 视频
-            { title: "你会在世界终焉吃掉哈基米（あなたは世界の終わりにはちみを食べるのだ）", url: "media/id1.html" },
-            { title: "world.execute(me); 但是全Win32控件", url: "media/id2.html" },
-            { title: "胭脂，但是 Windows（欸，我不是窗口吗？）", url: "media/id3.html" },
-            { title: "world.execute(me); 但是Scratch", url: "media/id4.html" },
-            { title: "Flash测试", url: "media/id5.html" },
-            { title: "如何在Win 7以及更高版本上使用NetMeeting 3.0.1", url: "media/id6.html" },
-            { title: "maimaiでらっくす × ナンファン ミードー スゴー ちほー - 栄光と夢想（舞萌DX × 株洲市南方中学联动区域 - 光荣与梦想）Lv.15", url: "media/id7.html" },
-            // PPT
-        ];
-
-        // 初始化页面
-        document.addEventListener('DOMContentLoaded', function() {
-            const articleList = document.getElementById('articleList');
-            const searchInput = document.getElementById('searchInput');
-            const searchButton = document.getElementById('searchButton');
-            
-            // 渲染所有文章
-            renderArticles(articles);
-            
-            // 搜索按钮点击事件
-            searchButton.addEventListener('click', function() {
-                performSearch();
-            });
-            
-            // 输入框回车事件
-            searchInput.addEventListener('keypress', function(e) {
-                if (e.key === 'Enter') {
-                    performSearch();
-                }
-            });
-            
-            // 执行搜索
-            function performSearch() {
-                const searchTerm = searchInput.value.trim();
-                if (searchTerm === '') {
-                    renderArticles(articles);
-                    return;
-                }
-                
-                // 过滤匹配的文章
-                const filteredArticles = articles.filter(article => 
-                    article.title.toLowerCase().includes(searchTerm.toLowerCase())
-                );
-                
-                if (filteredArticles.length === 0) {
-                    articleList.innerHTML = '<div class="no-results">没有找到匹配的内容</div>';
-                } else {
-                    // 高亮显示匹配的关键词
-                    const highlightedArticles = filteredArticles.map(article => {
-                        const regex = new RegExp(searchTerm, 'gi');
-                        const highlightedTitle = article.title.replace(regex, 
-                            match => `<span class="highlight">${match}</span>`
-                        );
-                        return {
-                            title: highlightedTitle,
-                            url: article.url
-                        };
-                    });
-                    
-                    renderArticles(highlightedArticles);
-                }
-            }
-            
-            // 渲染文章列表
-            function renderArticles(articlesToRender) {
-                articleList.innerHTML = '';
-                
-                articlesToRender.forEach(article => {
-                    const li = document.createElement('li');
-                    li.innerHTML = `<a href="${article.url}">${article.title}</a>`;
-                    articleList.appendChild(li);
-                });
-            }
-        });
-    </script>
+<script src="js/search-data.js"></script>
+<script src="js/search-logic.js"></script>
 </html>

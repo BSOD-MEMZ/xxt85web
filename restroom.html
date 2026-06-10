@@ -48,8 +48,6 @@
             </div>
         </div>
     </div>
-    <video autoplay="autoplay" src="music/restroom.mp3" controls="controls" preload id="p-music" loop="loop"
-        hidden="true"></video>
 </body>
 <script>
     const urlParams = new URLSearchParams(window.location.search);
@@ -59,14 +57,6 @@
         document.getElementById('display').innerText = decodeURIComponent(text);
     } else {
         document.getElementById('display').innerText = '没有传入任何内容';
-    }
-</script>
-<script language="javascript" type="text/javascript">
-    document.onclick = function (event) {
-        event = (event || window.event);
-        var audio = document.getElementById('p-music');
-        audio.play();
-        audio.muted = false;
     }
 </script>
 

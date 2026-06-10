@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>xxtsoft · 下载（还没做完）</title>
+    <title>xxtsoft · 下载</title>
     <link rel="icon" href="downloads.ico" type="image/x-icon">
     <!-- <script src="https://xxtsoft.top/live2d-widget/dist/autoload.js"></script> -->
     <link rel="stylesheet" href="style.css" type="text/css" />
@@ -118,28 +118,17 @@
             <div class="window-titlebar">分类</div>
             <div class="window-content">
                 <ul>
-                    <li><a href=""><img src="images/icons/program.png" alt="" width="16" height="16" /> 程序</a></li>
-                    <li><a href=""><img src="images/icons/ppt.png" alt="" width="16" height="16" /> PPT</a></li>
-                    <li><a href=""><img src="images/icons/downvideo.png" alt="" width="16" height="16" /> 视频</a></li>
-                    <li><a href=""><img src="images/icons/dvd.png" alt="" width="16" height="16" /> 镜像</a></li>
+                    <li><a href="search.html?s=程序"><img src="images/icons/program.png" alt="" width="16" height="16" /> 程序</a></li>
+                    <li><a href="search.html?s=PPT"><img src="images/icons/ppt.png" alt="" width="16" height="16" /> PPT</a></li>
+                    <li><a href="medias.html"><img src="images/icons/downvideo.png" alt="" width="16" height="16" /> 视频</a></li>
+                    <li><a href="search.html?s=镜像"><img src="images/icons/dvd.png" alt="" width="16" height="16" /> 镜像</a></li>
 
                 </ul>
             </div>
         </div>
     </div>
     </div>
-    <audio src="music/Embrace.mp3" preload id="p-music" loop hidden></audio>
 </body>
-<script language="javascript" type="text/javascript">
-    document.onclick = function (event) {
-        event = (event || window.event);
-        var audio = document.getElementById('p-music');
-        if (audio) {
-            audio.play().catch(function() {});
-            audio.muted = false;
-        }
-    }
-</script>
 <script language="javascript" type="text/javascript">
 (function() {
     var container = document.getElementById('viewToggle');

@@ -532,7 +532,7 @@
 
       var imgTag = '';
       if (data.img && data.img !== "") {
-        imgTag = '<img alt="" src="' + data.img + '" onerror="this.style.display=\'none\';">';
+        imgTag = '<img alt="" src="' + data.img + '" loading="lazy" onerror="this.style.display=\'none\';">';
       }
       var descTag = data.desc ? '<p>' + data.desc + '</p>' : '';
       var actionsHtml = '<div class="preview-actions" onclick="event.preventDefault(); event.stopPropagation(); return false;">' +
@@ -585,6 +585,57 @@
     document.body.removeChild(textArea);
   }
 
+  // ==================== 看板娘搜索拦截 ====================
+  function initWaifuSearch() {
+    var observer = new MutationObserver(function (mutations) {
+      var btn = document.getElementById('waifu-tool-search');
+      if (btn && !btn.getAttribute('data-search-hooked')) {
+        btn.setAttribute('data-search-hooked', '1');
+        // 移除旧事件（克隆节点）
+        var newBtn = btn.cloneNode(true);
+        btn.parentNode.replaceChild(newBtn, btn);
+        newBtn.addEventListener('click', function (e) {
+          e.stopPropagation();
+          var tips = document.getElementById('waifu-tips');
+          if (!tips) return;
+          tips.innerHTML = '<div class="waifu-search-box" style="display:flex;align-items:center;gap:4px;">' +
+            '<input type="text" id="waifuSearchInput" placeholder="搜点什么..." style="' +
+            'flex:1;padding:4px 8px;border:1px solid #7da2ce;border-radius:4px;' +
+            'font-size:13px;font-family:inherit;background:#fff;color:#000;min-width:0;" />' +
+            '<button id="waifuSearchGo" style="' +
+            'padding:4px 10px;background:#003399;color:#fff;border:none;border-radius:4px;' +
+            'cursor:pointer;font-size:12px;font-family:inherit;white-space:nowrap;">' +
+            '搜索</button></div>';
+          tips.classList.add('waifu-tips-active');
+          var input = document.getElementById('waifuSearchInput');
+          if (input) {
+            input.focus();
+            input.addEventListener('keypress', function (ev) {
+              if (ev.key === 'Enter') goWaifuSearch();
+            });
+          }
+          var goBtn = document.getElementById('waifuSearchGo');
+          if (goBtn) {
+            goBtn.addEventListener('click', function (ev) {
+              ev.stopPropagation();
+              goWaifuSearch();
+            });
+          }
+          function goWaifuSearch() {
+            var term = (document.getElementById('waifuSearchInput') || {}).value || '';
+            term = term.trim();
+            if (term) {
+              window.location.href = 'search.html?s=' + encodeURIComponent(term);
+            } else {
+              tips.classList.remove('waifu-tips-active');
+            }
+          }
+        });
+      }
+    });
+    observer.observe(document.body, { childList: true, subtree: true });
+  }
+
   // ==================== 初始化 ====================
   function initAll() {
     initSettings();
@@ -592,6 +643,7 @@
     initWidget();
     initLive2D();
     initArticlePreviews();
+    initWaifuSearch();
   }
 
   if (document.readyState === 'loading') {

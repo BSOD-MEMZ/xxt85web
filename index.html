@@ -173,8 +173,6 @@
                         <li><a href="#" id="changeBackground" class="wallpaper"><img alt="" src="images/icons/wallpaper.png"
                                     width="16" height="16" /> 切换背景</a>
                         </li>
-                        <li><a href="sign.html"><img alt="" src="images/icons/about.png" width="16" height="16" /> 登录/注册</a>
-                        </li>
                         <!-- <li><a href="aerowebring.html"><img alt="" src="images/icons/tech.png" width="16" height="16" /> -->
                         <!-- AeroWebring（非xxtsoft提供）</a></li> -->
                         <li><a href="xml/rss.xml"><img src="images/icons/rss.png" alt="" width="16" height="16" />
@@ -215,6 +213,12 @@
                 <div class="window-titlebar">项目进度</div>
                 <div class="window-content">
                     <div class="progress-item">
+                        <div class="progress-label">EntertainingIsland</div>
+                        <div class="vista-progress-track">
+                            <div class="vista-progress-fill" style="width: 20%;"></div>
+                        </div>
+                    </div>
+                    <div class="progress-item">
                         <div class="progress-label">SuperFactory</div>
                         <div class="vista-progress-track">
                             <div class="vista-progress-fill" style="width: 60%;"></div>
@@ -222,16 +226,16 @@
                     </div>
 
                     <div class="progress-item" style="margin-top: 12px;">
-                        <div class="progress-label">QQListener</div>
+                        <div class="progress-label">QQListener <b>[暂停维护]</b></div>
                         <div class="vista-progress-track">
-                            <div class="vista-progress-fill" style="width: 90%;"></div>
+                            <div class="vista-progress-fill-pause" style="width: 90%;"></div>
                         </div>
                     </div>
 
                     <div class="progress-item" style="margin-top: 12px;">
                         <div class="progress-label">在株洲市南方中学坐牢</div>
                         <div class="vista-progress-track">
-                            <div class="vista-progress-fill" style="width: 50%;"></div>
+                            <div class="vista-progress-fill" style="width: 90%;"></div>
                         </div>
                     </div>
                     <p><img src="images/icons/info.png" alt="" width="16" height="16" style="vertical-align: middle;" /> 网站运行情况：<b>已冻结</b><br><i>网站将以极低的频率更新</i></p>
@@ -275,15 +279,14 @@
     <div class="footer">
         <div class="wrap">
             <p>版权没有 2022-2026 湖南省株洲市xxt软件 不保留任何权利</p>
-            <p>Best view at 1024x768</p>
-            <p>欢迎访问站长的另外一个网页：<a href="http://8582753.xyz/">LegacyDownload</a></p>
+            <p>Designed by ["xxt8582753", "AbCd", "ChatGPT", "DeepSeek", "Claude Code", "Gemini", "豆包"]</p>
         </div>
     </div>
     <div id="settingsDialog" class="window vista-dialog"
         style="display:none; position:fixed; top:50%; left:50%; transform:translate(-50%, -50%); z-index:10000; width:300px;">
         <div class="window-titlebar settings-titlebar">
             控制面板
-            <img src="static/Window_CloseButton.png" id="closeSettings" class="vista-close-btn" alt="关闭" />
+            <img src="images/Window_CloseButton.png" id="closeSettings" class="vista-close-btn" alt="关闭" />
         </div>
         <div class="window-content">
             <div style="margin-bottom:10px;">
@@ -321,7 +324,7 @@
         style="display:none; position:fixed; top:50%; left:50%; transform:translate(-50%, -50%); z-index:10000; width:300px;">
         <div class="window-titlebar settings-titlebar">
             选择留言本
-            <img src="static/Window_CloseButton.png" id="closeGuestbookDialog" class="vista-close-btn" alt="关闭" />
+            <img src="images/Window_CloseButton.png" id="closeGuestbookDialog" class="vista-close-btn" alt="关闭" />
         </div>
         <div class="window-content" style="text-align:center;">
             <div style="margin-bottom:10px;">
@@ -340,9 +343,6 @@
         style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.3); z-index:9999;">
     </div>
 </body>
-<!-- 首页脚本：设置面板、背景切换、文章预览等（defer 不阻塞渲染） -->
 <script defer src="js/index.js"></script>
-<!-- 音乐播放器：歌曲数据与播放控制（defer 不阻塞渲染） -->
 <script defer src="js/player.js"></script>
-
 </html>
