@@ -598,12 +598,13 @@
           e.stopPropagation();
           var tips = document.getElementById('waifu-tips');
           if (!tips) return;
-          tips.innerHTML = '<div class="waifu-search-box" style="display:flex;align-items:center;gap:4px;">' +
+          tips.innerHTML = '<div class="waifu-search-box" style="padding:10px 8px;display:flex;align-items:center;gap:4px;">' +
             '<input type="text" id="waifuSearchInput" placeholder="搜点什么..." style="' +
-            'flex:1;padding:4px 8px;border:1px solid #7da2ce;border-radius:4px;' +
+            'flex:1;padding:5px 8px;border:1px solid #7da2ce;border-radius:2px;' +
             'font-size:13px;font-family:inherit;background:#fff;color:#000;min-width:0;" />' +
             '<button id="waifuSearchGo" style="' +
-            'padding:4px 10px;background:#003399;color:#fff;border:none;border-radius:4px;' +
+            'padding:5px 14px;background:linear-gradient(to bottom,#fefefe 0%,#E5EAF5 30%,#D4DBED 31%,#E1E6F6 100%);' +
+            'color:#000;border:1px solid #8b8b8b;border-radius:2px;' +
             'cursor:pointer;font-size:12px;font-family:inherit;white-space:nowrap;">' +
             '搜索</button></div>';
           tips.classList.add('waifu-tips-active');

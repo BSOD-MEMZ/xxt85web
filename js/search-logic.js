@@ -25,9 +25,8 @@
     var currentCat = 'all';
     var currentTerm = '';
 
-    // ---- URL param ----
-    var urlParams = new URLSearchParams(window.location.search);
-    var paramS = urlParams.get('s');
+    // ---- URL param (Chrome 1+) ----
+    var paramS = (window.location.search.match(/[?&]s=([^&]*)/) || [])[1];
     if (paramS) {
         currentTerm = decodeURIComponent(paramS).trim();
         searchInput.value = currentTerm;
