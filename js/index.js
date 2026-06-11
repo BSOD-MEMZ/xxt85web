@@ -14,6 +14,7 @@
     var saveBtn = document.getElementById('saveSettings');
     var clearBtn = document.getElementById('clearCookies');
     var bgSelect = document.getElementById('bgSelect');
+    var themeSelect = document.getElementById('themeSelect');
     var umamiToggle = document.getElementById('umamiToggle');
     var previewToggle = document.getElementById('previewToggle');
     var live2dToggle = document.getElementById('live2dToggle');
@@ -23,11 +24,13 @@
 
     function loadSettings() {
       var savedBg = localStorage.getItem('bgIndex') || "0";
+      var savedTheme = localStorage.getItem('theme') || "style.css";
       var umamiEnabled = localStorage.getItem('umami_enabled') !== "false";
       var previewEnabled = localStorage.getItem('preview_enabled') !== "false";
       var live2dEnabled = localStorage.getItem('live2d_enabled') !== "false";
       var filterEnabled = localStorage.getItem('filter_disturbing') === "true";
       if (bgSelect) bgSelect.value = savedBg;
+      if (themeSelect) themeSelect.value = savedTheme;
       if (umamiToggle) umamiToggle.checked = umamiEnabled;
       if (previewToggle) previewToggle.checked = previewEnabled;
       if (live2dToggle) live2dToggle.checked = live2dEnabled;
@@ -66,6 +69,11 @@
         if (typeof window.applyBackground === 'function') {
           window.applyBackground(parseInt(selectedBg));
         }
+        // 主题切换
+        var selectedTheme = themeSelect ? themeSelect.value : "style.css";
+        localStorage.setItem('theme', selectedTheme);
+        var themeLink = document.getElementById('themeCss');
+        if (themeLink) themeLink.href = selectedTheme;
         if (umamiToggle) {
           localStorage.setItem('umami_enabled', umamiToggle.checked);
         }
@@ -637,8 +645,16 @@
     observer.observe(document.body, { childList: true, subtree: true });
   }
 
+  // ==================== 主题初始化 ====================
+  function initTheme() {
+    var savedTheme = localStorage.getItem('theme') || 'style.css';
+    var themeLink = document.getElementById('themeCss');
+    if (themeLink) themeLink.href = savedTheme;
+  }
+
   // ==================== 初始化 ====================
   function initAll() {
+    initTheme();
     initSettings();
     initBackground();
     initWidget();

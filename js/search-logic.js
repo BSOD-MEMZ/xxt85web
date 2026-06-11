@@ -105,22 +105,30 @@
         renderList(programList, progs);
         renderList(mediaList, meds);
 
-        catArticle.style.display =
-            (currentCat === 'all' || currentCat === 'article') ? '' : 'none';
-        catProgram.style.display =
-            (currentCat === 'all' || currentCat === 'program') ? '' : 'none';
-        catMedia.style.display =
-            (currentCat === 'all' || currentCat === 'media') ? '' : 'none';
-
         var total = arts.length + progs.length + meds.length;
-        noResults.style.display = (total === 0 && term) ? '' : 'none';
+        if (total === 0 && term) {
+            // 无结果：隐藏所有分类区块，显示 nothing 图
+            catArticle.style.display = 'none';
+            catProgram.style.display = 'none';
+            catMedia.style.display = 'none';
+            noResults.style.display = '';
+        } else {
+            noResults.style.display = 'none';
+            // 正常显示对应分类
+            catArticle.style.display =
+                (currentCat === 'all' || currentCat === 'article') ? '' : 'none';
+            catProgram.style.display =
+                (currentCat === 'all' || currentCat === 'program') ? '' : 'none';
+            catMedia.style.display =
+                (currentCat === 'all' || currentCat === 'media') ? '' : 'none';
+        }
 
         if (term) {
-            resultCount.innerHTML = '找到 <b>' + total + '</b> 条结果';
+            resultCount.innerHTML = '<b>' + total + '</b> 个对象';
         } else {
-            resultCount.innerHTML = '共 <b>' +
+            resultCount.innerHTML = '<b>' +
                 (data.article.length + data.program.length + data.media.length) +
-                '</b> 条内容，输入关键词开始搜索';
+                '</b> 个对象';
         }
     }
 
