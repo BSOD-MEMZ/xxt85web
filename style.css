@@ -131,6 +131,14 @@ body {
     padding: 15px 0;
     overflow: hidden;
 }
+/* 个性化模式下允许浮动溢出 */
+body.customizing .content {
+    overflow: visible;
+}
+body.customizing .main,
+body.customizing .sidebar {
+    overflow: visible;
+}
 
 .main {
     float: left;
@@ -920,5 +928,262 @@ a:hover {
     .preview-box {
         background: #f0f0f0;
         transition: opacity 0.2s ease;
+    }
+}
+
+/* ===== 侧边栏关闭按钮（默认隐藏，个性化时显示） ===== */
+.sidebar-close-btn {
+    float: right;
+    cursor: pointer;
+    width: 14px;
+    height: 14px;
+    margin-top: 1px;
+    margin-right: 2px;
+    opacity: 0.7;
+    transition: opacity 0.15s;
+    display: none;
+}
+.sidebar-close-btn:hover {
+    opacity: 1;
+}
+/* 个性化模式下显示关闭按钮（功能窗口除外，它没有关闭按钮） */
+.customizing .sidebar-close-btn {
+    display: inline !important;
+}
+
+/* ===== 侧边栏窗口拖拽排序 ===== */
+.sidebar .window-titlebar {
+    user-select: none;
+}
+/* 个性化模式下标题栏显示拖拽光标 */
+.customizing .sidebar .window-titlebar {
+    cursor: grab;
+}
+.customizing .sidebar .window-titlebar:active {
+    cursor: grabbing;
+}
+/* 被拖拽的原元素半透明 */
+.sidebar .window.dragging {
+    opacity: 0.35;
+    animation: none !important;
+}
+/* 鼠标悬停目标高亮 */
+.sidebar .window.drag-over {
+    box-shadow: 0 0 0 2px #3C7FB1, 0 0 18px rgba(60, 127, 177, 0.5) !important;
+    border-color: #3C7FB1 !important;
+    animation: none !important;
+}
+
+/* 个性化模式下确保内容在网格上方 */
+body.customizing .titlebar,
+body.customizing .navbar,
+body.customizing .content,
+body.customizing .footer {
+    position: relative;
+    z-index: 5;
+}
+
+/* ===== 全页面网格覆盖层（背景图上方，组件下方） ===== */
+.customize-grid-overlay {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background-image: url('images/gridlines-opaque.png');
+    background-repeat: repeat;
+    z-index: 1;
+    pointer-events: none;
+    display: none;
+}
+body.customizing .customize-grid-overlay {
+    display: block;
+}
+
+/* ===== 个性化开启时全页面浮动（从中心解体） ===== */
+/* 主窗口（左侧）向左上漂浮 */
+.customizing .main .window {
+    animation: customizeFloatLeft 5s ease-in-out infinite;
+}
+/* 侧边栏（右侧）向右上漂浮 */
+.customizing .sidebar .window {
+    animation: customizeFloatRight 5s ease-in-out infinite;
+}
+/* 按位置错开动画相位 */
+.customizing .main .window:nth-child(1) { animation-delay: 0s; }
+.customizing .main .window:nth-child(2) { animation-delay: 0.25s; }
+.customizing .sidebar .window:nth-child(1) { animation-delay: 0.12s; }
+.customizing .sidebar .window:nth-child(2) { animation-delay: 0.4s; }
+.customizing .sidebar .window:nth-child(3) { animation-delay: 0.7s; }
+.customizing .sidebar .window:nth-child(4) { animation-delay: 1.0s; }
+.customizing .sidebar .window:nth-child(5) { animation-delay: 1.3s; }
+
+@keyframes customizeFloatLeft {
+    0%, 100% { transform: translate(0, 0); }
+    40% { transform: translate(-6px, -4px); }
+    70% { transform: translate(-2px, -1px); }
+}
+
+@keyframes customizeFloatRight {
+    0%, 100% { transform: translate(0, 0); }
+    40% { transform: translate(6px, -4px); }
+    70% { transform: translate(2px, -1px); }
+}
+
+/* 着陆动画：移除 customizing 时平滑回位 */
+.main .window,
+.sidebar .window {
+    transition: transform 0.6s cubic-bezier(0.25, 0.1, 0.25, 1);
+}
+body.customizing .main .window,
+body.customizing .sidebar .window {
+    transition: none; /* 动画期间不用 transition，交给 keyframes */
+}
+
+/* ===== 个性化浮窗 (非模态，Vista Aero 风格) ===== */
+.customize-panel {
+    position: fixed;
+    top: 56px;
+    left: 10px;
+    z-index: 9000;
+    width: 420px;
+    max-width: calc(100vw - 20px);
+    background: rgba(240, 244, 250, 0.94);
+    border: 1px solid #7da2ce;
+    border-radius: 6px;
+    box-shadow: 0 6px 30px rgba(0, 0, 0, 0.45);
+    overflow: hidden;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    animation: panelSlideIn 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes panelSlideIn {
+    from { opacity: 0; transform: translateY(-15px) scale(0.96); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.customize-panel-titlebar {
+    background: linear-gradient(to bottom, #98B4D0 0%, #B9D1EA 50%, #A3C2DE 51%, #C4DAF0 100%);
+    color: #1a1a1a;
+    font-size: 13px;
+    font-weight: bold;
+    padding: 6px 12px;
+    border-bottom: 1px solid #8BA6C4;
+    user-select: none;
+}
+
+.customize-icons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    padding: 14px;
+    justify-content: flex-start;
+}
+
+.customize-icon-item {
+    width: 78px;
+    text-align: center;
+    cursor: pointer;
+    padding: 6px 3px;
+    border-radius: 5px;
+    border: 1px solid transparent;
+    transition: all 0.18s ease;
+    user-select: none;
+}
+
+.customize-icon-item:hover {
+    background: rgba(220, 235, 252, 0.8);
+    border-color: #a8d8ea;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+    transform: translateY(-1px);
+}
+
+.customize-icon-item:active {
+    background: rgba(180, 210, 240, 0.9);
+    transform: scale(0.94);
+    transition: transform 0.08s ease;
+}
+
+.customize-icon-item img {
+    display: block;
+    margin: 0 auto 4px;
+    width: 48px;
+    height: 48px;
+    transition: transform 0.2s ease;
+}
+
+.customize-icon-item:hover img {
+    transform: scale(1.06);
+}
+
+.customize-icon-item span {
+    display: block;
+    font-size: 11px;
+    color: #1a1a1a;
+    line-height: 1.3;
+    word-break: keep-all;
+}
+
+/* 灰色禁用态（组件已在侧边栏中或不可移除） */
+.customize-icon-item.grayed {
+    opacity: 0.35;
+    pointer-events: none;
+    filter: grayscale(1);
+}
+
+/* ===== 个性化面板按钮栏 ===== */
+.customize-buttons {
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px;
+    padding: 10px 14px;
+    border-top: 1px solid #d5dfec;
+    background: rgba(230, 238, 250, 0.6);
+}
+
+.customize-buttons .vista-btn {
+    padding: 4px 18px;
+    font-size: 12px;
+    font-family: "Segoe UI", "Microsoft YaHei UI";
+    background: linear-gradient(to bottom, #f2f2f2, #ebebeb 50%, #dddddd 51%, #cfcfcf);
+    border: 1px solid #8b8b8b;
+    border-radius: 3px;
+    cursor: pointer;
+    color: #000;
+    transition: all 0.15s ease;
+}
+
+.customize-buttons .vista-btn:hover {
+    border-color: #3c7fb1;
+    background: linear-gradient(to bottom, #e9f5ff, #d8eaff 50%, #c4e0ff 51%, #b3d5ff);
+}
+
+.customize-buttons .vista-btn:active {
+    transform: scale(0.96);
+}
+
+.customize-buttons .vista-btn-primary {
+    background: linear-gradient(to bottom, #e1efff, #c8dff8 50%, #b1d2f0 51%, #9fc5e8);
+    border-color: #3c7fb1;
+    font-weight: bold;
+}
+
+.customize-buttons .vista-btn-primary:hover {
+    background: linear-gradient(to bottom, #d0e8ff, #b8d8fc 50%, #9fcbf0 51%, #8abde4);
+}
+
+/* 移动端隐藏个性化相关 */
+@media screen and (max-width: 1000px) {
+    .customize-panel {
+        display: none !important;
+    }
+    .customize-grid-overlay {
+        display: none !important;
+    }
+    .customizing .main .window,
+    .customizing .sidebar .window {
+        animation: none !important;
+    }
+    .sidebar-close-btn {
+        display: none !important;
     }
 }

@@ -141,8 +141,8 @@
             </div>
         </div>
 
-        <div class="sidebar">
-            <div class="window">
+        <div class="sidebar" id="sidebarContainer">
+            <div class="window" data-sidebar-id="function">
                 <div class="window-titlebar">功能</div>
                 <div class="window-content">
                     <ul>
@@ -163,8 +163,8 @@
                         </li>
                         <!-- <li><a href="donate.html" class="donate"><img alt="" src="images/icons/money.png" width="16" height="16" /> 符号说明</a> -->
                         </li>
-                        <li><a href="#" id="changeBackground" class="wallpaper"><img alt="" src="images/icons/wallpaper.png"
-                                    width="16" height="16" /> 切换背景</a>
+                        <li><a href="#" id="openCustomize" class="customize" target="_self"><img alt=""
+                                    src="images/icons/customize.png" width="16" height="16" /> 个性化</a>
                         </li>
                         <!-- <li><a href="aerowebring.html"><img alt="" src="images/icons/tech.png" width="16" height="16" /> -->
                         <!-- AeroWebring（非xxtsoft提供）</a></li> -->
@@ -175,8 +175,8 @@
                     </ul>
                 </div>
             </div>
-            <div class="window">
-                <div class="window-titlebar">新闻</div>
+            <div class="window" data-sidebar-id="news">
+                <div class="window-titlebar">新闻<img src="images/icons/close.png" class="sidebar-close-btn" alt="关闭" title="关闭" style="display:none;" /></div>
                 <div class="window-content news">
                     <ul>
                         <li><img src="images/icons/dot.png" alt="" width="15" height="15" /> 网站现已支持文章和视频评论区</li>
@@ -185,8 +185,8 @@
                 </div>
             </div>
 
-            <div class="window">
-                <div class="window-titlebar">关注主播谢谢喵</div>
+            <div class="window" data-sidebar-id="contact">
+                <div class="window-titlebar">关注主播谢谢喵<img src="images/icons/close.png" class="sidebar-close-btn" alt="关闭" title="关闭" style="display:none;" /></div>
                 <div class="window-content">
                     <ul>
                         <li><a href="https://space.bilibili.com/1975308950?spm_id_from=333.1007.0.0"
@@ -202,8 +202,8 @@
                     </ul>
                 </div>
             </div>
-            <div class="window">
-                <div class="window-titlebar">项目进度</div>
+            <div class="window" data-sidebar-id="progress">
+                <div class="window-titlebar">项目进度<img src="images/icons/close.png" class="sidebar-close-btn" alt="关闭" title="关闭" style="display:none;" /></div>
                 <div class="window-content">
                     <div class="progress-item">
                         <div class="progress-label">EntertainingIsland</div>
@@ -234,8 +234,8 @@
                     <p><img src="images/icons/info.png" alt="" width="16" height="16" style="vertical-align: middle;" /> 网站运行情况：<b>已冻结</b><br><i>网站将以极低的频率更新</i></p>
                 </div>
             </div>
-            <div class="window">
-                <div class="window-titlebar">Windows Media Player</div>
+            <div class="window" data-sidebar-id="wmp">
+                <div class="window-titlebar">Windows Media Player<img src="images/icons/close.png" class="sidebar-close-btn" alt="关闭" title="关闭" style="display:none;" /></div>
                 <div class="window-content aero-player">
                     <p id="wmp-info">背景音乐来源于网络，点击列表项目播放。已知问题：<b>歌词显示可能会错位</b></p>
                     <div class="wmp-screen">
@@ -283,24 +283,6 @@
         </div>
         <div class="window-content">
             <div style="margin-bottom:10px;">
-                
-                <label>背景图片：</label>
-                <select id="bgSelect" style="width:100%;">
-                    <option value="0">默认背景</option>
-                    <option value="1">背景 1</option>
-                    <option value="2">背景 2</option>
-                    <option value="3">背景 3</option>
-                    <option value="4">背景 4</option>
-                </select>
-            </div>
-            <div style="margin-bottom:10px;">
-                <label>网站主题：</label>
-                <select id="themeSelect" style="width:100%;">
-                    <option value="style.css">Aero（默认）</option>
-                    <option value="xpstyle.css">Luna</option>
-                </select>
-            </div>
-            <div style="margin-bottom:10px;">
                 <label><input type="checkbox" id="previewToggle"> 启用文章详细信息预览</label>
             </div>
             <div style="margin-bottom:10px;">
@@ -317,6 +299,49 @@
                 <button id="saveSettings" style="padding:2px 10px;">确定</button>
             </div>
             <label><img alt="" src="images/icons/info.png" width="16" height="16" />某些设置项需要刷新网页才能应用</label>
+        </div>
+    </div>
+    <!-- 个性化 - 全页面网格背景覆盖层 -->
+    <div id="customizeGridOverlay" class="customize-grid-overlay"></div>
+    <!-- 个性化浮窗 -->
+    <div id="customizePanel" class="customize-panel" style="display:none;">
+        <div class="customize-panel-titlebar">
+            <span>个性化</span>
+        </div>
+        <div class="customize-icons">
+            <div class="customize-icon-item" data-action="background" title="切换背景">
+                <img src="images/icons/background.png" alt="切换背景" width="48" height="48" />
+                <span>切换背景</span>
+            </div>
+            <div class="customize-icon-item" data-action="theme" title="切换主题">
+                <img src="images/icons/theme.png" alt="切换主题" width="48" height="48" />
+                <span>切换主题</span>
+            </div>
+            <div class="customize-icon-item grayed" data-action="toggle-function" data-sidebar-id="function" title="功能（不可移除）">
+                <img src="images/icons/function.png" alt="功能" width="48" height="48" />
+                <span>功能</span>
+            </div>
+            <div class="customize-icon-item" data-action="toggle-news" data-sidebar-id="news" title="新闻">
+                <img src="images/icons/news.png" alt="新闻" width="48" height="48" />
+                <span>新闻</span>
+            </div>
+            <div class="customize-icon-item" data-action="toggle-contact" data-sidebar-id="contact" title="关注主播谢谢喵">
+                <img src="images/icons/contact.png" alt="关注主播谢谢喵" width="48" height="48" />
+                <span>关注主播谢谢喵</span>
+            </div>
+            <div class="customize-icon-item" data-action="toggle-progress" data-sidebar-id="progress" title="项目进度">
+                <img src="images/icons/process.png" alt="项目进度" width="48" height="48" />
+                <span>项目进度</span>
+            </div>
+            <div class="customize-icon-item" data-action="toggle-wmp" data-sidebar-id="wmp" title="Windows Media Player">
+                <img src="images/icons/wmp.png" alt="Windows Media Player" width="48" height="48" />
+                <span>Windows Media Player</span>
+            </div>
+        </div>
+        <div class="customize-buttons">
+            <button id="customizeReset" class="vista-btn">恢复默认</button>
+            <button id="customizeCancel" class="vista-btn">取消</button>
+            <button id="customizeOK" class="vista-btn vista-btn-primary">确定</button>
         </div>
     </div>
     <!-- 留言本选择对话框 -->

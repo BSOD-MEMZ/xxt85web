@@ -13,8 +13,6 @@
     var closeBtn = document.getElementById('closeSettings');
     var saveBtn = document.getElementById('saveSettings');
     var clearBtn = document.getElementById('clearCookies');
-    var bgSelect = document.getElementById('bgSelect');
-    var themeSelect = document.getElementById('themeSelect');
     var umamiToggle = document.getElementById('umamiToggle');
     var previewToggle = document.getElementById('previewToggle');
     var live2dToggle = document.getElementById('live2dToggle');
@@ -23,14 +21,10 @@
     if (!dialog || !openBtn) return;
 
     function loadSettings() {
-      var savedBg = localStorage.getItem('bgIndex') || "0";
-      var savedTheme = localStorage.getItem('theme') || "style.css";
       var umamiEnabled = localStorage.getItem('umami_enabled') !== "false";
       var previewEnabled = localStorage.getItem('preview_enabled') !== "false";
       var live2dEnabled = localStorage.getItem('live2d_enabled') !== "false";
       var filterEnabled = localStorage.getItem('filter_disturbing') === "true";
-      if (bgSelect) bgSelect.value = savedBg;
-      if (themeSelect) themeSelect.value = savedTheme;
       if (umamiToggle) umamiToggle.checked = umamiEnabled;
       if (previewToggle) previewToggle.checked = previewEnabled;
       if (live2dToggle) live2dToggle.checked = live2dEnabled;
@@ -64,16 +58,6 @@
 
     if (saveBtn) {
       saveBtn.addEventListener('click', function () {
-        var selectedBg = bgSelect ? bgSelect.value : "0";
-        localStorage.setItem('bgIndex', selectedBg);
-        if (typeof window.applyBackground === 'function') {
-          window.applyBackground(parseInt(selectedBg));
-        }
-        // 主题切换
-        var selectedTheme = themeSelect ? themeSelect.value : "style.css";
-        localStorage.setItem('theme', selectedTheme);
-        var themeLink = document.getElementById('themeCss');
-        if (themeLink) themeLink.href = selectedTheme;
         if (umamiToggle) {
           localStorage.setItem('umami_enabled', umamiToggle.checked);
         }
@@ -645,6 +629,367 @@
     observer.observe(document.body, { childList: true, subtree: true });
   }
 
+  // ==================== 个性化面板 ====================
+  function initCustomize() {
+    var panel = document.getElementById('customizePanel');
+    var openBtn = document.getElementById('openCustomize');
+    var sidebar = document.getElementById('sidebarContainer');
+
+    if (!panel || !openBtn) return;
+
+    // 主题列表
+    var themes = ['style.css', 'xpstyle.css'];
+
+    // 保存打开时的初始状态，用于"取消"恢复
+    var savedWindowStates = {};
+
+    function saveCurrentState() {
+      if (!sidebar) return;
+      var wins = sidebar.querySelectorAll('.window');
+      savedWindowStates = {};
+      for (var i = 0; i < wins.length; i++) {
+        var id = wins[i].getAttribute('data-sidebar-id') || ('_idx_' + i);
+        savedWindowStates[id] = wins[i].style.display;
+      }
+    }
+
+    function restoreSavedState() {
+      if (!sidebar) return;
+      var wins = sidebar.querySelectorAll('.window');
+      for (var i = 0; i < wins.length; i++) {
+        var id = wins[i].getAttribute('data-sidebar-id') || ('_idx_' + i);
+        if (savedWindowStates.hasOwnProperty(id)) {
+          wins[i].style.display = savedWindowStates[id];
+        }
+      }
+    }
+
+    function resetToDefault() {
+      if (!sidebar) return;
+      // 默认顺序: 功能, 新闻, 关注主播谢谢喵, 项目进度, WMP
+      var defaultOrder = ['function', 'news', 'contact', 'progress', 'wmp'];
+      for (var i = 0; i < defaultOrder.length; i++) {
+        var win = sidebar.querySelector('.window[data-sidebar-id="' + defaultOrder[i] + '"]');
+        if (win) {
+          win.style.display = '';
+          sidebar.appendChild(win);
+        }
+      }
+    }
+
+    // 更新组件图标的灰色状态
+    function updateGrayedIcons() {
+      var items = panel.querySelectorAll('.customize-icon-item[data-sidebar-id]');
+      for (var i = 0; i < items.length; i++) {
+        var item = items[i];
+        var sidebarId = item.getAttribute('data-sidebar-id');
+        // "功能"永远置灰
+        if (sidebarId === 'function') {
+          item.classList.add('grayed');
+          continue;
+        }
+        var win = sidebar ? sidebar.querySelector('.window[data-sidebar-id="' + sidebarId + '"]') : null;
+        if (win && win.style.display !== 'none') {
+          item.classList.add('grayed');
+        } else {
+          item.classList.remove('grayed');
+        }
+      }
+    }
+
+    // 打开个性化模式
+    function openPanel() {
+      saveCurrentState();
+      updateGrayedIcons();
+      panel.style.display = 'block';
+      document.body.classList.add('customizing');
+    }
+
+    // 关闭个性化面板
+    function closePanel() {
+      panel.style.display = 'none';
+      document.body.classList.remove('customizing');
+      // 清除所有拖拽状态
+      if (sidebar) {
+        var wins = sidebar.querySelectorAll('.window');
+        for (var i = 0; i < wins.length; i++) {
+          wins[i].classList.remove('dragging', 'drag-over');
+        }
+      }
+    }
+
+    // 切换背景
+    function cycleBackground() {
+      var backgrounds = [
+        'background.webp',
+        'background/background_1.webp',
+        'background/background_2.webp',
+        'background/background_3.webp',
+        'background/background_4.webp'
+      ];
+      var currentBgIndex = localStorage.getItem('bgIndex');
+      currentBgIndex = currentBgIndex !== null ? parseInt(currentBgIndex) : 0;
+      currentBgIndex = (currentBgIndex + 1) % backgrounds.length;
+      document.body.style.backgroundImage = "url('" + backgrounds[currentBgIndex] + "')";
+      localStorage.setItem('bgIndex', currentBgIndex);
+    }
+
+    // 切换主题
+    function cycleTheme() {
+      var currentTheme = localStorage.getItem('theme') || 'style.css';
+      var idx = themes.indexOf(currentTheme);
+      if (idx === -1) idx = 0;
+      idx = (idx + 1) % themes.length;
+      var newTheme = themes[idx];
+      localStorage.setItem('theme', newTheme);
+      var themeLink = document.getElementById('themeCss');
+      if (themeLink) themeLink.href = newTheme;
+    }
+
+    // 切换侧边栏组件
+    function toggleSidebarWindow(sidebarId, item) {
+      if (!sidebarId || !sidebar) return;
+      // "功能"不可切换
+      if (sidebarId === 'function') return;
+      var win = sidebar.querySelector('.window[data-sidebar-id="' + sidebarId + '"]');
+      if (!win) return;
+
+      if (win.style.display === 'none') {
+        win.style.display = '';
+        item.classList.add('grayed');
+      } else {
+        win.style.display = 'none';
+        item.classList.remove('grayed');
+      }
+    }
+
+    // 打开/关闭按钮
+    openBtn.addEventListener('click', function (e) {
+      e.preventDefault();
+
+      // 移动端不允许
+      if (window.innerWidth <= 1000) {
+        alert('手机不能更改视图');
+        return;
+      }
+
+      if (panel.style.display === 'block') {
+        closePanel();
+        return;
+      }
+
+      openPanel();
+    });
+
+    // 图标点击处理
+    panel.addEventListener('click', function (e) {
+      var item = e.target.closest('.customize-icon-item');
+      if (!item) return;
+      var action = item.getAttribute('data-action');
+
+      if (action === 'background') {
+        cycleBackground();
+        return;
+      }
+
+      if (action === 'theme') {
+        cycleTheme();
+        return;
+      }
+
+      if (action && action.indexOf('toggle-') === 0) {
+        var sidebarId = item.getAttribute('data-sidebar-id');
+        toggleSidebarWindow(sidebarId, item);
+        return;
+      }
+    });
+
+    // 确定按钮
+    var okBtn = document.getElementById('customizeOK');
+    if (okBtn) {
+      okBtn.addEventListener('click', function () {
+        closePanel();
+      });
+    }
+
+    // 取消按钮 - 恢复初始状态
+    var cancelBtn = document.getElementById('customizeCancel');
+    if (cancelBtn) {
+      cancelBtn.addEventListener('click', function () {
+        restoreSavedState();
+        closePanel();
+      });
+    }
+
+    // 恢复默认按钮
+    var resetBtn = document.getElementById('customizeReset');
+    if (resetBtn) {
+      resetBtn.addEventListener('click', function () {
+        resetToDefault();
+        updateGrayedIcons();
+      });
+    }
+  }
+
+  // ==================== 侧边栏窗口拖拽排序（pointer 实现） ====================
+  function initSidebarDrag() {
+    var sidebar = document.getElementById('sidebarContainer');
+    if (!sidebar) return;
+
+    var dragInfo = null; // { el, ghost, startY, offsetY, offsetX, lastTarget }
+
+    function getWindowIndex(el) {
+      var wins = sidebar.querySelectorAll('.window');
+      for (var i = 0; i < wins.length; i++) {
+        if (wins[i] === el) return i;
+      }
+      return -1;
+    }
+
+    function getWindowAtY(y) {
+      var wins = sidebar.querySelectorAll('.window');
+      for (var i = 0; i < wins.length; i++) {
+        if (wins[i].classList.contains('dragging')) continue;
+        var rect = wins[i].getBoundingClientRect();
+        if (y >= rect.top && y <= rect.bottom) return wins[i];
+      }
+      return null;
+    }
+
+    function createGhost(el) {
+      var ghost = el.cloneNode(true);
+      ghost.style.position = 'fixed';
+      ghost.style.zIndex = '9999';
+      ghost.style.pointerEvents = 'none';
+      ghost.style.opacity = '0.85';
+      ghost.style.width = el.offsetWidth + 'px';
+      ghost.style.transform = 'scale(1.02)';
+      ghost.style.boxShadow = '0 8px 25px rgba(0,0,0,0.35)';
+      ghost.style.transition = 'none';
+      ghost.classList.remove('dragging', 'drag-over');
+      document.body.appendChild(ghost);
+      return ghost;
+    }
+
+    function onPointerDown(e) {
+      // 只在个性化模式下工作
+      if (!document.body.classList.contains('customizing')) return;
+
+      var titlebar = e.target.closest('.window-titlebar');
+      if (!titlebar) return;
+      // 不拦截关闭按钮的点击
+      if (e.target.closest('.sidebar-close-btn')) return;
+
+      var win = titlebar.closest('.window');
+      if (!win || win.getAttribute('data-sidebar-id') === 'function') return;
+
+      e.preventDefault();
+      var rect = win.getBoundingClientRect();
+
+      dragInfo = {
+        el: win,
+        ghost: createGhost(win),
+        startY: e.clientY,
+        offsetY: e.clientY - rect.top,
+        offsetX: e.clientX - rect.left,
+        lastTarget: null
+      };
+
+      // 放置 ghost 在原位置
+      dragInfo.ghost.style.left = rect.left + 'px';
+      dragInfo.ghost.style.top = rect.top + 'px';
+
+      // 标记原元素
+      win.classList.add('dragging');
+
+      // 捕获指针以便持续接收 move/up 事件
+      win.setPointerCapture(e.pointerId);
+    }
+
+    function onPointerMove(e) {
+      if (!dragInfo) return;
+      e.preventDefault();
+
+      // 移动 ghost 跟随鼠标
+      dragInfo.ghost.style.left = (e.clientX - dragInfo.offsetX) + 'px';
+      dragInfo.ghost.style.top = (e.clientY - dragInfo.offsetY) + 'px';
+
+      // 找到鼠标下方的窗口，高亮它
+      var target = getWindowAtY(e.clientY);
+      if (target && target !== dragInfo.lastTarget) {
+        if (dragInfo.lastTarget) dragInfo.lastTarget.classList.remove('drag-over');
+        dragInfo.lastTarget = target;
+        target.classList.add('drag-over');
+      } else if (!target && dragInfo.lastTarget) {
+        dragInfo.lastTarget.classList.remove('drag-over');
+        dragInfo.lastTarget = null;
+      }
+    }
+
+    function onPointerUp(e) {
+      if (!dragInfo) return;
+
+      var targetWin = dragInfo.lastTarget;
+
+      // 移除 ghost
+      if (dragInfo.ghost && dragInfo.ghost.parentNode) {
+        dragInfo.ghost.parentNode.removeChild(dragInfo.ghost);
+      }
+
+      // 清理所有类
+      dragInfo.el.classList.remove('dragging');
+      var allWins = sidebar.querySelectorAll('.window');
+      for (var i = 0; i < allWins.length; i++) {
+        allWins[i].classList.remove('drag-over');
+      }
+
+      // 执行排序
+      if (targetWin && targetWin !== dragInfo.el && targetWin.getAttribute('data-sidebar-id') !== 'function') {
+        var srcIndex = getWindowIndex(dragInfo.el);
+        var targetIndex = getWindowIndex(targetWin);
+        if (srcIndex !== -1 && targetIndex !== -1) {
+          if (srcIndex < targetIndex) {
+            sidebar.insertBefore(dragInfo.el, targetWin.nextSibling);
+          } else {
+            sidebar.insertBefore(dragInfo.el, targetWin);
+          }
+        }
+      }
+
+      dragInfo = null;
+    }
+
+    sidebar.addEventListener('pointerdown', onPointerDown);
+    document.addEventListener('pointermove', onPointerMove);
+    document.addEventListener('pointerup', onPointerUp);
+  }
+
+  // ==================== 侧边栏关闭按钮 ====================
+  function initSidebarClose() {
+    var sidebar = document.getElementById('sidebarContainer');
+    if (!sidebar) return;
+
+    sidebar.addEventListener('click', function (e) {
+      var closeBtn = e.target.closest('.sidebar-close-btn');
+      if (!closeBtn) return;
+
+      // 只在个性化模式下响应
+      if (!document.body.classList.contains('customizing')) return;
+
+      var win = closeBtn.closest('.window');
+      if (win && win.getAttribute('data-sidebar-id') !== 'function') {
+        win.style.display = 'none';
+        // 同步更新个性化面板中的图标状态
+        var panel = document.getElementById('customizePanel');
+        if (panel) {
+          var sidebarId = win.getAttribute('data-sidebar-id');
+          var item = panel.querySelector('.customize-icon-item[data-sidebar-id="' + sidebarId + '"]');
+          if (item) item.classList.remove('grayed');
+        }
+      }
+    });
+  }
+
   // ==================== 主题初始化 ====================
   function initTheme() {
     var savedTheme = localStorage.getItem('theme') || 'style.css';
@@ -657,6 +1002,9 @@
     initTheme();
     initSettings();
     initBackground();
+    initCustomize();
+    initSidebarDrag();
+    initSidebarClose();
     initWidget();
     initLive2D();
     initArticlePreviews();

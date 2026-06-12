@@ -528,6 +528,235 @@ a:hover { color: #0055FF; text-decoration: underline; }
 /* ===== 杂项 ===== */
 .clearfix:after { content: ""; display: table; clear: both; }
 
+/* ===== 个性化模式 (Luna 主题) ===== */
+
+/* 个性化模式下确保内容在网格上方 */
+body.customizing .titlebar,
+body.customizing .navbar,
+body.customizing .content,
+body.customizing .footer {
+    position: relative;
+    z-index: 5;
+}
+/* 允许浮动溢出 */
+body.customizing .content { overflow: visible; }
+body.customizing .main,
+body.customizing .sidebar { overflow: visible; }
+
+/* 全页面网格覆盖层 */
+.customize-grid-overlay {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background-image: url('images/gridlines-opaque.png');
+    background-repeat: repeat;
+    z-index: 1;
+    pointer-events: none;
+    display: none;
+}
+body.customizing .customize-grid-overlay {
+    display: block;
+}
+
+/* 个性化开启时全页面浮动（从中心解体） */
+.customizing .main .window {
+    animation: customizeFloatLeftXP 5s ease-in-out infinite;
+}
+.customizing .sidebar .window {
+    animation: customizeFloatRightXP 5s ease-in-out infinite;
+}
+.customizing .main .window:nth-child(1) { animation-delay: 0s; }
+.customizing .main .window:nth-child(2) { animation-delay: 0.25s; }
+.customizing .sidebar .window:nth-child(1) { animation-delay: 0.12s; }
+.customizing .sidebar .window:nth-child(2) { animation-delay: 0.4s; }
+.customizing .sidebar .window:nth-child(3) { animation-delay: 0.7s; }
+.customizing .sidebar .window:nth-child(4) { animation-delay: 1.0s; }
+.customizing .sidebar .window:nth-child(5) { animation-delay: 1.3s; }
+
+@keyframes customizeFloatLeftXP {
+    0%, 100% { transform: translate(0, 0); }
+    40% { transform: translate(-6px, -4px); }
+    70% { transform: translate(-2px, -1px); }
+}
+
+@keyframes customizeFloatRightXP {
+    0%, 100% { transform: translate(0, 0); }
+    40% { transform: translate(6px, -4px); }
+    70% { transform: translate(2px, -1px); }
+}
+
+/* 着陆动画 */
+.main .window,
+.sidebar .window {
+    transition: transform 0.6s cubic-bezier(0.25, 0.1, 0.25, 1);
+}
+body.customizing .main .window,
+body.customizing .sidebar .window {
+    transition: none;
+}
+
+/* 侧边栏关闭按钮 */
+.sidebar-close-btn {
+    float: right;
+    cursor: pointer;
+    width: 14px;
+    height: 14px;
+    margin-top: 1px;
+    margin-right: 2px;
+    opacity: 0.7;
+    transition: opacity 0.15s;
+    display: none;
+}
+.sidebar-close-btn:hover { opacity: 1; }
+.customizing .sidebar-close-btn { display: inline !important; }
+
+/* 侧边栏窗口拖拽排序 */
+.sidebar .window-titlebar { user-select: none; }
+.customizing .sidebar .window-titlebar { cursor: grab; }
+.customizing .sidebar .window-titlebar:active { cursor: grabbing; }
+.sidebar .window.dragging {
+    opacity: 0.35;
+    animation: none !important;
+}
+.sidebar .window.drag-over {
+    box-shadow: 0 0 0 2px #0054E3, 0 0 18px rgba(0, 84, 227, 0.5) !important;
+    border-color: #0054E3 !important;
+    animation: none !important;
+}
+
+/* 个性化浮窗 (Luna 风格) */
+.customize-panel {
+    position: fixed;
+    top: 56px;
+    left: 10px;
+    z-index: 9000;
+    width: 420px;
+    max-width: calc(100vw - 20px);
+    background: #ECE9D8;
+    border: 1px solid #0054E3;
+    border-radius: 8px 8px 3px 3px;
+    box-shadow: 2px 2px 18px rgba(0, 0, 0, 0.5);
+    overflow: hidden;
+    animation: panelSlideIn 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes panelSlideIn {
+    from { opacity: 0; transform: translateY(-15px) scale(0.96); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.customize-panel-titlebar {
+    background: linear-gradient(to bottom,
+        #3D95FF 0%, #005CE9 3%, #036EFF 70%, #0060F9 90%, #0043CF 100%);
+    color: #fff;
+    font-size: 13px;
+    font-weight: bold;
+    text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.35);
+    padding: 6px 12px;
+    border-bottom: 1px solid #00309C;
+    user-select: none;
+}
+
+.customize-icons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    padding: 14px;
+    justify-content: flex-start;
+}
+
+.customize-icon-item {
+    width: 78px;
+    text-align: center;
+    cursor: pointer;
+    padding: 6px 3px;
+    border-radius: 4px;
+    border: 1px solid transparent;
+    transition: all 0.18s ease;
+    user-select: none;
+}
+
+.customize-icon-item:hover {
+    background: #FFEEC2;
+    border-color: #FFC73A;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.12);
+    transform: translateY(-1px);
+}
+
+.customize-icon-item:active {
+    background: #FFD88A;
+    transform: scale(0.94);
+    transition: transform 0.08s ease;
+}
+
+.customize-icon-item img {
+    display: block;
+    margin: 0 auto 4px;
+    width: 48px;
+    height: 48px;
+    transition: transform 0.2s ease;
+}
+
+.customize-icon-item:hover img {
+    transform: scale(1.06);
+}
+
+.customize-icon-item span {
+    display: block;
+    font-size: 11px;
+    color: #000;
+    line-height: 1.3;
+    word-break: keep-all;
+}
+
+.customize-icon-item.grayed {
+    opacity: 0.35;
+    pointer-events: none;
+    filter: grayscale(1);
+}
+
+/* 个性化面板按钮栏 */
+.customize-buttons {
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px;
+    padding: 10px 14px;
+    border-top: 1px solid #D4D0C8;
+    background: #F1EFE3;
+}
+
+.customize-buttons .vista-btn {
+    padding: 4px 18px;
+    font-size: 12px;
+    font-family: "Tahoma", "SimSun", sans-serif;
+    background: linear-gradient(to bottom, #fff 0%, #ECE9D8 50%, #DED8C7 51%, #F1EFE3 100%);
+    border: 1px solid #7F9DB9;
+    border-radius: 3px;
+    cursor: pointer;
+    color: #000;
+    transition: all 0.15s ease;
+}
+
+.customize-buttons .vista-btn:hover {
+    background: #FFEEC2;
+    border-color: #FFC73A;
+}
+
+.customize-buttons .vista-btn:active {
+    transform: scale(0.96);
+}
+
+.customize-buttons .vista-btn-primary {
+    background: linear-gradient(to bottom, #0054E3 0%, #52A0FF 50%, #2D7CEB 100%);
+    border-color: #00309C;
+    color: #fff;
+    font-weight: bold;
+}
+
+.customize-buttons .vista-btn-primary:hover {
+    background: linear-gradient(to bottom, #0043CF 0%, #4799FF 50%, #2670DC 100%);
+}
+
 /* ===== 响应式 ===== */
 @media screen and (max-width: 1000px) {
     .sidebar { width: 100%; }
@@ -541,4 +770,11 @@ a:hover { color: #0055FF; text-decoration: underline; }
     .window-content { padding: 8px; }
     .window-content ul { margin-left: 10px; }
     #waifu { display: none !important; }
+
+    /* 移动端隐藏个性化 */
+    .customize-panel { display: none !important; }
+    .customize-grid-overlay { display: none !important; }
+    .customizing .main .window,
+    .customizing .sidebar .window { animation: none !important; }
+    .sidebar-close-btn { display: none !important; }
 }
