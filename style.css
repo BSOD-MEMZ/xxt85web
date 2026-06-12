@@ -7,11 +7,15 @@ body {
     background-position: center center;
     background-repeat: no-repeat;
     background-attachment: fixed;
-    background-size: cover;
+    background-size: 100% auto;
     margin: 0;
     padding: 0;
     line-height: 1.5;
-    transition: background-image 0.5s ease-in-out;
+    transition: background-image 0.5s ease-in-out, background-size 0.8s cubic-bezier(0.25, 0.1, 0.25, 1);
+}
+/* 个性化模式：背景放大 */
+body.customizing {
+    background-size: 110% auto;
 }
 
 .wrap {
@@ -129,7 +133,12 @@ body {
 
 .content {
     padding: 15px 0;
-    overflow: hidden;
+}
+/* clearfix 替代 overflow:hidden，不裁切窗口阴影 */
+.content::after {
+    content: "";
+    display: table;
+    clear: both;
 }
 /* 个性化模式下允许浮动溢出 */
 body.customizing .content {
@@ -980,7 +989,7 @@ body.customizing .navbar,
 body.customizing .content,
 body.customizing .footer {
     position: relative;
-    z-index: 5;
+    z-index: 10;
 }
 
 /* ===== 全页面网格覆盖层（背景图上方，组件下方） ===== */
@@ -992,51 +1001,42 @@ body.customizing .footer {
     background-repeat: repeat;
     z-index: 1;
     pointer-events: none;
-    display: none;
+    opacity: 0;
+    transition: opacity 0.5s ease;
 }
 body.customizing .customize-grid-overlay {
-    display: block;
+    opacity: 1;
 }
 
 /* ===== 个性化开启时全页面浮动（从中心解体） ===== */
-/* 主窗口（左侧）向左上漂浮 */
 .customizing .main .window {
-    animation: customizeFloatLeft 5s ease-in-out infinite;
+    animation: customizeFloatLeft 2.8s ease-in-out infinite;
 }
-/* 侧边栏（右侧）向右上漂浮 */
 .customizing .sidebar .window {
-    animation: customizeFloatRight 5s ease-in-out infinite;
+    animation: customizeFloatRight 2.8s ease-in-out infinite;
 }
 /* 按位置错开动画相位 */
 .customizing .main .window:nth-child(1) { animation-delay: 0s; }
-.customizing .main .window:nth-child(2) { animation-delay: 0.25s; }
-.customizing .sidebar .window:nth-child(1) { animation-delay: 0.12s; }
-.customizing .sidebar .window:nth-child(2) { animation-delay: 0.4s; }
-.customizing .sidebar .window:nth-child(3) { animation-delay: 0.7s; }
-.customizing .sidebar .window:nth-child(4) { animation-delay: 1.0s; }
-.customizing .sidebar .window:nth-child(5) { animation-delay: 1.3s; }
+.customizing .main .window:nth-child(2) { animation-delay: 0.06s; }
+.customizing .sidebar .window:nth-child(1) { animation-delay: 0.04s; }
+.customizing .sidebar .window:nth-child(2) { animation-delay: 0.12s; }
+.customizing .sidebar .window:nth-child(3) { animation-delay: 0.20s; }
+.customizing .sidebar .window:nth-child(4) { animation-delay: 0.28s; }
+.customizing .sidebar .window:nth-child(5) { animation-delay: 0.36s; }
 
 @keyframes customizeFloatLeft {
-    0%, 100% { transform: translate(0, 0); }
-    40% { transform: translate(-6px, -4px); }
-    70% { transform: translate(-2px, -1px); }
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    40% { transform: translate(-14px, -8px) scale(1.008); }
+    75% { transform: translate(-4px, -2px) scale(1.003); }
 }
 
 @keyframes customizeFloatRight {
-    0%, 100% { transform: translate(0, 0); }
-    40% { transform: translate(6px, -4px); }
-    70% { transform: translate(2px, -1px); }
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    40% { transform: translate(14px, -8px) scale(1.008); }
+    75% { transform: translate(4px, -2px) scale(1.003); }
 }
 
-/* 着陆动画：移除 customizing 时平滑回位 */
-.main .window,
-.sidebar .window {
-    transition: transform 0.6s cubic-bezier(0.25, 0.1, 0.25, 1);
-}
-body.customizing .main .window,
-body.customizing .sidebar .window {
-    transition: none; /* 动画期间不用 transition，交给 keyframes */
-}
+/* 着陆动画：移除 customizing 时由 JS 驱动平滑回位 */
 
 /* ===== 个性化浮窗 (非模态，Vista Aero 风格) ===== */
 .customize-panel {

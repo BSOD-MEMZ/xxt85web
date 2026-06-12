@@ -12,10 +12,14 @@ body {
     background-position: center center;
     background-repeat: no-repeat;
     background-attachment: fixed;
-    background-size: cover;
+    background-size: 100% auto;
     margin: 0;
     padding: 0;
     line-height: 1.5;
+    transition: background-size 0.8s cubic-bezier(0.25, 0.1, 0.25, 1);
+}
+body.customizing {
+    background-size: 110% auto;
 }
 
 .wrap { width: 1000px; margin: 0 auto; }
@@ -106,7 +110,8 @@ body {
 .banner-close-btn:hover { opacity: 1; }
 
 /* ===== 内容区 ===== */
-.content { padding: 15px 0; overflow: hidden; }
+.content { padding: 15px 0; }
+.content::after { content: ""; display: table; clear: both; }
 .main { float: left; width: 690px; font-size: 13px; }
 .sidebar { float: right; width: 280px; }
 
@@ -536,7 +541,7 @@ body.customizing .navbar,
 body.customizing .content,
 body.customizing .footer {
     position: relative;
-    z-index: 5;
+    z-index: 10;
 }
 /* 允许浮动溢出 */
 body.customizing .content { overflow: visible; }
@@ -552,10 +557,11 @@ body.customizing .sidebar { overflow: visible; }
     background-repeat: repeat;
     z-index: 1;
     pointer-events: none;
-    display: none;
+    opacity: 0;
+    transition: opacity 0.5s ease;
 }
 body.customizing .customize-grid-overlay {
-    display: block;
+    opacity: 1;
 }
 
 /* 个性化开启时全页面浮动（从中心解体） */
@@ -563,37 +569,29 @@ body.customizing .customize-grid-overlay {
     animation: customizeFloatLeftXP 5s ease-in-out infinite;
 }
 .customizing .sidebar .window {
-    animation: customizeFloatRightXP 5s ease-in-out infinite;
+    animation: customizeFloatRightXP 2.8s ease-in-out infinite;
 }
 .customizing .main .window:nth-child(1) { animation-delay: 0s; }
-.customizing .main .window:nth-child(2) { animation-delay: 0.25s; }
-.customizing .sidebar .window:nth-child(1) { animation-delay: 0.12s; }
-.customizing .sidebar .window:nth-child(2) { animation-delay: 0.4s; }
-.customizing .sidebar .window:nth-child(3) { animation-delay: 0.7s; }
-.customizing .sidebar .window:nth-child(4) { animation-delay: 1.0s; }
-.customizing .sidebar .window:nth-child(5) { animation-delay: 1.3s; }
+.customizing .main .window:nth-child(2) { animation-delay: 0.06s; }
+.customizing .sidebar .window:nth-child(1) { animation-delay: 0.04s; }
+.customizing .sidebar .window:nth-child(2) { animation-delay: 0.12s; }
+.customizing .sidebar .window:nth-child(3) { animation-delay: 0.20s; }
+.customizing .sidebar .window:nth-child(4) { animation-delay: 0.28s; }
+.customizing .sidebar .window:nth-child(5) { animation-delay: 0.36s; }
 
 @keyframes customizeFloatLeftXP {
-    0%, 100% { transform: translate(0, 0); }
-    40% { transform: translate(-6px, -4px); }
-    70% { transform: translate(-2px, -1px); }
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    40% { transform: translate(-14px, -8px) scale(1.008); }
+    75% { transform: translate(-4px, -2px) scale(1.003); }
 }
 
 @keyframes customizeFloatRightXP {
-    0%, 100% { transform: translate(0, 0); }
-    40% { transform: translate(6px, -4px); }
-    70% { transform: translate(2px, -1px); }
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    40% { transform: translate(14px, -8px) scale(1.008); }
+    75% { transform: translate(4px, -2px) scale(1.003); }
 }
 
-/* 着陆动画 */
-.main .window,
-.sidebar .window {
-    transition: transform 0.6s cubic-bezier(0.25, 0.1, 0.25, 1);
-}
-body.customizing .main .window,
-body.customizing .sidebar .window {
-    transition: none;
-}
+/* 着陆动画：移除 customizing 时由 JS 驱动平滑回位 */
 
 /* 侧边栏关闭按钮 */
 .sidebar-close-btn {

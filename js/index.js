@@ -707,13 +707,43 @@
 
     // 关闭个性化面板
     function closePanel() {
+      // === 着陆动画：冻结当前位置再过渡回原点 ===
+      var allWins = document.querySelectorAll('.main .window, .sidebar .window');
+      for (var i = 0; i < allWins.length; i++) {
+        (function (w) {
+          if (w.style.display === 'none') return;
+          var computed = getComputedStyle(w).transform;
+          if (computed && computed !== 'none' && computed !== 'matrix(1, 0, 0, 1, 0, 0)') {
+            // 冻结当前动画位置
+            w.style.animation = 'none';
+            w.style.transition = 'none';
+            w.style.transform = computed;
+            // 用 RAF 确保冻结生效后再启动着陆
+            requestAnimationFrame(function () {
+              requestAnimationFrame(function () {
+                w.style.transition = 'transform 0.6s cubic-bezier(0.25, 0.1, 0.25, 1)';
+                w.style.transform = 'translate(0, 0)';
+              });
+            });
+          }
+        })(allWins[i]);
+      }
+      // 过渡结束后清理 inline 样式
+      setTimeout(function () {
+        for (var j = 0; j < allWins.length; j++) {
+          allWins[j].style.transition = '';
+          allWins[j].style.transform = '';
+          allWins[j].style.animation = '';
+        }
+      }, 700);
+
       panel.style.display = 'none';
       document.body.classList.remove('customizing');
       // 清除所有拖拽状态
       if (sidebar) {
         var wins = sidebar.querySelectorAll('.window');
-        for (var i = 0; i < wins.length; i++) {
-          wins[i].classList.remove('dragging', 'drag-over');
+        for (var k = 0; k < wins.length; k++) {
+          wins[k].classList.remove('dragging', 'drag-over');
         }
       }
     }
@@ -836,7 +866,7 @@
     var sidebar = document.getElementById('sidebarContainer');
     if (!sidebar) return;
 
-    var dragInfo = null; // { el, ghost, startY, offsetY, offsetX, lastTarget }
+    var dragInfo = null; // { el, ghost, startY, offsetY, offsetX, lastTarget, origHeight }
 
     function getWindowIndex(el) {
       var wins = sidebar.querySelectorAll('.window');
@@ -871,17 +901,44 @@
       return ghost;
     }
 
+    function shiftTarget(target, sourceEl) {
+      // 暂停浮动动画，让目标窗口滑到源窗口原位，形成可见空位
+      target.style.animation = 'none';
+      var srcRect = sourceEl.getBoundingClientRect();
+      var targetRect = target.getBoundingClientRect();
+      var shiftY;
+      if (targetRect.top < srcRect.top) {
+        shiftY = srcRect.height;
+      } else {
+        shiftY = -srcRect.height;
+      }
+      target.style.transition = 'transform 0.2s ease';
+      target.style.transform = 'translateY(' + shiftY + 'px)';
+    }
+
+    function unshiftTarget(target) {
+      if (!target) return;
+      target.style.transition = 'transform 0.2s ease';
+      target.style.transform = '';
+      // 过渡结束后恢复浮动动画
+      var savedTarget = target;
+      setTimeout(function () {
+        if (savedTarget && !savedTarget.classList.contains('drag-over')) {
+          savedTarget.style.animation = '';
+          savedTarget.style.transition = '';
+        }
+      }, 220);
+    }
+
     function onPointerDown(e) {
-      // 只在个性化模式下工作
       if (!document.body.classList.contains('customizing')) return;
 
       var titlebar = e.target.closest('.window-titlebar');
       if (!titlebar) return;
-      // 不拦截关闭按钮的点击
       if (e.target.closest('.sidebar-close-btn')) return;
 
       var win = titlebar.closest('.window');
-      if (!win || win.getAttribute('data-sidebar-id') === 'function') return;
+      if (!win) return;
 
       e.preventDefault();
       var rect = win.getBoundingClientRect();
@@ -892,17 +949,17 @@
         startY: e.clientY,
         offsetY: e.clientY - rect.top,
         offsetX: e.clientX - rect.left,
-        lastTarget: null
+        lastTarget: null,
+        pendingTarget: null,
+        debounceTimer: null,
+        origHeight: rect.height
       };
 
-      // 放置 ghost 在原位置
       dragInfo.ghost.style.left = rect.left + 'px';
       dragInfo.ghost.style.top = rect.top + 'px';
 
-      // 标记原元素
       win.classList.add('dragging');
-
-      // 捕获指针以便持续接收 move/up 事件
+      win.style.animation = 'none';
       win.setPointerCapture(e.pointerId);
     }
 
@@ -910,41 +967,64 @@
       if (!dragInfo) return;
       e.preventDefault();
 
-      // 移动 ghost 跟随鼠标
       dragInfo.ghost.style.left = (e.clientX - dragInfo.offsetX) + 'px';
       dragInfo.ghost.style.top = (e.clientY - dragInfo.offsetY) + 'px';
 
-      // 找到鼠标下方的窗口，高亮它
+      // 防抖目标切换：用短定时器避免边界抽搐
       var target = getWindowAtY(e.clientY);
-      if (target && target !== dragInfo.lastTarget) {
-        if (dragInfo.lastTarget) dragInfo.lastTarget.classList.remove('drag-over');
-        dragInfo.lastTarget = target;
-        target.classList.add('drag-over');
-      } else if (!target && dragInfo.lastTarget) {
-        dragInfo.lastTarget.classList.remove('drag-over');
-        dragInfo.lastTarget = null;
+      if (target === dragInfo.el) target = null;
+
+      // 如果目标与已生效的不同，启动/重置防抖
+      if (target !== dragInfo.pendingTarget) {
+        dragInfo.pendingTarget = target;
+        if (dragInfo.debounceTimer) clearTimeout(dragInfo.debounceTimer);
+        dragInfo.debounceTimer = setTimeout(function () {
+          if (!dragInfo) return;
+          var resolved = dragInfo.pendingTarget;
+          if (resolved === dragInfo.lastTarget) return; // 没变，跳过
+
+          // 还原旧目标
+          if (dragInfo.lastTarget) {
+            unshiftTarget(dragInfo.lastTarget);
+            dragInfo.lastTarget.classList.remove('drag-over');
+          }
+          // 应用新目标
+          if (resolved) {
+            dragInfo.lastTarget = resolved;
+            resolved.classList.add('drag-over');
+            shiftTarget(resolved, dragInfo.el);
+          } else {
+            dragInfo.lastTarget = null;
+          }
+        }, 60); // 60ms 稳定后才切换
       }
     }
 
     function onPointerUp(e) {
       if (!dragInfo) return;
 
+      // 清理防抖
+      if (dragInfo.debounceTimer) clearTimeout(dragInfo.debounceTimer);
+
       var targetWin = dragInfo.lastTarget;
+
+      // 还原目标移位
+      if (targetWin) {
+        unshiftTarget(targetWin);
+        targetWin.classList.remove('drag-over');
+      }
 
       // 移除 ghost
       if (dragInfo.ghost && dragInfo.ghost.parentNode) {
         dragInfo.ghost.parentNode.removeChild(dragInfo.ghost);
       }
 
-      // 清理所有类
+      // 清理源
       dragInfo.el.classList.remove('dragging');
-      var allWins = sidebar.querySelectorAll('.window');
-      for (var i = 0; i < allWins.length; i++) {
-        allWins[i].classList.remove('drag-over');
-      }
+      dragInfo.el.style.animation = '';
 
-      // 执行排序
-      if (targetWin && targetWin !== dragInfo.el && targetWin.getAttribute('data-sidebar-id') !== 'function') {
+      // 执行排序（只要目标不是自己）
+      if (targetWin && targetWin !== dragInfo.el) {
         var srcIndex = getWindowIndex(dragInfo.el);
         var targetIndex = getWindowIndex(targetWin);
         if (srcIndex !== -1 && targetIndex !== -1) {
