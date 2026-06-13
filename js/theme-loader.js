@@ -7,5 +7,8 @@
     'use strict';
     var theme = localStorage.getItem('theme') || 'style.css';
     var link = document.getElementById('themeCss');
-    if (link) link.href = theme;
+    if (!link) return;
+    // 从 theme-loader.js 自身位置推导站点根目录，兼容 file:// 和 http(s)://
+    var rootPath = document.currentScript.src.replace(/\/js\/theme-loader\.js.*$/, '/');
+    link.href = rootPath + theme;
 })();

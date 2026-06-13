@@ -649,7 +649,7 @@
       savedWindowStates = {};
       for (var i = 0; i < wins.length; i++) {
         var id = wins[i].getAttribute('data-sidebar-id') || ('_idx_' + i);
-        savedWindowStates[id] = wins[i].style.display;
+        savedWindowStates[id] = wins[i].classList.contains('window-hidden');
       }
     }
 
@@ -659,19 +659,22 @@
       for (var i = 0; i < wins.length; i++) {
         var id = wins[i].getAttribute('data-sidebar-id') || ('_idx_' + i);
         if (savedWindowStates.hasOwnProperty(id)) {
-          wins[i].style.display = savedWindowStates[id];
+          if (savedWindowStates[id]) {
+            wins[i].classList.add('window-hidden');
+          } else {
+            wins[i].classList.remove('window-hidden');
+          }
         }
       }
     }
 
     function resetToDefault() {
       if (!sidebar) return;
-      // 默认顺序: 功能, 新闻, 关注主播谢谢喵, 项目进度, WMP
       var defaultOrder = ['function', 'news', 'contact', 'progress', 'wmp'];
       for (var i = 0; i < defaultOrder.length; i++) {
         var win = sidebar.querySelector('.window[data-sidebar-id="' + defaultOrder[i] + '"]');
         if (win) {
-          win.style.display = '';
+          win.classList.remove('window-hidden');
           sidebar.appendChild(win);
         }
       }
@@ -689,7 +692,7 @@
           continue;
         }
         var win = sidebar ? sidebar.querySelector('.window[data-sidebar-id="' + sidebarId + '"]') : null;
-        if (win && win.style.display !== 'none') {
+        if (win && !win.classList.contains('window-hidden')) {
           item.classList.add('grayed');
         } else {
           item.classList.remove('grayed');
@@ -711,7 +714,7 @@
       var allWins = document.querySelectorAll('.main .window, .sidebar .window');
       for (var i = 0; i < allWins.length; i++) {
         (function (w) {
-          if (w.style.display === 'none') return;
+          if (w.classList.contains('window-hidden')) return;
           var computed = getComputedStyle(w).transform;
           if (computed && computed !== 'none' && computed !== 'matrix(1, 0, 0, 1, 0, 0)') {
             // 冻结当前动画位置
@@ -784,11 +787,11 @@
       var win = sidebar.querySelector('.window[data-sidebar-id="' + sidebarId + '"]');
       if (!win) return;
 
-      if (win.style.display === 'none') {
-        win.style.display = '';
+      if (win.classList.contains('window-hidden')) {
+        win.classList.remove('window-hidden');
         item.classList.add('grayed');
       } else {
-        win.style.display = 'none';
+        win.classList.add('window-hidden');
         item.classList.remove('grayed');
       }
     }
@@ -1058,7 +1061,7 @@
 
       var win = closeBtn.closest('.window');
       if (win && win.getAttribute('data-sidebar-id') !== 'function') {
-        win.style.display = 'none';
+        win.classList.add('window-hidden');
         // 同步更新个性化面板中的图标状态
         var panel = document.getElementById('customizePanel');
         if (panel) {

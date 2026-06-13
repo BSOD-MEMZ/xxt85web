@@ -7,16 +7,13 @@ body {
     background-position: center center;
     background-repeat: no-repeat;
     background-attachment: fixed;
-    background-size: 100% auto;
+    background-size: cover;
     margin: 0;
     padding: 0;
     line-height: 1.5;
-    transition: background-image 0.5s ease-in-out, background-size 0.8s cubic-bezier(0.25, 0.1, 0.25, 1);
+    transition: background-image 0.5s ease-in-out;
 }
-/* 个性化模式：背景放大 */
-body.customizing {
-    background-size: 110% auto;
-}
+
 
 .wrap {
     width: 1000px;
@@ -960,6 +957,20 @@ a:hover {
     display: inline !important;
 }
 
+/* ===== 侧边栏窗口添加/移除动画 ===== */
+.sidebar .window {
+    transition: opacity 0.35s ease, max-height 0.35s ease, margin-bottom 0.35s ease;
+    max-height: 800px;
+    opacity: 1;
+    overflow: hidden;
+}
+.sidebar .window.window-hidden {
+    max-height: 0;
+    opacity: 0;
+    margin-bottom: 0;
+    border-width: 0;
+}
+
 /* ===== 侧边栏窗口拖拽排序 ===== */
 .sidebar .window-titlebar {
     user-select: none;
@@ -1015,6 +1026,10 @@ body.customizing .customize-grid-overlay {
 .customizing .sidebar .window {
     animation: customizeFloatRight 2.8s ease-in-out infinite;
 }
+/* 隐藏的窗口不浮动 */
+.customizing .sidebar .window.window-hidden {
+    animation: none;
+}
 /* 按位置错开动画相位 */
 .customizing .main .window:nth-child(1) { animation-delay: 0s; }
 .customizing .main .window:nth-child(2) { animation-delay: 0.06s; }
@@ -1046,27 +1061,26 @@ body.customizing .customize-grid-overlay {
     z-index: 9000;
     width: 420px;
     max-width: calc(100vw - 20px);
-    background: rgba(240, 244, 250, 0.94);
+    background-color: #f0f4fa;
+    background-image: url("windowbackground.png");
     border: 1px solid #7da2ce;
     border-radius: 6px;
     box-shadow: 0 6px 30px rgba(0, 0, 0, 0.45);
     overflow: hidden;
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
-    animation: panelSlideIn 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    animation: panelSlideIn 0.25s ease-out;
 }
 
 @keyframes panelSlideIn {
-    from { opacity: 0; transform: translateY(-15px) scale(0.96); }
-    to { opacity: 1; transform: translateY(0) scale(1); }
+    from { opacity: 0; transform: translateY(-8px); }
+    to { opacity: 1; transform: translateY(0); }
 }
 
 .customize-panel-titlebar {
-    background: linear-gradient(to bottom, #98B4D0 0%, #B9D1EA 50%, #A3C2DE 51%, #C4DAF0 100%);
-    color: #1a1a1a;
+    background: linear-gradient(to bottom, #98B4D0 0%, #B9D1EA 100%);
+    color: #000;
     font-size: 13px;
-    font-weight: bold;
-    padding: 6px 12px;
+    font-weight: normal;
+    padding: 5px 10px;
     border-bottom: 1px solid #8BA6C4;
     user-select: none;
 }
@@ -1086,21 +1100,18 @@ body.customizing .customize-grid-overlay {
     padding: 6px 3px;
     border-radius: 5px;
     border: 1px solid transparent;
-    transition: all 0.18s ease;
+    transition: background 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
     user-select: none;
 }
 
 .customize-icon-item:hover {
     background: rgba(220, 235, 252, 0.8);
     border-color: #a8d8ea;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
-    transform: translateY(-1px);
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.12);
 }
 
 .customize-icon-item:active {
     background: rgba(180, 210, 240, 0.9);
-    transform: scale(0.94);
-    transition: transform 0.08s ease;
 }
 
 .customize-icon-item img {
@@ -1108,11 +1119,6 @@ body.customizing .customize-grid-overlay {
     margin: 0 auto 4px;
     width: 48px;
     height: 48px;
-    transition: transform 0.2s ease;
-}
-
-.customize-icon-item:hover img {
-    transform: scale(1.06);
 }
 
 .customize-icon-item span {
@@ -1149,16 +1155,12 @@ body.customizing .customize-grid-overlay {
     border-radius: 3px;
     cursor: pointer;
     color: #000;
-    transition: all 0.15s ease;
+    transition: border-color 0.15s ease, background 0.15s ease;
 }
 
 .customize-buttons .vista-btn:hover {
     border-color: #3c7fb1;
     background: linear-gradient(to bottom, #e9f5ff, #d8eaff 50%, #c4e0ff 51%, #b3d5ff);
-}
-
-.customize-buttons .vista-btn:active {
-    transform: scale(0.96);
 }
 
 .customize-buttons .vista-btn-primary {

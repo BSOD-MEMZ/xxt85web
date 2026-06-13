@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>《一起画漫画 Ⅲ》在线预览</title>
+    <link rel="stylesheet" href="../../style.css" type="text/css" id="themeCss" />
+    <script src="../../js/theme-loader.js"></script>
+</head>
+<body>
+    <div class="titlebar">
+        <div class="wrap">
+            <h1>xxtsoft.top</h1>
+        </div>
+    </div>
+    <div class="navbar">
+        <div class="wrap">
+            <ul>
+                <li><a href="../../index.html">首页(H)</a></li>
+                <li><a href="../../articles.html">文章(A)</a></li>
+                <li><a href="../../downloads.html">下载(D)</a></li>
+                <li><a href="../../medias.html">多媒体(M)</a></li>
+                <li><a href="../../about.html">关于(A)</a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="content wrap">
+        <div class="main">
+            <h2><span style="color: #003399;">《一起画漫画 Ⅲ》在线预览</span></h2>
+            <p>这里是站长同学 @Kingstar 和他的朋友绘制的原创漫画，你们慢慢看吧我看不懂</p>
+
+            <!-- 漫画阅读区 -->
+            <div id="manga-reader" style="text-align:center;margin:20px 0;">
+                <div id="manga-toolbar" style="margin-bottom:10px;display:flex;align-items:center;justify-content:center;gap:12px;">
+                    <button id="btn-prev" title="上一页 (←)" style="background:none;border:none;cursor:pointer;padding:0;">
+                        <img src="../../images/left.png" alt="上一页" style="width:32px;height:32px;">
+                    </button>
+                    <span id="page-info" style="font-size:15px;font-weight:bold;min-width:80px;">1 / 175</span>
+                    <button id="btn-next" title="下一页 (→)" style="background:none;border:none;cursor:pointer;padding:0;">
+                        <img src="../../images/right.png" alt="下一页" style="width:32px;height:32px;">
+                    </button>
+                    <input type="number" id="page-jump" min="1" max="175" value="1"
+                        style="width:55px;text-align:center;padding:4px;font-size:14px;" title="跳转到页码">
+                    <button id="btn-go" class="vista-btn">跳转</button>
+                </div>
+                <div id="manga-viewport" style="position:relative;display:inline-block;max-width:100%;">
+                    <img id="manga-img" src="manga/1.jpg" alt="第1页"
+                        style="max-width:100%;height:auto;display:block;box-shadow:0 2px 12px rgba(0,0,0,0.3);"
+                        onerror="this.src='../../images/nothing.png'">
+                    <!-- 左右点击区域 -->
+                    <div id="click-prev" style="position:absolute;top:0;left:0;width:40%;height:100%;cursor:pointer;z-index:2;" title="点击左侧翻上一页"></div>
+                    <div id="click-next" style="position:absolute;top:0;right:0;width:60%;height:100%;cursor:pointer;z-index:2;" title="点击右侧翻下一页"></div>
+                </div>
+                <div style="margin-top:10px;">
+                    <button id="btn-first" class="vista-btn">首页</button>
+                    <button id="btn-last" class="vista-btn" style="margin-left:6px;">末页</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+    (function() {
+        'use strict';
+        var total = 175;
+        var current = 1;
+        var img = document.getElementById('manga-img');
+        var info = document.getElementById('page-info');
+        var jump = document.getElementById('page-jump');
+        var preloaded = {};
+
+        function goTo(n) {
+            if (n < 1 || n > total || n === current) return;
+            current = n;
+            var src = 'manga/' + n + '.jpg';
+            // 如果已预加载就直接用
+            if (preloaded[n]) {
+                img.src = src;
+            } else {
+                img.src = src;
+            }
+            info.textContent = n + ' / ' + total;
+            jump.value = n;
+            // 预加载相邻页
+            preload(n + 1);
+            preload(n - 1);
+            window.scrollTo({ top: img.offsetTop - 60, behavior: 'smooth' });
+        }
+
+        function preload(n) {
+            if (n < 1 || n > total || preloaded[n]) return;
+            var p = new Image();
+            p.src = 'manga/' + n + '.jpg';
+            preloaded[n] = true;
+        }
+
+        function next() { goTo(current + 1); }
+        function prev() { goTo(current - 1); }
+
+        document.getElementById('btn-next').addEventListener('click', next);
+        document.getElementById('btn-prev').addEventListener('click', prev);
+        document.getElementById('click-next').addEventListener('click', next);
+        document.getElementById('click-prev').addEventListener('click', prev);
+        document.getElementById('btn-first').addEventListener('click', function() { goTo(1); });
+        document.getElementById('btn-last').addEventListener('click', function() { goTo(total); });
+        document.getElementById('btn-go').addEventListener('click', function() {
+            var n = parseInt(jump.value, 10);
+            if (n >= 1 && n <= total) goTo(n);
+        });
+        jump.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter') {
+                var n = parseInt(jump.value, 10);
+                if (n >= 1 && n <= total) goTo(n);
+            }
+        });
+        document.addEventListener('keydown', function(e) {
+            if (e.target.tagName === 'INPUT') return; // 不在输入框中拦截
+            if (e.key === 'ArrowRight') { e.preventDefault(); next(); }
+            else if (e.key === 'ArrowLeft') { e.preventDefault(); prev(); }
+        });
+
+        // 预加载前几页
+        preload(1);
+        for (var i = 2; i <= 5; i++) preload(i);
+    })();
+    </script>
+</body>
+</html>

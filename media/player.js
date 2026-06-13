@@ -112,11 +112,17 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // 视频加载状态
     video.addEventListener('waiting', function () {
-        loader.style.display = 'block';
+        loader.classList.remove('hiding');
+        loader.classList.add('visible');
     });
 
     video.addEventListener('playing', function () {
-        loader.style.display = 'none';
+        loader.classList.add('hiding');
+        loader.classList.remove('visible');
+        // 出场动画结束后清除 hiding 状态
+        setTimeout(function () {
+            loader.classList.remove('hiding');
+        }, 350);
     });
 
     // 键盘快捷键支持

@@ -12,15 +12,12 @@ body {
     background-position: center center;
     background-repeat: no-repeat;
     background-attachment: fixed;
-    background-size: 100% auto;
+    background-size: cover;
     margin: 0;
     padding: 0;
     line-height: 1.5;
-    transition: background-size 0.8s cubic-bezier(0.25, 0.1, 0.25, 1);
 }
-body.customizing {
-    background-size: 110% auto;
-}
+
 
 .wrap { width: 1000px; margin: 0 auto; }
 .clear { clear: both; font-size: 0; height: 0; }
@@ -571,6 +568,9 @@ body.customizing .customize-grid-overlay {
 .customizing .sidebar .window {
     animation: customizeFloatRightXP 2.8s ease-in-out infinite;
 }
+.customizing .sidebar .window.window-hidden {
+    animation: none;
+}
 .customizing .main .window:nth-child(1) { animation-delay: 0s; }
 .customizing .main .window:nth-child(2) { animation-delay: 0.06s; }
 .customizing .sidebar .window:nth-child(1) { animation-delay: 0.04s; }
@@ -608,6 +608,20 @@ body.customizing .customize-grid-overlay {
 .sidebar-close-btn:hover { opacity: 1; }
 .customizing .sidebar-close-btn { display: inline !important; }
 
+/* 侧边栏窗口添加/移除动画 */
+.sidebar .window {
+    transition: opacity 0.35s ease, max-height 0.35s ease, margin-bottom 0.35s ease;
+    max-height: 800px;
+    opacity: 1;
+    overflow: hidden;
+}
+.sidebar .window.window-hidden {
+    max-height: 0;
+    opacity: 0;
+    margin-bottom: 0;
+    border-width: 0;
+}
+
 /* 侧边栏窗口拖拽排序 */
 .sidebar .window-titlebar { user-select: none; }
 .customizing .sidebar .window-titlebar { cursor: grab; }
@@ -635,12 +649,12 @@ body.customizing .customize-grid-overlay {
     border-radius: 8px 8px 3px 3px;
     box-shadow: 2px 2px 18px rgba(0, 0, 0, 0.5);
     overflow: hidden;
-    animation: panelSlideIn 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    animation: panelSlideIn 0.25s ease-out;
 }
 
 @keyframes panelSlideIn {
-    from { opacity: 0; transform: translateY(-15px) scale(0.96); }
-    to { opacity: 1; transform: translateY(0) scale(1); }
+    from { opacity: 0; transform: translateY(-8px); }
+    to { opacity: 1; transform: translateY(0); }
 }
 
 .customize-panel-titlebar {
@@ -670,7 +684,7 @@ body.customizing .customize-grid-overlay {
     padding: 6px 3px;
     border-radius: 4px;
     border: 1px solid transparent;
-    transition: all 0.18s ease;
+    transition: background 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
     user-select: none;
 }
 
@@ -678,13 +692,10 @@ body.customizing .customize-grid-overlay {
     background: #FFEEC2;
     border-color: #FFC73A;
     box-shadow: 0 1px 4px rgba(0, 0, 0, 0.12);
-    transform: translateY(-1px);
 }
 
 .customize-icon-item:active {
     background: #FFD88A;
-    transform: scale(0.94);
-    transition: transform 0.08s ease;
 }
 
 .customize-icon-item img {
@@ -692,11 +703,6 @@ body.customizing .customize-grid-overlay {
     margin: 0 auto 4px;
     width: 48px;
     height: 48px;
-    transition: transform 0.2s ease;
-}
-
-.customize-icon-item:hover img {
-    transform: scale(1.06);
 }
 
 .customize-icon-item span {
@@ -732,16 +738,12 @@ body.customizing .customize-grid-overlay {
     border-radius: 3px;
     cursor: pointer;
     color: #000;
-    transition: all 0.15s ease;
+    transition: border-color 0.15s ease, background 0.15s ease;
 }
 
 .customize-buttons .vista-btn:hover {
     background: #FFEEC2;
     border-color: #FFC73A;
-}
-
-.customize-buttons .vista-btn:active {
-    transform: scale(0.96);
 }
 
 .customize-buttons .vista-btn-primary {
