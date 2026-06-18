@@ -29,8 +29,6 @@
         <div class="main">
             <h2><span style="color: #003399;">《一起画漫画 Ⅲ》在线预览</span></h2>
             <p>这里是站长同学 @Kingstar 和他的朋友绘制的原创漫画，你们慢慢看吧我看不懂</p>
-
-            <!-- 漫画阅读区 -->
             <div id="manga-reader" style="text-align:center;margin:20px 0;">
                 <div id="manga-toolbar" style="margin-bottom:10px;display:flex;align-items:center;justify-content:center;gap:12px;">
                     <button id="btn-prev" title="上一页 (←)" style="background:none;border:none;cursor:pointer;padding:0;">
@@ -48,7 +46,6 @@
                     <img id="manga-img" src="manga/1.jpg" alt="第1页"
                         style="max-width:100%;height:auto;display:block;box-shadow:0 2px 12px rgba(0,0,0,0.3);"
                         onerror="this.src='../../images/nothing.png'">
-                    <!-- 左右点击区域 -->
                     <div id="click-prev" style="position:absolute;top:0;left:0;width:40%;height:100%;cursor:pointer;z-index:2;" title="点击左侧翻上一页"></div>
                     <div id="click-next" style="position:absolute;top:0;right:0;width:60%;height:100%;cursor:pointer;z-index:2;" title="点击右侧翻下一页"></div>
                 </div>
@@ -74,7 +71,6 @@
             if (n < 1 || n > total || n === current) return;
             current = n;
             var src = 'manga/' + n + '.jpg';
-            // 如果已预加载就直接用
             if (preloaded[n]) {
                 img.src = src;
             } else {
@@ -82,7 +78,6 @@
             }
             info.textContent = n + ' / ' + total;
             jump.value = n;
-            // 预加载相邻页
             preload(n + 1);
             preload(n - 1);
             window.scrollTo({ top: img.offsetTop - 60, behavior: 'smooth' });
@@ -120,7 +115,6 @@
             else if (e.key === 'ArrowLeft') { e.preventDefault(); prev(); }
         });
 
-        // 预加载前几页
         preload(1);
         for (var i = 2; i <= 5; i++) preload(i);
     })();
