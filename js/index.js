@@ -161,7 +161,7 @@
 
     // 动态创建 script 标签加载看板娘
     var script = document.createElement('script');
-    script.src = 'https://xxtsoft.top/live2d-widget/dist/autoload.js';
+    script.src = 'live2d-widget/dist/autoload.js';
     script.async = true;
     document.head.appendChild(script);
   }
@@ -191,6 +191,12 @@
     var previewEnabled = localStorage.getItem('preview_enabled') !== "false";
     var filterEnabled = localStorage.getItem('filter_disturbing') === "true";
     var articleData = {
+      "entertainingisland.html": {
+        title: "你的课表，比你想象得更好玩——ClassIsland插件 EntertainingIsland发布！",
+        author: "xxt8582753",
+        desc: "一个为ClassIsland设计的娱乐功能插件，让同学眼前一亮，老师眼前一黑。具有防巡堂警报、下课倒计时、小说阅读器、老师口头禅记录、RSS新闻、拿老师的头当课程表、能作弊的点名器、每日宜忌运势等功能，并且具有自动化行动和安全键。",
+        img: "images/previews/entertainingisland.jpg"
+      },
       "vibelikehuman.html": {
         title: "如何让AI写的程序看起来不像AI写的",
         author: "xxt8582753",
@@ -200,7 +206,7 @@
         title: "我！们！进！省！赛！啦！",
         author: "xxt8582753",
         desc: "在经历了层层选拔之后，我们终于成功进入了省赛！你知道为什么我要用“我们”一词吗？",
-        img: ""
+        img: "images/previews/competition.jpg"
       },
       "superfactory.html": {
         title: "SuperFactory 格式转换器 开放测试！",
@@ -600,11 +606,18 @@
             'cursor:pointer;font-size:12px;font-family:inherit;white-space:nowrap;">' +
             '搜索</button></div>';
           tips.classList.add('waifu-tips-active');
+          sessionStorage.setItem('waifu-message-priority', '11');
           var input = document.getElementById('waifuSearchInput');
           if (input) {
             input.focus();
             input.addEventListener('keypress', function (ev) {
               if (ev.key === 'Enter') goWaifuSearch();
+            });
+            input.addEventListener('keydown', function (ev) {
+              if (ev.key === 'Escape') {
+                sessionStorage.removeItem('waifu-message-priority');
+                tips.classList.remove('waifu-tips-active');
+              }
             });
           }
           var goBtn = document.getElementById('waifuSearchGo');
@@ -620,6 +633,7 @@
             if (term) {
               window.location.href = 'search.html?s=' + encodeURIComponent(term);
             } else {
+              sessionStorage.removeItem('waifu-message-priority');
               tips.classList.remove('waifu-tips-active');
             }
           }

@@ -247,13 +247,37 @@ a:hover { color: #0055FF; text-decoration: underline; }
 }
 
 .search-box button {
-    padding: 8px 16px;
-    background: linear-gradient(to bottom, #fff 0%, #ECE9D8 50%, #DED8C7 51%, #F1EFE3 100%);
-    border: 1px solid #7F9DB9;
-    border-left: none;
-    border-radius: 0 3px 3px 0;
-    cursor: pointer; color: #000;
+    position: relative;
+    border-radius: 3px;
+    cursor: pointer;
+    padding: 4px 18px;
+    font-size: 12px;
+    font-family: "Tahoma", "SimSun", sans-serif;
+    background: linear-gradient(to bottom, #fff 0%, #ECEBE6 90%, #D6D0C5 100%);
+    border: 1px solid #003C74;
+    color: #000;
+    overflow: hidden;
 }
+
+.search-box button::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    padding: 2px;
+    -webkit-mask:
+        linear-gradient(#fff 0 0) content-box,
+        linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+            mask-composite: exclude;
+    pointer-events: none;
+}
+
+.search-box button::before {
+    background: linear-gradient(to bottom, #FCD279, #E59700);
+    opacity: 1;
+}
+
 
 .search-results { margin-top: 15px; }
 .search-results h3 { color: #003399; border-bottom: 1px dotted #ccc; padding-bottom: 5px; }
@@ -467,12 +491,37 @@ a:hover { color: #0055FF; text-decoration: underline; }
     text-shadow: 1px 1px 0 rgba(0,0,0,0.35);
 }
 
-.vista-dialog button {
-    background: linear-gradient(to bottom, #fff 0%, #ECE9D8 50%, #DED8C7 51%, #F1EFE3 100%);
-    border: 1px solid #7F9DB9;
-    border-radius: 3px; cursor: pointer;
+.vista-dialog button{
+    position: relative;
+    border-radius: 3px;
+    cursor: pointer;
+    padding: 4px 18px;
+    font-size: 12px;
+    font-family: "Tahoma", "SimSun", sans-serif;
+    background: linear-gradient(to bottom, #fff 0%, #ECEBE6 90%, #D6D0C5 100%);
+    border: 1px solid #003C74;
+    color: #000;
+    overflow: hidden;
 }
-.vista-dialog button:hover { border-color: #FFC73A; background: #FFEEC2; }
+
+.vista-dialog button::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    padding: 2px;
+    -webkit-mask:
+        linear-gradient(#fff 0 0) content-box,
+        linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+            mask-composite: exclude;
+    pointer-events: none;
+}
+
+.vista-dialog button:hover::before {
+    background: linear-gradient(to bottom, #FCD279, #E59700);
+    opacity: 1;
+}
 
 .vista-close-btn {
     float: right; cursor: pointer;
@@ -490,7 +539,6 @@ a:hover { color: #0055FF; text-decoration: underline; }
     height: 25px;
 }
 
-/* ===== 视图切换 ===== */
 .view-toggle-container { display: none; float: right; margin-top: -4px; margin-bottom: 6px; margin-left: 10px; }
 .view-toggle-container.visible { display: block; }
 
@@ -527,12 +575,8 @@ a:hover { color: #0055FF; text-decoration: underline; }
 }
 .download-card:hover { background: #FFF8E7; border-color: #FFC73A; text-decoration: none; }
 
-/* ===== 杂项 ===== */
 .clearfix:after { content: ""; display: table; clear: both; }
 
-/* ===== 个性化模式 (Luna 主题) ===== */
-
-/* 个性化模式下确保内容在网格上方 */
 body.customizing .titlebar,
 body.customizing .navbar,
 body.customizing .content,
@@ -540,12 +584,11 @@ body.customizing .footer {
     position: relative;
     z-index: 10;
 }
-/* 允许浮动溢出 */
+
 body.customizing .content { overflow: visible; }
 body.customizing .main,
 body.customizing .sidebar { overflow: visible; }
 
-/* 全页面网格覆盖层 */
 .customize-grid-overlay {
     position: fixed;
     top: 0; left: 0;
@@ -729,34 +772,66 @@ body.customizing .customize-grid-overlay {
     background: #F1EFE3;
 }
 
+
 .customize-buttons .vista-btn {
+    position: relative;
+    border-radius: 3px;
+    cursor: pointer;
     padding: 4px 18px;
     font-size: 12px;
     font-family: "Tahoma", "SimSun", sans-serif;
-    background: linear-gradient(to bottom, #fff 0%, #ECE9D8 50%, #DED8C7 51%, #F1EFE3 100%);
-    border: 1px solid #7F9DB9;
-    border-radius: 3px;
-    cursor: pointer;
+    background: linear-gradient(to bottom, #fff 0%, #ECEBE6 90%, #D6D0C5 100%);
+    border: 1px solid #003C74;
     color: #000;
-    transition: border-color 0.15s ease, background 0.15s ease;
+    overflow: hidden;
 }
 
-.customize-buttons .vista-btn:hover {
-    background: #FFEEC2;
-    border-color: #FFC73A;
+.customize-buttons .vista-btn::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    padding: 2px;
+    -webkit-mask:
+        linear-gradient(#fff 0 0) content-box,
+        linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+            mask-composite: exclude;
+    pointer-events: none;
+}
+
+.customize-buttons .vista-btn:hover::before {
+    background: linear-gradient(to bottom, #FCD279, #E59700);
+    opacity: 1;
 }
 
 .customize-buttons .vista-btn-primary {
-    background: linear-gradient(to bottom, #0054E3 0%, #52A0FF 50%, #2D7CEB 100%);
-    border-color: #00309C;
-    color: #fff;
-    font-weight: bold;
+    position: relative;
+    background: linear-gradient(to bottom, #fff 0%, #ECEBE6 90%, #D6D0C5 100%);
+    border: 1px solid #003C74;
+    color: #000;
+    overflow: hidden;
 }
 
-.customize-buttons .vista-btn-primary:hover {
-    background: linear-gradient(to bottom, #0043CF 0%, #4799FF 50%, #2670DC 100%);
+.customize-buttons .vista-btn-primary::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    padding: 2px;
+    background: linear-gradient(to bottom, #CEE7FF, #6982EE);
+    -webkit-mask:
+        linear-gradient(#fff 0 0) content-box,
+        linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+            mask-composite: exclude;
+    pointer-events: none;
 }
 
+.customize-buttons .vista-btn-primary:hover::before {
+    background: linear-gradient(to bottom, #FCD279, #E59700);
+    opacity: 1;
+}
 /* ===== 响应式 ===== */
 @media screen and (max-width: 1000px) {
     .sidebar { width: 100%; }

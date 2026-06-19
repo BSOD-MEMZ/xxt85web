@@ -1,4 +1,12 @@
-const live2d_path = 'https://xxtsoft.top/live2d-widget/dist/';
+const live2d_path = (() => {
+  const script = document.currentScript;
+  if (script) {
+    const src = script.src;
+    return src.substring(0, src.lastIndexOf('/') + 1);
+  }
+  // 回退：根据当前页面路径推断（适用于本地调试）
+  return window.location.origin + '/live2d-widget/dist/';
+})();
 
 function loadExternalResource(url, type) {
   return new Promise((resolve, reject) => {

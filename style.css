@@ -162,11 +162,8 @@ body.customizing .sidebar {
     background: linear-gradient(to bottom, #ffffff 0%, #CADAEF 100%);
     border: 1px solid #767676;
     border-radius: 4px;
-    /* box-shadow: 0 1px 5px rgba(0, 0, 0, 0.4); */
     padding: 8px;
     margin-bottom: 4px;
-    /* font-size: 12px; */
-    
 }
 
 .window {
@@ -1105,9 +1102,9 @@ body.customizing .customize-grid-overlay {
 }
 
 .customize-icon-item:hover {
-    background: rgba(220, 235, 252, 0.8);
+    background: linear-gradient(to bottom, #f1f8fe 0%, #e1effa 100%);
     border-color: #a8d8ea;
-    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.12);
+
 }
 
 .customize-icon-item:active {

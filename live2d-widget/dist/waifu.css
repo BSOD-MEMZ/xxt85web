@@ -51,7 +51,7 @@
 #waifu-tips {
 	/* animation: waifu-shake 50s ease-in-out 5s infinite; */
 	/* background: linear-gradient(to bottom, #ffffff 0%, #CADAEF 100%); */
-	background-image: url("https://xxtsoft.top/tips.png");
+	background-image: url("/tips.png");
 	border: 1px solid #F7F9FC;
 	border-right: 1px soild #2CD3FE;
     border-bottom: 1px solid #2CD3FE;
@@ -60,7 +60,7 @@
 	box-shadow: 5px 5px 15px 3px rgba(0, 0, 0, .8);
 	font-size: 14px;
 	line-height: 18px;
-	margin: -24px 24px;
+	margin: -36px 24px -8px 24px;
 	min-height: 70px;
 	opacity: 0;
 	overflow: hidden;

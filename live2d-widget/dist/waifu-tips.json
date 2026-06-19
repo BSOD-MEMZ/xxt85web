@@ -37,7 +37,8 @@
       "text": [
         "这里的文件存在哪里我都清楚呢！",
         "我可以帮你搜索各种内容哦！",
-        "需要我帮忙吗？"
+        "需要我帮忙吗？",
+        "现在我可以帮你搜索文件哦~"
       ]
     },
     {
@@ -47,6 +48,14 @@
         "这里记录着我搬家的历史呢。",
         "你想深入了解我什么呢？",
         "这里是网站的Github地址哦"
+      ]
+    },
+    {
+      "selector": "#waifu-tool-chat",
+      "text": [
+        "想和我聊聊天吗？",
+        "我现在可以和你聊天啦！",
+        "有什么想和我分享的新鲜事吗？"
       ]
     },
     {
@@ -601,7 +610,7 @@
       "拿小拳拳锤你胸口！",
       "记得把小家加入收藏夹哦！",
       "你觉得网站的Aero样式好看吗？<a href='https://www.wjx.cn/vm/eUaty0H.aspx'>参与调查</a>",
-      "有什么需要我帮忙的吗(/≧▽≦)/我可以帮你<a href='https://xxtsoft.top/search.html'>找东西</a>哦~",
+      "有什么需要我帮忙的吗(/≧▽≦)/我可以帮你<a href='search.html'>找东西</a>哦~",
       "诶，站长哥哥跟我说年底会给我加个对话功能，你觉得有可能吗？"
     ],
     "console": "哈哈，你打开了控制台，是想要看看我的小秘密吗？",
@@ -644,14 +653,14 @@
     {
       "name": "bilibili-live/22",
       "paths": [
-        "https://xxtsoft.top/live2d-widget/model/bilibili-live/22/index.json"
+        "live2d-widget/model/bilibili-live/22/index.json"
       ],
       "message": "来自 Bilibili Live 的 22 哦 ~"
     },
     {
       "name": "bilibili-live/33",
       "paths": [
-        "https://xxtsoft.top/live2d-widget/model/bilibili-live/33/index.json"
+        "live2d-widget/model/bilibili-live/33/index.json"
       ],
       "message": "来自 Bilibili Live 的 33 的说"
     }
