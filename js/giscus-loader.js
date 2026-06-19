@@ -1,12 +1,3 @@
-/**
- * Giscus 评论加载器
- * 在任意页面插入以下两行即可启用评论区：
- *   <div class="giscus"></div>
- *   <script src="js/giscus-loader.js"></script>
- *
- * 每篇文章自动拥有独立评论区（基于 pathname 映射）
- */
-
 (function () {
   'use strict';
 
