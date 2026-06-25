@@ -1,0 +1,507 @@
+version: 1
+subjects:
+- name: 语文
+  simplified_name: 语
+  teacher: 颜老师
+  room: ''
+- name: 数学
+  simplified_name: 数
+  teacher: 赵老师
+  room: ''
+- name: 英语
+  simplified_name: 英
+  teacher: 袁老师
+  room: ''
+- name: 历史
+  simplified_name: 历
+  teacher: 彭老师
+  room: ''
+- name: 政治
+  simplified_name: 政
+  teacher: 孙老师
+  room: ''
+- name: 物理
+  simplified_name: 物
+  teacher: 徐老师
+  room: ''
+- name: 化学
+  simplified_name: 化
+  teacher: 余老师
+  room: ''
+- name: 生物
+  simplified_name: 生
+  teacher: 沈老师
+  room: ''
+- name: 地理
+  simplified_name: 地
+  teacher: ''
+  room: ''
+- name: 信息技术
+  simplified_name: 信
+  teacher: ''
+  room: ''
+- name: 体育
+  simplified_name: 体
+  teacher: Sergeant⛑
+  room: ''
+- name: 自习
+  simplified_name: 自
+  teacher: ''
+  room: ''
+- name: 通用技术
+  simplified_name: 技
+  teacher: ''
+  room: ''
+- name: 音乐
+  simplified_name: 音
+  teacher: ''
+  room: ''
+- name: 美术
+  simplified_name: 美
+  teacher: 姜老师
+  room: ''
+- name: 选修课
+  simplified_name: 选
+  teacher: ''
+  room: ''
+- name: 社团
+  simplified_name: 社
+  teacher: ''
+  room: ''
+- name: 心理
+  simplified_name: 心
+  teacher: ''
+  room: ''
+- name: 早读
+  simplified_name: 早
+  teacher: ''
+  room: ''
+- name: 班会
+  simplified_name: 班
+  teacher: 沈老师
+  room: ''
+- name: 周测
+  simplified_name: 测
+  teacher: 年级组
+  room: ''
+- name: 阳光体育
+  simplified_name: 阳
+  teacher: ''
+  room: ''
+- name: 读报课
+  simplified_name: 读
+  teacher: ''
+  room: ''
+- name: 口语
+  simplified_name: 口
+  teacher: 没根
+  room: ''
+- name: 校本
+  simplified_name: 校
+  teacher: ''
+  room: ''
+- name: 排练
+  simplified_name: 唱
+  teacher: ''
+  room: ''
+schedules:
+- name: 周一单
+  classes:
+  - subject: 英语
+    start_time: 07:45:00
+    end_time: 08:25:00
+  - subject: 语文
+    start_time: 08:35:00
+    end_time: 09:15:00
+  - subject: 数学
+    start_time: 09:25:00
+    end_time: 10:05:00
+  - subject: 物理
+    start_time: 10:35:00
+    end_time: 11:15:00
+  - subject: 化学
+    start_time: 11:30:00
+    end_time: 12:10:00
+  - subject: 读报课
+    start_time: 14:05:00
+    end_time: 14:25:00
+  - subject: 通用技术
+    start_time: 14:35:00
+    end_time: 15:15:00
+  - subject: 政治
+    start_time: 15:25:00
+    end_time: 16:05:00
+  - subject: 班会
+    start_time: 16:20:00
+    end_time: 17:00:00
+  - subject: 阳光体育
+    start_time: 17:10:00
+    end_time: 18:10:00
+  - subject: 自习
+    start_time: 18:40:00
+    end_time: 20:20:00
+  - subject: 自习
+    start_time: 20:40:00
+    end_time: 22:00:00
+  enable_day: 1
+  weeks: odd
+- name: 周二单
+  classes:
+  - subject: 英语
+    start_time: 07:45:00
+    end_time: 08:25:00
+  - subject: 语文
+    start_time: 08:35:00
+    end_time: 09:15:00
+  - subject: 生物
+    start_time: 09:25:00
+    end_time: 10:05:00
+  - subject: 语文
+    start_time: 10:35:00
+    end_time: 11:15:00
+  - subject: 化学
+    start_time: 11:30:00
+    end_time: 12:10:00
+  - subject: 读报课
+    start_time: 14:05:00
+    end_time: 14:25:00
+  - subject: 数学
+    start_time: 14:35:00
+    end_time: 15:15:00
+  - subject: 美术
+    start_time: 15:25:00
+    end_time: 16:05:00
+  - subject: 校本
+    start_time: 16:20:00
+    end_time: 17:00:00
+  - subject: 阳光体育
+    start_time: 17:10:00
+    end_time: 18:10:00
+  - subject: 自习
+    start_time: 18:40:00
+    end_time: 20:20:00
+  - subject: 自习
+    start_time: 20:40:00
+    end_time: 22:00:00
+  enable_day: 2
+  weeks: odd
+- name: 周三
+  classes:
+  - subject: 英语
+    start_time: 07:45:00
+    end_time: 08:25:00
+  - subject: 历史
+    start_time: 08:35:00
+    end_time: 09:15:00
+  - subject: 数学
+    start_time: 09:25:00
+    end_time: 10:05:00
+  - subject: 政治
+    start_time: 10:35:00
+    end_time: 11:15:00
+  - subject: 体育
+    start_time: 11:30:00
+    end_time: 12:10:00
+  - subject: 读报课
+    start_time: 14:05:00
+    end_time: 14:25:00
+  - subject: 地理
+    start_time: 14:35:00
+    end_time: 15:15:00
+  - subject: 语文
+    start_time: 15:25:00
+    end_time: 16:05:00
+  - subject: 物理
+    start_time: 16:20:00
+    end_time: 17:00:00
+  - subject: 阳光体育
+    start_time: 17:10:00
+    end_time: 18:10:00
+  - subject: 自习
+    start_time: 18:40:00
+    end_time: 20:20:00
+  - subject: 自习
+    start_time: 20:40:00
+    end_time: 22:00:00
+  enable_day: 3
+  weeks: all
+- name: 周四单
+  classes:
+  - subject: 数学
+    start_time: 07:45:00
+    end_time: 08:25:00
+  - subject: 数学
+    start_time: 08:35:00
+    end_time: 09:15:00
+  - subject: 地理
+    start_time: 09:25:00
+    end_time: 10:05:00
+  - subject: 生物
+    start_time: 10:35:00
+    end_time: 11:15:00
+  - subject: 语文
+    start_time: 11:30:00
+    end_time: 12:10:00
+  - subject: 读报课
+    start_time: 14:05:00
+    end_time: 14:25:00
+  - subject: 体育
+    start_time: 14:35:00
+    end_time: 15:15:00
+  - subject: 英语
+    start_time: 15:25:00
+    end_time: 16:05:00
+  - subject: 口语
+    start_time: 16:20:00
+    end_time: 17:00:00
+  - subject: 阳光体育
+    start_time: 17:10:00
+    end_time: 18:10:00
+  - subject: 自习
+    start_time: 18:40:00
+    end_time: 20:20:00
+  - subject: 自习
+    start_time: 20:40:00
+    end_time: 22:00:00
+  enable_day: 4
+  weeks: odd
+- name: 周五
+  classes:
+  - subject: 数学
+    start_time: 07:45:00
+    end_time: 08:25:00
+  - subject: 数学
+    start_time: 08:35:00
+    end_time: 09:15:00
+  - subject: 物理
+    start_time: 09:25:00
+    end_time: 10:05:00
+  - subject: 英语
+    start_time: 10:35:00
+    end_time: 11:15:00
+  - subject: 化学
+    start_time: 11:30:00
+    end_time: 12:10:00
+  - subject: 读报课
+    start_time: 14:05:00
+    end_time: 14:25:00
+  - subject: 历史
+    start_time: 14:35:00
+    end_time: 15:15:00
+  - subject: 语文
+    start_time: 15:25:00
+    end_time: 16:05:00
+  - subject: 生物
+    start_time: 16:20:00
+    end_time: 17:00:00
+  - subject: 阳光体育
+    start_time: 17:10:00
+    end_time: 18:10:00
+  - subject: 自习
+    start_time: 18:40:00
+    end_time: 20:20:00
+  - subject: 自习
+    start_time: 20:40:00
+    end_time: 22:00:00
+  enable_day: 5
+  weeks: all
+- name: 周四双
+  classes:
+  - subject: 数学
+    start_time: 07:45:00
+    end_time: 08:25:00
+  - subject: 数学
+    start_time: 08:35:00
+    end_time: 09:15:00
+  - subject: 地理
+    start_time: 09:25:00
+    end_time: 10:05:00
+  - subject: 生物
+    start_time: 10:35:00
+    end_time: 11:15:00
+  - subject: 语文
+    start_time: 11:30:00
+    end_time: 12:10:00
+  - subject: 读报课
+    start_time: 14:05:00
+    end_time: 14:25:00
+  - subject: 体育
+    start_time: 14:35:00
+    end_time: 15:15:00
+  - subject: 英语
+    start_time: 15:25:00
+    end_time: 16:05:00
+  - subject: 英语
+    start_time: 16:20:00
+    end_time: 17:00:00
+  - subject: 阳光体育
+    start_time: 17:10:00
+    end_time: 18:10:00
+  - subject: 自习
+    start_time: 18:40:00
+    end_time: 20:20:00
+  - subject: 自习
+    start_time: 20:40:00
+    end_time: 22:00:00
+  enable_day: 4
+  weeks: even
+- name: 周二双
+  classes:
+  - subject: 英语
+    start_time: 07:45:00
+    end_time: 08:25:00
+  - subject: 语文
+    start_time: 08:35:00
+    end_time: 09:15:00
+  - subject: 生物
+    start_time: 09:25:00
+    end_time: 10:05:00
+  - subject: 物理
+    start_time: 10:35:00
+    end_time: 11:15:00
+  - subject: 化学
+    start_time: 11:30:00
+    end_time: 12:10:00
+  - subject: 读报课
+    start_time: 14:05:00
+    end_time: 14:25:00
+  - subject: 数学
+    start_time: 14:35:00
+    end_time: 15:15:00
+  - subject: 音乐
+    start_time: 15:25:00
+    end_time: 16:05:00
+  - subject: 校本
+    start_time: 16:20:00
+    end_time: 17:00:00
+  - subject: 阳光体育
+    start_time: 17:10:00
+    end_time: 18:10:00
+  - subject: 自习
+    start_time: 18:40:00
+    end_time: 20:20:00
+  - subject: 自习
+    start_time: 20:40:00
+    end_time: 22:00:00
+  enable_day: 2
+  weeks: even
+- name: 周日
+  classes:
+  - subject: 自习
+    start_time: 07:45:00
+    end_time: 08:25:00
+  - subject: 自习
+    start_time: 08:35:00
+    end_time: 09:15:00
+  - subject: 自习
+    start_time: 09:25:00
+    end_time: 10:05:00
+  - subject: 自习
+    start_time: 10:35:00
+    end_time: 11:15:00
+  - subject: 自习
+    start_time: 11:30:00
+    end_time: 12:10:00
+  - subject: 自习
+    start_time: 14:05:00
+    end_time: 14:25:00
+  - subject: 自习
+    start_time: 14:35:00
+    end_time: 15:15:00
+  - subject: 自习
+    start_time: 15:25:00
+    end_time: 16:05:00
+  - subject: 自习
+    start_time: 16:20:00
+    end_time: 17:00:00
+  - subject: 阳光体育
+    start_time: 17:10:00
+    end_time: 18:10:00
+  - subject: 周测
+    start_time: 18:40:00
+    end_time: 20:20:00
+  - subject: 自习
+    start_time: 20:40:00
+    end_time: 22:00:00
+  enable_day: 7
+  weeks: all
+- name: 周六
+  classes:
+  - subject: 英语
+    start_time: 07:45:00
+    end_time: 08:25:00
+  - subject: 语文
+    start_time: 08:35:00
+    end_time: 09:15:00
+  - subject: 生物
+    start_time: 09:25:00
+    end_time: 10:05:00
+  - subject: 物理
+    start_time: 10:35:00
+    end_time: 11:15:00
+  - subject: 化学
+    start_time: 11:30:00
+    end_time: 12:10:00
+  - subject: 读报课
+    start_time: 14:05:00
+    end_time: 14:25:00
+  - subject: 数学
+    start_time: 14:35:00
+    end_time: 15:15:00
+  - subject: 音乐
+    start_time: 15:25:00
+    end_time: 16:05:00
+  - subject: 校本
+    start_time: 16:20:00
+    end_time: 17:00:00
+  - subject: 阳光体育
+    start_time: 17:10:00
+    end_time: 18:10:00
+  - subject: 自习
+    start_time: 18:40:00
+    end_time: 20:20:00
+  - subject: 自习
+    start_time: 20:40:00
+    end_time: 22:00:00
+  enable_day: 6
+  weeks: all
+- name: 周一双
+  classes:
+  - subject: 英语
+    start_time: 07:45:00
+    end_time: 08:25:00
+  - subject: 语文
+    start_time: 08:35:00
+    end_time: 09:15:00
+  - subject: 数学
+    start_time: 09:25:00
+    end_time: 10:05:00
+  - subject: 物理
+    start_time: 10:35:00
+    end_time: 11:15:00
+  - subject: 化学
+    start_time: 11:30:00
+    end_time: 12:10:00
+  - subject: 读报课
+    start_time: 14:05:00
+    end_time: 14:25:00
+  - subject: 信息技术
+    start_time: 14:35:00
+    end_time: 15:15:00
+  - subject: 政治
+    start_time: 15:25:00
+    end_time: 16:05:00
+  - subject: 班会
+    start_time: 16:20:00
+    end_time: 17:00:00
+  - subject: 阳光体育
+    start_time: 17:10:00
+    end_time: 18:10:00
+  - subject: 自习
+    start_time: 18:40:00
+    end_time: 20:20:00
+  - subject: 自习
+    start_time: 20:40:00
+    end_time: 22:00:00
+  enable_day: 1
+  weeks: even

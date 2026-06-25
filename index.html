@@ -45,15 +45,20 @@
             <div class="tips">
                 <p><img src="images/icons/speaker.png" alt="" width="16" height="16"
                         style="vertical-align: middle;" /><b> 公告栏</b></p>
-                <p></p>
-                <p>牢记本站永久域名 <b>xxtsoft.top</b> <img src="images/icons/loves.png" alt="" width="16" height="16" /> 收藏本站 带你找到回家的路</p>
+                <p>八百代们，诸位神明，今晚玩得还开心吗（？</p>
+                <p>网站由于站长的误操作导致近一周无法访问，预计在2026年7月6日完全恢复，非常抱歉。</p>
+                <p>牢记本站永久域名 <b>xxtsoft.top</b> <img src="images/icons/loves.png" alt="" width="16" height="16" /> 收藏本站 带你找到回家的路！</p>
             </div>
             <br>
             <div class="window mainarticles">
                 <div class="window-titlebar">主页</div>
                 <div class="window-content">
-                    <h3><img src="images/icons/articles.png" alt="" width="16" height="16" /> 最新文章</h3>
+                    <div class="list-upload">
+                        <div class="list-upload-left"><h3><img src="images/icons/articles.png" alt="" width="16" height="16" /> 最新文章</h3></div>
+                        <div class="list-upload-right"><button class="upload" onclick="window.location.href='upload.html'">投稿文章</button></div>
+                    </div>
                     <ul>
+                        <li><a href="articles/bmp32.html">告别黑底！转换带有透明通道的BMP图片</a></li>   
                         <li><a href="articles/entertainingisland.html">你的课表，比你想象得更好玩——ClassIsland插件 EntertainingIsland发布！</a></li>    
                         <li><a href="articles/vibelikehuman.html">如何让AI写的程序看起来不像AI写的</a></li>       
                         <li><a href="articles/competition.html">我！们！进！省！赛！啦！</a></li>
@@ -99,7 +104,6 @@
                         <li><a href="articles/reviewsomething.html">回忆往事</a></li>
                         <li><a href="articles/fuck11.html">Windows 11, **都不用</a></li>
                         <li><a href="articles/aeronopeak.html">Aero 的巅峰 —— Longhorn 4074</a></li>
-                        <li><a href="articles/upload.html">投稿指南</a></li>
                         <li><a href="articles/test.html">测试文章</a></li>
                         <br><br>
                         <li>开学了呜呜... 整不了活啦</li>
@@ -158,6 +162,9 @@
                         </li>
                         <li><a href="nanfang.html" class="nanfang"><img alt="" src="images/icons/nanfang.png" width="16"
                                     height="16" /> 神秘打野点</a>
+                        </li>
+                        <li><a href="cses.html" class="cses" id="csesLink"><img alt="" src="images/icons/timedate.png" width="16"
+                                    height="16" /> <span class="cses-flip"><span class="cses-flip-a">课程表</span><span class="cses-flip-b"></span></span></a>
                         </li>
                         <li><a href="donate.html" class="donate"><img alt="" src="images/icons/money.png" width="16"
                                     height="16" /> 捐助</a>
@@ -374,4 +381,52 @@
 </body>
 <script defer src="js/index.js"></script>
 <script defer src="js/player.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/js-yaml@4.1.0/dist/js-yaml.min.js"></script>
+<script src="js/cses-loader.js"></script>
+<script>
+(function(){
+  var flipEl = document.querySelector('#csesLink .cses-flip');
+  if (!flipEl) { console.warn('CSES flip: 未找到 .cses-flip 元素'); return; }
+  var slotA = flipEl.querySelector('.cses-flip-a');
+  var slotB = flipEl.querySelector('.cses-flip-b');
+  var visibleText = '课程表';
+  var rotationTimer = null;
+
+  // slotA 始终显示可见文字，slotB 是预备位
+  slotA.textContent = visibleText;
+
+  function doFlip(newText) {
+    if (newText === visibleText) return;
+    // slotB 放新文字，从下方开始
+    slotB.textContent = newText;
+    // 触发翻页
+    flipEl.classList.add('flipping');
+    setTimeout(function() {
+      // 动画结束后：交换角色
+      flipEl.classList.remove('flipping');
+      slotA.textContent = newText;
+      slotB.textContent = '';
+      visibleText = newText;
+    }, 360);
+  }
+
+  function rotateText() {
+    CSESLoader.load().then(function() {
+      function tick() {
+        var current = CSESLoader.getCurrentClass();
+        if (current && current.subject) {
+          var newText = '正在上课 - ' + current.subject;
+          doFlip(newText);
+        } else {
+          doFlip('课程表');
+        }
+      }
+      tick();
+      rotationTimer = setInterval(tick, 3000);
+    });
+  }
+
+  rotateText();
+})();
+</script>
 </html>

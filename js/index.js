@@ -810,13 +810,10 @@
       }
     }
 
-    // 打开/关闭按钮
     openBtn.addEventListener('click', function (e) {
       e.preventDefault();
-
-      // 移动端不允许
       if (window.innerWidth <= 1000) {
-        alert('手机不能更改视图');
+        alert('暂不支持移动端设备进行个性化设置哦~');
         return;
       }
 

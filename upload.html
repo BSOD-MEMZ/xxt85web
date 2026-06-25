@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>xxtsoft · 投稿</title>
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="style.css" type="text/css" id="themeCss" />
+    <script src="js/theme-loader.js"></script>
+</head>
+
+<body>
+
+    <div class="titlebar">
+        <div class="wrap">
+            <h1>xxtsoft.top</h1>
+        </div>
+    </div>
+
+    <div class="navbar">
+        <div class="wrap">
+            <ul>
+                <li><a href="index.html">首页(H)</a></li>
+                <li><a href="articles.html">文章(A)</a></li>
+                <li><a href="downloads.html">下载(D)</a></li>
+                <li><a href="medias.html">多媒体(M)</a></li>
+                <li><a href="about.html">关于(A)</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="content wrap">
+        <div class="main" style="width: 100%;">
+            <h2><span style="color: #003399;">投稿指南</span></h2>
+            <p>欢迎向 xxtsoft 投稿！先来回答大家可能会有的一些问题：</p>
+
+            <div class="tips">
+                <p><img src="images/icons/help.png" alt="" width="16" height="16" style="vertical-align: middle;" /><b>
+                        我可以投递什么类型的内容？</b></p>
+                <p>这里暂时只讨论投稿文章，可以是任何题材（技术分享、校园生活、创意项目、社会观察等）有意思的事情肯定要跟大家分享嘛。</p>
+            </div>
+            <div class="tips">
+                <p><img src="images/icons/help.png" alt="" width="16" height="16" style="vertical-align: middle;" /><b>
+                        投稿内容必须自制吗？</b></p>
+                <p>可以投稿转载别人的文章，但要尊重被转载者的版权。</p>
+            </div>
+            <div class="tips">
+                <p><img src="images/icons/help.png" alt="" width="16" height="16" style="vertical-align: middle;" /><b>
+                        文章投稿有哪些类型？</b></p>
+                <ul>
+                <li><b>通常投稿：</b>投稿你的文章内容至xxtsoft，使用预设模板。</li>
+                <li><b>外链投稿：</b>仅仅在xxtsoft主页加一个文章链接，跳转到其它网站上预览文章。</li>
+                </ul>
+            </div>
+            <div class="tips">
+                <p><img src="images/icons/help.png" alt="" width="16" height="16" style="vertical-align: middle;" /><b>
+                        投稿的文章可以自定义CSS或者加入JavaScript等可互动元素吗？</b></p>
+                <p>完全可以。</p>
+            </div>
+            <div class="tips">
+                <p><img src="images/icons/help.png" alt="" width="16" height="16" style="vertical-align: middle;" /><b>
+                        主页鼠标悬停在文章链接上产生的文章预览是怎么做的？</b></p>
+                <p>你到时候发我文章的时候顺便写个总结，并且告诉我要用哪张图做封面就行了，如果没有提供这些信息，默认不显示对应预览项目。</p>
+            </div>
+            <div class="tips">
+                <p><img src="images/icons/help.png" alt="" width="16" height="16" style="vertical-align: middle;" /><b>
+                        文章发布之后还能修改或者删除吗？</b></p>
+                <p>可以，联系我我会尽快处理好。</p>
+            </div>
+            <div class="tips">
+                <p><img src="images/icons/help.png" alt="" width="16" height="16" style="vertical-align: middle;" /><b>
+                        AI生成内容可以发布吗？发布后会有AIGC标签吗</b></p>
+                <p>可以，如果不想看到那个标签可以删除。</p>
+            </div>
+            <div class="window" style="margin-top:15px;">
+                <div class="window-titlebar">投稿流程</div>
+                <div class="window-content">
+                    <div class="upload-stepper">
+
+                        <div class="upload-step">
+                            <div class="upload-step-line"></div>
+                            <div class="upload-step-bubble" id="bubble1">1</div>
+                            <div class="upload-step-body">
+                                <h3 class="upload-step-title">文章内容规范</h3>
+                                <ul class="upload-checklist" id="checklist1">
+                                    <li><label><input type="checkbox" data-step="1" />
+                                            我已经准备好文章</label></li>
+                                    <li><label><input type="checkbox" data-step="1" /> 文章不包含违反中国大陆法律法规的内容</label></li>  
+                                    <li><label><input type="checkbox" data-step="1" /> <i>文章所有内容及资源（例如文章本体，样式，图片音频资源等）总和不超过20MB</i></label></li>      
+
+                                </ul>
+                                <p style="font-size:11px; color:#888; margin-top:10px;">
+                                    <img src="images/icons/info.png" alt="" width="14" height="14"
+                                        style="vertical-align:middle;" />
+                                    若实在有大文件需求，提前跟我说我会酌情考虑
+                                </p>
+                                <p id="step1Status" class="upload-step-status" style="display:none;"></p>
+                            </div>
+                        </div>
+
+                        <!-- Step 2 -->
+                        <div class="upload-step">
+                            <div class="upload-step-line"></div>
+                            <div class="upload-step-bubble" id="bubble2">2</div>
+                            <div class="upload-step-body">
+                                <h3 class="upload-step-title">格式与版权</h3>
+                                <ul class="upload-checklist" id="checklist2">
+                                    <li><label><input type="checkbox" data-step="2" /> 文章使用 Markdown、Word文档或纯HTML编写（禁止使用PDF）</label></li>
+                                    <li><label><input type="checkbox" data-step="2" /> 文章中图片已优化（单张不超过5MB）</label></li>
+                                    <li><label><input type="checkbox" data-step="2" /> 引用他人内容已注明出处</label></li>
+                                    <li><label><input type="checkbox" data-step="2" /> 同意文章以 <a
+                                                href="https://creativecommons.org/licenses/by-nc/4.0/deed.zh">CC BY-NC
+                                                4.0</a> 许可发布，若不同意，提前说明欲使用的许可</label></li>
+                                    </li>
+                                    <h3 class="upload-step-title">请再次检查</h3>
+                                    <li><label><input type="checkbox" data-step="2" /> 文章本体</label></li>
+                                    <li><label><input type="checkbox" data-step="2" /> 所有与之相关联的资源文件</label></li>
+                                    <li><label><input type="checkbox" data-step="2" /> <i>封面图片</i></label></li>
+                                    <li><label><input type="checkbox" data-step="2" /> <i>简短的说明</i></label></li>
+                                    <li><label><input type="checkbox" data-step="2" /> <i>打包成压缩包</i></label></li>
+                                </ul>
+                                <p id="step2Status" class="upload-step-status" style="display:none;"></p>
+                            </div>
+                        </div>
+
+                        <!-- Step 3 -->
+                        <div class="upload-step">
+                            <div class="upload-step-line"></div>
+                            <div class="upload-step-bubble" id="bubble3">3</div>
+                            <div class="upload-step-body">
+                                <h3 class="upload-step-title">联系站长提交</h3>
+
+                                <p>请通过以下任意方式联系站长 <b>xxt8582753</b>，附上文章文件：</p>
+                                <ul>
+                                   
+                                    <li><img src="images/icons/qq.png" alt="" width="16" height="16"
+                                            style="vertical-align:middle;" /> QQ：2692386819</li>
+                                    <li><img src="images/icons/wechat.png" alt="" width="16" height="16"
+                                            style="vertical-align:middle;" /> 微信：bsodmemz13787336265</li>
+                                    <li><img src="images/icons/mail.png" alt="" width="16" height="16"
+                                            style="vertical-align:middle;" /> 邮件：xxt8582753@126.com</li>
+                                     <li><img src="images/icons/bilibili.png" alt="" width="16" height="16"
+                                            style="vertical-align:middle;" /> 哔哩哔哩私信：<a
+                                            href="https://space.bilibili.com/1975308950">@BSOD-MEMZ</a></li>
+                                    <li><img src="images/icons/github.png" alt="" width="16" height="16"
+                                            style="vertical-align:middle;" /> GitHub：在 <a
+                                            href="https://github.com/BSOD-MEMZ/xxt85web">BSOD-MEMZ/xxt85web</a> 提交 Pull Request</li>
+                                     <li><img src="images/icons/mobile.png" alt="" width="16" height="16"
+                                            style="vertical-align:middle;" /> 发送短信：13787336265</li>
+                                </ul>
+                                <p style="font-size:11px; color:#888; margin-top:10px;">
+                                    <img src="images/icons/info.png" alt="" width="14" height="14"
+                                        style="vertical-align:middle;" />
+                                    如果加我好友，建议说明一下来意，投稿通过后，文章将在 1~3 个工作日内上线。如果你不介意的话，也可以留着我的联系方式，平时跟我聊聊天什么的都可以。
+                                </p>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <script>
+        (function () {
+            'use strict';
+
+            var checkboxes = document.querySelectorAll('.upload-checklist input[type="checkbox"]');
+            var bubble2 = document.getElementById('bubble2');
+            var bubble3 = document.getElementById('bubble3');
+            var step1Status = document.getElementById('step1Status');
+            var step2Status = document.getElementById('step2Status');
+
+            function checkStep(step) {
+                var items = document.querySelectorAll('.upload-checklist input[data-step="' + step + '"]');
+                for (var i = 0; i < items.length; i++) {
+                    if (!items[i].checked) return false;
+                }
+                return true;
+            }
+
+            function updateStepper() {
+                var step1Done = checkStep(1);
+                var step2Done = checkStep(2);
+
+                if (step1Done) {
+                    bubble2.classList.add('upload-step-done');
+                    step1Status.textContent = '✅ 第一步已全部确认';
+                    step1Status.style.color = '#4caf50';
+                    step1Status.style.display = 'block';
+                } else {
+                    bubble2.classList.remove('upload-step-done');
+                    step1Status.style.display = 'none';
+                }
+
+                var step2Inputs = document.querySelectorAll('.upload-checklist input[data-step="2"]');
+                for (var j = 0; j < step2Inputs.length; j++) {
+                    step2Inputs[j].disabled = !step1Done;
+                }
+
+                if (step2Done) {
+                    bubble3.classList.add('upload-step-done');
+                    step2Status.textContent = '✅ 第二步已全部确认';
+                    step2Status.style.color = '#4caf50';
+                    step2Status.style.display = 'block';
+                } else {
+                    bubble3.classList.remove('upload-step-done');
+                    step2Status.style.display = 'none';
+                }
+            }
+
+            for (var i = 0; i < checkboxes.length; i++) {
+                checkboxes[i].addEventListener('change', updateStepper);
+            }
+
+            updateStepper();
+        })();
+    </script>
+</body>
+
+</html>

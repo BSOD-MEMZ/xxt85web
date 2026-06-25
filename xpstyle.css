@@ -853,3 +853,38 @@ body.customizing .customize-grid-overlay {
     .customizing .sidebar .window { animation: none !important; }
     .sidebar-close-btn { display: none !important; }
 }
+
+/* ===== Checkbox 样式 (XP Luna) ===== */
+.window-content input[type="checkbox"] {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    width: 13px;
+    height: 13px;
+    margin: 0 4px 0 0;
+    padding: 0;
+    vertical-align: middle;
+    position: relative;
+    background: url("images/xpcbunchecked.png") no-repeat center/contain;
+    flex-shrink: 0;
+}
+
+.window-content input[type="checkbox"]:hover {
+    background: url("images/xpcbunchecked_hover.png") no-repeat center/contain;
+}
+
+.window-content input[type="checkbox"]:checked {
+    background: url("images/xpcbchecked.png") no-repeat center/contain;
+}
+
+.window-content input[type="checkbox"]:checked:hover {
+    background: url("images/xpcbchecked_hover.png") no-repeat center/contain;
+}
+
+.window-content label {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+    font-size: 13px;
+    line-height: 1.4;
+}

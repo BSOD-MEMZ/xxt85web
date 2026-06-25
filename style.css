@@ -11,6 +11,7 @@ body {
     margin: 0;
     padding: 0;
     line-height: 1.5;
+    cursor: url("images/aero_arrow.cur"), default;
     transition: background-image 0.5s ease-in-out;
 }
 
@@ -77,7 +78,6 @@ body {
     font-size: 12px;
     height: 100%;
     display: block;
-    /*background: #ffffff;*/
     color: #000000;
     text-decoration: none;
     padding: 0px 12px 6px 6px;
@@ -110,7 +110,6 @@ body {
     transform: translateY(-50%);
     width: 14px;
     height: 14px;
-    cursor: pointer;
     opacity: 0.6;
 }
 
@@ -169,7 +168,7 @@ body.customizing .sidebar {
 .window {
     margin-bottom: 15px;
     border: 1px solid #F7F9FC;
-	border-right: 1px soild #2CD3FE;
+	border-right: 1px solid #2CD3FE;
     border-bottom: 1px solid #2CD3FE;
     border-right: 1px solid #2CD3FE;
     box-shadow: 5px 5px 15px 3px rgba(0, 0, 0, 0.7);
@@ -220,6 +219,7 @@ li {
 a {
     color: #0066CC;
     text-decoration: none;
+    cursor: url(images/aero_link.cur), default;
 }
 
 a:hover {
@@ -237,6 +237,38 @@ a:hover {
 
 .footer p {
     margin: 0;
+}
+
+.list-upload {
+  display: flex;
+  align-items: center;          /* 垂直居中左右内容 */
+  justify-content: space-between; /* 左右两端对齐 */
+}
+
+.list-upload-left {
+  flex: 1;
+}
+
+.list-upload-right {
+    box-sizing: border-box;
+}
+.upload {
+  padding: 4px 12px;
+  font-size: 12px;
+  background: linear-gradient(to bottom, #4A77A9 0%, #225E9E 50%, #164686 51%, #2F7AB3 100%);
+  border: 1px solid #b3c9e4;
+  border-radius: 3px;
+  color: #fff;
+  cursor: pointer;
+}
+
+.upload:hover {
+  background: linear-gradient(to bottom, #6E8FBA 0%, #2561A3 50%, #0E3678 51%, #0E589E 75%, #3B92C4 100%);
+}
+
+.upload img {
+  vertical-align: middle;
+  margin-right: 3px;
 }
 
 
@@ -428,7 +460,6 @@ a:hover {
     border: 1px solid #3C7FB1;
     border-left: none;
     border-radius: 0 3px 3px 0;
-    cursor: pointer;
 }
 
 .search-results {
@@ -630,6 +661,299 @@ a:hover {
     margin-bottom: 4px;
 }
 
+/* ===== 投稿页面 Aero Stepper ===== */
+.upload-stepper {
+    position: relative;
+    padding-left: 0;
+}
+
+.upload-step {
+    position: relative;
+    display: flex;
+    align-items: flex-start;
+    gap: 18px;
+    padding-bottom: 24px;
+    min-height: 40px;
+}
+
+/* 连接竖线 */
+.upload-step-line {
+    position: absolute;
+    left: 15px;
+    top: 34px;
+    bottom: 0;
+    width: 2px;
+    background: #C0D0E0;
+    border-radius: 1px;
+}
+.upload-step:last-child .upload-step-line {
+    display: none;
+}
+
+/* Aero 玻璃球 */
+.upload-step-bubble {
+    width: 32px;
+    height: 32px;
+    line-height: 32px;
+    text-align: center;
+    font-size: 14px;
+    font-weight: bold;
+    color: #fff;
+    border-radius: 50%;
+    flex-shrink: 0;
+    position: relative;
+    z-index: 1;
+    /* Aero 半透明玻璃 */
+    background: linear-gradient(180deg, rgba(255,255,255,0.55) 0%, rgba(180,195,210,0.6) 40%, rgba(140,160,180,0.7) 100%);
+    border: 1px solid rgba(255,255,255,0.5);
+    box-shadow:
+        inset 0 1px 0 rgba(255,255,255,0.7),
+        0 1px 3px rgba(0,0,0,0.15);
+    text-shadow: 0 1px 1px rgba(0,0,0,0.25);
+    transition: background 0.4s ease, box-shadow 0.4s ease;
+}
+/* 激活的球 — Aero 蓝玻璃 */
+.upload-step-bubble.upload-step-active,
+.upload-step:first-child .upload-step-bubble {
+    background: linear-gradient(180deg, rgba(180,215,255,0.75) 0%, rgba(70,150,230,0.7) 40%, rgba(30,100,190,0.8) 100%);
+    border: 1px solid rgba(255,255,255,0.55);
+    box-shadow:
+        inset 0 1px 0 rgba(255,255,255,0.8),
+        0 1px 4px rgba(0,0,0,0.2);
+}
+/* 完成的球 — Aero 绿玻璃 */
+.upload-step-bubble.upload-step-done {
+    background: linear-gradient(180deg, rgba(170,235,180,0.75) 0%, rgba(70,190,90,0.7) 40%, rgba(30,140,50,0.8) 100%) !important;
+    border: 1px solid rgba(255,255,255,0.55);
+    box-shadow:
+        inset 0 1px 0 rgba(255,255,255,0.8),
+        0 1px 4px rgba(0,0,0,0.2);
+}
+
+.upload-step-body {
+    flex: 1;
+    padding-top: 4px;
+}
+
+.upload-step-title {
+    font-size: 14px;
+    color: #003399;
+    margin: 0 0 8px;
+    border-bottom: none;
+    padding-bottom: 0;
+}
+
+.upload-checklist {
+    margin: 0 0 0 0;
+    padding: 0;
+    list-style: none;
+}
+.upload-checklist li {
+    margin-bottom: 7px;
+}
+.upload-checklist label {
+    cursor: url(images/aero_link.cur), pointer;
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    font-size: 13px;
+    line-height: 1.5;
+}
+.upload-checklist input[type="checkbox"] {
+    margin-top: 3px;
+    flex-shrink: 0;
+    accent-color: #003399;
+}
+.upload-checklist input[type="checkbox"]:disabled {
+    opacity: 0.4;
+    cursor: url(images/aero_unavail.cur), default;
+}
+
+.upload-step-status {
+    font-size: 12px;
+    margin-top: 8px;
+}
+
+/* ===== 课程表组件样式 ===== */
+
+/* 首页课程表文字翻页动画 */
+#csesLink {
+    display: inline-block;
+    overflow: hidden;
+    vertical-align: middle;
+}
+/* 首页课程表接力翻页动画 */
+.cses-flip {
+    display: inline-block;
+    vertical-align: middle;
+    position: relative;
+    overflow: hidden;
+    height: 1.4em;
+    line-height: 1.4em;
+}
+.cses-flip-a, .cses-flip-b {
+    display: block;
+    white-space: nowrap;
+    transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.cses-flip-a { position: relative; transform: translateY(0); }
+.cses-flip-b { position: absolute; top: 0; left: 0; transform: translateY(100%); }
+.cses-flip.flipping .cses-flip-a { transform: translateY(-100%); }
+.cses-flip.flipping .cses-flip-b { transform: translateY(0); }
+
+/* 课程行 — 复用 preview-link 的 Windows 7 列表 hover 效果 */
+.cses-class-row {
+    display: flex;
+    align-items: center;
+    padding: 2px 8px;
+    margin: 1px 0;
+    border-radius: 3px;
+    gap: 12px;
+    border: 1px solid transparent;
+}
+
+.cses-class-row:hover {
+    background: linear-gradient(to bottom, #f1f8fe 0%, #e1effa 100%);
+    border: 1px solid #a8d8ea;
+    box-shadow: inset 0 0 1px #fff;
+}
+
+/* 当前课程行高亮 */
+.cses-row-current {
+    background: linear-gradient(to bottom, #E6F0FA 0%, #D4E4F8 100%) !important;
+    border: 1px solid #a8d8ea !important;
+    padding-left: 6px;
+}
+
+/* 已过去的课程灰色处理 */
+.cses-row-past {
+    opacity: 0.55;
+}
+
+/* 未开始的课程使用默认样式 */
+
+/* 课程时间 */
+.cses-class-time {
+    font-family: "Segoe UI", "Microsoft YaHei UI", monospace;
+    font-size: 12px;
+    color: #555;
+    min-width: 85px;
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+
+.cses-row-current .cses-class-time {
+    color: #003399;
+    font-weight: bold;
+}
+
+/* 课程信息区 */
+.cses-class-info {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+/* 课程名称 */
+.cses-class-name {
+    font-size: 13px;
+    font-weight: 500;
+    color: #1a1a1a;
+}
+
+.cses-row-current .cses-class-name {
+    color: #003399;
+    font-weight: bold;
+}
+
+/* 教师名 */
+.cses-class-teacher {
+    font-size: 11px;
+    color: #888;
+}
+
+.cses-row-current .cses-class-teacher {
+    color: #556;
+}
+
+/* 正在进行标签 */
+.cses-class-badge {
+    font-size: 11px;
+    background: #003399;
+    color: #fff;
+    padding: 1px 6px;
+    border-radius: 3px;
+    font-weight: normal;
+    animation: cses-badge-pulse 2s ease-in-out infinite;
+}
+
+@keyframes cses-badge-pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.7; }
+}
+
+/* 上传按钮 - 模拟 Vista 按钮风格 */
+.cses-upload-btn {
+    display: inline-block;
+    padding: 4px 12px;
+    background: linear-gradient(to bottom, #f2f2f2, #ebebeb 50%, #dddddd 51%, #cfcfcf);
+    border: 1px solid #707070;
+    border-radius: 3px;
+    font-family: "Segoe UI", "Microsoft YaHei UI";
+    font-size: 12px;
+    cursor: url(images/aero_link.cur), pointer;
+    color: #000;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.cses-upload-btn:hover {
+    border-color: #3c7fb1;
+    background: linear-gradient(to bottom, #e9f5ff, #d8eaff 50%, #c4e0ff 51%, #b3d5ff);
+}
+
+.cses-upload-btn img {
+    vertical-align: middle;
+    margin-right: 4px;
+}
+
+/* 名字输入框 — 复用 search-box input 风格 */
+.cses-name-input {
+    width: 100%;
+    padding: 6px 10px;
+    border: 1px solid #A4C9E3;
+    border-top: 1px solid #3D7BAD;
+    border-radius: 3px;
+    font-family: "Segoe UI", "Microsoft YaHei UI";
+    font-size: 13px;
+    box-sizing: border-box;
+    outline: none;
+}
+.cses-name-input:focus {
+    border-color: #3c7fb1;
+    box-shadow: 0 0 3px rgba(60, 127, 177, 0.4);
+}
+
+/* Vista 按钮通用 */
+.vista-btn {
+    padding: 4px 16px;
+    background: linear-gradient(to bottom, #f2f2f2, #ebebeb 50%, #dddddd 51%, #cfcfcf);
+    border: 1px solid #707070;
+    border-radius: 3px;
+    font-family: "Segoe UI", "Microsoft YaHei UI";
+    font-size: 12px;
+    cursor: url(images/aero_link.cur), pointer;
+    color: #000;
+    transition: all 0.3s ease;
+}
+
+.vista-btn:hover {
+    border-color: #3c7fb1;
+    background: linear-gradient(to bottom, #e9f5ff, #d8eaff 50%, #c4e0ff 51%, #b3d5ff);
+}
+
 .wmp-screen {
     background: linear-gradient(to bottom, #FFFFFF 0%,#E6F0FA 50%,#DCE6F4 51%,#DDE9F7 100%);/* 半透明黑，更有玻璃感 */
     display: flex;
@@ -676,7 +1000,6 @@ a:hover {
     border: 1px solid #BEC3CB;
     position: relative;
     margin: 15px 5px; /* 留出空间给 dot.png */
-    cursor: pointer;
 }
 
 .wmp-progress-bar {
@@ -707,7 +1030,6 @@ a:hover {
 }
 
 .wmp-controls img {
-    cursor: pointer;
     transition: opacity 0.2s;
 }
 
@@ -731,7 +1053,6 @@ a:hover {
 .wmp-playlist li {
     padding: 3px 8px;
     font-size: 12px;
-    cursor: pointer;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -764,7 +1085,6 @@ a:hover {
     background: linear-gradient(to bottom, #f2f2f2, #ebebeb 50%, #dddddd 51%, #cfcfcf);
     border: 1px solid #707070;
     border-radius: 3px;
-    cursor: pointer;
 }
 
 .vista-dialog button:hover {
@@ -774,7 +1094,6 @@ a:hover {
 
 .vista-close-btn {
     float: right;
-    cursor: pointer;
     width: 28px; 
     height: 17px;
     margin-top: 1px;
@@ -817,7 +1136,6 @@ a:hover {
     font-family: "Segoe UI", "Microsoft YaHei UI";
     background: linear-gradient(to bottom, #fefefe 0%, #E5EAF5 30%, #D4DBED 31%, #E1E6F6 100%);
     border: 1px solid #8b8b8b;
-    cursor: pointer;
     color: #000;
     float: left;
 }
@@ -937,7 +1255,6 @@ a:hover {
 /* ===== 侧边栏关闭按钮（默认隐藏，个性化时显示） ===== */
 .sidebar-close-btn {
     float: right;
-    cursor: pointer;
     width: 14px;
     height: 14px;
     margin-top: 1px;
@@ -1014,6 +1331,45 @@ body.customizing .footer {
 }
 body.customizing .customize-grid-overlay {
     opacity: 1;
+}
+
+/* ===== Checkbox 样式 (Vista Aero) ===== */
+.window-content input[type="checkbox"] {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    width: 13px;
+    height: 13px;
+    margin: 0 4px 0 0;
+    padding: 0;
+    vertical-align: middle;
+    position: relative;
+    cursor: url("images/aero_arrow.cur"), default;
+    background: url("images/cbunchecked.png") no-repeat center/contain;
+    flex-shrink: 0;
+    transition: all 0.3s ease;
+}
+
+.window-content input[type="checkbox"]:hover {
+    background: url("images/cbunchecked_hover.png") no-repeat center/contain;
+}
+
+.window-content input[type="checkbox"]:checked {
+    background: url("images/cbchecked.png") no-repeat center/contain;
+}
+
+.window-content input[type="checkbox"]:checked:hover {
+    background: url("images/cbchecked_hover.png") no-repeat center/contain;
+}
+
+/* 标签与 checkbox 对齐 */
+.window-content label {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+    cursor: url("images/aero_link.cur"), default;
+    font-size: 13px;
+    line-height: 1.4;
 }
 
 /* ===== 个性化开启时全页面浮动（从中心解体） ===== */
@@ -1093,7 +1449,6 @@ body.customizing .customize-grid-overlay {
 .customize-icon-item {
     width: 78px;
     text-align: center;
-    cursor: pointer;
     padding: 6px 3px;
     border-radius: 5px;
     border: 1px solid transparent;
@@ -1150,7 +1505,6 @@ body.customizing .customize-grid-overlay {
     background: linear-gradient(to bottom, #f2f2f2, #ebebeb 50%, #dddddd 51%, #cfcfcf);
     border: 1px solid #8b8b8b;
     border-radius: 3px;
-    cursor: pointer;
     color: #000;
     transition: border-color 0.15s ease, background 0.15s ease;
 }
@@ -1163,7 +1517,6 @@ body.customizing .customize-grid-overlay {
 .customize-buttons .vista-btn-primary {
     background: linear-gradient(to bottom, #e1efff, #c8dff8 50%, #b1d2f0 51%, #9fc5e8);
     border-color: #3c7fb1;
-    font-weight: bold;
 }
 
 .customize-buttons .vista-btn-primary:hover {

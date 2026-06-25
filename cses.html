@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>xxtsoft · 课程表</title>
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="style.css" type="text/css" id="themeCss" />
+    <script src="js/theme-loader.js"></script>
+</head>
+
+<body>
+
+    <div class="titlebar">
+        <div class="wrap">
+            <h1>xxtsoft.top</h1>
+        </div>
+    </div>
+
+    <div class="navbar">
+        <div class="wrap">
+            <ul>
+                <li><a href="index.html">首页(H)</a></li>
+                <li><a href="articles.html">文章(A)</a></li>
+                <li><a href="downloads.html">下载(D)</a></li>
+                <li><a href="medias.html">多媒体(M)</a></li>
+                <li><a href="about.html">关于(A)</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="content wrap">
+        <div class="main" style="width: 100%;">
+            <h2><span style="color: #003399;" id="pageTitle">xxt8582753的课程表</span></h2>
+
+            <!-- 当前课程状态卡片 -->
+            <div class="window" id="currentClassCard" style="display:none;">
+                <div class="window-titlebar" id="currentClassTitle">正在上课</div>
+                <div class="window-content">
+                    <div style="display:flex; align-items:flex-start; gap:15px; flex-wrap:wrap;">
+                        <div style="flex:1; min-width:200px;">
+                            <div style="font-size:24px; font-weight:bold; color:#003399;" id="currentSubject">--</div>
+                            <div style="color:#555; margin-top:4px;" id="currentTeacher"></div>
+                            <div style="color:#555;" id="currentTimeRange"></div>
+                        </div>
+                        <div style="flex:1; min-width:200px;">
+                            <div class="progress-item">
+                                <div class="progress-label" id="progressLabel">课程进度</div>
+                                <div class="vista-progress-track">
+                                    <div class="vista-progress-fill" id="classProgressFill" style="width: 0%;"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 今日课程表 -->
+            <div class="window" style="margin-top:15px;">
+                <div class="window-titlebar">今日课程 <span style="font-weight:normal; font-size:11px;" id="todayDateLabel"></span></div>
+                <div class="window-content" id="todayScheduleContainer">
+                    <p style="color:#888;">加载中...</p>
+                </div>
+            </div>
+
+            <!-- 上传 / 管理课表 -->
+            <div class="window" style="margin-top:15px;">
+                <div class="window-titlebar">课表管理</div>
+                <div class="window-content">
+                    <p style="margin-bottom:8px;" id="scheduleSourceInfo">
+                        当前使用：<b id="scheduleSourceName">默认课表</b>
+                    </p>
+                    <div style="display:flex; gap:10px; flex-wrap:wrap; align-items:center;">
+                        <label class="cses-upload-btn" title="上传你自己的 CSES 格式课表 (.yml/.yaml)">
+                            <input type="file" id="csesFileInput" accept=".yml,.yaml" style="display:none;" />
+                            <img src="images/icons/timedate.png" alt="" width="16" height="16" style="vertical-align:middle;" /> 上传课表
+                        </label>
+                        <button id="resetScheduleBtn" class="vista-btn" style="display:none;">恢复默认课表</button>
+                        <button id="openDebugBtn" class="vista-btn">调试</button>
+                        <button id="openSettingsBtn" class="vista-btn">设置</button>
+                        <span id="uploadStatus" style="font-size:12px; color:#888;"></span>
+                    </div>
+                    <p style="font-size:11px; color:#888; margin-top:8px;">
+                        <img src="images/icons/info.png" alt="" width="14" height="14" style="vertical-align:middle;" />
+                        支持 <a href="https://github.com/SmartTeachCN/CSES">CSES</a> 格式的 .yml/.yaml 课表文件
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer">
+        <div class="wrap">
+            <p>© 2022-2026 湖南省株洲市xxt软件</p>
+            <p>除非特殊说明，本站所有文章采用 CC BY-NC 4.0 许可，网站代码已使用 MIT 协议开源</p>
+            <p>Powered by <a href="https://www.netlify.com/">Netlify</a></p>
+        </div>
+    </div>
+
+    <div id="nameDialog" class="window vista-dialog"
+        style="display:none; position:fixed; top:50%; left:50%; transform:translate(-50%, -50%); z-index:10000; width:320px;">
+        <div class="window-titlebar settings-titlebar">
+            你的名字
+            <img src="images/Window_CloseButton.png" id="closeNameDialog" class="vista-close-btn" alt="关闭" />
+        </div>
+        <div class="window-content">
+            <p style="margin-bottom:8px;">课表已上传成功！请告诉我你的名字：</p>
+            <input type="text" id="nameInput" class="cses-name-input" placeholder="输入你的名字…" maxlength="20" />
+            <div style="text-align:right; margin-top:10px;">
+                <button id="nameCancelBtn" class="vista-btn" style="margin-right:8px;">跳过</button>
+                <button id="nameOkBtn" class="vista-btn">确定</button>
+            </div>
+        </div>
+    </div>
+    <div id="nameDialogOverlay"
+        style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.3); z-index:9999;">
+    </div>
+
+    <div id="debugDialog" class="window vista-dialog"
+        style="display:none; position:fixed; top:50%; left:50%; transform:translate(-50%, -50%); z-index:10000; width:320px;">
+        <div class="window-titlebar settings-titlebar">
+            调试面板
+            <img src="images/Window_CloseButton.png" id="closeDebugDialog" class="vista-close-btn" alt="关闭" />
+        </div>
+        <div class="window-content">
+            <p style="font-size:11px; color:#888; margin-bottom:10px;">修改时间用于预览不同日期的课表，两页同步生效。</p>
+            <div style="margin-bottom:8px;">
+                <label style="display:block; font-size:12px; margin-bottom:2px;">日期</label>
+                <input type="date" id="debugDate" class="cses-name-input" />
+            </div>
+            <div style="margin-bottom:10px;">
+                <label style="display:block; font-size:12px; margin-bottom:2px;">时间</label>
+                <input type="time" id="debugTime" class="cses-name-input" />
+            </div>
+            <p id="debugStatus" style="font-size:11px; color:#d9534f; display:none;"></p>
+            <div style="text-align:right; margin-top:10px;">
+                <button id="debugResetBtn" class="vista-btn" style="margin-right:8px;">恢复真实时间</button>
+                <button id="debugApplyBtn" class="vista-btn">应用</button>
+            </div>
+        </div>
+    </div>
+    <div id="debugDialogOverlay"
+        style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.3); z-index:9999;">
+    </div>
+
+    <!-- 课表设置：有效期 -->
+    <div id="settingsDialog" class="window vista-dialog"
+        style="display:none; position:fixed; top:50%; left:50%; transform:translate(-50%, -50%); z-index:10000; width:320px;">
+        <div class="window-titlebar settings-titlebar">
+            课表设置
+            <img src="images/Window_CloseButton.png" id="closeSettingsDialog" class="vista-close-btn" alt="关闭" />
+        </div>
+        <div class="window-content">
+            <p style="font-size:11px; margin-bottom:10px;">设置课表的起始和废止日期。留空表示不限。</p>
+            <div style="margin-bottom:8px;">
+                <label style="display:block; font-size:12px; margin-bottom:2px;">起始日期</label>
+                <input type="date" id="validFrom" class="cses-name-input" />
+            </div>
+            <div style="margin-bottom:10px;">
+                <label style="display:block; font-size:12px; margin-bottom:2px;">废止日期</label>
+                <input type="date" id="validUntil" class="cses-name-input" />
+            </div>
+            <p id="settingsStatus" style="font-size:11px; color:#f0ad4e; display:none;"></p>
+            <div style="text-align:right; margin-top:10px;">
+                <button id="settingsClearBtn" class="vista-btn" style="margin-right:8px;">清除限制</button>
+                <button id="settingsSaveBtn" class="vista-btn">保存</button>
+            </div>
+        </div>
+    </div>
+    <div id="settingsDialogOverlay"
+        style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.3); z-index:9999;">
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/js-yaml@4.1.0/dist/js-yaml.min.js"></script>
+    <script src="js/cses-loader.js"></script>
+    <script>
+    (function() {
+        'use strict';
+
+        var todayDateLabel = document.getElementById('todayDateLabel');
+        var currentClassCard = document.getElementById('currentClassCard');
+        var currentClassTitle = document.getElementById('currentClassTitle');
+        var currentSubject = document.getElementById('currentSubject');
+        var currentTeacher = document.getElementById('currentTeacher');
+        var currentTimeRange = document.getElementById('currentTimeRange');
+        var classProgressFill = document.getElementById('classProgressFill');
+        var progressLabel = document.getElementById('progressLabel');
+        var todayScheduleContainer = document.getElementById('todayScheduleContainer');
+        var scheduleSourceName = document.getElementById('scheduleSourceName');
+        var resetScheduleBtn = document.getElementById('resetScheduleBtn');
+        var csesFileInput = document.getElementById('csesFileInput');
+        var uploadStatus = document.getElementById('uploadStatus');
+        var pageTitle = document.getElementById('pageTitle');
+        var nameDialog = document.getElementById('nameDialog');
+        var nameOverlay = document.getElementById('nameDialogOverlay');
+        var nameInput = document.getElementById('nameInput');
+        var nameOkBtn = document.getElementById('nameOkBtn');
+        var nameCancelBtn = document.getElementById('nameCancelBtn');
+        var closeNameDialog = document.getElementById('closeNameDialog');
+
+        var CSES_NAME_KEY = 'cses_user_name';
+
+        function getUserName() {
+            try { return localStorage.getItem(CSES_NAME_KEY) || ''; } catch(e) { return ''; }
+        }
+        function setUserName(name) {
+            try { localStorage.setItem(CSES_NAME_KEY, name); } catch(e) {}
+        }
+        function clearUserName() {
+            try { localStorage.removeItem(CSES_NAME_KEY); } catch(e) {}
+        }
+
+        function updatePageTitle() {
+            var name = getUserName();
+            var title = name ? name + '的课程表' : 'xxt8582753的课程表';
+            pageTitle.textContent = title;
+            document.title = 'xxtsoft · ' + title;
+            scheduleSourceName.textContent = name ? (name + '的课表') : (CSESLoader.getName() || '默认课表');
+        }
+
+        function showNameDialog() {
+            nameInput.value = getUserName() || '';
+            nameDialog.style.display = 'block';
+            nameOverlay.style.display = 'block';
+            setTimeout(function() { nameInput.focus(); }, 100);
+        }
+
+        function hideNameDialog() {
+            nameDialog.style.display = 'none';
+            nameOverlay.style.display = 'none';
+        }
+
+        function applyName() {
+            var name = nameInput.value.trim();
+            if (name) setUserName(name);
+            hideNameDialog();
+            updatePageTitle();
+        }
+
+        nameOkBtn.addEventListener('click', applyName);
+        nameCancelBtn.addEventListener('click', function() { hideNameDialog(); updatePageTitle(); });
+        closeNameDialog.addEventListener('click', function() { hideNameDialog(); updatePageTitle(); });
+        nameOverlay.addEventListener('click', function() { hideNameDialog(); updatePageTitle(); });
+        nameInput.addEventListener('keydown', function(e) { if (e.key === 'Enter') applyName(); });
+
+        // 设置今天日期标签
+        var now = CSESLoader.getNow();
+        var weekNames = ['日', '一', '二', '三', '四', '五', '六'];
+        var weekDay = now.getDay();
+        var weekDayCN = weekDay === 0 ? '日' : weekNames[weekDay];
+        todayDateLabel.textContent = '（' + now.getFullYear() + '年' + (now.getMonth() + 1) + '月' + now.getDate() + '日 星期' + weekDayCN + '）';
+
+        // 更新课表来源显示
+        function updateSourceDisplay() {
+            if (CSESLoader.hasCustomSchedule()) {
+                resetScheduleBtn.style.display = 'inline-block';
+            } else {
+                resetScheduleBtn.style.display = 'none';
+            }
+            updatePageTitle();
+        }
+
+        // 渲染今日课程列表
+        function renderTodaySchedule() {
+            if (!CSESLoader.isScheduleValid()) {
+                var range = CSESLoader.getValidRange();
+                var msg = '课表不在有效期内。';
+                if (range.from && range.until) msg = '课表有效期：' + range.from + ' ~ ' + range.until + '，当前不在范围内。';
+                else if (range.from) msg = '课表自 ' + range.from + ' 起生效，尚未开始。';
+                else if (range.until) msg = '课表已于 ' + range.until + ' 废止。';
+                todayScheduleContainer.innerHTML = '<p style="color:#d9534f;">' + msg + '</p>';
+                return;
+            }
+            var schedules = CSESLoader.getTodaySchedule();
+            if (!schedules || schedules.length === 0) {
+                todayScheduleContainer.innerHTML = '<p style="color:#888;">今天没有课程安排~ 享受休息日吧！</p>';
+                return;
+            }
+
+            var nowMin = now.getHours() * 60 + now.getMinutes() + now.getSeconds() / 60;
+            var html = '';
+
+            for (var i = 0; i < schedules.length; i++) {
+                var sch = schedules[i];
+                if (sch.name && sch.name !== '新课表' && sch.name !== '默认') {
+                    html += '<div style="font-size:12px; color:#003399; font-weight:bold; margin:8px 0 4px; border-bottom:1px dotted #ccc; padding-bottom:2px;">' + sch.name + '</div>';
+                }
+
+                for (var j = 0; j < sch.classes.length; j++) {
+                    var cls = sch.classes[j];
+                    var startMin = CSESLoader.timeToMinutes(cls.start_time);
+                    var endMin = CSESLoader.timeToMinutes(cls.end_time);
+                    var startTime = CSESLoader.formatTime(cls.start_time);
+                    var endTime = CSESLoader.formatTime(cls.end_time);
+                    var subjInfo = CSESLoader.getSubject(cls.subject);
+                    var displayName = cls.subject;
+                    var teacher = (subjInfo && subjInfo.teacher) ? subjInfo.teacher : '';
+
+                    var isCurrent = (nowMin >= startMin && nowMin < endMin);
+                    var isPast = (nowMin >= endMin);
+                    var rowClass = isCurrent ? 'cses-row-current' : (isPast ? 'cses-row-past' : 'cses-row-upcoming');
+
+                    html += '<div class="cses-class-row ' + rowClass + '">';
+                    html += '<div class="cses-class-time">' + startTime + ' - ' + endTime + '</div>';
+                    html += '<div class="cses-class-info">';
+                    html += '<span class="cses-class-name">' + displayName + '</span>';
+                    if (teacher) {
+                        html += '<span class="cses-class-teacher">' + teacher + '</span>';
+                    }
+                    if (isCurrent) {
+                        html += '<span class="cses-class-badge">正在进行</span>';
+                    }
+                    html += '</div>';
+                    html += '</div>';
+                }
+            }
+
+            todayScheduleContainer.innerHTML = html;
+        }
+
+        // 更新当前课程显示
+        function updateCurrentClass() {
+            if (!CSESLoader.isScheduleValid()) {
+                currentClassCard.style.display = 'none';
+                return;
+            }
+            var current = CSESLoader.getCurrentClass();
+            if (!current) {
+                currentClassCard.style.display = 'none';
+                return;
+            }
+
+            currentClassCard.style.display = 'block';
+            var subjInfo = current.subjectInfo;
+            currentSubject.textContent = current.subject;
+            currentClassTitle.textContent = '正在上课 - ' + current.subject;
+
+            if (subjInfo && subjInfo.teacher) {
+                currentTeacher.textContent = '授课教师：' + subjInfo.teacher;
+            } else {
+                currentTeacher.textContent = '';
+            }
+
+            currentTimeRange.innerHTML = CSESLoader.formatTime(current.startTime) + ' - ' + CSESLoader.formatTime(current.endTime) + ' ｜ <span style="color:#d9534f; font-weight:bold;">' + current.remainingStr + '</span>';
+
+            // 进度条 — 仅显示百分比
+            classProgressFill.style.width = current.progress.toFixed(1) + '%';
+            progressLabel.innerHTML = '课程进度 <span style="float:right; font-weight:normal;">' + current.progress.toFixed(0) + '%</span>';
+        }
+
+        // 刷新所有显示
+        function refreshAll() {
+            updateSourceDisplay();
+            renderTodaySchedule();
+            updateCurrentClass();
+        }
+
+        // 上传课表
+        csesFileInput.addEventListener('change', function(e) {
+            var file = e.target.files[0];
+            if (!file) return;
+
+            var reader = new FileReader();
+            reader.onload = function(ev) {
+                var result = CSESLoader.saveUpload(ev.target.result);
+                if (result.success) {
+                    uploadStatus.textContent = '课表「' + result.name + '」已加载！';
+                    uploadStatus.style.color = '#4caf50';
+                    refreshAll();
+                    showNameDialog();
+                } else {
+                    uploadStatus.textContent = result.error;
+                    uploadStatus.style.color = '#d9534f';
+                }
+            };
+            reader.readAsText(file);
+        });
+
+        // 恢复默认课表
+        resetScheduleBtn.addEventListener('click', function() {
+            if (confirm('确定要恢复默认课表吗？你上传的课表将被清除。')) {
+                CSESLoader.resetToDefault();
+                clearUserName();
+                uploadStatus.textContent = '已恢复默认课表，正在重新加载...';
+                uploadStatus.style.color = '#888';
+                CSESLoader.load().then(function() {
+                    refreshAll();
+                    uploadStatus.textContent = '';
+                });
+            }
+        });
+
+        // 定时刷新（每分钟更新进度）
+        function autoRefresh() {
+            updateCurrentClass();
+            renderTodaySchedule();
+        }
+
+        // ========== 调试面板 ==========
+        var debugDialog = document.getElementById('debugDialog');
+        var debugOverlay = document.getElementById('debugDialogOverlay');
+        var debugDate = document.getElementById('debugDate');
+        var debugTime = document.getElementById('debugTime');
+        var debugApplyBtn = document.getElementById('debugApplyBtn');
+        var debugResetBtn = document.getElementById('debugResetBtn');
+        var debugStatus = document.getElementById('debugStatus');
+        var closeDebugBtn = document.getElementById('closeDebugDialog');
+
+        function showDebug() {
+            var now = CSESLoader.getNow();
+            debugDate.value = now.getFullYear() + '-' +
+                String(now.getMonth() + 1).padStart(2, '0') + '-' +
+                String(now.getDate()).padStart(2, '0');
+            debugTime.value = String(now.getHours()).padStart(2, '0') + ':' +
+                String(now.getMinutes()).padStart(2, '0');
+            debugStatus.style.display = 'none';
+            if (CSESLoader.hasDebugTime()) {
+                debugStatus.textContent = '⚠ 当前使用调试时间';
+                debugStatus.style.display = 'block';
+                debugStatus.style.color = '#f0ad4e';
+            }
+            debugDialog.style.display = 'block';
+            debugOverlay.style.display = 'block';
+        }
+
+        function hideDebug() {
+            debugDialog.style.display = 'none';
+            debugOverlay.style.display = 'none';
+        }
+
+        function applyDebug() {
+            var isoStr = debugDate.value + 'T' + (debugTime.value || '00:00') + ':00';
+            var test = new Date(isoStr);
+            if (isNaN(test.getTime())) {
+                debugStatus.textContent = '日期/时间格式无效';
+                debugStatus.style.display = 'block';
+                debugStatus.style.color = '#d9534f';
+                return;
+            }
+            CSESLoader.setDebugTime(isoStr);
+            debugStatus.textContent = '调试时间已应用，刷新中...';
+            debugStatus.style.display = 'block';
+            debugStatus.style.color = '#4caf50';
+            // 更新日期标签
+            var now = CSESLoader.getNow();
+            var weekNames = ['日', '一', '二', '三', '四', '五', '六'];
+            todayDateLabel.textContent = '（' + now.getFullYear() + '年' + (now.getMonth() + 1) + '月' + now.getDate() + '日 星期' + weekNames[now.getDay()] + '）';
+            refreshAll();
+        }
+
+        function resetDebug() {
+            CSESLoader.clearDebugTime();
+            debugStatus.textContent = '已恢复真实时间';
+            debugStatus.style.display = 'block';
+            debugStatus.style.color = '#4caf50';
+            var now = CSESLoader.getNow();
+            var weekNames = ['日', '一', '二', '三', '四', '五', '六'];
+            todayDateLabel.textContent = '（' + now.getFullYear() + '年' + (now.getMonth() + 1) + '月' + now.getDate() + '日 星期' + weekNames[now.getDay()] + '）';
+            refreshAll();
+        }
+
+        debugApplyBtn.addEventListener('click', applyDebug);
+        debugResetBtn.addEventListener('click', resetDebug);
+        closeDebugBtn.addEventListener('click', hideDebug);
+        debugOverlay.addEventListener('click', hideDebug);
+        document.getElementById('openDebugBtn').addEventListener('click', function(e) {
+            e.preventDefault();
+            showDebug();
+        });
+        document.getElementById('openSettingsBtn').addEventListener('click', function(e) {
+            e.preventDefault();
+            showSettings();
+        });
+
+        // ========== 课表有效期设置 ==========
+        var settingsDialog = document.getElementById('settingsDialog');
+        var settingsOverlay = document.getElementById('settingsDialogOverlay');
+        var validFrom = document.getElementById('validFrom');
+        var validUntil = document.getElementById('validUntil');
+        var settingsStatus = document.getElementById('settingsStatus');
+        var settingsSaveBtn = document.getElementById('settingsSaveBtn');
+        var settingsClearBtn = document.getElementById('settingsClearBtn');
+        var closeSettingsBtn = document.getElementById('closeSettingsDialog');
+
+        function showSettings() {
+            var range = CSESLoader.getValidRange();
+            validFrom.value = range.from;
+            validUntil.value = range.until;
+            settingsStatus.style.display = 'none';
+            settingsDialog.style.display = 'block';
+            settingsOverlay.style.display = 'block';
+        }
+
+        function hideSettings() {
+            settingsDialog.style.display = 'none';
+            settingsOverlay.style.display = 'none';
+        }
+
+        function saveSettings() {
+            CSESLoader.setValidRange(validFrom.value, validUntil.value);
+            settingsStatus.textContent = '有效期已保存';
+            settingsStatus.style.display = 'block';
+            settingsStatus.style.color = '#4caf50';
+            refreshAll();
+        }
+
+        function clearSettings() {
+            CSESLoader.setValidRange('', '');
+            validFrom.value = '';
+            validUntil.value = '';
+            settingsStatus.textContent = '已清除有效期限制';
+            settingsStatus.style.display = 'block';
+            settingsStatus.style.color = '#4caf50';
+            refreshAll();
+        }
+
+        settingsSaveBtn.addEventListener('click', saveSettings);
+        settingsClearBtn.addEventListener('click', clearSettings);
+        closeSettingsBtn.addEventListener('click', hideSettings);
+        settingsOverlay.addEventListener('click', hideSettings);
+
+        // 双击 h2 标题打开调试面板（保留备用）
+        var h2Title = pageTitle.parentNode; // h2 元素
+        h2Title.style.userSelect = 'none';
+        h2Title.style.cursor = 'default';
+        h2Title.title = '双击打开调试面板';
+        h2Title.addEventListener('dblclick', function(e) {
+            e.preventDefault();
+            window.getSelection().removeAllRanges();
+            showDebug();
+        });
+
+        // 初始化
+        CSESLoader.load().then(function(data) {
+            if (!data) {
+                todayScheduleContainer.innerHTML = '<p style="color:#d9534f;">课表加载失败，请检查网络连接或稍后再试。</p>';
+                return;
+            }
+            refreshAll();
+            // 每分钟刷新
+            setInterval(autoRefresh, 60000);
+        });
+    })();
+    </script>
+
+</body>
+</html>

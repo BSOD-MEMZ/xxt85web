@@ -87,14 +87,11 @@ main {
   --color-danger-fg: #cf222e;
   --color-danger-emphasis: #cf222e;
 
-  /* 圆角 — 匹配 Vista 风格 */
   --borderRadius-medium: 6px;
   --borderRadius-large: 8px;
 
-  /* 字体 — 匹配网站 */
   --fontStack-primary: "Segoe UI", "Microsoft YaHei UI", "Microsoft YaHei", -apple-system, BlinkMacSystemFont, sans-serif;
 
-  /* 基础样式 */
   font-family: var(--fontStack-primary);
   font-size: 13px;
   color: var(--color-text-primary);
