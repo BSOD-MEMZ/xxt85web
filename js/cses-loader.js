@@ -285,24 +285,27 @@
 
     isScheduleValid: function () {
       try {
-        var from = localStorage.getItem(CSES_VALID_FROM);
-        var until = localStorage.getItem(CSES_VALID_UNTIL);
+        // 优先读取 CSES 数据内的 configuration 有效期
+        var cfg = (this._data && this._data.configuration) || {};
+        var from = cfg.valid_from || localStorage.getItem(CSES_VALID_FROM) || '';
+        var until = cfg.valid_until || localStorage.getItem(CSES_VALID_UNTIL) || '';
         if (!from && !until) return true;
         var today = getNow();
         var todayStr = today.getFullYear() + '-' +
           String(today.getMonth() + 1).padStart(2, '0') + '-' +
           String(today.getDate()).padStart(2, '0');
-        if (from && todayStr < from) return false;
-        if (until && todayStr > until) return false;
+        if (from && todayStr < String(from)) return false;
+        if (until && todayStr > String(until)) return false;
         return true;
       } catch (e) { return true; }
     },
 
     getValidRange: function () {
       try {
+        var cfg = (this._data && this._data.configuration) || {};
         return {
-          from: localStorage.getItem(CSES_VALID_FROM) || '',
-          until: localStorage.getItem(CSES_VALID_UNTIL) || ''
+          from: String(cfg.valid_from || localStorage.getItem(CSES_VALID_FROM) || ''),
+          until: String(cfg.valid_until || localStorage.getItem(CSES_VALID_UNTIL) || '')
         };
       } catch (e) { return { from: '', until: '' }; }
     },
@@ -313,6 +316,14 @@
         else localStorage.removeItem(CSES_VALID_FROM);
         if (until) localStorage.setItem(CSES_VALID_UNTIL, until);
         else localStorage.removeItem(CSES_VALID_UNTIL);
+        // 同步写入内存中的 CSES 数据
+        if (this._data) {
+          if (!this._data.configuration) this._data.configuration = {};
+          if (from) this._data.configuration.valid_from = from;
+          else delete this._data.configuration.valid_from;
+          if (until) this._data.configuration.valid_until = until;
+          else delete this._data.configuration.valid_until;
+        }
       } catch (e) {}
     },
 

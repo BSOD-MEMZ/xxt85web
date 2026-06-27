@@ -34,7 +34,44 @@
             <img src="assets/xpbutton.png">
             <p>这是一个标准的WindowsXP对话框，此时我正把鼠标指针放在“取消”按钮上（普通按钮的Hover状态）</p>
             <p>我们注意到无论是主要按钮（“确定”按钮）和焦点状态的普通按钮，都具有黑蓝色的窄外边框和带有渐变光泽的内边框，那如何做出这种双层边框效果呢？</p>
-            <p>也许你会想到使用border再加outline属性，但很可惜，border</p>
+            <p>也许你会想到使用border再加outline属性，但很可惜，border用outline效果不尽人意，那border能不能加上linear-gradient呢？答案也是不行的。</p>
+            <p>那么我们就需要使用伪元素来实现了，伪元素可以在元素的前后生成一个新的元素，这样我们就可以在按钮的外层和内层分别添加不同的边框效果。</p>
+            <h2>实现</h2>
+            <pre><code>
+            <xmp>
+.xpbutton {
+    position: relative;
+    border-radius: 3px;
+    cursor: pointer;
+    padding: 4px 18px;
+    font-size: 12px;
+    font-family: "Tahoma", "SimSun", sans-serif;
+    background: linear-gradient(to bottom, #fff 0%, #ECEBE6 90%, #D6D0C5 100%);
+    border: 1px solid #003C74;
+    color: #000;
+    overflow: hidden;
+}
+.xpbutton::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    padding: 2px;
+    -webkit-mask:
+        linear-gradient(#fff 0 0) content-box,
+        linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+            mask-composite: exclude;
+    pointer-events: none;
+}
+
+.xpbutton:hover::before {
+    background: linear-gradient(to bottom, #FCD279, #E59700);
+    opacity: 1;
+}
+
+            </xmp>
+            </code></pre>
         </div>
     </div>
     <script src="image-viewer.js"></script>

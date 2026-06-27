@@ -1,4 +1,8 @@
 version: 1
+configuration:
+  name: xxt8582753的课表
+  valid_from: "2026-02-17"
+  valid_until: "2026-07-10"
 subjects:
 - name: 语文
   simplified_name: 语

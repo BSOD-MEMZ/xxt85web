@@ -191,6 +191,12 @@
     var previewEnabled = localStorage.getItem('preview_enabled') !== "false";
     var filterEnabled = localStorage.getItem('filter_disturbing') === "true";
     var articleData = {
+      "bmp32.html": {
+        title: "告别黑底！转换带有透明通道的BMP图片",
+        author: "xxt8582753",
+        desc: "巧用Photoshop和FFmpeg转换具有alpha通道的非常规bmp图片。",
+        img: "images/previews/bmp32.png"
+      },
       "entertainingisland.html": {
         title: "你的课表，比你想象得更好玩——ClassIsland插件 EntertainingIsland发布！",
         author: "xxt8582753",
