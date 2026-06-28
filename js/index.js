@@ -191,237 +191,282 @@
     var previewEnabled = localStorage.getItem('preview_enabled') !== "false";
     var filterEnabled = localStorage.getItem('filter_disturbing') === "true";
     var articleData = {
+      "xpbutton.html": {
+        title: "CSS实现双层渐变边框按钮",
+        author: "xxt8582753",
+        desc: "使用伪元素和遮罩模拟WinXP按钮样式",
+        img: "images/previews/xpbutton.png",
+        date: "2026年6月20日"
+      },
       "bmp32.html": {
         title: "告别黑底！转换带有透明通道的BMP图片",
         author: "xxt8582753",
         desc: "巧用Photoshop和FFmpeg转换具有alpha通道的非常规bmp图片。",
-        img: "images/previews/bmp32.png"
+        img: "images/previews/bmp32.png",
+        date: "2026年6月19日",
       },
       "entertainingisland.html": {
         title: "你的课表，比你想象得更好玩——ClassIsland插件 EntertainingIsland发布！",
         author: "xxt8582753",
         desc: "一个为ClassIsland设计的娱乐功能插件，让同学眼前一亮，老师眼前一黑。具有防巡堂警报、下课倒计时、小说阅读器、老师口头禅记录、RSS新闻、拿老师的头当课程表、能作弊的点名器、每日宜忌运势等功能，并且具有自动化行动和安全键。",
-        img: "images/previews/entertainingisland.jpg"
+        img: "images/previews/entertainingisland.jpg",
+        date: "2026年6月6日",
       },
       "vibelikehuman.html": {
         title: "如何让AI写的程序看起来不像AI写的",
         author: "xxt8582753",
         desc: "AI编程已经成为趋势，但很多人抗拒AI生成的应用。本文将分享一些实用技巧，帮助你让AI生成的程序更像人类开发的，提升用户接受度。",
+        date: "2026年5月29日",
       },
       "competition.html": {
         title: "我！们！进！省！赛！啦！",
         author: "xxt8582753",
         desc: "在经历了层层选拔之后，我们终于成功进入了省赛！你知道为什么我要用“我们”一词吗？",
-        img: "images/previews/competition.jpg"
+        img: "images/previews/competition.jpg",
+        date: "2026年5月16日",
       },
       "superfactory.html": {
         title: "SuperFactory 格式转换器 开放测试！",
         author: "xxt8582753",
         desc: "SuperFactory 是一个万能的格式转换器，无论是媒体转换还是文档处理都能轻松应对，还具有下载视频，文件修复等功能。而我开发 SuperFactory 的初衷仅仅是觉得现有工具都不好用，或者都要钱。",
-        img: "images/previews/superfactory.jpg"
+        img: "images/previews/superfactory.jpg",
+        date: "2026年5月14日",
       },
       "4thanniversary.html": {
         title: "🎉 xxtsoft 四周年纪念",
         author: "xxt8582753",
         desc: "四载春秋，感谢一路有你！回顾我们在这四年里经历的点点滴滴，展望未来的无限可能。<br>一定要用最新版浏览器访问哦！",
-        img: ""
+        img: "",
+        date: "2026年5月22日",
       },
       "scrcpy.html": {
         title: "用Scrcpy巧救误启动模拟辅助显示设备的安卓设备",
         author: "xxt8582753",
         desc: "误触安卓模拟辅助显示设备选项，可以使用Scrcpy OTG模式+ADB修复",
-        img: "images/previews/fuckoverlay.jpg"
+        img: "images/previews/fuckoverlay.jpg",
+        date: "2026年4月30日",
       },
       "robberofnfzx.html": {
         title: "南方中学的居民和强盗",
         author: "xxt8582753",
         desc: "有一天，几个来自年级组的强盗闯进了班级。一个强盗洗劫手机，另一个强盗在搜MP4。似乎得胜之后，便可以动手行窃了。他们对班级进行了大规模的劫掠，赃物由几个胜利者均分...",
         img: "",
-        disturbing: true
+        disturbing: true,
+        date: "2026年4月19日",
       },
       "boring.html": {
         title: "无聊时可以干什么",
         author: "xxt8582753",
         desc: "最近上晚自习时我同桌总跟我抱怨写完作业后没事干好无聊，那我们可以干什么呢？<br>另外，我正在尝试一种新的写作风格，希望大家给我点建议。",
-        img: ""
+        img: "",
+        date: "2026年4月10日",
       },
       "nanfangfm.html": {
         title: "提前开学脸都给你丢光！学校里的“黑广播”",
         author: "xxt8582753",
         desc: "提前开学的乐子学校理应得到制裁！",
         img: "images/previews/vncto404.jpg",
-        disturbing: true
+        disturbing: true,
+        date: "2026年2月28日",
       },
       "qqlistener.html": {
         title: "QQListener 的技术实现",
         author: "xxt8582753",
         desc: "深入探讨 QQ 消息监听的底层原理与 Python 实现细节。",
-        img: "images/previews/qqlistener.png"
+        img: "images/previews/qqlistener.png",
+        date: "2026年1月23日",
       },
       "efluentwidget.html": {
         title: "一种基于 Electron 的 WinUI3 实现方式（？",
         author: "xxt8582753",
         desc: "尝试用 Web 技术复刻 Windows 11 质感的 UI 界面",
-        img: "images/previews/efluentgallery.png"
+        img: "images/previews/efluentgallery.png",
+        date: "2025年2月9日",
       },
-      "ninjawasp.html": {
+      "ninjawasinvincible.html": {
         title: "仁者无敌 - The True Power Behind Invincibility",
         author: "Kingstar",
         desc: "仁者无敌的真正力量在于通过仁爱与共识激发合作，使领导者和追随者朝向共同目标前进，从而战胜一切挑战。",
-        img: ""
+        img: "",
+        date: "2026年2月6日",
       },
       "webuildnas.html": {
         title: "垃圾佬在学校里开网吧惨遭制裁",
         author: "xxt8582753",
         desc: "我们在学校里找到一些垃圾配件，居然组了一台NAS？感谢南方中学通用技术老师舒老师",
         img: "images/previews/nasin507.jpg",
-        disturbing: true
+        disturbing: true,
+        date: "2026年1月23日",
       },
       "eyes.html": {
         title: "眼睛",
         author: "Cookie",
         desc: "据说是xxt8582753的一个同学失恋时写的",
-        img: ""
+        img: "",
+        date: "2026年1月18日",
       },
       "entp.html": {
         title: "EasiNote Theme Patcher - 希沃白板课堂活动资源替换器",
         author: "xxt8582753",
         desc: "希沃白板太单调？来试试给它换个皮肤，让课堂活动更有趣。",
-        img: "images/previews/entp.png"
+        img: "images/previews/entp.png",
+        date: "2025年12月7日",
       },
       "fucknfzx.html": {
         title: "校园电子产品生存指南",
         author: "xxt8582753",
         desc: "学校不让带电子产品？没关系，这份指南教你如何在校园里安全使用各种电子设备，避免被没收！",
         img: "images/previews/fucknfzx.jpg",
-        disturbing: true
+        disturbing: true,
+        date: "2025年12月20日",
       },
       "wefuckedsalt.html": {
         title: "我和AbCd白嫖了一台 12 代 i5 电脑！",
         author: "xxt8582753",
         desc: "我们开发者很缺算力，学校机房拉完了，但学校里有一台12代英特尔希沃竟然闲置着！于是我们就RDP上去白嫖了它。",
         img: "images/previews/wefcukedsalt.jpg",
-        disturbing: true
+        disturbing: true,
+        date: "2025年12月7日",
       },
       "748-exitboard-fang-xue-dao-ji-shi": {
         title: "【外链】ExitBoard 放学倒计时",
         author: "xxt8582753",
         desc: "每一秒的流逝都是为了迎接最后的自由。吸附在任务栏上的放学倒计时程序，放学全屏提醒效果",
-        img: "images/previews/exitboard.png"
+        img: "images/previews/exitboard.png",
+        date: "2025年10月5日",
       },
       "740-360tuo-tang-wei-shi": {
         title: "【外链】360 拖堂卫士 - 守护珍贵的课间十分钟！",
         author: "xxt8582753",
         desc: "针对某些喜欢拖堂的老师开发的工具，你敢拖堂就强制查杀希沃白板/PPT等软件！",
-        img: "images/previews/360classguard.jpg"
+        img: "images/previews/360classguard.jpg",
+        date: "2025年10月4日",
       },
       "20251005.html": {
         title: "SKToolBox - 打包自己的单文件工具箱",
         author: "SK",
         desc: "SKToolBox 相关内容",
-        img: "images/previews/sktb.jpg"
+        img: "images/previews/sktb.jpg",
+        date: "2025年10月5日",
       },
       "athomevideofucker.html": {
         title: "《 掌 上 看 冢 采 集 端 》",
         author: "xxt8582753",
         desc: "老师喜欢用《掌上看家采集端》这个程序监控我们。做个假的骗骗Ta？",
-        img: "images/previews/athomevideofucker.JPG"
+        img: "images/previews/athomevideofucker.JPG",
+        date: "2025年9月5日",
       },
       "win10remaster.html": {
         title: "Win10 优化宗师",
         author: "xxt8582753",
         desc: "自制工具让Win10更好用",
-        img: ""
+        img: "",
+        date: "2025年8月22日",
       },
       "fuckjunxun.html": {
         title: "强烈建议取消军训",
         author: "xxt8582753",
         desc: "个人感言，关于军训形式与实际意义的吐槽与思考。",
         img: "",
+        date: "2025年8月22日",
       },
       "fuckbihuo.html": {
         title: "千万不要用必火推广！",
         author: "xxt8582753",
         desc: "B站你妈死了",
         img: "images/previews/bihuo.jpg",
+        date: "2025年8月15日",
       },
       "playmaimaiwithabcd.html": {
         title: "记与AbCd夜拼机",
         author: "xxt8582753",
         desc: "音游人的快乐就是这么简单。和好哥们去机厅拼机、刷分的日常。",
-        img: ""
+        img: "",
+        date: "2025年8月9日",
       },
       "openduolingo.html": {
         title: "自学两周 PyQt6，做出来的日语假名学习程序—— OpenDuolingo",
         author: "xxt8582753",
         desc: "边学边练，用 Python 写了一个练习日语假名的小工具",
-        img: ""
+        img: "",
+        date: "2025年8月1日",
       },
       "enji_but_pyqt": {
         title: "【外链】欸，我不是窗口吗？——胭脂，但是 Windows",
         author: "AbCd",
         desc: "一个使用PySide6仿照《胭脂》PV制作的窗口动画程序",
-        img: "images/previews/enji.jpg"
+        img: "images/previews/enji.jpg",
+        date: "2025年7月23日",
       },
       "winres.html": {
         title: "【保姆级教程】提取 Windows 中的资源素材",
         author: "xxt8582753",
         desc: "教你如何从系统 DLL 或 EXE 中挖掘那些漂亮的图标和素材。",
-        img: "images/previews/winres.jpg"
+        img: "images/previews/winres.jpg",
+        date: "2025年7月28日",
       },
       "textract.html": {
         title: "【保姆级教程】用 Python textract 库读取 Word、Excel、PPT",
         author: "xxt8582753",
         desc: "告别繁琐的 Office 套件，直接用 Python 高效提取文档中的文本内容。",
-        img: "images/previews/python_office.jpg"
+        img: "images/previews/python_office.jpg",
+        date: "2025年7月27日",
       },
       "explorerkiller.html": {
         title: "Explorer 控制工具——ExplorerKiller",
         author: "xxt8582753",
         desc: "当资源管理器卡死时，这个工具就是你的救命稻草。",
-        img: "images/previews/killer.jpg"
+        img: "images/previews/killer.jpg",
+        date: "2025年7月27日",
       },
       "saltai.html": {
         title: "谁能拒绝一只可爱的纱露朵住进自己电脑呢？Python+DeepSeek API 开发实战演练！",
         author: "xxt8582753",
         desc: "ソルト最可爱了嘿嘿嘿",
-        img: "images/previews/ai.jpg"
+        img: "images/previews/ai.jpg",
+        date: "2025年7月23日",
       },
       "fuckgit.html": {
         title: "git 缓存清不掉，试试再建一个文件夹",
         author: "xxt8582753",
         desc: "Git简单粗暴的解决那些清理不掉的缓存难题。",
         img: "images/previews/git.jpg",
+        date: "2025年7月18日",
       },
       "pass.html": {
         title: "无题",
         author: "xxt8582753",
         desc: "",
-        img: "images/previews/none.jpg"
+        img: "images/previews/none.jpg",
+        date: "2025年7月8日",
       },
       "an_old_music_game.html": {
         title: "很久以前的自制音游，十分甚至九分难绷",
         author: "xxt8582753",
         desc: "回顾以前易语言写的逆天代码和令人绝望的判定机制。",
-        img: "images/previews/old_game.jpg"
+        img: "images/previews/old_game.jpg",
+        date: "2025年7月2日",
       },
       "reviewsomething.html": {
         title: "回忆往事",
         author: "xxt8582753",
         desc: "人老了（15岁）总喜欢回忆，看看过去做过的那些事儿。",
-        img: "images/previews/review.jpg"
+        img: "images/previews/review.jpg",
+        date: "2025年7月2日",
       },
       "fuck11.html": {
         title: "Windows 11, **都不用",
         author: "AbCd",
         desc: "关于 Win11 各种 Bug 的愤怒吐槽。",
         img: "",
+        date: "2022年8月12日",
       },
       "aeronopeak.html": {
         title: "Aero 的巅峰 —— Longhorn 4074",
         author: "xxt8582753",
         desc: "关于 Longhorn 4074 的介绍和评价。",
-        img: ""
+        img: "",
+        date: "2022年8月10日",
       },
       "upload.html": {
         title: "投稿指南",
@@ -433,79 +478,92 @@
         title: "测试文章",
         author: "xxt8582753",
         desc: "这是一个单纯的测试，用来看看样式有没有崩坏。",
-        img: ""
+        img: "",
+        date: "2025年6月25日",
       },
       "ACDSaw.html": {
         title: "ACDSaw",
         author: "xxt8582753",
         desc: "自制一个适用于Windows98的图片查看器",
-        img: "images/old_archive.png"
+        img: "images/old_archive.png",
+        date: "2024年前 存档",
       },
       "fuckyourmother.html": {
         title: "我 抄 你 妈",
         author: "xxt8582753",
         desc: "老师总是罚我们抄写，这毫无意义。于是我做了一个小游戏，你的任务是尽可能多地抄写各个老师布置的罚抄任务，通过购买道具提升抄写速度",
         img: "images/old_archive.png",
+        date: "2024年前 存档",
       },
       "Fun_2_Rhyme.html": {
         title: "Fun Rhyme 2",
         author: "xxt8582753",
         desc: "提升您的英语词汇量和拼写能力。程序会给出4个不完整的单词，尝试补全它们",
-        img: "images/old_archive.png"
+        img: "images/old_archive.png",
+        date: "2024年前 存档",
       },
       "homobomb.html": {
         title: "沼气弹引爆器",
         author: "xxt8582753",
         desc: "远程连接到班级电脑，然后使用本程序播放恶臭的音效。",
         img: "images/old_archive.png",
+        date: "2024年前 存档",
       },
       "how-to-use-img-in-vmware-or-limbo.html": {
         title: "如何在VMware和Limbo上使用img软盘镜像",
         author: "xxt8582753",
         desc: "实用技术教程存档。讲解了在虚拟机环境挂载 img 软盘镜像的操作步骤。",
-        img: "images/old_archive.png"
+        img: "images/old_archive.png",
+        date: "2024年前 存档",
       },
       "lian-xiang-dian-nao-chu-xian-error1962-no-operating-system-found.ye-xu-bu-shi-cao-zuo-xi-tong-de-wen-ti.html": {
         title: "电脑出现error1962 no operating system found的解决方案",
         author: "xxt8582753",
         desc: "联想电脑常见的启动故障排查，也许不是系统问题，而是 BIOS 和 UEFI 引导设置的问题。",
-        img: "images/old_archive.png"
+        img: "images/old_archive.png",
+        date: "2024年前 存档",
       },
       "Longhorn_Tool.html": {
         title: "Longhorn Tool",
         author: "xxt8582753",
         desc: "针对经典的 Windows Longhorn 系统开发的实用工具相关介绍。",
-        img: "images/old_archive.png"
+        img: "images/old_archive.png",
+        date: "2024年前 存档",
       },
       "Microsoft_Agent_Character_Editor_完美汉化版.html": {
         title: "Microsoft Agent Character Editor 完美汉化版",
         author: "xxt8582753",
         desc: "就是那个经典的 Office 小助手编辑器！当年的汉化作品",
-        img: "images/old_archive.png"
+        img: "images/old_archive.png",
+        date: "2024年前 存档",
       },
       "OIerHelper.html": {
         title: "OIerHelper",
         author: "xxt8582753",
         desc: "为信息学竞赛选手（OIer）准备的辅助工具，不受干扰地上洛谷看题，基于 IE 内核。",
-        img: "images/old_archive.png"
+        img: "images/old_archive.png",
+        date: "2024年前 存档",
       },
       "Rectify8.1_project.html": {
         title: "Rectify8.1项目",
         author: "xxt8582753",
         desc: "改造 Windows 8.1 视觉体验的项目记录，让Win8.1具有Win11的Fluent样式",
-        img: "images/old_archive.png"
+        img: "images/old_archive.png",
+        date: "2024年前 存档",
       },
       "Win 8 Beta Build 8014 汉化包发布.html": {
         title: "Win 8 Beta Build 8014 汉化包发布",
         author: "xxt8582753",
         desc: "早期 Windows 8 测试版的汉化成果展示",
-        img: "images/old_archive.png"
+        img: "images/old_archive.png",
+        date: "2024年前 存档",
       },
       "Win8 beta 8155 汉化包.html": {
         title: "Win 8 Beta Build 8155 汉化包发布",
         author: "xxt8582753",
         desc: "另一个 Windows 8 测试版本的汉化补丁发布记录。",
-        img: "images/old_archive.png"
+        img: "images/old_archive.png",
+        date: "2024年前 存档",
       }
     };
 
@@ -554,6 +612,7 @@
         '<div class="preview-info">' +
         '<strong>' + data.title + '</strong>' +
         '<span>作者：' + data.author + '</span>' +
+        (data.date ? '<span>发布日期：' + data.date + '</span>' : '') +
         descTag +
         '</div>' + actionsHtml;
 

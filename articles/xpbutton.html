@@ -10,7 +10,7 @@
 
 <body>
     <div class="header-image">
-        <img src="vista.webp" alt="标题图片">
+        <img src="assets/xpbutton3.png" alt="标题图片">
         <div class="title-overlay">
             <h1>CSS实现双层渐变边框按钮</h1>
         </div>
@@ -35,8 +35,8 @@
             <p>这是一个标准的WindowsXP对话框，此时我正把鼠标指针放在“取消”按钮上（普通按钮的Hover状态）</p>
             <p>我们注意到无论是主要按钮（“确定”按钮）和焦点状态的普通按钮，都具有黑蓝色的窄外边框和带有渐变光泽的内边框，那如何做出这种双层边框效果呢？</p>
             <p>也许你会想到使用border再加outline属性，但很可惜，border用outline效果不尽人意，那border能不能加上linear-gradient呢？答案也是不行的。</p>
-            <p>那么我们就需要使用伪元素来实现了，伪元素可以在元素的前后生成一个新的元素，这样我们就可以在按钮的外层和内层分别添加不同的边框效果。</p>
-            <h2>实现</h2>
+            <p>那么我们就需要使用伪元素来实现了，再配合 WebKit 的遮罩（mask），来实现一个镂空的高亮边框效果，鼠标移上去的时候会变成金色的渐变。</p>
+            <h2>最基础的按钮</h2>
             <pre><code>
             <xmp>
 .xpbutton {
@@ -51,33 +51,54 @@
     color: #000;
     overflow: hidden;
 }
+            </xmp>
+            </code></pre>
+            <p>这是按钮的基本样式，使用了线性渐变背景和边框颜色。</p>
+            <img src="assets/xpbutton2.png">
+            <p>欸，你看，是不是很像？</p>
+            <h2>加上伪元素</h2>
+            <pre><code>
+            <xmp>
 .xpbutton::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    border-radius: inherit;
-    padding: 2px;
-    -webkit-mask:
-        linear-gradient(#fff 0 0) content-box,
-        linear-gradient(#fff 0 0);
-    -webkit-mask-composite: xor;
-            mask-composite: exclude;
-    pointer-events: none;
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 2px;
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
 }
-
+            </xmp>
+            </code></pre>
+            <p>::before 是一个伪元素，它不会出现在HTML里，是CSS自动生成的。我们用它在按钮上面加了一层“透明的罩子”，专门用来做边框效果。</p>
+            <p>伪元素必须有content属性才能显示，这里直接留空就好啦；同时，我们要设置pointer-events来确保伪元素不会挡住鼠标，影响按钮的交互。</p>
+            <h2>遮罩的魔法</h2>
+            <p>这里的-webkit-mask是浏览器的遮罩功能，用来控制元素哪些部分显示、哪些部分被隐藏。我们给伪元素加了两个遮罩：一个是整个区域，一个是中间的内容区域。</p>
+            <p>-webkit-mask-composite: xor; mask-composite: exclude; 的意思是把两个遮罩区域取交集然后挖掉，也就是只显示边框部分。</p>
+            <h2>发光</h2>
+            <p>给伪元素添加一个渐变背景就好了</p>
+            <pre><code>
+            <xmp>
 .xpbutton:hover::before {
     background: linear-gradient(to bottom, #FCD279, #E59700);
     opacity: 1;
 }
-
             </xmp>
             </code></pre>
+            <h2>最终效果</h2>
+            <img src="assets/xpbutton3.png">
+            <p>是不是很像WindowsXP的按钮呢？</p>
+            <p>新的按钮样式我也很快应用到网站上，整体确实比较协调，就是这个窗框还不是很还原（按理来说xp窗口左右和底部都有蓝色粗边框，并且标题栏也还不是很像）这些细节我后面慢慢磨</p>
+            <img src="assets/xpbutton4.png">
+            <img src="assets/xpbutton5.png">
         </div>
     </div>
     <script src="image-viewer.js"></script>
 
     <div class="giscus"></div>
-    <!-- <script src="../js/giscus-loader.js"></script> -->
+    <script src="../js/giscus-loader.js"></script>
 </body>
 
 </html>
