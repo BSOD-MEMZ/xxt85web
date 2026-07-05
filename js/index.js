@@ -26,7 +26,7 @@
       var previewEnabled = localStorage.getItem('preview_enabled') !== "false";
       var live2dEnabled = localStorage.getItem('live2d_enabled') !== "false";
       var filterEnabled = localStorage.getItem('filter_disturbing') === "true";
-      var rippleEnabled = localStorage.getItem('ripple_enabled') !== "false";
+      var rippleEnabled = localStorage.getItem('ripple_enabled') === "true";
       if (umamiToggle) umamiToggle.checked = umamiEnabled;
       if (previewToggle) previewToggle.checked = previewEnabled;
       if (live2dToggle) live2dToggle.checked = live2dEnabled;
@@ -97,7 +97,10 @@
     currentBgIndex = currentBgIndex !== null ? parseInt(currentBgIndex) : 0;
 
     window.applyBackground = function (index) {
-      document.body.style.backgroundImage = "url('" + backgrounds[index] + "')";
+      var bgUrl = "url('" + backgrounds[index] + "')";
+      document.body.style.backgroundImage = bgUrl;
+      // 同步设置 CSS 变量，供移动端 ::before 伪元素读取背景图
+      document.body.style.setProperty('--mobile-bg', bgUrl);
     };
 
     applyBackground(currentBgIndex);
@@ -164,6 +167,9 @@
   function initLive2D() {
     var enabled = localStorage.getItem('live2d_enabled') !== "false";
     if (!enabled) return;
+
+    // 移动端（屏幕宽度 ≤ 1000px）不加载看板娘，节省性能和流量
+    if (window.innerWidth <= 1000 || window.matchMedia('(max-width: 1000px)').matches) return;
 
     // 动态创建 script 标签加载看板娘
     var script = document.createElement('script');

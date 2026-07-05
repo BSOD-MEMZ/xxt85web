@@ -11,8 +11,8 @@
   // 调试模式：URL 参数 ?ripple=debug 强制启用，鼠标点击也可触发
   var isDebug = /[?&]ripple=debug(&|$)/i.test(window.location.search);
 
-  // 读取用户设置：ripple_enabled 为 "false" 时关闭（默认开启）
-  if (!isDebug && localStorage.getItem('ripple_enabled') === 'false') return;
+  // 读取用户设置：ripple_enabled 为 "true" 时才开启（默认关闭，需手动在控制面板打开）
+  if (!isDebug && localStorage.getItem('ripple_enabled') !== 'true') return;
 
   // 检测是否为 Windows 系统
   var isWindows = /Windows/i.test(navigator.userAgent);
@@ -75,9 +75,11 @@
   // 监听触摸事件
   document.addEventListener('touchstart', function (e) {
     // 对每个触摸点都创建涟漪
+    // 使用 clientX/clientY 而非 pageX/pageY，因为涟漪元素是 position:fixed，
+    // 需要视口坐标而非页面坐标（后者含滚动偏移，会导致滚动后涟漪错位）
     for (var i = 0; i < e.changedTouches.length; i++) {
       var touch = e.changedTouches[i];
-      createRipple(touch.pageX, touch.pageY);
+      createRipple(touch.clientX, touch.clientY);
     }
   }, { passive: true });
 

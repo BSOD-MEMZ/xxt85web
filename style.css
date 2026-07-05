@@ -13,6 +13,8 @@ body {
     line-height: 1.5;
     cursor: url("images/aero_arrow.cur"), default;
     transition: background-image 0.5s ease-in-out;
+    /* CSS 变量默认背景图，供移动端 ::before 伪元素读取 */
+    --mobile-bg: url("background.webp");
 }
 
 
@@ -382,6 +384,31 @@ a:hover {
 }
 
 @media screen and (max-width: 1000px) {
+    /* 移动端关键性能修复：background-attachment: fixed 在移动端会导致
+       每次滚动都触发全页重绘（尤其 iOS Safari），是卡顿的头号元凶。
+       改用 ::before 伪元素（position:fixed）承载背景图，视觉效果一致且无性能问题 */
+    body {
+        background-image: none !important;
+        background-attachment: scroll;
+        transition: none;
+    }
+    body::before {
+        content: "";
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: #F0F0F0;
+        background-size: cover;
+        background-position: center center;
+        background-repeat: no-repeat;
+        z-index: -1;
+        pointer-events: none;
+        /* 从 body 的内联 style 继承背景图（JS 动态切换背景时自动同步） */
+        background-image: var(--mobile-bg, none);
+    }
+
     .sidebar {
         width: 100%
     }
