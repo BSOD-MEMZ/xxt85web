@@ -17,6 +17,7 @@
     var previewToggle = document.getElementById('previewToggle');
     var live2dToggle = document.getElementById('live2dToggle');
     var filterDisturbingToggle = document.getElementById('filterDisturbingToggle');
+    var rippleToggle = document.getElementById('rippleToggle');
 
     if (!dialog || !openBtn) return;
 
@@ -25,10 +26,12 @@
       var previewEnabled = localStorage.getItem('preview_enabled') !== "false";
       var live2dEnabled = localStorage.getItem('live2d_enabled') !== "false";
       var filterEnabled = localStorage.getItem('filter_disturbing') === "true";
+      var rippleEnabled = localStorage.getItem('ripple_enabled') !== "false";
       if (umamiToggle) umamiToggle.checked = umamiEnabled;
       if (previewToggle) previewToggle.checked = previewEnabled;
       if (live2dToggle) live2dToggle.checked = live2dEnabled;
       if (filterDisturbingToggle) filterDisturbingToggle.checked = filterEnabled;
+      if (rippleToggle) rippleToggle.checked = rippleEnabled;
     }
 
     function hideDialog() {
@@ -69,6 +72,9 @@
         }
         if (filterDisturbingToggle) {
           localStorage.setItem('filter_disturbing', filterDisturbingToggle.checked);
+        }
+        if (rippleToggle) {
+          localStorage.setItem('ripple_enabled', rippleToggle.checked);
         }
         hideDialog();
       });

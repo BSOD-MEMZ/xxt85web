@@ -46,8 +46,9 @@
                 <p><img src="images/icons/speaker.png" alt="" width="16" height="16"
                         style="vertical-align: middle;" /><b> 公告栏</b></p>
                 <p>八百代们，诸位神明，今晚玩得还开心吗（？</p>
-                <p>网站由于站长的误操作导致近两周无法访问，预计在2026年7月6日完全恢复，非常抱歉。</p>
+                <p>由于大家太过热情，网站被挤塌了，预计在2026年7月6日完全恢复，非常抱歉。以后再出现这种情况，可以先去<a href="support/mirror/index.html">镜像站</a>。</p>
                 <p>牢记本站永久域名 <b>xxtsoft.top</b> <img src="images/icons/loves.png" alt="" width="16" height="16" /> 收藏本站 带你找到回家的路！</p>
+
             </div>
             <br>
             <div class="window mainarticles">
@@ -58,7 +59,7 @@
                         <div class="list-upload-right"><button class="upload" onclick="window.location.href='upload.html'">投稿文章</button></div>
                     </div>
                     <ul>
-                        <li><a href="articles/unsleepnight.html"><del>【正在编辑】不眠之夜</del></a></li> 
+             <li><a href="articles/unsleepnight.html"><del>【正在编辑】不眠之夜</del></a></li>
                         <li><a href="articles/xpbutton.html">CSS实现双层渐变边框按钮</a></li> 
                         <li><a href="articles/bmp32.html">告别黑底！转换带有透明通道的BMP图片</a></li>   
                         <li><a href="articles/entertainingisland.html">你的课表，比你想象得更好玩——ClassIsland插件 EntertainingIsland发布！</a></li>    
@@ -307,6 +308,9 @@
                 <label><input type="checkbox" id="filterDisturbingToggle"> 过滤令人不安的内容</label>
             </div>
             <div style="margin-bottom:10px;">
+                <label><input type="checkbox" id="rippleToggle"> 触摸涟漪效果</label>
+            </div>
+            <div style="margin-bottom:10px;">
                 <label><input type="checkbox" id="umamiToggle"> 启用 Umami 统计</label>
             </div>
             <div style="text-align:right;">
@@ -386,6 +390,7 @@
 <script defer src="js/player.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/js-yaml@4.1.0/dist/js-yaml.min.js"></script>
 <script src="js/cses-loader.js"></script>
+<script defer src="js/ripple.js"></script>
 <script>
 (function(){
   var flipEl = document.querySelector('#csesLink .cses-flip');

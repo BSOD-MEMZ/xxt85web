@@ -1344,6 +1344,35 @@ body.customizing .customize-grid-overlay {
     padding: 0;
     vertical-align: middle;
     position: relative;
+}
+
+/* ===== 触摸涟漪效果 ===== */
+.touch-ripple {
+    position: fixed;
+    z-index: 99999;
+    pointer-events: none;
+    user-select: none;
+    -webkit-user-select: none;
+    width: 65px;
+    height: 65px;
+    overflow: hidden;
+}
+.touch-ripple img {
+    display: block;
+    width: 65px;
+    height: 65px;
+    image-rendering: auto;
+}
+.window-content input[type="checkbox"] {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    width: 13px;
+    height: 13px;
+    margin: 0 4px 0 0;
+    padding: 0;
+    vertical-align: middle;
+    position: relative;
     cursor: url("images/aero_arrow.cur"), default;
     background: url("images/cbunchecked.png") no-repeat center/contain;
     flex-shrink: 0;

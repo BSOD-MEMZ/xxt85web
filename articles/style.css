@@ -14,7 +14,8 @@ body {
 
 .header-image img {
     width: 100%;
-    height: auto;
+    height: 100%;
+    object-fit: cover;
     display: block;
 }
 
@@ -109,6 +110,21 @@ body {
     font-size: 16px;
     line-height: 1.6;
     margin-bottom: 15px;
+}
+
+.article-content ul {
+    list-style: none;
+    padding-left: 0;
+}
+
+.article-content ul li {
+    list-style: none;
+    background: url("../images/icons/dot.png") no-repeat left center;
+    background-size: 15px 15px;
+    padding-left: 18px;
+    margin-bottom: 5px;
+    font-size: 16px;
+    line-height: 1.6;
 }
 
 @media screen and (max-width: 900px) {
