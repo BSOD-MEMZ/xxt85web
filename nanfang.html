@@ -20,12 +20,82 @@
     .STYLE11 {
       font-weight: bold
     }
+
+    /* 弃用模态框 */
+    .deprecated-modal-overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.65);
+      z-index: 9999;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .deprecated-modal-overlay.active {
+      display: flex;
+    }
+
+    .deprecated-modal-box {
+      background: #fff;
+      border: 2px solid #c00;
+      border-radius: 8px;
+      padding: 30px 36px;
+      max-width: 480px;
+      width: 90%;
+      text-align: center;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.35);
+      position: relative;
+    }
+
+    .deprecated-modal-box h2 {
+      color: #c00;
+      font-size: 22px;
+      margin-top: 0;
+      margin-bottom: 12px;
+    }
+
+    .deprecated-modal-box p {
+      font-size: 15px;
+      line-height: 1.6;
+      color: #333;
+      margin-bottom: 20px;
+    }
+
+    .deprecated-modal-box .deprecated-modal-btn {
+      display: inline-block;
+      background: #c00;
+      color: #fff;
+      border: none;
+      padding: 10px 32px;
+      font-size: 15px;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .deprecated-modal-box .deprecated-modal-btn:hover {
+      background: #a00;
+    }
     -->
   </style>
 </head>
 
 <body oncontextmenu=self.event.returnValue=false onselectstart="return false">
   <noscript><iframe src="*.htm"></iframe></noscript>
+
+  <!-- 弃用警告模态框 -->
+  <div class="deprecated-modal-overlay active" id="deprecatedModal">
+    <div class="deprecated-modal-box">
+      <h2>此网页已弃用</h2>
+      <p>该页面已不再维护，部分内容可能已过时。<br />请前往新的网站获取最新信息。</p>
+      <button class="deprecated-modal-btn" onclick="document.getElementById('deprecatedModal').classList.remove('active')">我知道了</button>
+    </div>
+  </div>
+
   <div class="content">
 
     <div class="content">
