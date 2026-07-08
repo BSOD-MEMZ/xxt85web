@@ -1,11 +1,6 @@
-/**
- * xxtsoft 首页脚本
- * 包含：设置面板、背景切换、文章预览、留言本等
- */
 (function () {
   'use strict';
 
-  // ==================== 设置对话框 ====================
   function initSettings() {
     var dialog = document.getElementById('settingsDialog');
     var overlay = document.getElementById('dialogOverlay');
@@ -18,6 +13,7 @@
     var live2dToggle = document.getElementById('live2dToggle');
     var filterDisturbingToggle = document.getElementById('filterDisturbingToggle');
     var rippleToggle = document.getElementById('rippleToggle');
+    var uacToggle = document.getElementById('uacToggle');
 
     if (!dialog || !openBtn) return;
 
@@ -27,11 +23,13 @@
       var live2dEnabled = localStorage.getItem('live2d_enabled') !== "false";
       var filterEnabled = localStorage.getItem('filter_disturbing') === "true";
       var rippleEnabled = localStorage.getItem('ripple_enabled') === "true";
+      var uacEnabled = localStorage.getItem('uac_enabled') !== "false";
       if (umamiToggle) umamiToggle.checked = umamiEnabled;
       if (previewToggle) previewToggle.checked = previewEnabled;
       if (live2dToggle) live2dToggle.checked = live2dEnabled;
       if (filterDisturbingToggle) filterDisturbingToggle.checked = filterEnabled;
       if (rippleToggle) rippleToggle.checked = rippleEnabled;
+      if (uacToggle) uacToggle.checked = uacEnabled;
     }
 
     function hideDialog() {
@@ -49,7 +47,6 @@
     if (closeBtn) closeBtn.addEventListener('click', hideDialog);
     if (overlay) overlay.addEventListener('click', hideDialog);
 
-    // 清除 Cookie / localStorage
     if (clearBtn) {
       clearBtn.addEventListener('click', function () {
         if (confirm('确定要清除本站所有本地数据吗？这将重置背景、设置偏好等，并刷新页面。')) {
@@ -76,6 +73,9 @@
         if (rippleToggle) {
           localStorage.setItem('ripple_enabled', rippleToggle.checked);
         }
+        if (uacToggle) {
+          localStorage.setItem('uac_enabled', uacToggle.checked);
+        }
         hideDialog();
       });
     }
@@ -83,7 +83,6 @@
     loadSettings();
   }
 
-  // ==================== 背景切换 ====================
   function initBackground() {
     var backgrounds = [
       'background.webp',
@@ -99,7 +98,6 @@
     window.applyBackground = function (index) {
       var bgUrl = "url('" + backgrounds[index] + "')";
       document.body.style.backgroundImage = bgUrl;
-      // 同步设置 CSS 变量，供移动端 ::before 伪元素读取背景图
       document.body.style.setProperty('--mobile-bg', bgUrl);
     };
 
@@ -116,7 +114,6 @@
     }
   }
 
-  // ==================== Banner 关闭按钮 ====================
   var siteBanner = document.getElementById('siteBanner');
   var closeBannerBtn = document.getElementById('closeBanner');
   if (siteBanner && closeBannerBtn) {
@@ -129,7 +126,6 @@
     });
   }
 
-  // ==================== 留言本选择对话框 ====================
   var guestbookDialog = document.getElementById('guestbookDialog');
   var guestbookOverlay = document.getElementById('dialogOverlay');
   var closeGuestbookBtn = document.getElementById('closeGuestbookDialog');
@@ -203,6 +199,14 @@
     var previewEnabled = localStorage.getItem('preview_enabled') !== "false";
     var filterEnabled = localStorage.getItem('filter_disturbing') === "true";
     var articleData = {
+      "xpbutton.html": {
+        title: "不眠之夜",
+        author: "xxt8582753",
+        desc: "《我和AbCd白嫖了一台12代i5电脑》续作",
+        img: "",
+        date: "2026年7月3日 - 正在编辑",
+        disturbing: true
+      },
       "xpbutton.html": {
         title: "CSS实现双层渐变边框按钮",
         author: "xxt8582753",
