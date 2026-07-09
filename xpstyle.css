@@ -439,29 +439,23 @@ a:hover { color: #0055FF; text-decoration: underline; }
 }
 
 .vista-progress-track {
-    height: 18px;
-    border: 1px solid #7F9DB9;
-    border-radius: 2px;
-    background: #fff;
-    border-image: none;
+    height: 19px;
+    box-sizing: border-box;
+    border-style: solid;
+    border-width: 4px;
+    border-image: url(images/xppstrack.png) 4 fill stretch;
     overflow: hidden;
 }
 
 .vista-progress-fill {
     height: 100%; min-width: 4px;
-    background: linear-gradient(to bottom,
-        #3CC313 0%, #37B710 40%, #2EA30A 51%, #48D81C 100%);
-    border-radius: 1px;
-    border-image: none;
+    background: url(images/xpfill.png) repeat-x;
     transition: width 0.4s cubic-bezier(0.1,0.7,0.1,1);
 }
 
 .vista-progress-fill-pause {
     height: 100%; min-width: 4px;
-    background: linear-gradient(to bottom,
-        #C7B300 0%, #B5A200 40%, #9E8D00 51%, #D4C000 100%);
-    border-radius: 1px;
-    border-image: none;
+    background: url(images/xpfill_pause.png) repeat-x;
     transition: width 0.4s cubic-bezier(0.1,0.7,0.1,1);
 }
 
@@ -573,7 +567,7 @@ a:hover { color: #0055FF; text-decoration: underline; }
     content: url(images/WindowXP_CloseButton.png);
     float: right; cursor: pointer;
     width: 21px; height: 21px;
-    margin-top: 0; margin-right: 2px;
+    margin-top: 0; margin-right: -4px;
     transition: filter 0.2s;
 }
 .vista-close-btn:hover { filter: brightness(1.3); }
@@ -681,9 +675,6 @@ body.customizing .customize-grid-overlay {
     75% { transform: translate(4px, -2px) scale(1.003); }
 }
 
-/* 着陆动画：移除 customizing 时由 JS 驱动平滑回位 */
-
-/* 侧边栏关闭按钮 */
 .sidebar-close-btn {
     margin-left: auto;
     cursor: pointer;

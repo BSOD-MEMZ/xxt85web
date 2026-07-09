@@ -52,20 +52,30 @@
             'position:fixed;top:0;left:0;width:100%;height:100%;z-index:99999;',
             'background:rgba(0,0,0,0.55);display:flex;align-items:center;justify-content:center',
             '}',
-            /* 对话框 — 无动画，无发光边框 */
+            /* 对话框 — Vista Aero 框线 */
             '.uac-dialog{',
+            'position:relative;',
             'width:430px;max-width:92vw;margin:0;outline:none;',
-            'border:1px solid #7da2ce;',
-            'box-shadow:0 0 15px rgba(0,0,0,0.4);',
-            'border-radius:4px;background:#FFFFFF',
+            'border:none;border-radius:0;background:none',
             '}',
-            /* 标题栏 — 与 Vista 对话框一致，紧凑 */
+            /* 左框线 */
+            '.uac-dialog::before{',
+            'content:"";position:absolute;left:0;top:29px;bottom:6px;width:8px;',
+            'background:url(' + RP + 'images/frameleft.png) center/8px 100% no-repeat;',
+            'pointer-events:none;z-index:1',
+            '}',
+            /* 右框线 */
+            '.uac-dialog::after{',
+            'content:"";position:absolute;right:0;top:29px;bottom:6px;width:8px;',
+            'background:url(' + RP + 'images/frameright.png) center/8px 100% no-repeat;',
+            'pointer-events:none;z-index:1',
+            '}',
+            /* 标题栏 — Vista Aero 框线 */
             '.uac-titlebar{',
-            'display:flex;align-items:center;justify-content:space-between;',
-            'padding:4px 8px;',
-            'background:linear-gradient(to bottom,#98B4D0 0%,#B9D1EA 100%);',
-            'color:#000;font-weight:normal;',
-            'border-bottom:1px solid #8BA6C4;border-radius:4px 4px 0 0',
+            'height:29px;display:flex;align-items:center;justify-content:space-between;',
+            'border-style:solid;border-width:0 6px;',
+            'border-image:url(' + RP + 'images/framecaption.png) 0 6 fill stretch;',
+            'color:#000;font-weight:normal;padding:0 4px',
             '}',
             '.uac-title-text{',
             'font-size:12px;color:#000000;',
@@ -76,7 +86,14 @@
             '}',
             '.uac-close-btn:hover{filter:brightness(1.2)}',
             /* 内容区 */
-            '.uac-content{padding:0}',
+            '.uac-content{position:relative;padding:0 0 6px 0;background:#FFFFFF}',
+            /* 下框线 */
+            '.uac-content::before{',
+            'content:"";position:absolute;bottom:0;left:0;right:0;height:6px;',
+            'border-style:solid;border-width:0 2px 2px 2px;',
+            'border-image:url(' + RP + 'images/framebuttom.png) 0 2 2 2 fill stretch;',
+            'pointer-events:none;z-index:0',
+            '}',
             /* Banner — 在内容区顶部 */
             '.uac-banner{',
             'display:flex;align-items:center;gap:10px;padding:8px 12px;',
@@ -178,7 +195,7 @@
     changeLink.href = 'javascript:void(0)';
     changeLink.addEventListener('click', function(e) {
         e.preventDefault();
-        alert('请在首页点击「控制面板」，取消勾选「启用UAC安全提示」即可关闭此通知。');
+        alert('请在首页点击控制面板，取消勾选用户账户控制即可关闭此通知。');
     });
     btnsLeft.appendChild(changeLink);
 

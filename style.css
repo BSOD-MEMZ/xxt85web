@@ -1095,17 +1095,71 @@ a:hover {
     color: #005a9e;
 }
 .vista-dialog {
-    background: rgba(240, 240, 240) !important;
-    border: 1px solid #7da2ce !important;
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5) !important;
-    border-radius: 3px;
+    border: none !important;
+    border-radius: 0 !important;
+    background: none !important;
+    box-shadow: none !important;
+    position: relative;
+}
+
+/* 左框线 */
+.vista-dialog::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 29px;
+    bottom: 6px;
+    width: 8px;
+    background: url(images/frameleft.png) center / 8px 100% no-repeat;
+    pointer-events: none;
+    z-index: 1;
+}
+
+/* 右框线 */
+.vista-dialog::after {
+    content: '';
+    position: absolute;
+    right: 0;
+    top: 29px;
+    bottom: 6px;
+    width: 8px;
+    background: url(images/frameright.png) center / 8px 100% no-repeat;
+    pointer-events: none;
+    z-index: 1;
 }
 
 .vista-dialog .window-titlebar {
-    background: linear-gradient(to bottom, #98B4D0 0%, #B9D1EA 100%) !important;
+    height: 29px;
+    border-style: solid;
+    border-width: 0 6px;
+    border-image: url(images/framecaption.png) 0 6 fill stretch;
     color: #000;
     font-weight: normal;
-    
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 4px;
+}
+
+.vista-dialog > .window-content {
+    position: relative;
+    background: #F0F0F0;
+    padding-bottom: 16px;
+}
+
+/* 下框线 */
+.vista-dialog > .window-content::before {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 6px;
+    border-style: solid;
+    border-width: 0 2px 2px 2px;
+    border-image: url(images/framebuttom.png) 0 2 2 2 fill stretch;
+    pointer-events: none;
+    z-index: 0;
 }
 
 .vista-dialog button {
@@ -1120,12 +1174,10 @@ a:hover {
 }
 
 .vista-close-btn {
-    float: right;
     width: 28px; 
     height: 17px;
-    margin-top: 1px;
-    margin-right: 2px;
     transition: filter 0.2s;
+    flex-shrink: 0;
 }
 
 .vista-close-btn:hover {
@@ -1134,14 +1186,6 @@ a:hover {
 
 .vista-close-btn:active {
     filter: brightness(0.8);
-}
-
-.window-titlebar .settings-titlebar{
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0 0 0 8px !important; 
-    height: 25px;
 }
 /* ===== 下载页视图切换 & 卡片布局 ===== */
 
@@ -1470,13 +1514,37 @@ body.customizing .customize-grid-overlay {
     z-index: 9000;
     width: 420px;
     max-width: calc(100vw - 20px);
-    background-color: #f0f4fa;
-    background-image: url("windowbackground.png");
-    border: 1px solid #7da2ce;
-    border-radius: 6px;
-    box-shadow: 0 6px 30px rgba(0, 0, 0, 0.45);
+    border: none;
+    border-radius: 0;
+    background: none;
     overflow: hidden;
     animation: panelSlideIn 0.25s ease-out;
+}
+
+/* 左框线 */
+.customize-panel::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 29px;
+    bottom: 6px;
+    width: 8px;
+    background: url(images/frameleft.png) center / 8px 100% no-repeat;
+    pointer-events: none;
+    z-index: 1;
+}
+
+/* 右框线 */
+.customize-panel::after {
+    content: '';
+    position: absolute;
+    right: 0;
+    top: 29px;
+    bottom: 6px;
+    width: 8px;
+    background: url(images/frameright.png) center / 8px 100% no-repeat;
+    pointer-events: none;
+    z-index: 1;
 }
 
 @keyframes panelSlideIn {
@@ -1485,13 +1553,32 @@ body.customizing .customize-grid-overlay {
 }
 
 .customize-panel-titlebar {
-    background: linear-gradient(to bottom, #98B4D0 0%, #B9D1EA 100%);
+    height: 29px;
+    border-style: solid;
+    border-width: 0 6px;
+    border-image: url(images/framecaption.png) 0 6 fill stretch;
     color: #000;
     font-size: 13px;
     font-weight: normal;
-    padding: 5px 10px;
-    border-bottom: 1px solid #8BA6C4;
+    padding: 0 4px;
+    display: flex;
+    align-items: center;
     user-select: none;
+}
+
+/* 下框线 */
+.customize-buttons::before {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 6px;
+    border-style: solid;
+    border-width: 0 2px 2px 2px;
+    border-image: url(images/framebuttom.png) 0 2 2 2 fill stretch;
+    pointer-events: none;
+    z-index: 0;
 }
 
 .customize-icons {
@@ -1500,6 +1587,7 @@ body.customizing .customize-grid-overlay {
     gap: 10px;
     padding: 14px;
     justify-content: flex-start;
+    background: #ffffff;
 }
 
 .customize-icon-item {
@@ -1550,8 +1638,7 @@ body.customizing .customize-grid-overlay {
     justify-content: flex-end;
     gap: 8px;
     padding: 10px 14px;
-    border-top: 1px solid #d5dfec;
-    background: rgba(230, 238, 250, 0.6);
+    background: #F0F0F0;
 }
 
 .customize-buttons .vista-btn {
