@@ -57,7 +57,7 @@
             'width:430px;max-width:92vw;margin:0;outline:none;',
             'border:1px solid #7da2ce;',
             'box-shadow:0 0 15px rgba(0,0,0,0.4);',
-            'border-radius:4px;background:#F0F0F0',
+            'border-radius:4px;background:#FFFFFF',
             '}',
             /* 标题栏 — 与 Vista 对话框一致，紧凑 */
             '.uac-titlebar{',
@@ -92,8 +92,12 @@
             '.uac-publisher{font-size:11px;color:#888;margin-bottom:16px;',
             'font-family:"Segoe UI","Microsoft YaHei UI",sans-serif}',
             /* 按钮 */
-            '.uac-buttons{display:flex;justify-content:flex-end;gap:8px;',
-            'padding:0 20px 16px}',
+            '.uac-buttons{display:flex;justify-content:space-between;align-items:center;',
+            'padding:8px 16px;background:#F0F0F0}',
+            '.uac-buttons-right{display:flex;gap:8px}',
+            '.uac-link{font-size:11px;color:#0066CC;text-decoration:none;cursor:pointer;',
+            'font-family:"Segoe UI","Microsoft YaHei UI",sans-serif}',
+            '.uac-link:hover{text-decoration:underline}',
             '.uac-btn{min-width:75px;padding:4px 18px;font-size:12px;',
             'font-family:"Segoe UI","Microsoft YaHei UI",sans-serif;',
             'background:linear-gradient(to bottom,#f2f2f2,#ebebeb 50%,#ddd 51%,#cfcfcf);',
@@ -104,8 +108,8 @@
             '.uac-dialog{width:94vw;max-width:94vw}',
             '.uac-body{padding:12px 14px}',
             '.uac-banner{padding:8px 10px}',
-            '.uac-banner-text{font-size:11px}',
-            '.uac-buttons{padding:0 14px 12px}',
+            '.uac-banner-text{font-size:16px}',
+            '.uac-buttons{padding:8px 10px}',
             '.uac-btn{min-width:60px;padding:4px 12px}',
             '}'
         ].join('\n');
@@ -163,17 +167,34 @@
 
     body.appendChild(msgP);
 
-    // 按钮
+    // 按钮区
     var btns = document.createElement('div');
     btns.className = 'uac-buttons';
+
+    var btnsLeft = document.createElement('div');
+    var changeLink = document.createElement('a');
+    changeLink.className = 'uac-link';
+    changeLink.textContent = '更改这些通知的出现时间';
+    changeLink.href = 'javascript:void(0)';
+    changeLink.addEventListener('click', function(e) {
+        e.preventDefault();
+        alert('请在首页点击「控制面板」，取消勾选「启用UAC安全提示」即可关闭此通知。');
+    });
+    btnsLeft.appendChild(changeLink);
+
+    var btnsRight = document.createElement('div');
+    btnsRight.className = 'uac-buttons-right';
     var btnYes = document.createElement('button');
     btnYes.className = 'uac-btn';
     btnYes.textContent = '继续(C)';
     var btnNo = document.createElement('button');
     btnNo.className = 'uac-btn';
     btnNo.textContent = '取消';
-    btns.appendChild(btnYes);
-    btns.appendChild(btnNo);
+    btnsRight.appendChild(btnYes);
+    btnsRight.appendChild(btnNo);
+
+    btns.appendChild(btnsLeft);
+    btns.appendChild(btnsRight);
 
     content.appendChild(banner);
     content.appendChild(body);
@@ -204,8 +225,7 @@
 
     function onKeyDown(e) {
         if (e.key === 'Escape' || e.keyCode === 27) { e.preventDefault(); onNo(); }
-        if (e.key === 'y' || e.key === 'Y' || e.keyCode === 89) { e.preventDefault(); onYes(); }
-        if (e.key === 'n' || e.key === 'N' || e.keyCode === 78) { e.preventDefault(); onNo(); }
+        if (e.key === 'c' || e.key === 'C' || e.keyCode === 67) { e.preventDefault(); onYes(); }
     }
 
     overlay.addEventListener('click', function(e) {

@@ -1612,7 +1612,7 @@ body.uac-active { overflow: hidden; }
     box-shadow: 0 0 15px rgba(0,0,0,0.4) !important;
     outline: none !important;
     border-radius: 4px;
-    background: #F0F0F0 !important;
+    background: #FFFFFF !important;
     background-image: none !important;
 }
 
@@ -1664,7 +1664,10 @@ body.uac-active { overflow: hidden; }
 }
 
 /* 按钮 */
-.uac-buttons { display: flex; justify-content: flex-end; gap: 8px; padding: 0 20px 16px; }
+.uac-buttons { display: flex; justify-content: space-between; align-items: center; padding: 8px 16px; background: #F0F0F0; }
+.uac-buttons-right { display: flex; gap: 8px; }
+.uac-link { font-size: 11px; color: #0066CC; text-decoration: none; cursor: pointer; font-family: "Segoe UI", "Microsoft YaHei UI", sans-serif; }
+.uac-link:hover { text-decoration: underline; }
 .uac-btn {
     min-width: 75px; padding: 4px 18px !important; font-size: 12px !important;
 }
@@ -1675,6 +1678,7 @@ body.uac-active { overflow: hidden; }
     .uac-body { padding: 12px 14px; }
     .uac-banner { padding: 8px 10px; }
     .uac-banner-text { font-size: 11px; }
-    .uac-buttons { padding: 0 14px 12px; }
+    .uac-buttons { padding: 8px 10px; }
+    .uac-link { font-size: 10px; }
     .uac-btn { min-width: 60px; padding: 4px 12px !important; }
 }
