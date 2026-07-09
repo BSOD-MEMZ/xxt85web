@@ -125,24 +125,75 @@ body {
 /* ===== 窗口卡片 ===== */
 .window {
     margin-bottom: 15px;
-    border: 1px solid #0054E3;
-    border-radius: 4px 4px 3px 3px;
-    box-shadow: 2px 2px 8px rgba(0,0,0,0.4);
-    background: #ECE9D8;
+    border: none;
+    border-radius: 0;
+    position: relative;
+}
+
+/* 左框线 */
+.window::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 29px;
+    bottom: 5px;
+    width: 5px;
+    border-style: solid;
+    border-width: 6px 0;
+    border-image: url(images/xpframeleft.png) 6 0 fill stretch;
+    pointer-events: none;
+    z-index: 1;
+}
+
+/* 右框线 */
+.window::after {
+    content: '';
+    position: absolute;
+    right: 0;
+    top: 29px;
+    bottom: 5px;
+    width: 5px;
+    border-style: solid;
+    border-width: 6px 0;
+    border-image: url(images/xpframeright.png) 6 0 fill stretch;
+    pointer-events: none;
+    z-index: 1;
 }
 
 .window-titlebar {
-    background: linear-gradient(to bottom,
-        #3D95FF 0%, #005CE9 3%,  #036EFF 70%, #0060F9 90%, #0043CF 100%);
+    height: 29px;
+    border-style: solid;
+    border-width: 0 6px;
+    border-image: url(images/xpframecaption.png) 0 6 fill stretch;
     color: #fff;
     font-weight: bold;
     font-size: 13px;
     text-shadow: 1px 1px 0 rgba(0,0,0,0.35);
-    padding: 5px 10px;
-    border-radius: 4px 4px 0 0;
+    padding: 0 4px;
+    display: flex;
+    align-items: center;
 }
 
-.window-content { padding: 10px 12px; background: #ECE9D8; }
+.window-content {
+    position: relative;
+    padding: 10px 12px;
+    background: #ECE9D8;
+}
+
+/* 下框线 */
+.window > .window-content::before {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 5px;
+    border-style: solid;
+    border-width: 0 6px;
+    border-image: url(images/xpframebuttom.png) 0 6 fill stretch;
+    pointer-events: none;
+    z-index: 0;
+}
 
 .window-content h3 {
     font-size: 13px; color: #003399;
@@ -476,19 +527,14 @@ a:hover { color: #0055FF; text-decoration: underline; }
 
 /* ===== 对话框 ===== */
 .vista-dialog {
-    background: #ECE9D8 !important;
-    border: 1px solid #0054E3 !important;
-    box-shadow: 0 0 20px rgba(0,0,0,0.5) !important;
-    border-radius: 8px 8px 3px 3px !important;
+    border: none !important;
+    border-radius: 0 !important;
 }
 
 .vista-dialog .window-titlebar {
-    background: linear-gradient(to bottom,
-        #0054E3 0%, #52A0FF 50%, #2D7CEB 100%) !important;
-    color: #fff !important;
-    font-weight: bold;
-    border-radius: 6px 6px 0 0 !important;
-    text-shadow: 1px 1px 0 rgba(0,0,0,0.35);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 }
 
 .vista-dialog button{
@@ -524,6 +570,7 @@ a:hover { color: #0055FF; text-decoration: underline; }
 }
 
 .vista-close-btn {
+    content: url(images/WindowXP_CloseButton.png);
     float: right; cursor: pointer;
     width: 21px; height: 21px;
     margin-top: 0; margin-right: 2px;
@@ -638,7 +685,7 @@ body.customizing .customize-grid-overlay {
 
 /* 侧边栏关闭按钮 */
 .sidebar-close-btn {
-    float: right;
+    margin-left: auto;
     cursor: pointer;
     width: 14px;
     height: 14px;
@@ -647,6 +694,7 @@ body.customizing .customize-grid-overlay {
     opacity: 0.7;
     transition: opacity 0.15s;
     display: none;
+    flex-shrink: 0;
 }
 .sidebar-close-btn:hover { opacity: 1; }
 .customizing .sidebar-close-btn { display: inline !important; }
@@ -662,7 +710,10 @@ body.customizing .customize-grid-overlay {
     max-height: 0;
     opacity: 0;
     margin-bottom: 0;
-    border-width: 0;
+}
+.sidebar .window.window-hidden::before,
+.sidebar .window.window-hidden::after {
+    display: none;
 }
 
 /* 侧边栏窗口拖拽排序 */
@@ -674,8 +725,9 @@ body.customizing .customize-grid-overlay {
     animation: none !important;
 }
 .sidebar .window.drag-over {
-    box-shadow: 0 0 0 2px #0054E3, 0 0 18px rgba(0, 84, 227, 0.5) !important;
-    border-color: #0054E3 !important;
+    outline: 2px solid #0054E3;
+    outline-offset: -2px;
+    box-shadow: 0 0 18px rgba(0, 84, 227, 0.5) !important;
     animation: none !important;
 }
 
@@ -687,12 +739,40 @@ body.customizing .customize-grid-overlay {
     z-index: 9000;
     width: 420px;
     max-width: calc(100vw - 20px);
-    background: #ECE9D8;
-    border: 1px solid #0054E3;
-    border-radius: 8px 8px 3px 3px;
-    box-shadow: 2px 2px 18px rgba(0, 0, 0, 0.5);
+    border: none;
+    border-radius: 0;
     overflow: hidden;
     animation: panelSlideIn 0.25s ease-out;
+}
+
+/* 左框线 */
+.customize-panel::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 29px;
+    bottom: 5px;
+    width: 5px;
+    border-style: solid;
+    border-width: 6px 0;
+    border-image: url(images/xpframeleft.png) 6 0 fill stretch;
+    pointer-events: none;
+    z-index: 1;
+}
+
+/* 右框线 */
+.customize-panel::after {
+    content: '';
+    position: absolute;
+    right: 0;
+    top: 29px;
+    bottom: 5px;
+    width: 5px;
+    border-style: solid;
+    border-width: 6px 0;
+    border-image: url(images/xpframeright.png) 6 0 fill stretch;
+    pointer-events: none;
+    z-index: 1;
 }
 
 @keyframes panelSlideIn {
@@ -701,14 +781,17 @@ body.customizing .customize-grid-overlay {
 }
 
 .customize-panel-titlebar {
-    background: linear-gradient(to bottom,
-        #3D95FF 0%, #005CE9 3%, #036EFF 70%, #0060F9 90%, #0043CF 100%);
+    height: 29px;
+    border-style: solid;
+    border-width: 0 6px;
+    border-image: url(images/xpframecaption.png) 0 6 fill stretch;
     color: #fff;
     font-size: 13px;
     font-weight: bold;
     text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.35);
-    padding: 6px 12px;
-    border-bottom: 1px solid #00309C;
+    padding: 0 4px;
+    display: flex;
+    align-items: center;
     user-select: none;
 }
 
@@ -718,6 +801,7 @@ body.customizing .customize-grid-overlay {
     gap: 10px;
     padding: 14px;
     justify-content: flex-start;
+    background: #ECE9D8;
 }
 
 .customize-icon-item {
@@ -770,6 +854,21 @@ body.customizing .customize-grid-overlay {
     padding: 10px 14px;
     border-top: 1px solid #D4D0C8;
     background: #F1EFE3;
+}
+
+/* 下框线 */
+.customize-buttons::before {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 5px;
+    border-style: solid;
+    border-width: 0 6px;
+    border-image: url(images/xpframebuttom.png) 0 6 fill stretch;
+    pointer-events: none;
+    z-index: 0;
 }
 
 
