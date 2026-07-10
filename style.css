@@ -1427,11 +1427,10 @@ body.customizing .customize-grid-overlay {
     width: 65px;
     height: 65px;
     overflow: hidden;
-}
-.touch-ripple img {
-    display: block;
-    width: 65px;
-    height: 65px;
+    background-image: url("images/ripple/input.png");
+    background-repeat: no-repeat;
+    background-size: 65px auto;
+    background-position: 0 0;
     image-rendering: auto;
 }
 .window-content input[type="checkbox"] {

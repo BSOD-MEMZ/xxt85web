@@ -7,3 +7,20 @@
   for = "/css/giscus-theme.css"
   [headers.values]
     Access-Control-Allow-Origin = "https://giscus.app"
+
+# 为静态资源（图片等）设置长期缓存，避免每次页面加载都重新下载窗框等 UI 图片
+[[headers]]
+  for = "/images/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+# Live2D 看板娘模型及脚本长期缓存（.moc / 贴图 / motions / JS / CSS 等几乎不变）
+[[headers]]
+  for = "/live2d-widget/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000"
+
+[[headers]]
+  for = "/background/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"

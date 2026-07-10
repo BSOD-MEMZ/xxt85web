@@ -199,7 +199,7 @@
     var previewEnabled = localStorage.getItem('preview_enabled') !== "false";
     var filterEnabled = localStorage.getItem('filter_disturbing') === "true";
     var articleData = {
-      "xpbutton.html": {
+      "unsleepnight.html": {
         title: "不眠之夜",
         author: "xxt8582753",
         desc: "《我和AbCd白嫖了一台12代i5电脑》续作",
@@ -339,7 +339,7 @@
       "wefuckedsalt.html": {
         title: "我和AbCd白嫖了一台 12 代 i5 电脑！",
         author: "xxt8582753",
-        desc: "我们开发者很缺算力，学校机房拉完了，但学校里有一台12代英特尔希沃竟然闲置着！于是我们就RDP上去白嫖了它。",
+        desc: "我们开发者很缺算力，学校机房拉完了，但学校里有一台12代英特尔希沃竟然闲置着！于是我们就RDP上去白嫖了它，然而，我们遭到老师的惩罚和质疑",
         img: "images/previews/wefcukedsalt.jpg",
         disturbing: true,
         date: "2025年12月7日",
@@ -396,7 +396,7 @@
       "playmaimaiwithabcd.html": {
         title: "记与AbCd夜拼机",
         author: "xxt8582753",
-        desc: "音游人的快乐就是这么简单。和好哥们去机厅拼机、刷分的日常。",
+        desc: "",
         img: "",
         date: "2025年8月9日",
       },
@@ -431,7 +431,7 @@
       "explorerkiller.html": {
         title: "Explorer 控制工具——ExplorerKiller",
         author: "xxt8582753",
-        desc: "当资源管理器卡死时，这个工具就是你的救命稻草。",
+        desc: "",
         img: "images/previews/killer.jpg",
         date: "2025年7月27日",
       },
@@ -466,7 +466,7 @@
       "reviewsomething.html": {
         title: "回忆往事",
         author: "xxt8582753",
-        desc: "人老了（15岁）总喜欢回忆，看看过去做过的那些事儿。",
+        desc: "",
         img: "images/previews/review.jpg",
         date: "2025年7月2日",
       },

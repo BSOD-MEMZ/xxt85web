@@ -25,50 +25,37 @@
   // 非调试模式下：Windows 或非触摸设备不启用涟漪
   if (!isDebug && (isWindows || !isTouchDevice)) return;
 
-  var rippleBasePath = 'images/ripple/';
   var totalFrames = 12;
   var frameInterval = 20;
-  var rippleSize = 65; // 图片尺寸 65x65
+  var rippleSize = 65; // 精灵图每帧尺寸 65x65，总图 65x780（12帧纵向排列）
 
   /**
-   * 创建涟漪元素并播放动画
-   * @param {number} x - 触摸点 X 坐标（页面坐标）
-   * @param {number} y - 触摸点 Y 坐标（页面坐标）
+   * 创建涟漪元素并播放精灵图动画
+   * @param {number} x - 触摸点 X 坐标（视口坐标）
+   * @param {number} y - 触摸点 Y 坐标（视口坐标）
    */
   function createRipple(x, y) {
     var el = document.createElement('div');
     el.className = 'touch-ripple';
 
-    // 计算位置（居中于触摸点）
-    var left = x - rippleSize / 2;
-    var top = y - rippleSize / 2;
-
-    el.style.left = left + 'px';
-    el.style.top = top + 'px';
-
-    var img = document.createElement('img');
-    img.src = rippleBasePath + '0.png';
-    img.width = rippleSize;
-    img.height = rippleSize;
-    img.alt = '';
-    img.draggable = false;
-    el.appendChild(img);
+    // 定位：居中于触摸点
+    el.style.left = (x - rippleSize / 2) + 'px';
+    el.style.top  = (y - rippleSize / 2) + 'px';
 
     document.body.appendChild(el);
 
-    // 逐帧播放
+    // 逐帧播放：移动 background-position-y（负值向上偏移）
     var frameIndex = 0;
     var timer = setInterval(function () {
       frameIndex++;
       if (frameIndex >= totalFrames) {
         clearInterval(timer);
-        // 动画结束，移除元素
         if (el.parentNode) {
           el.parentNode.removeChild(el);
         }
         return;
       }
-      img.src = rippleBasePath + frameIndex + '.png';
+      el.style.backgroundPositionY = -(frameIndex * rippleSize) + 'px';
     }, frameInterval);
   }
 
