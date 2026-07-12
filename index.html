@@ -59,6 +59,7 @@
                         <div class="list-upload-right"><button class="upload" onclick="window.location.href='upload.html'">投稿文章</button></div>
                     </div>
                     <ul>
+                        <li><a href="articles/enjoyvacation.html"><del>【正在编辑】延前的暑假</del></a></li>
              <li><a href="articles/unsleepnight.html"><del><img src="images/icons/private.png" alt="" width="16" height="16" />【正在编辑】不眠之夜</del></a></li>
                         <li><a href="articles/xpbutton.html">CSS实现双层渐变边框按钮</a></li> 
                         <li><a href="articles/bmp32.html">告别黑底！转换带有透明通道的BMP图片</a></li>   
@@ -144,7 +145,7 @@
                         <li><a href="olds/Rectify8.1_project.html">Rectify8.1项目</a></li>
                         <li><a href="olds/Win 8 Beta Build 8014 汉化包发布.html">Win 8 Beta Build 8014 汉化包发布</a></li>
                         <li><a href="olds/Win8 beta 8155 汉化包.html">Win 8 Beta Build 8155 汉化包发布</a></li>
-                        <p>如果您感兴趣，可以去archive.org上寻找bsod.inmsoft.xyz的存档</p>
+                        <p>如果感兴趣，可以去archive.org上寻找bsod.inmsoft.xyz的存档</p>
                     </ul>
                 </div>
             </div>
@@ -164,9 +165,6 @@
                         <li><a href="museum.html" class="museum"><img alt="" src="images/icons/home.png" width="16"
                                     height="16" /> 博物馆</a>
                         </li>
-                        <li><a href="nanfang.html" class="nanfang"><img alt="" src="images/icons/nanfang.png" width="16"
-                                    height="16" /> 神秘打野点</a>
-                        </li>
                         <li><a href="cses.html" class="cses" id="csesLink"><img alt="" src="images/icons/timedate.png" width="16"
                                     height="16" /> <span class="cses-flip"><span class="cses-flip-a">课程表</span><span class="cses-flip-b"></span></span></a>
                         </li>
@@ -176,13 +174,9 @@
                         <li><a href="support/manga/index.html" class="manga"><img alt="" src="images/icons/manga.png" width="16"
                                     height="16" /> 漫画</a>
                         </li>
-                        <!-- <li><a href="donate.html" class="donate"><img alt="" src="images/icons/money.png" width="16" height="16" /> 符号说明</a> -->
-                        </li>
                         <li><a href="#" id="openCustomize" class="customize" target="_self"><img alt=""
                                     src="images/icons/customize.png" width="16" height="16" /> 个性化</a>
                         </li>
-                        <!-- <li><a href="aerowebring.html"><img alt="" src="images/icons/tech.png" width="16" height="16" /> -->
-                        <!-- AeroWebring（非xxtsoft提供）</a></li> -->
                         <li><a href="xml/rss.xml"><img src="images/icons/rss.png" alt="" width="16" height="16" />
                                 订阅RSS</a></li>
                         <li><a href="javascript:void(0);" id="openSettings" class="settings" target="_self"><img alt=""
@@ -237,13 +231,6 @@
                         <div class="progress-label">QQListener <b>[暂停维护]</b></div>
                         <div class="vista-progress-track">
                             <div class="vista-progress-fill-pause" style="width: 90%;"></div>
-                        </div>
-                    </div>
-
-                    <div class="progress-item" style="margin-top: 12px;">
-                        <div class="progress-label">在株洲市南方中学坐牢</div>
-                        <div class="vista-progress-track">
-                            <div class="vista-progress-fill" style="width: 95%;"></div>
                         </div>
                     </div>
                     <p><img src="images/icons/info.png" alt="" width="16" height="16" style="vertical-align: middle;" /> 网站运行情况：<b>已冻结</b><br><i>网站将以极低的频率更新</i></p>
@@ -315,7 +302,8 @@
             </div>            <div style="margin-bottom:10px;">
                 <label><input type="checkbox" id="uacToggle"> 启用用户账户控制</label>
             </div>            <div style="text-align:right;">
-                <button id="clearCookies" style="padding:2px 10px; margin-right:8px;">清除Cookie</button>
+                <button id="resetSettings" style="padding:2px 10px; margin-right:4px;">恢复默认设置</button>
+                <button id="clearCache" style="padding:2px 10px; margin-right:8px;">清除缓存</button>
                 <button id="saveSettings" style="padding:2px 10px;">确定</button>
             </div>
             <label><img alt="" src="images/icons/info.png" width="16" height="16" />某些设置项需要刷新网页才能应用</label>
@@ -398,18 +386,13 @@
   var slotB = flipEl.querySelector('.cses-flip-b');
   var visibleText = '课程表';
   var rotationTimer = null;
-
-  // slotA 始终显示可见文字，slotB 是预备位
   slotA.textContent = visibleText;
 
   function doFlip(newText) {
     if (newText === visibleText) return;
-    // slotB 放新文字，从下方开始
     slotB.textContent = newText;
-    // 触发翻页
     flipEl.classList.add('flipping');
     setTimeout(function() {
-      // 动画结束后：交换角色
       flipEl.classList.remove('flipping');
       slotA.textContent = newText;
       slotB.textContent = '';

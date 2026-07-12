@@ -7,7 +7,8 @@
     var openBtn = document.getElementById('openSettings');
     var closeBtn = document.getElementById('closeSettings');
     var saveBtn = document.getElementById('saveSettings');
-    var clearBtn = document.getElementById('clearCookies');
+    var resetBtn = document.getElementById('resetSettings');
+    var clearCacheBtn = document.getElementById('clearCache');
     var umamiToggle = document.getElementById('umamiToggle');
     var previewToggle = document.getElementById('previewToggle');
     var live2dToggle = document.getElementById('live2dToggle');
@@ -47,11 +48,28 @@
     if (closeBtn) closeBtn.addEventListener('click', hideDialog);
     if (overlay) overlay.addEventListener('click', hideDialog);
 
-    if (clearBtn) {
-      clearBtn.addEventListener('click', function () {
-        if (confirm('确定要清除本站所有本地数据吗？这将重置背景、设置偏好等，并刷新页面。')) {
+    if (resetBtn) {
+      resetBtn.addEventListener('click', function () {
+        if (confirm('确定要恢复默认设置吗？这将重置背景、设置偏好等，并刷新页面。')) {
           localStorage.clear();
           location.reload();
+        }
+      });
+    }
+
+    if (clearCacheBtn) {
+      clearCacheBtn.addEventListener('click', function () {
+        if (confirm('确定要清除浏览器缓存吗？这将强制重新下载所有资源，页面将刷新。')) {
+          // 尝试清除 Service Worker 缓存（如果有）
+          if ('caches' in window) {
+            caches.keys().then(function (names) {
+              for (var i = 0; i < names.length; i++) {
+                caches.delete(names[i]);
+              }
+            });
+          }
+          // 强制硬刷新，绕过 HTTP 缓存
+          location.reload(true);
         }
       });
     }
@@ -199,6 +217,13 @@
     var previewEnabled = localStorage.getItem('preview_enabled') !== "false";
     var filterEnabled = localStorage.getItem('filter_disturbing') === "true";
     var articleData = {
+      "enjoyvacation.html": {
+        title: "延前的暑假",
+        author: "xxt8582753",
+        desc: "ジバ的南方中学违规“自愿”补课补到7月二十多号，还没有双休，每天6点起10点放学，而我们苦中作乐，没人知道在哪里享受",
+        img: "",
+        date: "2026年7月11日 - 正在编辑",
+      },
       "unsleepnight.html": {
         title: "不眠之夜",
         author: "xxt8582753",

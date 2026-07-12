@@ -342,33 +342,6 @@
     <priority>0.64</priority>
   </url>
 
-  <!-- ======== 南方中学专题子页面 ======== -->
-  <url>
-    <loc>https://xxtsoft.top/nanfang/1.html</loc>
-    <lastmod>2026-06-06</lastmod>
-    <priority>0.64</priority>
-  </url>
-  <url>
-    <loc>https://xxtsoft.top/nanfang/res.html</loc>
-    <lastmod>2026-06-06</lastmod>
-    <priority>0.64</priority>
-  </url>
-  <url>
-    <loc>https://xxtsoft.top/nanfang/web.html</loc>
-    <lastmod>2026-06-06</lastmod>
-    <priority>0.64</priority>
-  </url>
-  <url>
-    <loc>https://xxtsoft.top/nanfang/xc.html</loc>
-    <lastmod>2026-06-06</lastmod>
-    <priority>0.64</priority>
-  </url>
-  <url>
-    <loc>https://xxtsoft.top/nanfang/files/index.html</loc>
-    <lastmod>2026-06-06</lastmod>
-    <priority>0.50</priority>
-  </url>
-
   <!-- ======== 曾经的旧文章 ======== -->
   <url>
     <loc>https://xxtsoft.top/olds/ACDSaw.html</loc>
