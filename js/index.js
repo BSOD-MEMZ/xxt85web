@@ -170,9 +170,24 @@
   if (closeGuestbookBtn) closeGuestbookBtn.addEventListener('click', hideGuestbookDialog);
   if (guestbookOverlay) {
     guestbookOverlay.addEventListener('click', function(e) {
-      // 只在使用留言本对话框时关闭
+      // 关闭留言本对话框
       if (guestbookDialog.style.display === 'block') {
         hideGuestbookDialog();
+      }
+      // 关闭欢迎对话框
+      var welcomeDialog = document.getElementById('welcomeDialog');
+      var welcomeNoShow = document.getElementById('welcomeNoShow');
+      if (welcomeDialog && welcomeDialog.style.display === 'block') {
+        welcomeDialog.style.display = 'none';
+        var guestbookDlg = document.getElementById('guestbookDialog');
+        var settingsDlg = document.getElementById('settingsDialog');
+        if ((!guestbookDlg || guestbookDlg.style.display !== 'block') &&
+            (!settingsDlg || settingsDlg.style.display !== 'block')) {
+          guestbookOverlay.style.display = 'none';
+        }
+        if (welcomeNoShow && welcomeNoShow.checked) {
+          localStorage.setItem('welcome_dismissed', '1');
+        }
       }
     });
   }
@@ -1190,6 +1205,50 @@
     });
   }
 
+  // ==================== 欢迎模态框 ====================
+  function initWelcomeModal() {
+    var KEY = 'welcome_dismissed';
+    if (localStorage.getItem(KEY) === '1') return;
+
+    var dialog = document.getElementById('welcomeDialog');
+    var overlay = document.getElementById('dialogOverlay');
+    var closeBtn = document.getElementById('closeWelcome');
+    var noShowCheckbox = document.getElementById('welcomeNoShow');
+
+    if (!dialog) return;
+
+    function hideDialog() {
+      dialog.style.display = 'none';
+      // 只在只有欢迎对话框打开时隐藏 overlay
+      var guestbookDialog = document.getElementById('guestbookDialog');
+      var settingsDialog = document.getElementById('settingsDialog');
+      if ((!guestbookDialog || guestbookDialog.style.display !== 'block') &&
+          (!settingsDialog || settingsDialog.style.display !== 'block')) {
+        if (overlay) overlay.style.display = 'none';
+      }
+      if (noShowCheckbox && noShowCheckbox.checked) {
+        localStorage.setItem(KEY, '1');
+      }
+    }
+
+    function showDialog() {
+      dialog.style.display = 'block';
+      if (overlay) overlay.style.display = 'block';
+    }
+
+    if (closeBtn) closeBtn.addEventListener('click', hideDialog);
+    if (overlay) {
+      overlay.addEventListener('click', function() {
+        if (dialog.style.display === 'block') {
+          hideDialog();
+        }
+      });
+    }
+
+    // 页面加载后稍作延迟弹出
+    setTimeout(showDialog, 400);
+  }
+
   // ==================== 主题初始化 ====================
   function initTheme() {
     var savedTheme = localStorage.getItem('theme') || 'style.css';
@@ -1209,6 +1268,7 @@
     initLive2D();
     initArticlePreviews();
     initWaifuSearch();
+    initWelcomeModal();
   }
 
   if (document.readyState === 'loading') {

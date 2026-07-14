@@ -942,6 +942,26 @@ body.customizing .customize-grid-overlay {
     .customizing .main .window,
     .customizing .sidebar .window { animation: none !important; }
     .sidebar-close-btn { display: none !important; }
+
+    #welcomeDialog {
+        width: 88vw !important;
+        max-width: 480px;
+        max-height: 80vh;
+    }
+    #welcomeDialog .welcome-body {
+        padding: 14px 16px 6px 16px !important;
+        max-height: calc(80vh - 29px - 10px - 6px - 38px);
+    }
+    #welcomeDialog h1 {
+        font-size: 20px;
+    }
+    #welcomeDialog p {
+        font-size: 14px;
+    }
+    #welcomeDialog img {
+        max-width: 100%;
+        height: auto;
+    }
 }
 
 /* ===== Checkbox 样式 (XP Luna) ===== */

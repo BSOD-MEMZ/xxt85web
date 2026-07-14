@@ -461,6 +461,26 @@ a:hover {
     #waifu {
         display: none !important;
     }
+
+    #welcomeDialog {
+        width: 88vw !important;
+        max-width: 480px;
+        max-height: 80vh;
+    }
+    #welcomeDialog .welcome-body {
+        padding: 14px 16px 6px 16px !important;
+        max-height: calc(80vh - 29px - 10px - 6px - 38px);
+    }
+    #welcomeDialog h1 {
+        font-size: 20px;
+    }
+    #welcomeDialog p {
+        font-size: 14px;
+    }
+    #welcomeDialog img {
+        max-width: 100%;
+        height: auto;
+    }
 }
 
 .search-container {
@@ -1767,4 +1787,24 @@ body.uac-active { overflow: hidden; }
     .uac-buttons { padding: 8px 10px; }
     .uac-link { font-size: 10px; }
     .uac-btn { min-width: 60px; padding: 4px 12px !important; }
+
+    #welcomeDialog {
+        width: 94vw !important;
+        max-width: 94vw;
+        max-height: 80vh;
+    }
+    #welcomeDialog .welcome-body {
+        padding: 10px 12px 4px 12px !important;
+        max-height: calc(80vh - 29px - 10px - 6px - 38px);
+    }
+    #welcomeDialog h1 {
+        font-size: 17px;
+    }
+    #welcomeDialog p {
+        font-size: 13px;
+    }
+    #welcomeDialog img {
+        max-width: 100%;
+        height: auto;
+    }
 }

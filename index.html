@@ -59,7 +59,7 @@
                         <div class="list-upload-right"><button class="upload" onclick="window.location.href='upload.html'">投稿文章</button></div>
                     </div>
                     <ul>
-                        <li><a href="articles/enjoyvacation.html"><del>【正在编辑】延前的暑假</del></a></li>
+                        <!-- <li><a href="articles/enjoyvacation.html"><del>【正在编辑】延前的暑假</del></a></li> -->
              <li><a href="articles/unsleepnight.html"><del><img src="images/icons/private.png" alt="" width="16" height="16" />【正在编辑】不眠之夜</del></a></li>
                         <li><a href="articles/xpbutton.html">CSS实现双层渐变边框按钮</a></li> 
                         <li><a href="articles/bmp32.html">告别黑底！转换带有透明通道的BMP图片</a></li>   
@@ -116,9 +116,10 @@
                     </ul>
                     <h3><img src="images/icons/projects.png" alt="" width="16" height="16" /> 专栏</h3>
                     <ul>
-                        <li><a href="projects/fuckschool.html">违纪之星</a></li>
+                        <li>本月暂无话题</li>
+                        <!-- <li><a href="projects/fuckschool.html">违纪之星</a></li>
                         <li><a href="projects/dick.html">嘉豪迪克</a></li>
-                        <li><a href="projects/python.html">Python 编程</a></li>
+                        <li><a href="projects/python.html">Python 编程</a></li> -->
                     </ul>
                     <h3><img src="images/icons/dairy.png" alt="" width="16" height="16" /> 开发日记</h3>
                     <ul>
@@ -371,6 +372,28 @@
     </div>
     <div id="dialogOverlay"
         style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.3); z-index:9999;">
+    </div>
+    <div id="welcomeDialog" class="window vista-dialog"
+        style="display:none; position:fixed; top:50%; left:50%; transform:translate(-50%, -50%); z-index:10000; width:480px; max-height:85vh;">
+        <div class="window-titlebar settings-titlebar">
+            南方中学还我暑假！！！
+            <img src="images/Window_CloseButton.png" id="closeWelcome" class="vista-close-btn" alt="关闭" />
+        </div>
+        <div class="window-content" style="background-color: white;">
+            <div class="welcome-body" style="max-height:calc(85vh - 29px - 10px - 6px - 38px); overflow-y:auto; padding:18px 22px 8px 22px;">
+                <h1>南方中学还我暑假！！！</h1>
+                <img src="images/qzk.gif">
+                <p>株洲市南方中学丧心病狂，考完期末了到7月中旬还在<b>强制补课</b>，直到现在都没有放假通知，问什么时候放假就装死，据小道消息说是要7月底。每天6点起10点放学，其它学校都放了，<b>连市里面最好的河西某高中都放假了！</b></p>
+                <p>这个雷霆神人学校不把学生当人看，平时双休都没有，各种法定节假日扣扣嗖嗖，日常管理也极为严格，晚自习甚至连上厕所都要报备。</p>
+                <p>还在等什么？快去各大政务平台<b>举报株洲市南方中学违规补课</b>救救你们苦逼的站长和我们倒了八辈子霉的南中人吧！</p>
+                <img src="images/sad.gif">
+            </div>
+            <div style="background-color:#f0f0f0; text-align:left;border-top:1px solid #ccc;padding:8px 8px 8px 22px;">
+                <label style="font-size:12px;cursor:pointer;">
+                    <input type="checkbox" id="welcomeNoShow" /> 不再显示
+                </label>
+            </div>
+        </div>
     </div>
 </body>
 <script defer src="js/index.js"></script>
