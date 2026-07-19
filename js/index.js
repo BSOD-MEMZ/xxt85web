@@ -1,3 +1,582 @@
+window.xxtArticleData = {
+    // --- 最新文章 ---
+    "enjoyvacation.html": {
+        title: "延前的暑假",
+        author: "xxt8582753",
+        desc: "ジバ的南方中学违规\u201C自愿\u201D补课补到7月二十多号，还没有双休，每天6点起10点放学，而我们苦中作乐，没人知道在哪里享受",
+        img: "",
+        date: "2026年7月11日 - 正在编辑",
+        tags: ["school", "rant"],
+        editing: true,
+        url: "articles/enjoyvacation.html"
+    },
+    "windbg.html": {
+        title: "别样的蓝屏大战",
+        author: "xxt8582753",
+        desc: "排查VMware版本过低导致的0x3B错误",
+        img: "",
+        date: "2026年7月19日",
+        tags: ["coding", "tutorial"],
+        url: "articles/windbg.html"
+    },
+    "unsleepnight.html": {
+        title: "不眠之夜",
+        author: "xxt8582753",
+        desc: "《我和AbCd白嫖了一台12代i5电脑》续作",
+        img: "",
+        date: "2026年7月3日 - 正在编辑",
+        disturbing: true,
+        tags: ["school", "rant"],
+        editing: true,
+        uac: true,
+        url: "articles/unsleepnight.html"
+    },
+    "xpbutton.html": {
+        title: "CSS实现双层渐变边框按钮",
+        author: "xxt8582753",
+        desc: "使用伪元素和遮罩模拟WinXP按钮样式",
+        img: "images/previews/xpbutton.png",
+        date: "2026年6月20日",
+        tags: ["coding", "tutorial"],
+        url: "articles/xpbutton.html"
+    },
+    "bmp32.html": {
+        title: "告别黑底！转换带有透明通道的BMP图片",
+        author: "xxt8582753",
+        desc: "巧用Photoshop和FFmpeg转换具有alpha通道的非常规bmp图片。",
+        img: "images/previews/bmp32.png",
+        date: "2026年6月19日",
+        tags: ["coding", "tutorial"],
+        url: "articles/bmp32.html"
+    },
+    "entertainingisland.html": {
+        title: "你的课表，比你想象得更好玩——ClassIsland插件 EntertainingIsland发布！",
+        author: "xxt8582753",
+        desc: "一个为ClassIsland设计的娱乐功能插件，让同学眼前一亮，老师眼前一黑。具有防巡堂警报、下课倒计时、小说阅读器、老师口头禅记录、RSS新闻、拿老师的头当课程表、能作弊的点名器、每日宜忌运势等功能，并且具有自动化行动和安全键。",
+        img: "images/previews/entertainingisland.jpg",
+        date: "2026年6月6日",
+        tags: ["coding"],
+        url: "articles/entertainingisland.html"
+    },
+    "vibelikehuman.html": {
+        title: "如何让AI写的程序看起来不像AI写的",
+        author: "xxt8582753",
+        desc: "AI编程已经成为趋势，但很多人抗拒AI生成的应用。本文将分享一些实用技巧，帮助你让AI生成的程序更像人类开发的，提升用户接受度。",
+        date: "2026年5月29日",
+        tags: ["coding"],
+        url: "articles/vibelikehuman.html"
+    },
+    "competition.html": {
+        title: "我！们！进！省！赛！啦！",
+        author: "xxt8582753",
+        desc: "在经历了层层选拔之后，我们终于成功进入了省赛！你知道为什么我要用\u201C我们\u201D一词吗？",
+        img: "images/previews/competition.jpg",
+        date: "2026年5月16日",
+        tags: ["school"],
+        url: "articles/competition.html"
+    },
+    "superfactory.html": {
+        title: "SuperFactory 格式转换器 开放测试！",
+        author: "xxt8582753",
+        desc: "SuperFactory 是一个万能的格式转换器，无论是媒体转换还是文档处理都能轻松应对，还具有下载视频，文件修复等功能。而我开发 SuperFactory 的初衷仅仅是觉得现有工具都不好用，或者都要钱。",
+        img: "images/previews/superfactory.jpg",
+        date: "2026年5月14日",
+        tags: ["coding"],
+        url: "articles/superfactory.html"
+    },
+    "4thanniversary.html": {
+        title: "🎉 xxtsoft 四周年纪念",
+        author: "xxt8582753",
+        desc: "四载春秋，感谢一路有你！回顾我们在这四年里经历的点点滴滴，展望未来的无限可能。<br>一定要用最新版浏览器访问哦！",
+        img: "",
+        date: "2026年5月22日",
+        tags: ["rant"],
+        url: "articles/4thanniversary.html"
+    },
+    "scrcpy.html": {
+        title: "用Scrcpy巧救误启动模拟辅助显示设备的安卓设备",
+        author: "xxt8582753",
+        desc: "误触安卓模拟辅助显示设备选项，可以使用Scrcpy OTG模式+ADB修复",
+        img: "images/previews/fuckoverlay.jpg",
+        date: "2026年4月30日",
+        tags: ["tutorial", "coding"],
+        url: "articles/scrcpy.html"
+    },
+    "robberofnfzx.html": {
+        title: "南方中学的居民和强盗",
+        author: "xxt8582753",
+        desc: "有一天，几个来自年级组的强盗闯进了班级。一个强盗洗劫手机，另一个强盗在搜MP4。似乎得胜之后，便可以动手行窃了。他们对班级进行了大规模的劫掠，赃物由几个胜利者均分...",
+        img: "",
+        disturbing: true,
+        tags: ["school", "rant"],
+        hot: true,
+        date: "2026年4月19日",
+        url: "articles/robberofnfzx.html"
+    },
+    "boring.html": {
+        title: "无聊时可以干什么",
+        author: "xxt8582753",
+        desc: "最近上晚自习时我同桌总跟我抱怨写完作业后没事干好无聊，那我们可以干什么呢？<br>另外，我正在尝试一种新的写作风格，希望大家给我点建议。",
+        img: "",
+        date: "2026年4月10日",
+        tags: ["rant"],
+        url: "articles/boring.html"
+    },
+    "nanfangfm.html": {
+        title: "提前开学脸都给你丢光！学校里的\u201C黑广播\u201D",
+        author: "xxt8582753",
+        desc: "提前开学的乐子学校理应得到制裁！",
+        img: "images/previews/vncto404.jpg",
+        disturbing: true,
+        tags: ["school", "rant"],
+        date: "2026年2月28日",
+        url: "articles/nanfangfm.html"
+    },
+    "qqlistener.html": {
+        title: "QQListener 的技术实现",
+        author: "xxt8582753",
+        desc: "深入探讨 QQ 消息监听的底层原理与 Python 实现细节。",
+        img: "images/previews/qqlistener.png",
+        date: "2026年1月23日",
+        tags: ["coding", "school"],
+        url: "articles/qqlistener.html"
+    },
+    "efluentwidget.html": {
+        title: "一种基于 Electron 的 WinUI3 实现方式（？",
+        author: "xxt8582753",
+        desc: "尝试用 Web 技术复刻 Windows 11 质感的 UI 界面",
+        img: "images/previews/efluentgallery.png",
+        date: "2025年2月9日",
+        tags: ["coding"],
+        url: "articles/efluentwidget.html"
+    },
+    "ninjawasinvincible.html": {
+        title: "仁者无敌 - The True Power Behind Invincibility",
+        author: "Kingstar",
+        desc: "仁者无敌的真正力量在于通过仁爱与共识激发合作，使领导者和追随者朝向共同目标前进，从而战胜一切挑战。",
+        img: "",
+        date: "2026年2月6日",
+        tags: ["rant"],
+        url: "articles/ninjawasinvincible.html"
+    },
+    "webuildnas.html": {
+        title: "垃圾佬在学校里开网吧惨遭制裁",
+        author: "xxt8582753",
+        desc: "我们在学校里找到一些垃圾配件，居然组了一台NAS？感谢南方中学通用技术老师舒老师",
+        img: "images/previews/nasin507.jpg",
+        disturbing: true,
+        tags: ["school", "coding"],
+        hot: true,
+        date: "2026年1月23日",
+        url: "articles/webuildnas.html"
+    },
+    "eyes.html": {
+        title: "眼睛",
+        author: "Cookie",
+        desc: "据说是xxt8582753的一个同学失恋时写的",
+        img: "",
+        date: "2026年1月18日",
+        tags: ["rant"],
+        url: "articles/eyes.html"
+    },
+    "entp.html": {
+        title: "EasiNote Theme Patcher - 希沃白板课堂活动资源替换器",
+        author: "xxt8582753",
+        desc: "希沃白板太单调？来试试给它换个皮肤，让课堂活动更有趣。",
+        img: "images/previews/entp.png",
+        date: "2025年12月7日",
+        tags: ["school", "coding"],
+        url: "articles/entp.html"
+    },
+    "fucknfzx.html": {
+        title: "校园电子产品生存指南",
+        author: "xxt8582753",
+        desc: "学校不让带电子产品？没关系，这份指南教你如何在校园里安全使用各种电子设备，避免被没收！",
+        img: "images/previews/fucknfzx.jpg",
+        disturbing: true,
+        tags: ["school", "rant"],
+        date: "2025年12月20日",
+        url: "articles/fucknfzx.html"
+    },
+    "wefuckedsalt.html": {
+        title: "我和AbCd白嫖了一台 12 代 i5 电脑！",
+        author: "xxt8582753",
+        desc: "我们开发者很缺算力，学校机房拉完了，但学校里有一台12代英特尔希沃竟然闲置着！于是我们就RDP上去白嫖了它，然而，我们遭到老师的惩罚和质疑",
+        img: "images/previews/wefcukedsalt.jpg",
+        disturbing: true,
+        tags: ["school", "rant", "coding"],
+        hot: true,
+        uac: true,
+        awarded: true,
+        date: "2025年12月7日",
+        url: "articles/wefuckedsalt.html"
+    },
+    "748-exitboard-fang-xue-dao-ji-shi": {
+        title: "【外链】ExitBoard 放学倒计时",
+        author: "xxt8582753",
+        desc: "每一秒的流逝都是为了迎接最后的自由。吸附在任务栏上的放学倒计时程序，放学全屏提醒效果",
+        img: "images/previews/exitboard.png",
+        date: "2025年10月5日",
+        tags: ["coding", "school"],
+        url: "https://forum.smart-teach.cn/d/748-exitboard-fang-xue-dao-ji-shi"
+    },
+    "740-360tuo-tang-wei-shi": {
+        title: "【外链】360 拖堂卫士 - 守护珍贵的课间十分钟！",
+        author: "xxt8582753",
+        desc: "针对某些喜欢拖堂的老师开发的工具，你敢拖堂就强制查杀希沃白板/PPT等软件！",
+        img: "images/previews/360classguard.jpg",
+        date: "2025年10月4日",
+        tags: ["coding", "school"],
+        url: "https://forum.smart-teach.cn/d/740-360tuo-tang-wei-shi"
+    },
+    "20251005.html": {
+        title: "SKToolBox - 打包自己的单文件工具箱",
+        author: "SK",
+        desc: "SKToolBox 相关内容",
+        img: "images/previews/sktb.jpg",
+        date: "2025年10月5日",
+        tags: ["coding"],
+        url: "articles/20251005.html"
+    },
+    "athomevideofucker.html": {
+        title: "《 掌 上 看 冢 采 集 端 》",
+        author: "xxt8582753",
+        desc: "老师喜欢用《掌上看家采集端》这个程序监控我们。做个假的骗骗Ta？",
+        img: "images/previews/athomevideofucker.JPG",
+        date: "2025年9月5日",
+        tags: ["coding", "rant", "school"],
+        url: "articles/athomevideofucker.html"
+    },
+    "win10remaster.html": {
+        title: "Win10 优化宗师",
+        author: "xxt8582753",
+        desc: "自制工具让Win10更好用",
+        img: "",
+        date: "2025年8月22日",
+        tags: ["coding"],
+        url: "articles/win10remaster.html"
+    },
+    "fuckjunxun.html": {
+        title: "强烈建议取消军训",
+        author: "xxt8582753",
+        desc: "个人感言，关于军训形式与实际意义的吐槽与思考。",
+        img: "",
+        date: "2025年8月22日",
+        tags: ["rant"],
+        url: "articles/fuckjunxun.html"
+    },
+    "fuckbihuo.html": {
+        title: "千万不要用必火推广！",
+        author: "xxt8582753",
+        desc: "B站你妈死了",
+        img: "images/previews/bihuo.jpg",
+        date: "2025年8月15日",
+        tags: ["rant"],
+        url: "articles/fuckbihuo.html"
+    },
+    "playmaimaiwithabcd.html": {
+        title: "记与AbCd夜拼机",
+        author: "xxt8582753",
+        desc: "",
+        img: "",
+        date: "2025年8月9日",
+        tags: ["rant"],
+        url: "articles/playmaimaiwithabcd.html"
+    },
+    "openduolingo.html": {
+        title: "自学两周 PyQt6，做出来的日语假名学习程序—— OpenDuolingo",
+        author: "xxt8582753",
+        desc: "边学边练，用 Python 写了一个练习日语假名的小工具",
+        img: "",
+        date: "2025年8月1日",
+        tags: ["coding"],
+        url: "articles/openduolingo.html"
+    },
+    "enji_but_pyqt": {
+        title: "【外链】欸，我不是窗口吗？——胭脂，但是 Windows",
+        author: "AbCd",
+        desc: "一个使用PySide6仿照《胭脂》PV制作的窗口动画程序",
+        img: "images/previews/enji.jpg",
+        date: "2025年7月23日",
+        tags: ["coding"],
+        url: "https://0xabcd.dev/posts/enji_but_pyqt/"
+    },
+    "winres.html": {
+        title: "【保姆级教程】提取 Windows 中的资源素材",
+        author: "xxt8582753",
+        desc: "教你如何从系统 DLL 或 EXE 中挖掘那些漂亮的图标和素材。",
+        img: "images/previews/winres.jpg",
+        date: "2025年7月28日",
+        tags: ["tutorial"],
+        url: "articles/winres.html"
+    },
+    "textract.html": {
+        title: "【保姆级教程】用 Python textract 库读取 Word、Excel、PPT",
+        author: "xxt8582753",
+        desc: "告别繁琐的 Office 套件，直接用 Python 高效提取文档中的文本内容。",
+        img: "images/previews/python_office.jpg",
+        date: "2025年7月27日",
+        tags: ["tutorial", "coding"],
+        url: "articles/textract.html"
+    },
+    "explorerkiller.html": {
+        title: "Explorer 控制工具——ExplorerKiller",
+        author: "xxt8582753",
+        desc: "",
+        img: "images/previews/killer.jpg",
+        date: "2025年7月27日",
+        tags: ["coding"],
+        url: "articles/explorerkiller.html"
+    },
+    "saltai.html": {
+        title: "谁能拒绝一只可爱的纱露朵住进自己电脑呢？Python+DeepSeek API 开发实战演练！",
+        author: "xxt8582753",
+        desc: "ソルト最可爱了嘿嘿嘿",
+        img: "images/previews/ai.jpg",
+        date: "2025年7月23日",
+        tags: ["coding", "tutorial"],
+        url: "articles/saltai.html"
+    },
+    "fuckgit.html": {
+        title: "git 缓存清不掉，试试再建一个文件夹",
+        author: "xxt8582753",
+        desc: "Git简单粗暴的解决那些清理不掉的缓存难题。",
+        img: "images/previews/git.jpg",
+        date: "2025年7月18日",
+        tags: ["tutorial", "coding"],
+        url: "articles/fuckgit.html"
+    },
+    "pass.html": {
+        title: "无题",
+        author: "xxt8582753",
+        desc: "",
+        img: "images/previews/none.jpg",
+        date: "2025年7月8日",
+        tags: ["rant"],
+        url: "articles/pass.html"
+    },
+    "an_old_music_game.html": {
+        title: "很久以前的自制音游，十分甚至九分难绷",
+        author: "xxt8582753",
+        desc: "回顾以前易语言写的逆天代码和令人绝望的判定机制。",
+        img: "images/previews/old_game.jpg",
+        date: "2025年7月2日",
+        tags: ["coding"],
+        url: "articles/an_old_music_game.html"
+    },
+    "reviewsomething.html": {
+        title: "回忆往事",
+        author: "xxt8582753",
+        desc: "",
+        img: "images/previews/review.jpg",
+        date: "2025年7月2日",
+        tags: ["rant"],
+        url: "articles/reviewsomething.html"
+    },
+    "fuck11.html": {
+        title: "Windows 11, **都不用",
+        author: "AbCd",
+        desc: "关于 Win11 各种 Bug 的愤怒吐槽。",
+        img: "",
+        date: "2022年8月12日",
+        tags: ["rant"],
+        url: "articles/fuck11.html"
+    },
+    "aeronopeak.html": {
+        title: "Aero 的巅峰 —— Longhorn 4074",
+        author: "xxt8582753",
+        desc: "关于 Longhorn 4074 的介绍和评价。",
+        img: "",
+        date: "2022年8月10日",
+        tags: ["rant"],
+        url: "articles/aeronopeak.html"
+    },
+    "upload.html": {
+        title: "投稿指南",
+        author: "xxt8582753",
+        desc: "想让你的文章出现在本站？快来看看具体的投稿流程吧。",
+        img: "",
+        tags: [],
+        url: "upload.html"
+    },
+    "test.html": {
+        title: "测试文章",
+        author: "xxt8582753",
+        desc: "这是一个单纯的测试，用来看看样式有没有崩坏。",
+        img: "",
+        date: "2025年6月25日",
+        tags: [],
+        url: "articles/test.html"
+    },
+    "qqlistener-app": {
+        title: "QQListener - 监听班级 QQ 群消息",
+        author: "xxt8582753",
+        desc: "监听班级QQ群消息，及时发现作业、通知等重要信息。",
+        img: "images/previews/qqlistener.png",
+        date: "2026年1月23日",
+        tags: ["coding"],
+        url: "support/QQListener/index.html"
+    },
+
+    // --- 曾经的文章（olds/） ---
+    "ACDSaw.html": {
+        title: "ACDSaw",
+        author: "xxt8582753",
+        desc: "自制一个适用于Windows98的图片查看器",
+        img: "images/old_archive.png",
+        date: "2024年前 存档",
+        url: "olds/ACDSaw.html"
+    },
+    "fuckyourmother.html": {
+        title: "我 抄 你 妈",
+        author: "xxt8582753",
+        desc: "老师总是罚我们抄写，这毫无意义。于是我做了一个小游戏，你的任务是尽可能多地抄写各个老师布置的罚抄任务，通过购买道具提升抄写速度",
+        img: "images/old_archive.png",
+        date: "2024年前 存档",
+        url: "olds/fuckyourmother.html"
+    },
+    "Fun_2_Rhyme.html": {
+        title: "Fun Rhyme 2",
+        author: "xxt8582753",
+        desc: "提升您的英语词汇量和拼写能力。程序会给出4个不完整的单词，尝试补全它们",
+        img: "images/old_archive.png",
+        date: "2024年前 存档",
+        url: "olds/Fun_2_Rhyme.html"
+    },
+    "homobomb.html": {
+        title: "沼气弹引爆器",
+        author: "xxt8582753",
+        desc: "远程连接到班级电脑，然后使用本程序播放恶臭的音效。",
+        img: "images/old_archive.png",
+        date: "2024年前 存档",
+        url: "olds/homobomb.html"
+    },
+    "how-to-use-img-in-vmware-or-limbo.html": {
+        title: "如何在VMware和Limbo上使用img软盘镜像",
+        author: "xxt8582753",
+        desc: "实用技术教程存档。讲解了在虚拟机环境挂载 img 软盘镜像的操作步骤。",
+        img: "images/old_archive.png",
+        date: "2024年前 存档",
+        url: "olds/how-to-use-img-in-vmware-or-limbo.html"
+    },
+    "lian-xiang-dian-nao-chu-xian-error1962-no-operating-system-found.ye-xu-bu-shi-cao-zuo-xi-tong-de-wen-ti.html": {
+        title: "电脑出现error1962 no operating system found的解决方案",
+        author: "xxt8582753",
+        desc: "联想电脑常见的启动故障排查，也许不是系统问题，而是 BIOS 和 UEFI 引导设置的问题。",
+        img: "images/old_archive.png",
+        date: "2024年前 存档",
+        url: "olds/lian-xiang-dian-nao-chu-xian-error1962-no-operating-system-found.ye-xu-bu-shi-cao-zuo-xi-tong-de-wen-ti.html"
+    },
+    "Longhorn_Tool.html": {
+        title: "Longhorn Tool",
+        author: "xxt8582753",
+        desc: "针对经典的 Windows Longhorn 系统开发的实用工具相关介绍。",
+        img: "images/old_archive.png",
+        date: "2024年前 存档",
+        url: "olds/Longhorn_Tool.html"
+    },
+    "Microsoft_Agent_Character_Editor_完美汉化版.html": {
+        title: "Microsoft Agent Character Editor 完美汉化版",
+        author: "xxt8582753",
+        desc: "就是那个经典的 Office 小助手编辑器！当年的汉化作品",
+        img: "images/old_archive.png",
+        date: "2024年前 存档",
+        url: "olds/Microsoft_Agent_Character_Editor_完美汉化版.html"
+    },
+    "OIerHelper.html": {
+        title: "OIerHelper",
+        author: "xxt8582753",
+        desc: "为信息学竞赛选手（OIer）准备的辅助工具，不受干扰地上洛谷看题，基于 IE 内核。",
+        img: "images/old_archive.png",
+        date: "2024年前 存档",
+        url: "olds/OIerHelper.html"
+    },
+    "Rectify8.1_project.html": {
+        title: "Rectify8.1项目",
+        author: "xxt8582753",
+        desc: "改造 Windows 8.1 视觉体验的项目记录，让Win8.1具有Win11的Fluent样式",
+        img: "images/old_archive.png",
+        date: "2024年前 存档",
+        url: "olds/Rectify8.1_project.html"
+    },
+    "Win 8 Beta Build 8014 汉化包发布.html": {
+        title: "Win 8 Beta Build 8014 汉化包发布",
+        author: "xxt8582753",
+        desc: "早期 Windows 8 测试版的汉化成果展示",
+        img: "images/old_archive.png",
+        date: "2024年前 存档",
+        url: "olds/Win 8 Beta Build 8014 汉化包发布.html"
+    },
+    "Win8 beta 8155 汉化包.html": {
+        title: "Win 8 Beta Build 8155 汉化包发布",
+        author: "xxt8582753",
+        desc: "另一个 Windows 8 测试版本的汉化补丁发布记录。",
+        img: "images/old_archive.png",
+        date: "2024年前 存档",
+        url: "olds/Win8 beta 8155 汉化包.html"
+    }
+};
+
+// 文章显示顺序（首页最新文章列表顺序）
+window.xxtArticleOrder = [
+    "windbg.html",
+    "unsleepnight.html",
+    "xpbutton.html",
+    "bmp32.html",
+    "entertainingisland.html",
+    "vibelikehuman.html",
+    "competition.html",
+    "superfactory.html",
+    "4thanniversary.html",
+    "scrcpy.html",
+    "robberofnfzx.html",
+    "boring.html",
+    "nanfangfm.html",
+    "qqlistener-app",
+    "qqlistener.html",
+    "efluentwidget.html",
+    "ninjawasinvincible.html",
+    "webuildnas.html",
+    "eyes.html",
+    "entp.html",
+    "fucknfzx.html",
+    "wefuckedsalt.html",
+    "748-exitboard-fang-xue-dao-ji-shi",
+    "740-360tuo-tang-wei-shi",
+    "20251005.html",
+    "athomevideofucker.html",
+    "win10remaster.html",
+    "fuckjunxun.html",
+    "fuckbihuo.html",
+    "playmaimaiwithabcd.html",
+    "openduolingo.html",
+    "enji_but_pyqt",
+    "winres.html",
+    "textract.html",
+    "explorerkiller.html",
+    "saltai.html",
+    "fuckgit.html",
+    "pass.html",
+    "an_old_music_game.html",
+    "reviewsomething.html",
+    "fuck11.html",
+    "aeronopeak.html",
+    "test.html"
+];
+
+// 标签配置：key -> { name, icon }
+window.xxtTagConfig = {
+    "all":      { name: "全部",     icon: "" },
+    "coding":   { name: "技术", icon: "images/icons/computer.png" },
+    "tutorial": { name: "教程", icon: "images/icons/knowledge.png" },
+    "school":   { name: "校园", icon: "images/icons/home.png" },
+    "live":   { name: "生活", icon: "images/icons/live.png" },
+    "rant":     { name: "杂谈", icon: "images/icons/info.png" },
+    "acgn":  { name: "ACGN", icon: "images/icons/group.png" },
+    "help":  { name: "求助",  icon: "images/icons/help.png" },
+    "rest":  { name: "灌水",  icon: "images/icons/copy.png" }
+};
+
 (function () {
   'use strict';
 
@@ -231,397 +810,7 @@
   function initArticlePreviews() {
     var previewEnabled = localStorage.getItem('preview_enabled') !== "false";
     var filterEnabled = localStorage.getItem('filter_disturbing') === "true";
-    var articleData = {
-      "enjoyvacation.html": {
-        title: "延前的暑假",
-        author: "xxt8582753",
-        desc: "ジバ的南方中学违规“自愿”补课补到7月二十多号，还没有双休，每天6点起10点放学，而我们苦中作乐，没人知道在哪里享受",
-        img: "",
-        date: "2026年7月11日 - 正在编辑",
-      },
-      "unsleepnight.html": {
-        title: "不眠之夜",
-        author: "xxt8582753",
-        desc: "《我和AbCd白嫖了一台12代i5电脑》续作",
-        img: "",
-        date: "2026年7月3日 - 正在编辑",
-        disturbing: true
-      },
-      "xpbutton.html": {
-        title: "CSS实现双层渐变边框按钮",
-        author: "xxt8582753",
-        desc: "使用伪元素和遮罩模拟WinXP按钮样式",
-        img: "images/previews/xpbutton.png",
-        date: "2026年6月20日"
-      },
-      "bmp32.html": {
-        title: "告别黑底！转换带有透明通道的BMP图片",
-        author: "xxt8582753",
-        desc: "巧用Photoshop和FFmpeg转换具有alpha通道的非常规bmp图片。",
-        img: "images/previews/bmp32.png",
-        date: "2026年6月19日",
-      },
-      "entertainingisland.html": {
-        title: "你的课表，比你想象得更好玩——ClassIsland插件 EntertainingIsland发布！",
-        author: "xxt8582753",
-        desc: "一个为ClassIsland设计的娱乐功能插件，让同学眼前一亮，老师眼前一黑。具有防巡堂警报、下课倒计时、小说阅读器、老师口头禅记录、RSS新闻、拿老师的头当课程表、能作弊的点名器、每日宜忌运势等功能，并且具有自动化行动和安全键。",
-        img: "images/previews/entertainingisland.jpg",
-        date: "2026年6月6日",
-      },
-      "vibelikehuman.html": {
-        title: "如何让AI写的程序看起来不像AI写的",
-        author: "xxt8582753",
-        desc: "AI编程已经成为趋势，但很多人抗拒AI生成的应用。本文将分享一些实用技巧，帮助你让AI生成的程序更像人类开发的，提升用户接受度。",
-        date: "2026年5月29日",
-      },
-      "competition.html": {
-        title: "我！们！进！省！赛！啦！",
-        author: "xxt8582753",
-        desc: "在经历了层层选拔之后，我们终于成功进入了省赛！你知道为什么我要用“我们”一词吗？",
-        img: "images/previews/competition.jpg",
-        date: "2026年5月16日",
-      },
-      "superfactory.html": {
-        title: "SuperFactory 格式转换器 开放测试！",
-        author: "xxt8582753",
-        desc: "SuperFactory 是一个万能的格式转换器，无论是媒体转换还是文档处理都能轻松应对，还具有下载视频，文件修复等功能。而我开发 SuperFactory 的初衷仅仅是觉得现有工具都不好用，或者都要钱。",
-        img: "images/previews/superfactory.jpg",
-        date: "2026年5月14日",
-      },
-      "4thanniversary.html": {
-        title: "🎉 xxtsoft 四周年纪念",
-        author: "xxt8582753",
-        desc: "四载春秋，感谢一路有你！回顾我们在这四年里经历的点点滴滴，展望未来的无限可能。<br>一定要用最新版浏览器访问哦！",
-        img: "",
-        date: "2026年5月22日",
-      },
-      "scrcpy.html": {
-        title: "用Scrcpy巧救误启动模拟辅助显示设备的安卓设备",
-        author: "xxt8582753",
-        desc: "误触安卓模拟辅助显示设备选项，可以使用Scrcpy OTG模式+ADB修复",
-        img: "images/previews/fuckoverlay.jpg",
-        date: "2026年4月30日",
-      },
-      "robberofnfzx.html": {
-        title: "南方中学的居民和强盗",
-        author: "xxt8582753",
-        desc: "有一天，几个来自年级组的强盗闯进了班级。一个强盗洗劫手机，另一个强盗在搜MP4。似乎得胜之后，便可以动手行窃了。他们对班级进行了大规模的劫掠，赃物由几个胜利者均分...",
-        img: "",
-        disturbing: true,
-        date: "2026年4月19日",
-      },
-      "boring.html": {
-        title: "无聊时可以干什么",
-        author: "xxt8582753",
-        desc: "最近上晚自习时我同桌总跟我抱怨写完作业后没事干好无聊，那我们可以干什么呢？<br>另外，我正在尝试一种新的写作风格，希望大家给我点建议。",
-        img: "",
-        date: "2026年4月10日",
-      },
-      "nanfangfm.html": {
-        title: "提前开学脸都给你丢光！学校里的“黑广播”",
-        author: "xxt8582753",
-        desc: "提前开学的乐子学校理应得到制裁！",
-        img: "images/previews/vncto404.jpg",
-        disturbing: true,
-        date: "2026年2月28日",
-      },
-      "qqlistener.html": {
-        title: "QQListener 的技术实现",
-        author: "xxt8582753",
-        desc: "深入探讨 QQ 消息监听的底层原理与 Python 实现细节。",
-        img: "images/previews/qqlistener.png",
-        date: "2026年1月23日",
-      },
-      "efluentwidget.html": {
-        title: "一种基于 Electron 的 WinUI3 实现方式（？",
-        author: "xxt8582753",
-        desc: "尝试用 Web 技术复刻 Windows 11 质感的 UI 界面",
-        img: "images/previews/efluentgallery.png",
-        date: "2025年2月9日",
-      },
-      "ninjawasinvincible.html": {
-        title: "仁者无敌 - The True Power Behind Invincibility",
-        author: "Kingstar",
-        desc: "仁者无敌的真正力量在于通过仁爱与共识激发合作，使领导者和追随者朝向共同目标前进，从而战胜一切挑战。",
-        img: "",
-        date: "2026年2月6日",
-      },
-      "webuildnas.html": {
-        title: "垃圾佬在学校里开网吧惨遭制裁",
-        author: "xxt8582753",
-        desc: "我们在学校里找到一些垃圾配件，居然组了一台NAS？感谢南方中学通用技术老师舒老师",
-        img: "images/previews/nasin507.jpg",
-        disturbing: true,
-        date: "2026年1月23日",
-      },
-      "eyes.html": {
-        title: "眼睛",
-        author: "Cookie",
-        desc: "据说是xxt8582753的一个同学失恋时写的",
-        img: "",
-        date: "2026年1月18日",
-      },
-      "entp.html": {
-        title: "EasiNote Theme Patcher - 希沃白板课堂活动资源替换器",
-        author: "xxt8582753",
-        desc: "希沃白板太单调？来试试给它换个皮肤，让课堂活动更有趣。",
-        img: "images/previews/entp.png",
-        date: "2025年12月7日",
-      },
-      "fucknfzx.html": {
-        title: "校园电子产品生存指南",
-        author: "xxt8582753",
-        desc: "学校不让带电子产品？没关系，这份指南教你如何在校园里安全使用各种电子设备，避免被没收！",
-        img: "images/previews/fucknfzx.jpg",
-        disturbing: true,
-        date: "2025年12月20日",
-      },
-      "wefuckedsalt.html": {
-        title: "我和AbCd白嫖了一台 12 代 i5 电脑！",
-        author: "xxt8582753",
-        desc: "我们开发者很缺算力，学校机房拉完了，但学校里有一台12代英特尔希沃竟然闲置着！于是我们就RDP上去白嫖了它，然而，我们遭到老师的惩罚和质疑",
-        img: "images/previews/wefcukedsalt.jpg",
-        disturbing: true,
-        date: "2025年12月7日",
-      },
-      "748-exitboard-fang-xue-dao-ji-shi": {
-        title: "【外链】ExitBoard 放学倒计时",
-        author: "xxt8582753",
-        desc: "每一秒的流逝都是为了迎接最后的自由。吸附在任务栏上的放学倒计时程序，放学全屏提醒效果",
-        img: "images/previews/exitboard.png",
-        date: "2025年10月5日",
-      },
-      "740-360tuo-tang-wei-shi": {
-        title: "【外链】360 拖堂卫士 - 守护珍贵的课间十分钟！",
-        author: "xxt8582753",
-        desc: "针对某些喜欢拖堂的老师开发的工具，你敢拖堂就强制查杀希沃白板/PPT等软件！",
-        img: "images/previews/360classguard.jpg",
-        date: "2025年10月4日",
-      },
-      "20251005.html": {
-        title: "SKToolBox - 打包自己的单文件工具箱",
-        author: "SK",
-        desc: "SKToolBox 相关内容",
-        img: "images/previews/sktb.jpg",
-        date: "2025年10月5日",
-      },
-      "athomevideofucker.html": {
-        title: "《 掌 上 看 冢 采 集 端 》",
-        author: "xxt8582753",
-        desc: "老师喜欢用《掌上看家采集端》这个程序监控我们。做个假的骗骗Ta？",
-        img: "images/previews/athomevideofucker.JPG",
-        date: "2025年9月5日",
-      },
-      "win10remaster.html": {
-        title: "Win10 优化宗师",
-        author: "xxt8582753",
-        desc: "自制工具让Win10更好用",
-        img: "",
-        date: "2025年8月22日",
-      },
-      "fuckjunxun.html": {
-        title: "强烈建议取消军训",
-        author: "xxt8582753",
-        desc: "个人感言，关于军训形式与实际意义的吐槽与思考。",
-        img: "",
-        date: "2025年8月22日",
-      },
-      "fuckbihuo.html": {
-        title: "千万不要用必火推广！",
-        author: "xxt8582753",
-        desc: "B站你妈死了",
-        img: "images/previews/bihuo.jpg",
-        date: "2025年8月15日",
-      },
-      "playmaimaiwithabcd.html": {
-        title: "记与AbCd夜拼机",
-        author: "xxt8582753",
-        desc: "",
-        img: "",
-        date: "2025年8月9日",
-      },
-      "openduolingo.html": {
-        title: "自学两周 PyQt6，做出来的日语假名学习程序—— OpenDuolingo",
-        author: "xxt8582753",
-        desc: "边学边练，用 Python 写了一个练习日语假名的小工具",
-        img: "",
-        date: "2025年8月1日",
-      },
-      "enji_but_pyqt": {
-        title: "【外链】欸，我不是窗口吗？——胭脂，但是 Windows",
-        author: "AbCd",
-        desc: "一个使用PySide6仿照《胭脂》PV制作的窗口动画程序",
-        img: "images/previews/enji.jpg",
-        date: "2025年7月23日",
-      },
-      "winres.html": {
-        title: "【保姆级教程】提取 Windows 中的资源素材",
-        author: "xxt8582753",
-        desc: "教你如何从系统 DLL 或 EXE 中挖掘那些漂亮的图标和素材。",
-        img: "images/previews/winres.jpg",
-        date: "2025年7月28日",
-      },
-      "textract.html": {
-        title: "【保姆级教程】用 Python textract 库读取 Word、Excel、PPT",
-        author: "xxt8582753",
-        desc: "告别繁琐的 Office 套件，直接用 Python 高效提取文档中的文本内容。",
-        img: "images/previews/python_office.jpg",
-        date: "2025年7月27日",
-      },
-      "explorerkiller.html": {
-        title: "Explorer 控制工具——ExplorerKiller",
-        author: "xxt8582753",
-        desc: "",
-        img: "images/previews/killer.jpg",
-        date: "2025年7月27日",
-      },
-      "saltai.html": {
-        title: "谁能拒绝一只可爱的纱露朵住进自己电脑呢？Python+DeepSeek API 开发实战演练！",
-        author: "xxt8582753",
-        desc: "ソルト最可爱了嘿嘿嘿",
-        img: "images/previews/ai.jpg",
-        date: "2025年7月23日",
-      },
-      "fuckgit.html": {
-        title: "git 缓存清不掉，试试再建一个文件夹",
-        author: "xxt8582753",
-        desc: "Git简单粗暴的解决那些清理不掉的缓存难题。",
-        img: "images/previews/git.jpg",
-        date: "2025年7月18日",
-      },
-      "pass.html": {
-        title: "无题",
-        author: "xxt8582753",
-        desc: "",
-        img: "images/previews/none.jpg",
-        date: "2025年7月8日",
-      },
-      "an_old_music_game.html": {
-        title: "很久以前的自制音游，十分甚至九分难绷",
-        author: "xxt8582753",
-        desc: "回顾以前易语言写的逆天代码和令人绝望的判定机制。",
-        img: "images/previews/old_game.jpg",
-        date: "2025年7月2日",
-      },
-      "reviewsomething.html": {
-        title: "回忆往事",
-        author: "xxt8582753",
-        desc: "",
-        img: "images/previews/review.jpg",
-        date: "2025年7月2日",
-      },
-      "fuck11.html": {
-        title: "Windows 11, **都不用",
-        author: "AbCd",
-        desc: "关于 Win11 各种 Bug 的愤怒吐槽。",
-        img: "",
-        date: "2022年8月12日",
-      },
-      "aeronopeak.html": {
-        title: "Aero 的巅峰 —— Longhorn 4074",
-        author: "xxt8582753",
-        desc: "关于 Longhorn 4074 的介绍和评价。",
-        img: "",
-        date: "2022年8月10日",
-      },
-      "upload.html": {
-        title: "投稿指南",
-        author: "xxt8582753",
-        desc: "想让你的文章出现在本站？快来看看具体的投稿流程吧。",
-        img: ""
-      },
-      "test.html": {
-        title: "测试文章",
-        author: "xxt8582753",
-        desc: "这是一个单纯的测试，用来看看样式有没有崩坏。",
-        img: "",
-        date: "2025年6月25日",
-      },
-      "ACDSaw.html": {
-        title: "ACDSaw",
-        author: "xxt8582753",
-        desc: "自制一个适用于Windows98的图片查看器",
-        img: "images/old_archive.png",
-        date: "2024年前 存档",
-      },
-      "fuckyourmother.html": {
-        title: "我 抄 你 妈",
-        author: "xxt8582753",
-        desc: "老师总是罚我们抄写，这毫无意义。于是我做了一个小游戏，你的任务是尽可能多地抄写各个老师布置的罚抄任务，通过购买道具提升抄写速度",
-        img: "images/old_archive.png",
-        date: "2024年前 存档",
-      },
-      "Fun_2_Rhyme.html": {
-        title: "Fun Rhyme 2",
-        author: "xxt8582753",
-        desc: "提升您的英语词汇量和拼写能力。程序会给出4个不完整的单词，尝试补全它们",
-        img: "images/old_archive.png",
-        date: "2024年前 存档",
-      },
-      "homobomb.html": {
-        title: "沼气弹引爆器",
-        author: "xxt8582753",
-        desc: "远程连接到班级电脑，然后使用本程序播放恶臭的音效。",
-        img: "images/old_archive.png",
-        date: "2024年前 存档",
-      },
-      "how-to-use-img-in-vmware-or-limbo.html": {
-        title: "如何在VMware和Limbo上使用img软盘镜像",
-        author: "xxt8582753",
-        desc: "实用技术教程存档。讲解了在虚拟机环境挂载 img 软盘镜像的操作步骤。",
-        img: "images/old_archive.png",
-        date: "2024年前 存档",
-      },
-      "lian-xiang-dian-nao-chu-xian-error1962-no-operating-system-found.ye-xu-bu-shi-cao-zuo-xi-tong-de-wen-ti.html": {
-        title: "电脑出现error1962 no operating system found的解决方案",
-        author: "xxt8582753",
-        desc: "联想电脑常见的启动故障排查，也许不是系统问题，而是 BIOS 和 UEFI 引导设置的问题。",
-        img: "images/old_archive.png",
-        date: "2024年前 存档",
-      },
-      "Longhorn_Tool.html": {
-        title: "Longhorn Tool",
-        author: "xxt8582753",
-        desc: "针对经典的 Windows Longhorn 系统开发的实用工具相关介绍。",
-        img: "images/old_archive.png",
-        date: "2024年前 存档",
-      },
-      "Microsoft_Agent_Character_Editor_完美汉化版.html": {
-        title: "Microsoft Agent Character Editor 完美汉化版",
-        author: "xxt8582753",
-        desc: "就是那个经典的 Office 小助手编辑器！当年的汉化作品",
-        img: "images/old_archive.png",
-        date: "2024年前 存档",
-      },
-      "OIerHelper.html": {
-        title: "OIerHelper",
-        author: "xxt8582753",
-        desc: "为信息学竞赛选手（OIer）准备的辅助工具，不受干扰地上洛谷看题，基于 IE 内核。",
-        img: "images/old_archive.png",
-        date: "2024年前 存档",
-      },
-      "Rectify8.1_project.html": {
-        title: "Rectify8.1项目",
-        author: "xxt8582753",
-        desc: "改造 Windows 8.1 视觉体验的项目记录，让Win8.1具有Win11的Fluent样式",
-        img: "images/old_archive.png",
-        date: "2024年前 存档",
-      },
-      "Win 8 Beta Build 8014 汉化包发布.html": {
-        title: "Win 8 Beta Build 8014 汉化包发布",
-        author: "xxt8582753",
-        desc: "早期 Windows 8 测试版的汉化成果展示",
-        img: "images/old_archive.png",
-        date: "2024年前 存档",
-      },
-      "Win8 beta 8155 汉化包.html": {
-        title: "Win 8 Beta Build 8155 汉化包发布",
-        author: "xxt8582753",
-        desc: "另一个 Windows 8 测试版本的汉化补丁发布记录。",
-        img: "images/old_archive.png",
-        date: "2024年前 存档",
-      }
-    };
+    var articleData = window.xxtArticleData || {};
 
     var links = document.querySelectorAll('.mainarticles ul li a');
     for (var i = 0; i < links.length; i++) {
@@ -1256,6 +1445,214 @@
     if (themeLink) themeLink.href = savedTheme;
   }
 
+  // ==================== 标签筛选与文章列表动态渲染 ====================
+  function initTagFilter() {
+    var articleData = window.xxtArticleData || {};
+    var articleOrder = window.xxtArticleOrder || [];
+    var tagConfig = window.xxtTagConfig || {};
+
+    var tagFiltersEl = document.getElementById('tagFilters');
+    var articleListEl = document.getElementById('articleList');
+    if (!tagFiltersEl || !articleListEl) return;
+
+    // 注入标签按钮样式（同搜索页面的 Vista 经典风格）
+    if (!document.getElementById('xxt-tag-filter-css')) {
+      var style = document.createElement('style');
+      style.id = 'xxt-tag-filter-css';
+      style.textContent = [
+        '#tagFilters { display: flex; flex-wrap: wrap; gap: 4px; }',
+        '.cat-btn {',
+        '  padding: 1px 12px;',
+        '  font-size: 12px;',
+        '  font-family: "Segoe UI","Microsoft YaHei UI",sans-serif;',
+        '  background: linear-gradient(to bottom, #fefefe 0%, #E5EAF5 30%, #D4DBED 31%, #E1E6F6 100%);',
+        '  border: 1px solid #8b8b8b;',
+        '  border-radius: 3px;',
+        '  color: #000;',
+        '  cursor: pointer;',
+        '}',
+        '.cat-btn:hover { background: #a7a7a7; }',
+        '.cat-btn.active {',
+        '  background: linear-gradient(to bottom, #4A77A9 0%, #225E9E 50%, #164686 51%, #2F7AB3 100%);',
+        '  border-color: #99B1CE;',
+        '  color: #FFFFFF;',
+        '}',
+        '.cat-btn img { vertical-align: middle; margin-right: 3px; }'
+      ].join('\n');
+      document.head.appendChild(style);
+    }
+
+    var currentTag = 'all';
+    var previewEnabled = localStorage.getItem('preview_enabled') !== "false";
+    var filterEnabled = localStorage.getItem('filter_disturbing') === "true";
+
+    // 收集文章中实际使用的标签
+    var usedTags = {};
+    for (var i = 0; i < articleOrder.length; i++) {
+      var key = articleOrder[i];
+      var data = articleData[key];
+      if (!data || !data.tags) continue;
+      for (var j = 0; j < data.tags.length; j++) {
+        usedTags[data.tags[j]] = true;
+      }
+    }
+
+    // 构建标签按钮
+    function buildTagButtons() {
+      tagFiltersEl.innerHTML = '';
+      var tagKeys = ['all'];
+      for (var tk in tagConfig) {
+        if (tk !== 'all' && usedTags[tk]) {
+          tagKeys.push(tk);
+        }
+      }
+      for (var i = 0; i < tagKeys.length; i++) {
+        var tk = tagKeys[i];
+        var cfg = tagConfig[tk];
+        if (!cfg) continue;
+        var btn = document.createElement('button');
+        btn.className = 'cat-btn' + (tk === currentTag ? ' active' : '');
+        btn.setAttribute('data-tag', tk);
+        if (cfg.icon) {
+          btn.innerHTML = '<img src="' + cfg.icon + '" alt="" width="16" height="16" style="vertical-align:middle;margin-right:3px;">' + cfg.name;
+        } else {
+          btn.textContent = cfg.name;
+        }
+        btn.addEventListener('click', function () {
+          var tag = this.getAttribute('data-tag');
+          if (tag === currentTag) return;
+          currentTag = tag;
+          var allBtns = tagFiltersEl.querySelectorAll('.cat-btn');
+          for (var k = 0; k < allBtns.length; k++) {
+            allBtns[k].classList.remove('active');
+          }
+          this.classList.add('active');
+          renderArticleList();
+        });
+        tagFiltersEl.appendChild(btn);
+      }
+    }
+
+    // 渲染文章列表
+    function renderArticleList() {
+      articleListEl.innerHTML = '';
+
+      for (var i = 0; i < articleOrder.length; i++) {
+        var key = articleOrder[i];
+        var data = articleData[key];
+        if (!data) continue;
+
+        // 标签筛选
+        if (currentTag !== 'all') {
+          if (!data.tags || data.tags.indexOf(currentTag) === -1) continue;
+        }
+
+        // 过滤令人不安的内容
+        if (filterEnabled && data.disturbing) continue;
+
+        var li = document.createElement('li');
+        var isExternal = data.url.indexOf('http') === 0;
+
+        // 构建链接内容
+        var linkContent = '';
+
+        // 编辑中文章用del标签包裹
+        if (data.editing) {
+          linkContent += '<del>';
+        }
+
+        // UAC 图标（用户账户控制文章）
+        if (data.uac) {
+          linkContent += '<img src="images/icons/private.png" alt="" width="16" height="16" />';
+        }
+
+        linkContent += data.title;
+
+        if (data.editing) {
+          linkContent += '</del>';
+        }
+
+        // 外链图标
+        if (isExternal) {
+          linkContent += ' <img src="images/icons/start.png" alt="" width="14" height="14" style="vertical-align:middle;">';
+        }
+
+        // 热门图标
+        if (data.hot) {
+          linkContent += ' <img src="images/hot.png" alt="" width="28" height="17" style="vertical-align:middle;">';
+        }
+
+        // 获奖图标
+        if (data.awarded) {
+          linkContent += ' <img src="images/icons/win.png" alt="" width="16" height="16" style="vertical-align:middle;">';
+        }
+
+        var a = document.createElement('a');
+        a.href = data.url;
+        if (isExternal) {
+          a.setAttribute('target', '_blank');
+          a.setAttribute('rel', 'noopener');
+        }
+        a.innerHTML = linkContent;
+
+        // 预览功能
+        if (previewEnabled) {
+          attachPreview(a, data, isExternal);
+        }
+
+        li.appendChild(a);
+        articleListEl.appendChild(li);
+      }
+
+      // 添加底部分隔和 GitHub 链接
+      var br1 = document.createElement('br');
+      var br2 = document.createElement('br');
+      var githubLi = document.createElement('li');
+      githubLi.innerHTML = '欢迎来看看我的<a href="https://github.com/BSOD-MEMZ">Github</a>ヾ(≧▽≦*)o';
+      articleListEl.appendChild(br1);
+      articleListEl.appendChild(br2);
+      articleListEl.appendChild(githubLi);
+    }
+
+    // 附加预览框
+    function attachPreview(link, data, isExternal) {
+      var href = data.url;
+      var previewBox = document.createElement('div');
+      previewBox.className = 'preview-box';
+
+      var imgTag = '';
+      if (data.img && data.img !== "") {
+        imgTag = '<img alt="" src="' + data.img + '" loading="lazy" onerror="this.style.display=\'none\';">';
+      }
+      var descTag = data.desc ? '<p>' + data.desc + '</p>' : '';
+      var actionsHtml = '<div class="preview-actions" onclick="event.preventDefault(); event.stopPropagation(); return false;">' +
+        '<div class="preview-link" onclick="window.location.href=\'' + href + '\'">' +
+        '<img alt="" src="images/icons/start2.png">阅读全文' +
+        '</div>' +
+        '<div class="preview-link" onclick="xxtCopyToClipboard(\'' + href + '\')">' +
+        '<img alt="" src="images/icons/copy.png">复制链接' +
+        '</div>' +
+        '<div class="preview-link" onclick="window.location.href=\'mailto:xxt8582753@126.com?subject=关于文章 ' + data.title + ' 的反馈\'">' +
+        '<img alt="" src="images/icons/mail.png">发送反馈' +
+        '</div>' +
+        '</div>';
+      previewBox.innerHTML = imgTag +
+        '<div class="preview-info">' +
+        '<strong>' + data.title + '</strong>' +
+        '<span>作者：' + data.author + '</span>' +
+        (data.date ? '<span>发布日期：' + data.date + '</span>' : '') +
+        descTag +
+        '</div>' + actionsHtml;
+
+      link.style.position = 'relative';
+      link.appendChild(previewBox);
+    }
+
+    // 初始构建
+    buildTagButtons();
+    renderArticleList();
+  }
+
   // ==================== 初始化 ====================
   function initAll() {
     initTheme();
@@ -1266,7 +1663,7 @@
     initSidebarClose();
     initWidget();
     initLive2D();
-    initArticlePreviews();
+    initTagFilter();
     initWaifuSearch();
     initWelcomeModal();
   }
