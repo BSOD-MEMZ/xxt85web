@@ -182,7 +182,7 @@
                             <div class="vista-progress-fill-pause" style="width: 90%;"></div>
                         </div>
                     </div>
-                    <p><img src="images/icons/info.png" alt="" width="16" height="16" style="vertical-align: middle;" /> 网站运行情况：<b>已冻结</b><br><i>网站将以极低的频率更新</i></p>
+                    <p><img src="images/busy.png" alt="" width="16" height="16" style="vertical-align: middle;" /> 网站运行情况：<b>低频率更新</b></p>
                 </div>
             </div>
             <div class="window" data-sidebar-id="wmp">
@@ -250,6 +250,12 @@
                 <label><input type="checkbox" id="umamiToggle"> 启用 Umami 统计</label>
             </div>            <div style="margin-bottom:10px;">
                 <label><input type="checkbox" id="uacToggle"> 启用用户账户控制</label>
+            </div>            <div style="margin-bottom:10px;">
+                <label>文章页面CSS</label>
+                <select id="articleCssSelect" style="margin-left:4px; padding:1px 6px;">
+                    <option value="default">默认样式</option>
+                    <option value="zuowen">作文本（测试）</option>
+                </select>
             </div>            <div style="text-align:right;">
                 <button id="resetSettings" style="padding:2px 10px; margin-right:4px;">恢复默认设置</button>
                 <button id="clearCache" style="padding:2px 10px; margin-right:8px;">清除缓存</button>
@@ -350,6 +356,19 @@
 <script defer src="https://cdn.jsdelivr.net/npm/js-yaml@4.1.0/dist/js-yaml.min.js"></script>
 <script defer src="js/cses-loader.js"></script>
 <script defer src="js/ripple.js"></script>
+<script>
+// 异步加载账号系统，不阻塞文章列表渲染
+(function(){
+  var s1 = document.createElement('script');
+  s1.src = 'js/supabase.js';
+  document.head.appendChild(s1);
+  s1.onload = function(){
+    var s2 = document.createElement('script');
+    s2.src = 'js/auth.js';
+    document.head.appendChild(s2);
+  };
+})();
+</script>
 <script>
 (function(){
   var flipEl = document.querySelector('#csesLink .cses-flip');

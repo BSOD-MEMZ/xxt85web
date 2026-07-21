@@ -1,0 +1,418 @@
+/* ============================================
+   xxtsoft 作文本风格文章CSS — 方格版
+   模拟中国传统方格作文本的格子纸效果
+   每个字占一格，每段开头空两格
+   适用于 articles/ 目录下的文章页面
+   ============================================ */
+
+/* ===== 核心参数（可通过修改这些值调整整体比例） ===== */
+:root {
+    --cell-size: 28px;          /* 格子边长（正方形） */
+    --font-size: 18px;          /* 字号 */
+    --grid-color: #035800;      /* 格子线颜色 */
+    --grid-color-light: #035800;/* 浅色格子线（行距用） */
+    --paper-bg: #fdfbf6;        /* 纸张底色 */
+    --paper-bg-end: #faf3e4;    /* 纸张底色渐变终点 */
+    --text-color: #2c2416;      /* 正文颜色 */
+    --indent: 56px;             /* 段首缩进 = 2个格子 */
+}
+
+/* --- 基础重置 --- */
+body {
+    background: #e8dcc8;
+    margin: 0;
+    padding: 0;
+    font-size: var(--font-size);
+    font-family: "KaiTi", "STKaiti", "楷体", "FangSong", "STFangsong", "仿宋", "SimSun", "宋体", serif;
+    color: var(--text-color);
+    line-height: var(--cell-size);
+    -webkit-font-smoothing: antialiased;
+}
+
+/* --- 标题区域：隐藏题图但保留标题文字 --- */
+.header-image {
+    height: auto;
+    overflow: visible;
+    position: relative;
+    background: var(--paper-bg);
+}
+.header-image img {
+    display: none;
+}
+
+/* --- 顶部留白装饰 --- */
+body::before {
+    content: "";
+    display: block;
+    height: 20px;
+    background: var(--paper-bg);
+
+}
+
+/* --- 标题覆盖层重定义 --- */
+.title-overlay {
+    position: relative;
+    top: auto;
+    left: auto;
+    transform: none;
+    text-align: center;
+    padding: 24px 60px 16px 60px;
+    background: var(--paper-bg);
+}
+.title-overlay h1 {
+    color: var(--text-color);
+    text-shadow: none;
+    font-size: 1.6em;
+    font-weight: bold;
+    margin: 0;
+    font-family: "KaiTi", "STKaiti", "楷体", serif;
+    display: inline-block;
+    padding: 6px 24px;
+
+    letter-spacing: 2px;
+    text-indent: 0;
+    line-height: 1.6;
+}
+
+/* --- 提示框：便签纸风格 --- */
+.tips {
+    background: #fffef7;
+    border: 1px solid #c9b896;
+    border-left: 4px solid #d4a017;
+    border-radius: 0;
+    padding: 10px 14px;
+    margin: 0 0 12px 0;
+    font-size: 14px;
+    line-height: 1.6;
+    box-shadow: 1px 1px 3px rgba(0,0,0,0.05);
+}
+.tips p {
+    text-indent: 0 !important;
+    line-height: 1.6 !important;
+    font-size: 14px !important;
+}
+
+/* --- 渐变分隔条：简洁工具条 --- */
+.gradient-divider {
+    height: auto;
+    background: var(--paper-bg);
+    background-image: none;
+    border-bottom: 1px solid var(--grid-color);
+    margin: 0 60px 8px 60px;
+    padding: 8px 0;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 16px;
+}
+.gradient-divider .button {
+    color: #5c3d1a;
+    text-decoration: none;
+    font-size: 13px;
+    font-family: "KaiTi", "STKaiti", "楷体", serif;
+    padding: 2px 10px;
+    border: 1px solid #c9b896;
+    background: #fffef7;
+    transition: background 0.2s;
+    line-height: 1.4;
+}
+.gradient-divider .button:hover {
+    background: #f0e6d0;
+}
+
+/* ===== 主内容容器：方格作文纸核心 ===== */
+.content-container {
+    max-width: 840px;
+    margin: 0 auto;
+    padding: 0 60px 60px 60px;
+    position: relative;
+
+    /* 多重背景绘制方格：
+       第一层：垂直线（每个格子一条细线）
+       第二层：水平线（每个格子一条细线）
+       第三层：纸张底色渐变 */
+    background:
+        repeating-linear-gradient(
+            to right,
+            var(--grid-color-light) 0px,
+            var(--grid-color-light) 1px,
+            transparent 1px,
+            transparent var(--cell-size)
+        ),
+        repeating-linear-gradient(
+            to bottom,
+            var(--grid-color-light) 0px,
+            var(--grid-color-light) 1px,
+            transparent 1px,
+            transparent var(--cell-size)
+        ),
+        linear-gradient(to bottom, var(--paper-bg) 0%, var(--paper-bg-end) 100%);
+
+    background-size:
+        var(--cell-size) var(--cell-size),
+        var(--cell-size) var(--cell-size),
+        100% 100%;
+
+    background-attachment: local;
+
+}
+
+/* 内容区顶部透气 */
+.content-container::before {
+    content: "";
+    display: block;
+    height: 16px;
+}
+
+/* --- 作者信息 --- */
+.author-info {
+    border-bottom: 1px dashed #c9b896;
+    padding-bottom: 8px;
+    margin-bottom: 12px;
+    text-align: right;
+}
+.author-info p {
+    color: #8b7355;
+    margin: 2px 0;
+    font-size: 14px;
+    line-height: 1.6;
+    text-indent: 0 !important;
+}
+.author-info p:first-child {
+    font-style: normal;
+}
+
+/* --- 文章正文区域 --- */
+.article-content {
+    margin-top: 8px;
+}
+
+/* --- 二级标题 --- */
+.article-content h2 {
+    color: #000;
+    text-align: center;
+    font-size: 1.4em;
+    margin: 8px 0 8px 0;
+    padding: 4px 0 8px 0;
+    font-family: "KaiTi", "STKaiti", "楷体", serif;
+    text-indent: 0;
+    line-height: var(--cell-size);
+    border-bottom: 1px solid var(--grid-color);
+}
+
+/* --- 三级标题 --- */
+.article-content h3 {
+    color: #5c3d1a;
+    margin: 4px 0 4px 0;
+    font-size: 1.15em;
+    text-indent: 0;
+    line-height: var(--cell-size);
+}
+
+/* ===== 段落：首行自动空两格 ===== */
+.article-content p {
+    font-size: var(--font-size);
+    line-height: var(--cell-size);
+    margin: 0;
+    padding: 0;
+    text-indent: var(--indent);    /* 空两格：恰好2个格子宽度 */
+    position: relative;
+    word-break: break-all;         /* 确保每个字符严格对齐格子 */
+}
+
+/* --- 列表 --- */
+.article-content ul {
+    list-style: none;
+    padding-left: var(--indent);
+    margin: 0;
+}
+.article-content ul li {
+    list-style: none;
+    background: none;
+    padding-left: 0;
+    margin: 0;
+    font-size: var(--font-size);
+    line-height: var(--cell-size);
+    text-indent: 0;
+}
+.article-content ul li::before {
+    content: "·";
+    display: inline-block;
+    width: var(--cell-size);
+    margin-left: calc(var(--cell-size) * -1);
+    color: #000;
+    font-weight: bold;
+    text-align: center;
+}
+
+/* --- 有序列表 --- */
+.article-content ol {
+    padding-left: var(--indent);
+    margin: 0;
+}
+.article-content ol li {
+    font-size: var(--font-size);
+    line-height: var(--cell-size);
+    text-indent: 0;
+}
+
+/* --- 引用 --- */
+.article-content q {
+    color: #5c3d1a;
+    font-style: italic;
+    line-height: var(--cell-size);
+}
+
+/* --- 缩写 --- */
+.article-content abbr {
+    color: #8b4513;
+    text-decoration: underline dotted;
+}
+
+/* --- 图片：加纸质边框 --- */
+.article-content img {
+    max-width: 100%;
+    height: auto;
+    cursor: pointer;
+    display: block;
+    margin: 8px auto;
+    border: 2px solid #d4c5a0;
+    box-shadow: 2px 2px 8px rgba(0,0,0,0.08);
+    background: #fff;
+    padding: 4px;
+}
+
+/* --- 代码块：跳出格子，用独立样式 --- */
+.article-content pre {
+    background: #fdf8ed;
+    border: 1px solid #c9b896;
+    border-left: 3px solid #d4a017;
+    padding: 12px 16px;
+    overflow-x: auto;
+    margin: 8px 0;
+    font-size: 13px;
+    line-height: 1.5;
+    font-family: "FangSong", "仿宋", "Consolas", "Courier New", monospace;
+    text-indent: 0;
+}
+
+.article-content code {
+    font-family: "FangSong", "仿宋", "Consolas", "Courier New", monospace;
+    background: rgba(0,0,0,0.04);
+    padding: 1px 4px;
+    border-radius: 2px;
+    font-size: 0.9em;
+}
+
+/* --- 粗体/斜体 --- */
+.article-content strong,
+
+/* --- 链接 --- */
+.article-content a {
+    color: #8b4513;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+}
+
+/* ===== 图片查看器（保持不变） ===== */
+.image-viewer-modal {
+    display: none;
+    position: fixed;
+    z-index: 9999;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.85);
+    animation: fadeIn 0.3s ease;
+}
+.image-viewer-modal.active {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.image-viewer-content {
+    position: relative;
+    max-width: 90%;
+    max-height: 90vh;
+    animation: slideIn 0.3s ease;
+}
+.image-viewer-img {
+    max-width: 100%;
+    max-height: 85vh;
+    object-fit: contain;
+    border: none !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+}
+.image-viewer-close {
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    width: 38px;
+    height: 30px;
+    cursor: pointer;
+    user-select: none;
+}
+.image-viewer-nav {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 38px;
+    height: 44px;
+    cursor: pointer;
+    user-select: none;
+}
+.image-viewer-prev { left: -48px; }
+.image-viewer-next { right: -48px; }
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+@keyframes slideIn {
+    from { transform: scale(0.9); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+}
+
+/* ===== Giscus 评论区适配 ===== */
+.giscus {
+    max-width: 840px;
+    margin: 20px auto 0 auto;
+    padding: 0 60px;
+}
+
+/* ===== 响应式 ===== */
+@media screen and (max-width: 900px) {
+    :root {
+        --cell-size: 24px;
+        --font-size: 16px;
+        --indent: 48px;
+    }
+    .content-container {
+        max-width: 100%;
+        padding: 0 24px 40px 24px;
+
+    }
+    .gradient-divider {
+        margin: 0 24px 8px 24px;
+    }
+    .title-overlay {
+        padding: 16px 24px 12px 24px;
+    }
+}
+
+/* ===== 打印样式 ===== */
+@media print {
+    body {
+        background: white !important;
+    }
+    .content-container {
+        background: white !important;
+        border-left: 3px solid #000 !important;
+        box-shadow: none !important;
+    }
+    .header-image { display: none !important; }
+    .gradient-divider { display: none !important; }
+    .tips { display: none !important; }
+    .image-viewer-modal { display: none !important; }
+}

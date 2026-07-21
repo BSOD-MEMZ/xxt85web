@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>xxtsoft 通行证</title>
+    <meta name="description" content="xxtsoft 账号中心 — 注册、登录、管理你的个人资料">
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="style.css" type="text/css" id="themeCss" />
+    <link rel="stylesheet" href="css/auth.css" type="text/css" />
+    <script src="js/theme-loader.js"></script>
+</head>
+
+<body class="auth-page">
+    <div class="titlebar">
+        <div class="wrap">
+            <h1>xxtsoft.top</h1>
+        </div>
+    </div>
+    <div class="navbar">
+        <div class="wrap">
+            <ul>
+                <li><a href="index.html">首页(H)</a></li>
+                <li><a href="articles.html">文章(A)</a></li>
+                <li><a href="downloads.html">下载(D)</a></li>
+                <li><a href="medias.html">多媒体(M)</a></li>
+                <li><a href="about.html">关于(A)</a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="banner">
+        <p>xxtsoft 通行证相关功能还在测试，因此不保证功能可用性，也不保证你现在注册了过段时间帐号还在，目前评论区功能还是基于Giscus</p>
+    </div>
+    <div class="content wrap">
+
+        <div class="main">
+
+            <div class="auth-section" id="authWizard" style="display:none;">
+                <h2><span style="color:#003399;">欢迎回来</span></h2>
+
+                <div class="wizard-tabs" id="wizardTabs">
+                    <button class="wizard-tab active" id="tabLogin" type="button"><img src="images/icons/signin.png"
+                            height="16" width="16"> 登录</button>
+                    <button class="wizard-tab" id="tabRegister" type="button"><img src="images/icons/signup.png"
+                            height="16" width="16"> 注册</button>
+                </div>
+
+                <div class="wizard-body">
+
+                    <div class="wizard-panel" id="panelLogin">
+                        <p style="color:#000;margin:0 0 14px 0;">登录到 xxtsoft 网络</p>
+
+                        <form id="loginForm" autocomplete="on">
+                            <div class="auth-field">
+                                <label for="loginEmail">邮箱</label>
+                                <input type="email" id="loginEmail" class="auth-input" placeholder="your@email.com"
+                                    autocomplete="email" required>
+                            </div>
+                            <div class="auth-field">
+                                <label for="loginPassword">密码</label>
+                                <input type="password" id="loginPassword" class="auth-input" placeholder="输入密码"
+                                    autocomplete="current-password" required>
+                            </div>
+                            <div style="margin-top:16px;">
+                                <button type="submit" class="auth-btn" id="loginBtn">登录</button>
+                                <a href="javascript:void(0)" id="linkForgotPassword"
+                                    style="margin-left:12px;font-size:11px;color:#888;">忘记密码？</a>
+                            </div>
+                        </form>
+                        <p
+                            style="font-size:12px;color:#666;margin-top:16px;border-top:1px dotted #ccc;padding-top:10px;">
+                            登录就可以享受：<br>
+                            <img src="images/icons/discus.png"> 使用评论功能发表自己的见解<br>
+                            <img src="images/icons/upload.png"> 发布文章和媒体<br>
+                            <img src="images/icons/sync.png"> 同步网站设置<br>
+                            <img src="images/icons/msn.png"> 和其他小伙伴保持联系<br><br>
+                            如果不想登录，也可以：<br>
+                            <img src="images/icons/learn.png"> 阅读所有文章<br>
+                            <img src="images/icons/downvideo.png"> 观看所有视频<br>
+                            <img src="images/icons/program.png"> 下载 xxtsoft 全部产品<br>
+                            <img src="images/icons/tips.png"> 获得灵感和启发<br>
+                        </p>
+                        <p
+                            style="font-size:11px;color:#888;margin-top:16px;border-top:1px dotted #ccc;padding-top:10px;">
+                            还没有账号？点击上方「注册」创建。<br>
+                            登录遇到问题？请检查邮箱验证是否完成。
+                        </p>
+                    </div>
+
+                    <!-- 注册面板 -->
+                    <div class="wizard-panel" id="panelRegister" style="display:none;">
+                        <p style="color:#000;margin:0 0 14px 0;">免费创建 xxtsoft Passport</p>
+
+                        <form id="registerForm" autocomplete="on">
+                            <div class="auth-field">
+                                <label for="regUsername">*用户名 <span class="field-hint">2-20 个字符</span></label>
+                                <input type="text" id="regUsername" class="auth-input" placeholder="你是...？"
+                                    autocomplete="username" maxlength="20" required>
+                            </div>
+                            <div class="auth-field">
+                                <label for="regEmail">*邮箱</label>
+                                <input type="email" id="regEmail" class="auth-input" placeholder="your@email.com"
+                                    autocomplete="email" required>
+                            </div>
+                            <div class="auth-field">
+                                <label for="regPassword">*密码 <span class="field-hint">至少 6 个字符</span></label>
+                                <input type="password" id="regPassword" class="auth-input" placeholder="设置一个安全密码"
+                                    autocomplete="new-password" minlength="6" required>
+                            </div>
+                            <div class="auth-field">
+                                <label for="regConfirm">*确认密码</label>
+                                <input type="password" id="regConfirm" class="auth-input" placeholder="再输入一次密码"
+                                    autocomplete="new-password" required>
+                            </div>
+                            <!-- 头像选择 -->
+                            <div class="auth-field">
+                                <label>*选择头像 <span class="field-hint">点击选择，暂时不支持上传</span></label>
+                                <div class="avatar-picker" id="regAvatarPicker" data-default="1"></div>
+                            </div>
+                            <p
+                                style="font-size:11px;color:#888;margin-top:16px;border-top:1px dotted #ccc;padding-top:10px;">
+                                以下内容非必填项</p>
+                            <div class="auth-field">
+                                <label for="regBirthday">生日<span class="field-hint">请放心填写真实年龄，我们没有内容分级制度</span></label>
+                                <input type="date" id="regBirthday" class="auth-input" autocomplete="date">
+                            </div>
+                            <div class="auth-field">
+                                <label for="regBio">介绍一下自己<span class="field-hint">这会在个人资料中展示</span></label>
+                                <input type="text" id="regBio" class="auth-input" autocomplete="bio">
+                            </div>
+                            <div class="auth-field">
+                                <label for="regLove">我喜欢</label>
+                                <input type="text" id="regLove" class="auth-input" autocomplete="love">
+                            </div>
+                            <div class="auth-field">
+                                <label for="regHate">我讨厌</label>
+                                <input type="text" id="regHate" class="auth-input" autocomplete="hate">
+                            </div>
+                            <div class="auth-field">
+                                <label for="reggoal">我近期的目标</label>
+                                <input type="text" id="reggoal" class="auth-input" autocomplete="off">
+                            </div>
+                            <div style="margin-top:16px;">
+                                <button type="submit" class="auth-btn" id="registerBtn">注册</button>
+                            </div>
+                        </form>
+                        <p>注册后将收到一封验证邮件，请注意查收</p>
+                        <p
+                            style="font-size:11px;color:#888;margin-top:16px;border-top:1px dotted #ccc;padding-top:10px;">
+                            注册即表示同意本站的 <a href="about.html">服务条款</a>。<br>
+
+                        </p>
+                    </div>
+
+                    <!-- 忘记密码面板 -->
+                    <div class="wizard-panel" id="panelForgotPassword" style="display:none;">
+                        <p style="color:#000;margin:0 0 14px 0;">重置密码</p>
+                        <p style="font-size:12px;color:#666;margin:0 0 14px 0;">输入注册时使用的邮箱，我们会发送一封密码重置邮件。</p>
+
+                        <form id="forgotForm" autocomplete="on">
+                            <div class="auth-field">
+                                <label for="forgotEmail">邮箱</label>
+                                <input type="email" id="forgotEmail" class="auth-input" placeholder="your@email.com"
+                                    autocomplete="email" required>
+                            </div>
+                            <div style="margin-top:16px;">
+                                <button type="submit" class="auth-btn" id="forgotBtn">发送重置邮件</button>
+                                <a href="javascript:void(0)" id="linkBackToLogin"
+                                    style="margin-left:12px;font-size:11px;color:#888;">返回登录</a>
+                            </div>
+                        </form>
+                    </div>
+
+                    <!-- 密码重置面板（从邮件链接回来后显示） -->
+                    <div class="wizard-panel" id="passwordRecoveryPanel" style="display:none;">
+                        <p style="color:#000;margin:0 0 14px 0;">设置新密码</p>
+
+                        <form id="recoveryForm" autocomplete="on">
+                            <div class="auth-field">
+                                <label for="newPassword">新密码 <span class="field-hint">至少 6 个字符</span></label>
+                                <input type="password" id="newPassword" class="auth-input" placeholder="设置新密码"
+                                    autocomplete="new-password" minlength="6" required>
+                            </div>
+                            <div class="auth-field">
+                                <label for="newPasswordConfirm">确认新密码</label>
+                                <input type="password" id="newPasswordConfirm" class="auth-input" placeholder="再输入一次"
+                                    autocomplete="new-password" required>
+                            </div>
+                            <div style="margin-top:16px;">
+                                <button type="submit" class="auth-btn" id="recoveryBtn">重置密码</button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <!-- 注册成功提示 -->
+                    <div class="wizard-success-panel" id="wizardSuccess" style="display:none;">
+                        <h3 style="color:#003399;">注册请求已提交！</h3>
+                        <p id="successMsg"></p>
+                        <button class="auth-btn" onclick="window.location.reload();">刷新页面去登录</button>
+                    </div>
+
+                </div><!-- /.wizard-body -->
+
+            </div><!-- /#authWizard -->
+
+            <!-- ====== 已登录：个人资料页 ====== -->
+            <div class="auth-section" id="authProfile" style="display:none;">
+                <h2><span style="color:#003399;">我的 xxtsoft Passport</span></h2>
+
+                <div class="wizard-body">
+
+                    <div class="profile-header">
+                        <div class="profile-avatar-frame">
+                            <img src="images/avatars/usertile1.jpg" alt="头像" class="profile-avatar-img"
+                                id="profileAvatarImg">
+                            <img src="images/avatarframe.png" alt="" class="profile-avatar-frame-overlay" width="128"
+                                height="128">
+                        </div>
+                        <div class="profile-meta">
+                            <h3 id="profileUsername">少女祈祷中...</h3>
+                            <p class="profile-email" id="profileEmail"></p>
+                            <p class="profile-join-date">加入于 <span id="profileJoinDate">--</span></p>
+                        </div>
+                    </div>
+
+                    <div class="profile-section">
+                        <h4>个人简介</h4>
+                        <p class="profile-bio" id="profileBio">少女祈祷中...</p>
+                    </div>
+
+                    <div class="profile-section">
+                        <h4>生日</h4>
+                        <p id="profileBirthday" style="font-size:13px;color:#444;">未设置</p>
+                    </div>
+
+                    <div class="profile-section">
+                        <h4>我喜欢</h4>
+                        <p id="profileLove" style="font-size:13px;color:#444;">未设置</p>
+                    </div>
+
+                    <div class="profile-section">
+                        <h4>我讨厌</h4>
+                        <p id="profileHate" style="font-size:13px;color:#444;">未设置</p>
+                    </div>
+
+                    <div class="profile-section">
+                        <h4>近期的目标</h4>
+                        <p id="profileGoal" style="font-size:13px;color:#444;">未设置</p>
+                    </div>
+
+                    <div class="auth-error" id="profileMsg"></div>
+
+                    <!-- 编辑资料 -->
+                    <div class="edit-profile-panel" id="editProfilePanel">
+                        <h4 style="margin:0 0 10px 0;color:#003399;">编辑资料</h4>
+                        <div class="auth-field">
+                            <label for="editUsername">用户名</label>
+                            <input type="text" id="editUsername" class="auth-input" maxlength="20">
+                        </div>
+                        <div class="auth-field">
+                            <label for="editBio">个人简介</label>
+                            <input type="text" id="editBio" class="auth-input" placeholder="才..才不是不想介绍自己呢！" maxlength="200">
+                        </div>
+                        <div class="auth-field">
+                            <label for="editBirthday">生日</label>
+                            <input type="date" id="editBirthday" class="auth-input">
+                        </div>
+                        <div class="auth-field">
+                            <label for="editLove">我喜欢</label>
+                            <input type="text" id="editLove" class="auth-input" placeholder="放学？放假？"
+                                maxlength="100">
+                        </div>
+                        <div class="auth-field">
+                            <label for="editHate">我讨厌</label>
+                            <input type="text" id="editHate" class="auth-input" placeholder="辣椒炒肉里面放糖（？"
+                                maxlength="100">
+                        </div>
+                        <div class="auth-field">
+                            <label for="editGoal">近期的目标</label>
+                            <input type="text" id="editGoal" class="auth-input" placeholder="" maxlength="100">
+                        </div>
+                        <div class="auth-field">
+                            <label>更换头像</label>
+                            <div class="avatar-picker" id="editAvatarPicker"></div>
+                        </div>
+                        <button class="auth-btn" id="btnSaveProfile">保存</button>
+                    </div>
+
+                    <div class="profile-actions">
+                        <button class="auth-btn" id="btnEditProfile">编辑资料</button>
+                        <a href="index.html" class="auth-btn auth-btn-secondary">回到首页</a>
+                        <button class="auth-btn auth-btn-danger" id="btnLogout">退出登录</button>
+                    </div>
+
+                </div><!-- /.wizard-body -->
+
+            </div><!-- /#authProfile -->
+
+        </div><!-- /.main -->
+        <div class="clear"></div>
+    </div><!-- /.content -->
+
+    <!-- ====== 错误提示对话框 ====== -->
+    <div id="authErrorDialog" class="window vista-dialog"
+        style="display:none; position:fixed; top:50%; left:50%; transform:translate(-50%, -50%); z-index:10001; width:400px;">
+        <div class="window-titlebar settings-titlebar">
+            xxtsoft Passport
+            <img src="images/Window_CloseButton.png" id="closeAuthError" class="vista-close-btn" alt="关闭" />
+        </div>
+        <div class="window-content">
+            <div style="display:flex; align-items:flex-start; gap:14px; padding:10px 8px 4px 8px;">
+                <img src="images/error48.png" alt="" width="48" height="48" style="flex-shrink:0;">
+                <div style="flex:1; min-width:0;">
+                    <p id="authErrorMsg"
+                        style="margin:0; font-size:13px; color:#000; line-height:1.6; word-break:break-word;"></p>
+                </div>
+            </div>
+            <div style="text-align:right; padding:8px 10px 6px 10px;">
+                <button id="btnAuthErrorOk" style="min-width:68px; padding:3px 16px;">确定</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ====== 脚本 ====== -->
+    <script src="js/supabase.js"></script>
+    <script src="js/auth.js"></script>
+    <script>
+        // 绑定错误对话框事件
+        if (window.xxtAuth && window.xxtAuth.bindErrorDialog) {
+            window.xxtAuth.bindErrorDialog();
+        }
+        // 初始化头像选择器点击事件
+        if (window.xxtAuth && window.xxtAuth.initAvatarPickers) {
+            window.xxtAuth.initAvatarPickers();
+        }
+        // 页面加载完成后初始化向导
+        document.addEventListener('DOMContentLoaded', function () {
+            if (window.xxtAuth && window.xxtAuth.initWizard) {
+                window.xxtAuth.initWizard();
+            } else {
+                // Supabase 可能还在加载，等待就绪事件
+                document.addEventListener('xxt:supabase-ready', function () {
+                    if (window.xxtAuth && window.xxtAuth.initWizard) {
+                        window.xxtAuth.initWizard();
+                    }
+                });
+            }
+        });
+    </script>
+
+    <script src="js/ripple.js"></script>
+</body>
+
+</html>

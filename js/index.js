@@ -55,7 +55,7 @@ window.xxtArticleData = {
         desc: "一个为ClassIsland设计的娱乐功能插件，让同学眼前一亮，老师眼前一黑。具有防巡堂警报、下课倒计时、小说阅读器、老师口头禅记录、RSS新闻、拿老师的头当课程表、能作弊的点名器、每日宜忌运势等功能，并且具有自动化行动和安全键。",
         img: "images/previews/entertainingisland.jpg",
         date: "2026年6月6日",
-        tags: ["coding"],
+        tags: ["coding", "school"],
         url: "articles/entertainingisland.html"
     },
     "vibelikehuman.html": {
@@ -72,7 +72,7 @@ window.xxtArticleData = {
         desc: "在经历了层层选拔之后，我们终于成功进入了省赛！你知道为什么我要用\u201C我们\u201D一词吗？",
         img: "images/previews/competition.jpg",
         date: "2026年5月16日",
-        tags: ["school"],
+        tags: ["school", "live"],
         url: "articles/competition.html"
     },
     "superfactory.html": {
@@ -594,6 +594,7 @@ window.xxtTagConfig = {
     var filterDisturbingToggle = document.getElementById('filterDisturbingToggle');
     var rippleToggle = document.getElementById('rippleToggle');
     var uacToggle = document.getElementById('uacToggle');
+    var articleCssSelect = document.getElementById('articleCssSelect');
 
     if (!dialog || !openBtn) return;
 
@@ -604,12 +605,14 @@ window.xxtTagConfig = {
       var filterEnabled = localStorage.getItem('filter_disturbing') === "true";
       var rippleEnabled = localStorage.getItem('ripple_enabled') === "true";
       var uacEnabled = localStorage.getItem('uac_enabled') !== "false";
+      var articleCss = localStorage.getItem('article_css') || 'default';
       if (umamiToggle) umamiToggle.checked = umamiEnabled;
       if (previewToggle) previewToggle.checked = previewEnabled;
       if (live2dToggle) live2dToggle.checked = live2dEnabled;
       if (filterDisturbingToggle) filterDisturbingToggle.checked = filterEnabled;
       if (rippleToggle) rippleToggle.checked = rippleEnabled;
       if (uacToggle) uacToggle.checked = uacEnabled;
+      if (articleCssSelect) articleCssSelect.value = articleCss;
     }
 
     function hideDialog() {
@@ -672,6 +675,9 @@ window.xxtTagConfig = {
         }
         if (uacToggle) {
           localStorage.setItem('uac_enabled', uacToggle.checked);
+        }
+        if (articleCssSelect) {
+          localStorage.setItem('article_css', articleCssSelect.value);
         }
         hideDialog();
       });

@@ -1,0 +1,415 @@
+
+.auth-page .main {
+  width: 100%;
+  max-width: 700px;
+  float: none;
+  margin: 0 auto;
+}
+
+.auth-section {
+  margin-bottom: 20px;
+}
+
+.wizard-tabs {
+  display: flex;
+  gap: 0;
+  margin-bottom: 0;
+}
+
+.wizard-tab {
+  padding: 2px 8px;
+  font-size: 12px;
+  font-family: "Segoe UI", "Microsoft YaHei UI";
+  color: #000;
+  cursor: url(images/aero_link.cur), pointer;
+  border: 1px solid #898C95;
+  border-bottom: none;
+  background: linear-gradient(to bottom, #f2f2f2 0%, #EBEBEB 50%, #DDDDDD 51%, #CFCFCF 100%);
+  transition: background 0.15s;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.wizard-tab:hover {
+  background: linear-gradient(to bottom, #EAF6FD 0%, #D9F0FC 50%, #BEE6FD 51%, #A7D9F5 100%);
+  border-color: #3C7FB1;
+}
+
+.wizard-tab.active {
+  background: #fff;
+  border-color: #898C95;
+  border-bottom: 1px solid #fff;
+  margin-bottom: -1px;
+  font-weight: bold;
+  color: #000;
+}
+
+/* ===================== 选项卡内容框 ===================== */
+.wizard-body {
+  background: #fff;
+  border: 1px solid #898C95;
+  padding: 14px;
+}
+
+/* ===================== 表单面板 ===================== */
+.wizard-panel {
+  /* 默认由 JS 控制显示 */
+}
+
+/* ===================== 表单输入组 ===================== */
+.auth-field {
+  margin-bottom: 14px;
+}
+
+.auth-field label {
+  display: block;
+  font-size: 12px;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 4px;
+}
+
+.auth-field label .field-hint {
+  font-weight: normal;
+  color: #888;
+  font-size: 11px;
+  margin-left: 4px;
+}
+
+.auth-input {
+  width: 100%;
+  max-width: 380px;
+  padding: 6px 10px;
+  font-size: 13px;
+  font-family: "Segoe UI", "Microsoft YaHei UI";
+  color: #000;
+  background: #fff;
+  border: 1px solid #E2E3EA;
+  border-top: 1px solid #B3ADAB;
+  border-radius: 3px;
+  outline: none;
+  box-sizing: border-box;
+}
+
+.auth-input:hover {
+  background: #fff;
+  border: 1px solid #C5DAED;
+  border-top: 1px solid #5794BF;
+
+}
+.auth-input:focus {
+  background: #fff;
+  border: 1px solid #A4C9E3;
+  border-top: 1px solid #3D7BAD;
+
+}
+
+.auth-input::placeholder {
+  color: #999;
+}
+
+/* ===================== 按钮 ===================== */
+.auth-btn {
+  display: inline-block;
+  padding: 6px 20px;
+  font-size: 12px;
+  font-family: "Segoe UI", "Microsoft YaHei UI";
+  color: #fff;
+  background: linear-gradient(to bottom, #4A77A9 0%, #225E9E 50%, #164686 51%, #2F7AB3 100%);
+  border: 1px solid #3C7FB1;
+  border-radius: 3px;
+  cursor: url(images/aero_link.cur), pointer;
+  text-align: center;
+  transition: background 0.15s;
+  box-sizing: border-box;
+}
+
+.auth-btn:hover {
+  background: linear-gradient(to bottom, #6E8FBA 0%, #2561A3 50%, #0E3678 51%, #0E589E 75%, #3B92C4 100%);
+}
+
+.auth-btn:active {
+  background: linear-gradient(to bottom, #164686 0%, #225E9E 100%);
+}
+
+.auth-btn:disabled {
+  opacity: 0.55;
+  cursor: url(images/aero_unavail.cur), default;
+}
+
+.auth-btn-secondary {
+  background: linear-gradient(to bottom, #fefefe 0%, #E5EAF5 30%, #D4DBED 31%, #E1E6F6 100%);
+  color: #000;
+  border: 1px solid #8CA1B6;
+}
+
+.auth-btn-secondary:hover {
+  background: linear-gradient(to bottom, #fff 0%, #D4DBED 30%, #C4CDE0 31%, #D4DBED 100%);
+}
+
+.auth-btn-danger {
+  background: linear-gradient(to bottom, #c94a4a 0%, #a82828 50%, #8c1e1e 51%, #b83a3a 100%);
+  border-color: #8c1e1e;
+}
+
+.auth-btn-danger:hover {
+  background: linear-gradient(to bottom, #d45a5a 0%, #b03030 100%);
+}
+
+/* ===================== 错误/提示信息 ===================== */
+.auth-error {
+  display: none;
+  font-size: 12px;
+  color: #c00;
+  background: #fff0f0;
+  border: 1px solid #f5c6c6;
+  border-radius: 3px;
+  padding: 6px 10px;
+  margin-bottom: 10px;
+  max-width: 380px;
+}
+
+.auth-success {
+  display: none;
+  font-size: 12px;
+  color: #1a7f37;
+  background: #f0fff4;
+  border: 1px solid #b7e4c7;
+  border-radius: 3px;
+  padding: 6px 10px;
+  margin-bottom: 10px;
+  max-width: 380px;
+}
+
+/* ===================== 注册成功页 ===================== */
+.wizard-success-panel {
+  text-align: center;
+  padding: 30px 20px;
+}
+
+.wizard-success-panel .success-icon {
+  font-size: 48px;
+  margin-bottom: 10px;
+}
+
+.wizard-success-panel h2 {
+  color: #003399;
+  font-size: 18px;
+  margin: 0 0 10px 0;
+}
+
+.wizard-success-panel p {
+  color: #444;
+  font-size: 13px;
+  line-height: 1.6;
+  max-width: 460px;
+  margin: 0 auto 20px;
+}
+
+/* ===================== 个人资料页 ===================== */
+
+.profile-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding-bottom: 14px;
+  border-bottom: 1px dotted #ccc;
+  margin-bottom: 14px;
+}
+
+.profile-avatar-frame {
+  position: relative;
+  width: 128px;
+  height: 128px;
+  flex-shrink: 0;
+}
+
+.profile-avatar-frame .profile-avatar-img {
+  position: absolute;
+  top: 14px;
+  left: 14px;
+  width: 96px; 
+  height: 96px;
+  object-fit: cover;
+  border-radius: 2px;
+  display: block;
+}
+
+.profile-avatar-frame .profile-avatar-frame-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 128px;
+  height: 128px;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.profile-meta {
+  flex: 1;
+}
+
+.profile-meta h3 {
+  margin: 0 0 4px 0;
+  font-size: 16px;
+  color: #003399;
+}
+
+.profile-meta .profile-email {
+  font-size: 12px;
+  color: #666;
+  margin: 0;
+}
+
+.profile-meta .profile-join-date {
+  font-size: 11px;
+  color: #999;
+  margin: 2px 0 0 0;
+}
+
+.profile-section {
+  margin-bottom: 14px;
+}
+
+.profile-section h4 {
+  font-size: 13px;
+  color: #003399;
+  margin: 0 0 6px 0;
+  padding-bottom: 3px;
+  border-bottom: 1px dotted #ccc;
+}
+
+.profile-bio {
+  font-size: 13px;
+  color: #444;
+  line-height: 1.5;
+  margin: 0;
+}
+
+.profile-actions {
+  padding-top: 10px;
+  border-top: 1px dotted #ccc;
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+/* 编辑资料面板 */
+.edit-profile-panel {
+  display: none;
+  margin-top: 12px;
+  padding: 12px;
+  background: #F5F8FC;
+  border: 1px solid #D4E0F0;
+  border-radius: 4px;
+}
+
+.edit-profile-panel .auth-field {
+  margin-bottom: 10px;
+}
+
+.edit-profile-panel .auth-input {
+  max-width: 100%;
+}
+
+/* ===================== 头像选择器 ===================== */
+.avatar-picker {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  max-width: 440px;
+}
+
+.avatar-option {
+  width: 48px;
+  height: 48px;
+  border: 2px solid transparent;
+  border-radius: 4px;
+  overflow: hidden;
+  cursor: url(images/aero_link.cur), pointer;
+  display: block;
+  background: #eee;
+}
+
+.avatar-option:hover {
+  border-color: #7da2ce;
+}
+
+.avatar-option.selected {
+  border-color: #003399;
+}
+
+.avatar-option img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* ===================== 导航栏通行证雪碧图动画 ===================== */
+.nav-passport-icon {
+  animation: passport-scan 1.4s steps(7) infinite;
+}
+
+@keyframes passport-scan {
+  from { background-position: 0 0; }
+  to   { background-position: 0 -112px; }
+}
+.nav-auth-item {
+  float: right !important;
+  margin-left: auto;
+}
+
+.nav-auth-item a {
+  display: flex !important;
+  align-items: center;
+  gap: 3px;
+}
+
+.nav-username {
+  max-width: 100px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* ===================== 响应式 ===================== */
+@media screen and (max-width: 760px) {
+  .auth-page .main {
+    width: 100%;
+    padding: 0 8px;
+    box-sizing: border-box;
+  }
+  .auth-input {
+    max-width: 100%;
+  }
+  .profile-header {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+  .profile-avatar-frame {
+    width: 96px;
+    height: 96px;
+  }
+  .profile-avatar-frame .profile-avatar-img {
+    top: 11px;
+    left: 11px;
+    width: 72px;
+    height: 72px;
+  }
+  .profile-avatar-frame .profile-avatar-frame-overlay {
+    width: 96px;
+    height: 96px;
+  }
+  .profile-actions {
+    flex-direction: column;
+  }
+  .profile-actions .auth-btn {
+    width: 100%;
+  }
+  .avatar-picker {
+    justify-content: center;
+  }
+}
