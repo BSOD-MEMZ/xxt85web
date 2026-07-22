@@ -146,11 +146,6 @@
                             </div>
                         </form>
                         <p>注册后将收到一封验证邮件，请注意查收</p>
-                        <p
-                            style="font-size:11px;color:#888;margin-top:16px;border-top:1px dotted #ccc;padding-top:10px;">
-                            注册即表示同意本站的 <a href="about.html">服务条款</a>。<br>
-
-                        </p>
                     </div>
 
                     <!-- 忘记密码面板 -->
@@ -206,52 +201,49 @@
 
             <!-- ====== 已登录：个人资料页 ====== -->
             <div class="auth-section" id="authProfile" style="display:none;">
-                <h2><span style="color:#003399;">我的 xxtsoft Passport</span></h2>
+
+                <!-- Banner -->
+                <div class="profile-banner">
+                    <div class="profile-banner-inner">
+                        <div class="profile-avatar-frame" id="profileBannerAvatar">
+                            <img src="images/avatars/usertile1.jpg" alt="头像" class="profile-avatar-img" id="profileAvatarImg">
+                            <img src="images/avatarframe.png" alt="" class="profile-avatar-frame-overlay" width="128" height="128">
+                        </div>
+                        <div class="profile-banner-text">
+                            <h3 id="profileUsername">少女祈祷中...</h3>
+                            <p class="profile-email" id="profileEmail"></p>
+                            <p class="profile-join-date" >加入于 <span id="profileJoinDate">--</span></p>
+                            <p class="profile-bio" id="profileBio" style="color:#fff;">少女祈祷中...</p>
+                        </div>
+                    </div>
+                    <button class="profile-edit-label" id="btnEditProfile"><img src="images/icons/editprofile.png"> 编辑资料</button>
+                </div>
 
                 <div class="wizard-body">
 
-                    <div class="profile-header">
-                        <div class="profile-avatar-frame">
-                            <img src="images/avatars/usertile1.jpg" alt="头像" class="profile-avatar-img"
-                                id="profileAvatarImg">
-                            <img src="images/avatarframe.png" alt="" class="profile-avatar-frame-overlay" width="128"
-                                height="128">
-                        </div>
-                        <div class="profile-meta">
-                            <h3 id="profileUsername">少女祈祷中...</h3>
-                            <p class="profile-email" id="profileEmail"></p>
-                            <p class="profile-join-date">加入于 <span id="profileJoinDate">--</span></p>
-                        </div>
-                    </div>
+                <div class="profile-section">
+                    <h4>生日</h4>
+                    <p id="profileBirthday" style="font-size:13px;color:#444;">未设置</p>
+                </div>
 
-                    <div class="profile-section">
-                        <h4>个人简介</h4>
-                        <p class="profile-bio" id="profileBio">少女祈祷中...</p>
-                    </div>
+                <div class="profile-section">
+                    <h4>我喜欢</h4>
+                    <p id="profileLove" style="font-size:13px;color:#444;">未设置</p>
+                </div>
 
-                    <div class="profile-section">
-                        <h4>生日</h4>
-                        <p id="profileBirthday" style="font-size:13px;color:#444;">未设置</p>
-                    </div>
+                <div class="profile-section">
+                    <h4>我讨厌</h4>
+                    <p id="profileHate" style="font-size:13px;color:#444;">未设置</p>
+                </div>
 
-                    <div class="profile-section">
-                        <h4>我喜欢</h4>
-                        <p id="profileLove" style="font-size:13px;color:#444;">未设置</p>
-                    </div>
+                <div class="profile-section">
+                    <h4>近期的目标</h4>
+                    <p id="profileGoal" style="font-size:13px;color:#444;">未设置</p>
+                </div>
 
-                    <div class="profile-section">
-                        <h4>我讨厌</h4>
-                        <p id="profileHate" style="font-size:13px;color:#444;">未设置</p>
-                    </div>
+                <div class="auth-error" id="profileMsg"></div>
 
-                    <div class="profile-section">
-                        <h4>近期的目标</h4>
-                        <p id="profileGoal" style="font-size:13px;color:#444;">未设置</p>
-                    </div>
-
-                    <div class="auth-error" id="profileMsg"></div>
-
-                    <!-- 编辑资料 -->
+                <!-- 编辑资料 -->
                     <div class="edit-profile-panel" id="editProfilePanel">
                         <h4 style="margin:0 0 10px 0;color:#003399;">编辑资料</h4>
                         <div class="auth-field">
@@ -288,7 +280,6 @@
                     </div>
 
                     <div class="profile-actions">
-                        <button class="auth-btn" id="btnEditProfile">编辑资料</button>
                         <a href="index.html" class="auth-btn auth-btn-secondary">回到首页</a>
                         <button class="auth-btn auth-btn-danger" id="btnLogout">退出登录</button>
                     </div>
@@ -322,10 +313,50 @@
         </div>
     </div>
 
+    <!-- ====== 测试警告对话框 ====== -->
+    <div id="authBetaDialog" class="window vista-dialog"
+        style="display:none; position:fixed; top:50%; left:50%; transform:translate(-50%, -50%); z-index:10002; width:420px;">
+        <div class="window-titlebar settings-titlebar">
+            xxtsoft Passport
+            <img src="images/Window_CloseButton.png" id="closeAuthBeta" class="vista-close-btn" alt="关闭" />
+        </div>
+        <div class="window-content">
+            <div style="display:flex; align-items:flex-start; gap:14px; padding:10px 8px 4px 8px;">
+                <img src="images/warning48.png" alt="" width="48" height="48" style="flex-shrink:0;">
+                <div style="flex:1; min-width:0;">
+                    <p style="margin:0; font-size:13px; color:#000; line-height:1.6;">
+                        账号注册和登录功能（按理来说）已经可用，但部分功能可能不稳定或尚未完成<br>
+                        为兼容性考虑，评论系统仍然使用Giscus，后续数据迁移工作将另行通知
+                    </p>
+                </div>
+            </div>
+            <div style="text-align:right; padding:8px 10px 6px 10px;">
+                <button id="btnAuthBetaOk" style="min-width:68px; padding:3px 16px;">确定</button>
+            </div>
+        </div>
+    </div>
+
     <!-- ====== 脚本 ====== -->
     <script src="js/supabase.js"></script>
     <script src="js/auth.js"></script>
     <script>
+        // 测试警告对话框 —— 每次会话只弹一次
+        (function() {
+            var KEY = 'xxt_beta_warned';
+            if (sessionStorage.getItem(KEY)) return;
+            sessionStorage.setItem(KEY, '1');
+
+            var dialog = document.getElementById('authBetaDialog');
+            if (!dialog) return;
+            dialog.style.display = 'block';
+
+            var close = document.getElementById('closeAuthBeta');
+            var ok = document.getElementById('btnAuthBetaOk');
+            var hide = function() { dialog.style.display = 'none'; };
+            if (close) close.addEventListener('click', hide);
+            if (ok) ok.addEventListener('click', hide);
+        })();
+
         // 绑定错误对话框事件
         if (window.xxtAuth && window.xxtAuth.bindErrorDialog) {
             window.xxtAuth.bindErrorDialog();

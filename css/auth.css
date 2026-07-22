@@ -207,36 +207,42 @@
   margin: 0 auto 20px;
 }
 
-/* ===================== 个人资料页 ===================== */
-
-.profile-header {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  padding-bottom: 14px;
-  border-bottom: 1px dotted #ccc;
-  margin-bottom: 14px;
+/* ===================== 个人资料页 Banner ===================== */
+.profile-banner {
+  position: relative;
+  background: url(../images/aurorabanner.jpg) center/cover no-repeat;
+  min-height: 150px;
+  border-radius: 4px 4px 0 0;
+  overflow: hidden;
 }
 
-.profile-avatar-frame {
+.profile-banner-inner {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  padding: 18px 20px;
+  min-height: 150px;
+}
+
+.profile-banner .profile-avatar-frame {
   position: relative;
   width: 128px;
   height: 128px;
   flex-shrink: 0;
 }
 
-.profile-avatar-frame .profile-avatar-img {
+.profile-banner .profile-avatar-frame .profile-avatar-img {
   position: absolute;
   top: 14px;
   left: 14px;
-  width: 96px; 
+  width: 96px;
   height: 96px;
   object-fit: cover;
   border-radius: 2px;
   display: block;
 }
 
-.profile-avatar-frame .profile-avatar-frame-overlay {
+.profile-banner .profile-avatar-frame .profile-avatar-frame-overlay {
   position: absolute;
   top: 0;
   left: 0;
@@ -246,28 +252,68 @@
   z-index: 1;
 }
 
-.profile-meta {
+.profile-banner-text {
   flex: 1;
+  min-width: 0;
+  color: #fff;
+  text-shadow: 0 1px 4px rgba(0,0,0,0.6), 0 0 8px rgba(0,0,0,0.3);
 }
 
-.profile-meta h3 {
+.profile-banner-text h3 {
   margin: 0 0 4px 0;
-  font-size: 16px;
-  color: #003399;
+  font-size: 18px;
+  font-weight: bold;
+  color: #fff;
 }
 
-.profile-meta .profile-email {
+.profile-banner-text .profile-email {
   font-size: 12px;
-  color: #666;
-  margin: 0;
+  margin: 0 0 2px 0;
+  opacity: 0.9;
 }
 
-.profile-meta .profile-join-date {
+.profile-banner-text .profile-join-date {
   font-size: 11px;
-  color: #999;
   margin: 2px 0 0 0;
+  opacity: 0.75;
 }
 
+.profile-banner-text .profile-bio {
+  font-size: 12px;
+  margin: 8px 0 0 0;
+  opacity: 0.9;
+  line-height: 1.5;
+}
+
+/* Banner 右上角编辑标签 */
+.profile-edit-label {
+  position: absolute;
+  top: 10px;
+  right: 14px;
+  background: none;
+  border: none;
+  color: #fff;
+  font-size: 12px;
+  font-family: "Segoe UI", "Microsoft YaHei UI";
+  text-shadow: 0 1px 4px rgba(0,0,0,0.6);
+  cursor: url(images/aero_link.cur), pointer;
+  opacity: 0.85;
+  padding: 2px 8px;
+  transition: opacity 0.15s;
+}
+
+.profile-edit-label:hover {
+  opacity: 1;
+  text-decoration: underline;
+}
+
+/* ===================== 头像框架（全局） ===================== */
+.profile-avatar-frame {
+  position: relative;
+  flex-shrink: 0;
+}
+
+/* ===================== 资料区 ===================== */
 .profile-section {
   margin-bottom: 14px;
 }
@@ -387,6 +433,15 @@
   .profile-header {
     flex-direction: column;
     align-items: center;
+    text-align: center;
+  }
+  .profile-banner-inner {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 12px;
+  }
+  .profile-banner-text {
     text-align: center;
   }
   .profile-avatar-frame {
