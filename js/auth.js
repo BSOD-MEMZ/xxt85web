@@ -57,31 +57,26 @@
     if (!sb) return Promise.resolve({ user: null, error: 'Supabase 未初始化' });
     extra = extra || {};
 
-    return sb.auth.signUp({ email: email, password: password }).then(function (result) {
+    return sb.auth.signUp({
+      email: email,
+      password: password,
+      options: {
+        data: {
+          username: username,
+          avatar_url: avatar || '1',
+          bio: extra.bio || '',
+          birthday: extra.birthday || null,
+          love: extra.love || '',
+          hate: extra.hate || '',
+          goal: extra.goal || ''
+        }
+      }
+    }).then(function (result) {
       if (result.error) return { user: null, error: result.error.message };
 
       var user = result.data.user;
       if (!user) return { user: null, error: '注册失败，请稍后再试' };
-
-      // 创建 profiles 记录
-      return sb.from('profiles').insert({
-        id: user.id,
-        username: username,
-        avatar_url: avatar || '1',
-        bio: extra.bio || '',
-        birthday: extra.birthday || null,
-        love: extra.love || '',
-        hate: extra.hate || '',
-        goal: extra.goal || '',
-        role: 'user',
-        created_at: new Date().toISOString()
-      }).then(function (profileResult) {
-        if (profileResult.error) {
-          // 不再静默吞掉错误，返回给用户
-          return { user: user, error: '创建用户资料失败: ' + profileResult.error.message };
-        }
-        return { user: user, error: null };
-      });
+      return { user: user, error: null };
     });
   };
 
