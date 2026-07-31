@@ -1,5 +1,14 @@
 window.xxtArticleData = {
     // --- 最新文章 ---
+    "competition2.html": {
+        title: "省一之后，我在国赛现场重新认识了自己",
+        author: "xxt8582753",
+        desc: "以湖南省一等奖第一名进入国赛，在8小时内用两个AI并行开发完成校园资源流转系统。经历技术债暴露等真实工程困境，并在赛后深刻体会到AI时代程序员角色的转变",
+        img: "images/previews/competition2.jpg",
+        date: "2026年7月29日",
+        tags: ["school", "rant", "live"],
+        url: "articles/competition2.html"
+    },
     "enjoyvacation.html": {
         title: "延前的暑假",
         author: "xxt8582753",
@@ -517,8 +526,8 @@ window.xxtArticleData = {
     }
 };
 
-// 文章显示顺序（首页最新文章列表顺序）
 window.xxtArticleOrder = [
+    "competition2.html",
     "windbg.html",
     "unsleepnight.html",
     "xpbutton.html",
