@@ -53,10 +53,10 @@
         var id = parseInt(params.get('id'), 10);
         var video = null;
 
-        // 查找视频数据
+        // 查找视频数据（已删除/隐藏的视频不展示）
         if (!isNaN(id)) {
             for (var i = 0; i < XSOFT_VIDEOS.length; i++) {
-                if (XSOFT_VIDEOS[i].id === id) {
+                if (XSOFT_VIDEOS[i].id === id && !XSOFT_VIDEOS[i].hidden) {
                     video = XSOFT_VIDEOS[i];
                     break;
                 }

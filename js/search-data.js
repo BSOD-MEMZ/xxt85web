@@ -1,8 +1,10 @@
 /**
  * xxtsoft 搜索数据库
  * 文章列表从 window.xxtArticleData（定义在 js/index.js 顶部）动态生成
+ * 媒体列表从 media/videos.js 的 XSOFT_VIDEOS 动态生成
  * 新增文章只需在 js/index.js 的 xxtArticleData 中添加条目即可
- * 程序列表和媒体列表仍需在此手动维护
+ * 新增视频只需在 media/videos.js 中添加条目即可
+ * 程序列表仍需在此手动维护
  */
 var xxtSearchData = (function () {
     var articleData = window.xxtArticleData || {};
@@ -42,18 +44,15 @@ var xxtSearchData = (function () {
         { title: "THE 114514 GAME2（PPT）", url: "https://www.123912.com/s/LQJuVv-pweNd" }
     ];
 
-    // ==================== 媒体列表（手动维护） ====================
-    var mediaList = [
-        { title: "Mission Impossible : The Long Dark Basement - 碟中谍9：永夜堡垒", url: "media/player.html?id=10" },
-        { title: "对蛋仔派对市场颓势以及创作者大会脱离群众的锐评", url: "media/player.html?id=8" },
-        { title: "maimaiでらっくす \u00D7 ナンファン ミードー スゴー ちほー - 栄光と夢想（舞萌DX \u00D7 株洲市南方中学联动区域 - 光荣与梦想）Lv.15", url: "media/player.html?id=7" },
-        { title: "如何在Win 7以及更高版本上使用NetMeeting 3.0.1", url: "media/player.html?id=6" },
-        { title: "Flash测试", url: "media/player.html?id=5" },
-        { title: "world.execute(me); 但是Scratch", url: "media/player.html?id=4" },
-        { title: "欸，我不是窗口吗？——胭脂，但是Windows", url: "media/player.html?id=3" },
-        { title: "world.execute(me); 但是全Win32控件", url: "media/player.html?id=2" },
-        { title: "你会在世界终焉吃掉哈基米（あなたは世界の終わりにはちみを食べるのだ）", url: "media/player.html?id=1" }
-    ];
+    // ==================== 媒体列表（从 media/videos.js 动态生成） ====================
+    var mediaList = [];
+    if (typeof XSOFT_VIDEOS !== 'undefined' && XSOFT_VIDEOS) {
+        for (var i = 0; i < XSOFT_VIDEOS.length; i++) {
+            var v = XSOFT_VIDEOS[i];
+            if (v.hidden) continue; // 已删除的视频不进入搜索
+            mediaList.push({ title: v.title, url: 'media/player.html?id=' + v.id });
+        }
+    }
 
     return {
         article: articleList,

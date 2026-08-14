@@ -1,5 +1,13 @@
 window.xxtArticleData = {
-    // --- 最新文章 ---
+    "classislandinjector.html": {
+        title: "我的课表不可能这么好看！ClassIslandInjector样式注入器绝赞发布！",
+        author: "xxt8582753",
+        desc: "基于注入的ClassIsland插件",
+        img: "",
+        date: "2026年8月13日",
+        tags: ["coding", "school"],
+        url: "articles/classislandinjector.html"
+    },
     "competition2.html": {
         title: "省一之后，我在国赛现场重新认识了自己",
         author: "xxt8582753",
@@ -527,6 +535,7 @@ window.xxtArticleData = {
 };
 
 window.xxtArticleOrder = [
+    "classislandinjector.html",
     "competition2.html",
     "windbg.html",
     "unsleepnight.html",
