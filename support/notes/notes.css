@@ -1,0 +1,225 @@
+#notesFilter { display: flex; flex-wrap: wrap; gap: 4px; }
+.cat-btn {
+    padding: 1px 12px;
+    font-size: 12px;
+    font-family: "Segoe UI", "Microsoft YaHei UI", sans-serif;
+    background: linear-gradient(to bottom, #fefefe 0%, #E5EAF5 30%, #D4DBED 31%, #E1E6F6 100%);
+    border: 1px solid #8b8b8b;
+    border-radius: 3px;
+    color: #000;
+    cursor: pointer;
+}
+.cat-btn:hover { background: #a7a7a7; }
+.cat-btn.active {
+    background: linear-gradient(to bottom, #4A77A9 0%, #225E9E 50%, #164686 51%, #2F7AB3 100%);
+    border-color: #99B1CE;
+    color: #FFFFFF;
+}
+.cat-btn img { vertical-align: middle; margin-right: 3px; }
+
+/* ---- 便笺网格 ---- */
+.notes-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 22px 16px;
+    align-items: start;
+}
+
+/* ---- 单张便笺（原图显示） ---- */
+.note {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    min-height: 210px;
+    padding: 13px 12px 12px 8px;
+    box-sizing: border-box;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 100% 100%;
+    cursor: url("../../images/aero_link.cur"), pointer;
+    transition: filter 0.18s ease;
+}
+
+/* 平时不显示阴影，悬停时显示 */
+.note:hover {
+    filter: drop-shadow(3px 4px 3px rgba(0, 0, 0, 0.22));
+}
+
+
+
+/* 便笺文字区 */
+.note-title {
+    font-size: 13px;
+    font-weight: bold;
+    line-height: 1.35;
+    margin: 0 0 6px;
+    z-index: 2;
+    word-break: break-word;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.note-content {
+    font-size: 12px;
+    line-height: 1.5;
+    flex: 1;
+    overflow: hidden;
+    z-index: 2;
+    word-break: break-word;
+    display: -webkit-box;
+    -webkit-line-clamp: 5;
+    line-clamp: 5;
+    -webkit-box-orient: vertical;
+}
+
+.note-content p {
+    margin: 0 0 6px;
+}
+
+.note-content p:last-child {
+    margin-bottom: 0;
+}
+
+.note-content code {
+    background: rgba(255, 255, 255, 0.55);
+    border: 1px solid rgba(0, 0, 0, 0.12);
+    border-radius: 3px;
+    padding: 0 3px;
+    font-family: Consolas, "Courier New", monospace;
+    font-size: 11px;
+}
+
+/* 出处标记（歌词摘录 / 名言等） */
+.note-source {
+    margin-top: 6px;
+    font-size: 11px;
+    font-style: italic;
+    line-height: 1.4;
+    opacity: 0.75;
+    text-align: right;
+    z-index: 2;
+    word-break: break-word;
+}
+
+.note-source::before {
+    content: "—— ";
+}
+
+.note-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 8px;
+    padding-top: 6px;
+    border-top: 1px dashed rgba(0, 0, 0, 0.18);
+    z-index: 2;
+}
+
+.note-tag {
+    font-size: 10px;
+    font-weight: bold;
+    padding: 1px 8px;
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.6);
+    border: 1px solid rgba(0, 0, 0, 0.12);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.7);
+    white-space: nowrap;
+}
+
+.note-date {
+    font-size: 10px;
+    color: rgba(0, 0, 0, 0.55);
+    white-space: nowrap;
+}
+
+/* 各类型底图 */
+.note-yellow { background-image: url("sticky_yellow.png"); }
+.note-blue   { background-image: url("sticky_blue.png"); }
+.note-green  { background-image: url("sticky_green.png"); }
+.note-pink   { background-image: url("sticky_pink.png"); }
+.note-purple { background-image: url("sticky_purple.png"); }
+.note-white  { background-image: url("sticky_white.png"); }
+
+/* 空状态 */
+.notes-empty {
+    text-align: center;
+    padding: 40px 10px;
+    color: #6b7a8a;
+    font-size: 13px;
+    background: rgba(255, 255, 255, 0.5);
+    border: 1px dashed rgba(120, 150, 180, 0.6);
+    border-radius: 8px;
+}
+
+/* ---- 便笺详情弹窗（Vista 风格，复用主站 .vista-dialog） ---- */
+#noteDialogBody {
+    padding: 16px 18px;
+}
+
+#noteDialogTitle {
+    flex: 1;
+    margin-right: 6px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.note-dialog-img {
+    text-align: center;
+    margin: 14px 0;
+}
+
+.note-dialog-img img {
+    max-width: 100%;
+    max-height: 300px;
+    border: 1px solid #b9c9d9;
+    border-radius: 3px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.18);
+}
+
+.note-dialog-content {
+    font-size: 13px;
+    line-height: 1.8;
+    word-break: break-word;
+}
+
+.note-dialog-content p {
+    margin: 0 0 8px;
+}
+
+.note-dialog-content p:last-child {
+    margin-bottom: 0;
+}
+
+.note-dialog-content code {
+    background: rgba(255, 255, 255, 0.55);
+    border: 1px solid rgba(0, 0, 0, 0.12);
+    border-radius: 3px;
+    padding: 0 3px;
+    font-family: Consolas, "Courier New", monospace;
+    font-size: 12px;
+}
+
+/* ---- 移动端适配 ---- */
+@media screen and (max-width: 1000px) {
+    .notes-grid {
+        grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+        gap: 18px 12px;
+    }
+
+    .note {
+        min-height: 180px;
+        padding: 13px 10px 10px 8px;
+    }
+
+    .note-title {
+        font-size: 13px;
+    }
+
+    .note-content {
+        font-size: 12px;
+    }
+}

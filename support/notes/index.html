@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>xxtsoft · 便笺</title>
+    <link rel="stylesheet" href="../../style.css" type="text/css" id="themeCss" />
+    <link rel="stylesheet" href="notes.css" type="text/css" />
+    <script src="../../js/theme-loader.js"></script>
+</head>
+
+<body>
+    <div class="titlebar">
+        <div class="wrap">
+            <h1>xxtsoft.top</h1>
+        </div>
+    </div>
+    <div class="navbar">
+        <div class="wrap">
+            <ul>
+                <li><a href="../../index.html">首页(H)</a></li>
+                <li><a href="../../articles.html">文章(A)</a></li>
+                <li><a href="../../downloads.html">下载(D)</a></li>
+                <li><a href="../../medias.html">多媒体(M)</a></li>
+                <li><a href="../../about.html">关于(A)</a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="content wrap">
+        <div class="main">
+            <h2><span style="color: #003399;">便笺</span>
+            </h2>
+
+            <div id="notesFilter" style="display:flex; flex-wrap:wrap; gap:4px; margin-bottom:6px;"></div>
+            <div class="notes-grid" id="notesGrid"></div>
+            <div class="notes-empty" id="notesEmpty" style="display:none;">这个分类下暂时没有便笺，去其它分类看看吧～</div>
+            <img src="../../images/icons/dot.png" width="15" height="15"><a href="https://xxtsoft.top">返回主页</a>
+        </div>
+    </div>
+
+    <div id="noteDialog" class="window vista-dialog"
+        style="display:none; position:fixed; top:50%; left:50%; transform:translate(-50%, -50%); z-index:10000; width:380px; max-width:92vw;">
+        <div class="window-titlebar settings-titlebar">
+            <span id="noteDialogTitle">便笺</span>
+            <img src="../../images/Window_CloseButton.png" id="closeNoteDialog" class="vista-close-btn" alt="关闭" />
+        </div>
+        <div class="window-content" id="noteDialogBody" style="max-height:calc(88vh - 40px); overflow-y:auto;"></div>
+    </div>
+    <div id="noteDialogOverlay"
+        style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.3); z-index:9999;"></div>
+
+    <script>
+    const TYPES = [
+        { id: 'yellow', label: '日常琐事', icon: '../../images/icons/dairy.png' },
+        { id: 'blue',   label: '技术探索', icon: '../../images/icons/control.png' },
+        { id: 'green',  label: '待办事项', icon: '../../images/icons/timedate.png' },
+        { id: 'pink',   label: '灵感', icon: '../../images/icons/tips.png' },
+        { id: 'purple', label: '歌词、诗句和名言', icon: '../../images/icons/discus.png' },
+        { id: 'white',  label: '杂项', icon: '../../images/icons/folder.png' }
+    ];
+
+    const TYPE_TEXT = {
+        yellow: '#7a5b00',
+        blue:   '#0d4f6b',
+        green:  '#1e6b2f',
+        pink:   '#8a2a54',
+        purple: '#4a2a8a',
+        white:  '#333333'
+    };
+
+    const NOTES = [
+        {
+            type: 'green',
+            title: 'ClassIslandInjector 宣传视频制作',
+            content: '在九月份前我一定一定要把宣传片剪出来。',
+            date: '2026-08-19'
+        },
+
+        {
+            type: 'blue',
+            title: 'FFmpeg实现亮度键遮罩',
+            content: '之前折腾了半天，这个命令用来保留黑色，扣掉白色部分，当时我用来抠<a href="https://otoiro.co.jp/special/">OTORIO</a>提供的PV素材的<br>ffmpeg -i front.mp4 -i front_alpha.mp4 -filter_complex "[1:v]negate[alpha_inv];[0:v][alpha_inv]alphamerge,format=yuva444p10le[v]" -map "[v]" -map 0:a -c:v prores_ks -profile:v 4444 -pix_fmt yuva444p10le -vendor appl -colorspace bt709 -color_primaries bt709 -color_trc bt709 -movflags +faststart+write_colr -c:a copy output.mov',
+            date: '2026-08-14'
+        },
+
+        {
+            type: 'purple',
+            title: '啊  夏天的梦',
+            content: '是什么颜色的<br>是船边轻语的萤火<br>是桅杆小憩的海鸥<br>啊  夏天的梦<br>是什么颜色的呢<br>是繁星浇揉的月光<br>是雨后山寺的晚钟',
+            source: '上海彩虹室内合唱团 - 夏天的梦是什么颜色的呢',
+            date: '2026-08-19'
+        },
+       
+    ];
+
+    /* ============ 渲染逻辑 ============ */
+    (function () {
+        const filterEl = document.getElementById('notesFilter');
+        const gridEl = document.getElementById('notesGrid');
+        const emptyEl = document.getElementById('notesEmpty');
+        let currentType = 'all';
+
+        // 渲染筛选按钮（样式同首页文章分类筛选）
+        function renderFilter() {
+            filterEl.innerHTML = '';
+            ['all'].concat(TYPES.map(t => t.id)).forEach(id => {
+                const btn = document.createElement('button');
+                btn.className = 'cat-btn' + (id === 'all' ? ' active' : '');
+                btn.setAttribute('data-type', id);
+                if (id === 'all') {
+                    btn.textContent = '全部';
+                } else {
+                    const t = TYPES.find(x => x.id === id);
+                    btn.innerHTML = '<img src="' + t.icon +
+                        '" alt="" width="16" height="16" style="vertical-align:middle;margin-right:3px;">' +
+                        t.label;
+                }
+                btn.addEventListener('click', function () {
+                    currentType = this.getAttribute('data-type');
+                    filterEl.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+                    renderNotes();
+                });
+                filterEl.appendChild(btn);
+            });
+        }
+
+        // 渲染便笺网格
+        function renderNotes() {
+            const list = currentType === 'all'
+                ? NOTES
+                : NOTES.filter(n => n.type === currentType);
+
+            emptyEl.style.display = list.length ? 'none' : 'block';
+            gridEl.innerHTML = list.map(noteHtml).join('');
+
+            // 点击便笺打开详情弹窗（正文里的链接照常可点）
+            gridEl.querySelectorAll('.note').forEach((el, i) => {
+                el.addEventListener('click', function (e) {
+                    if (e.target.closest('a')) return;
+                    openNoteDialog(list[i]);
+                });
+            });
+        }
+
+        function noteHtml(n) {
+            const typeInfo = TYPES.find(t => t.id === n.type) || TYPES[0];
+            const textColor = TYPE_TEXT[n.type] || '#333';
+            const date = n.date ? '<span class="note-date">' + n.date + '</span>' : '';
+            const source = n.source
+                ? '<div class="note-source" style="color:' + textColor + ';">' + escapeHtml(n.source) + '</div>'
+                : '';
+
+            return '<div class="note note-' + n.type + '">' +
+                '<div class="note-title" style="color:' + textColor + ';">' + escapeHtml(n.title) + '</div>' +
+                '<div class="note-content" style="color:' + textColor + ';">' + n.content + '</div>' +
+                source +
+                '<div class="note-footer">' +
+                '<span class="note-tag" style="color:' + textColor + ';">' + typeInfo.label + '</span>' + date +
+                '</div></div>';
+        }
+
+        function escapeHtml(s) {
+            return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+        }
+
+        // ---- 便笺详情弹窗（Vista 风格 dialog，样式同首页） ----
+        const noteDialog = document.getElementById('noteDialog');
+        const noteDialogOverlay = document.getElementById('noteDialogOverlay');
+        const closeNoteDialogBtn = document.getElementById('closeNoteDialog');
+
+        function openNoteDialog(n) {
+            const img = n.image
+                ? '<div class="note-dialog-img"><img src="' + n.image + '" alt="" /></div>'
+                : '';
+            const source = n.source
+                ? '<div class="note-source">' + escapeHtml(n.source) + '</div>'
+                : '';
+
+            document.getElementById('noteDialogTitle').textContent = n.title;
+            document.getElementById('noteDialogBody').innerHTML =
+                img +
+                '<div class="note-dialog-content">' + n.content + '</div>' +
+                source;
+
+            noteDialog.style.display = 'block';
+            noteDialogOverlay.style.display = 'block';
+        }
+
+        function hideNoteDialog() {
+            noteDialog.style.display = 'none';
+            noteDialogOverlay.style.display = 'none';
+        }
+
+        if (closeNoteDialogBtn) closeNoteDialogBtn.addEventListener('click', hideNoteDialog);
+        if (noteDialogOverlay) noteDialogOverlay.addEventListener('click', hideNoteDialog);
+
+        renderFilter();
+        renderNotes();
+    })();
+    </script>
+</body>
+
+</html>
