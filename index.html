@@ -113,9 +113,6 @@
                         <li><a href="museum.html" class="museum"><img alt="" src="images/icons/home.png" width="16"
                                     height="16" /> 博物馆</a>
                         </li>
-                        <li><a href="cses.html" class="cses" id="csesLink"><img alt="" src="images/icons/timedate.png" width="16"
-                                    height="16" /> <span class="cses-flip"><span class="cses-flip-a">课程表</span><span class="cses-flip-b"></span></span></a>
-                        </li>
                         <li><a href="donate.html" class="donate"><img alt="" src="images/icons/money.png" width="16"
                                     height="16" /> 捐助</a>
                         </li>
@@ -373,8 +370,6 @@
 </body>
 <script defer src="js/index.js"></script>
 <script defer src="js/player.js"></script>
-<script defer src="https://cdn.jsdelivr.net/npm/js-yaml@4.1.0/dist/js-yaml.min.js"></script>
-<script defer src="js/cses-loader.js"></script>
 <script defer src="js/ripple.js"></script>
 <script>
 // 异步加载账号系统，不阻塞文章列表渲染
@@ -387,47 +382,6 @@
     s2.src = 'js/auth.js';
     document.head.appendChild(s2);
   };
-})();
-</script>
-<script>
-(function(){
-  var flipEl = document.querySelector('#csesLink .cses-flip');
-  if (!flipEl) { console.warn('CSES flip: 未找到 .cses-flip 元素'); return; }
-  var slotA = flipEl.querySelector('.cses-flip-a');
-  var slotB = flipEl.querySelector('.cses-flip-b');
-  var visibleText = '课程表';
-  var rotationTimer = null;
-  slotA.textContent = visibleText;
-
-  function doFlip(newText) {
-    if (newText === visibleText) return;
-    slotB.textContent = newText;
-    flipEl.classList.add('flipping');
-    setTimeout(function() {
-      flipEl.classList.remove('flipping');
-      slotA.textContent = newText;
-      slotB.textContent = '';
-      visibleText = newText;
-    }, 360);
-  }
-
-  function rotateText() {
-    CSESLoader.load().then(function() {
-      function tick() {
-        var current = CSESLoader.getCurrentClass();
-        if (current && current.subject) {
-          var newText = '正在上课 - ' + current.subject;
-          doFlip(newText);
-        } else {
-          doFlip('课程表');
-        }
-      }
-      tick();
-      rotationTimer = setInterval(tick, 3000);
-    });
-  }
-
-  rotateText();
 })();
 </script>
 </html>

@@ -8,7 +8,7 @@
   <!-- ======== 首页 ======== -->
   <url>
     <loc>https://xxtsoft.top/</loc>
-    <lastmod>2026-06-06</lastmod>
+    <lastmod>2026-08-23</lastmod>
     <priority>1.00</priority>
   </url>
 
@@ -49,11 +49,6 @@
     <priority>0.64</priority>
   </url>
   <url>
-    <loc>https://xxtsoft.top/sign.html</loc>
-    <lastmod>2026-06-06</lastmod>
-    <priority>0.50</priority>
-  </url>
-  <url>
     <loc>https://xxtsoft.top/restroom.html</loc>
     <lastmod>2026-06-06</lastmod>
     <priority>0.50</priority>
@@ -66,6 +61,16 @@
   <url>
     <loc>https://xxtsoft.top/nanfang.html</loc>
     <lastmod>2026-06-06</lastmod>
+    <priority>0.64</priority>
+  </url>
+  <url>
+    <loc>https://xxtsoft.top/account.html</loc>
+    <lastmod>2026-07-22</lastmod>
+    <priority>0.64</priority>
+  </url>
+  <url>
+    <loc>https://xxtsoft.top/upload.html</loc>
+    <lastmod>2026-07-18</lastmod>
     <priority>0.64</priority>
   </url>
 
@@ -236,16 +241,6 @@
     <priority>0.64</priority>
   </url>
   <url>
-    <loc>https://xxtsoft.top/articles/upload.html</loc>
-    <lastmod>2025-06-26</lastmod>
-    <priority>0.64</priority>
-  </url>
-  <url>
-    <loc>https://xxtsoft.top/articles/test.html</loc>
-    <lastmod>2025-06-25</lastmod>
-    <priority>0.30</priority>
-  </url>
-  <url>
     <loc>https://xxtsoft.top/articles/efluentwidget.html</loc>
     <lastmod>2025-02-09</lastmod>
     <priority>0.64</priority>
@@ -254,6 +249,36 @@
     <loc>https://xxtsoft.top/articles/aeronopeak.html</loc>
     <lastmod>2022-08-10</lastmod>
     <priority>0.64</priority>
+  </url>
+  <url>
+    <loc>https://xxtsoft.top/articles/classislandinjector.html</loc>
+    <lastmod>2026-08-14</lastmod>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://xxtsoft.top/articles/competition2.html</loc>
+    <lastmod>2026-07-31</lastmod>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://xxtsoft.top/articles/unsleepnight.html</loc>
+    <lastmod>2026-07-29</lastmod>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://xxtsoft.top/articles/bmp32.html</loc>
+    <lastmod>2026-07-20</lastmod>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://xxtsoft.top/articles/windbg.html</loc>
+    <lastmod>2026-07-20</lastmod>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://xxtsoft.top/articles/xpbutton.html</loc>
+    <lastmod>2026-07-20</lastmod>
+    <priority>0.80</priority>
   </url>
 
   <!-- ======== 专栏页面 ======== -->
@@ -329,17 +354,67 @@
     <lastmod>2026-06-06</lastmod>
     <priority>0.64</priority>
   </url>
-
-  <!-- ======== NAS 页面 ======== -->
   <url>
-    <loc>https://xxtsoft.top/nas/index.html</loc>
-    <lastmod>2026-06-06</lastmod>
+    <loc>https://xxtsoft.top/media/id11.html</loc>
+    <lastmod>2026-08-05</lastmod>
+    <priority>0.64</priority>
+  </url>
+
+  <!-- ======== 功能子页面 ======== -->
+  <url>
+    <loc>https://xxtsoft.top/support/QQListener/index.html</loc>
+    <lastmod>2026-07-18</lastmod>
     <priority>0.64</priority>
   </url>
   <url>
-    <loc>https://xxtsoft.top/nas/detail.html</loc>
-    <lastmod>2026-06-06</lastmod>
+    <loc>https://xxtsoft.top/support/QQListener/detail.html</loc>
+    <lastmod>2026-07-18</lastmod>
     <priority>0.64</priority>
+  </url>
+  <url>
+    <loc>https://xxtsoft.top/support/QQListener/translation.html</loc>
+    <lastmod>2026-07-18</lastmod>
+    <priority>0.64</priority>
+  </url>
+  <url>
+    <loc>https://xxtsoft.top/support/ENTP/help.html</loc>
+    <lastmod>2026-07-18</lastmod>
+    <priority>0.50</priority>
+  </url>
+  <url>
+    <loc>https://xxtsoft.top/support/manga/index.html</loc>
+    <lastmod>2026-08-23</lastmod>
+    <priority>0.50</priority>
+  </url>
+  <url>
+    <loc>https://xxtsoft.top/support/mirror/index.html</loc>
+    <lastmod>2026-07-18</lastmod>
+    <priority>0.50</priority>
+  </url>
+  <url>
+    <loc>https://xxtsoft.top/support/sekai/index.html</loc>
+    <lastmod>2026-08-23</lastmod>
+    <priority>0.50</priority>
+  </url>
+  <url>
+    <loc>https://xxtsoft.top/support/sekai/rescue.html</loc>
+    <lastmod>2026-08-10</lastmod>
+    <priority>0.50</priority>
+  </url>
+  <url>
+    <loc>https://xxtsoft.top/support/sekai/yourmind.html</loc>
+    <lastmod>2026-07-29</lastmod>
+    <priority>0.50</priority>
+  </url>
+  <url>
+    <loc>https://xxtsoft.top/support/notes/index.html</loc>
+    <lastmod>2026-08-23</lastmod>
+    <priority>0.50</priority>
+  </url>
+  <url>
+    <loc>https://xxtsoft.top/support/drafts/index.html</loc>
+    <lastmod>2026-08-23</lastmod>
+    <priority>0.50</priority>
   </url>
 
   <!-- ======== 曾经的旧文章 ======== -->
