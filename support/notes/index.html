@@ -84,13 +84,17 @@
             content: '之前折腾了半天，这个命令用来保留黑色，扣掉白色部分，当时我用来抠<a href="https://otoiro.co.jp/special/">OTORIO</a>提供的PV素材的<br>ffmpeg -i front.mp4 -i front_alpha.mp4 -filter_complex "[1:v]negate[alpha_inv];[0:v][alpha_inv]alphamerge,format=yuva444p10le[v]" -map "[v]" -map 0:a -c:v prores_ks -profile:v 4444 -pix_fmt yuva444p10le -vendor appl -colorspace bt709 -color_primaries bt709 -color_trc bt709 -movflags +faststart+write_colr -c:a copy output.mov',
             date: '2026-08-14'
         },
-
         {
-            type: 'purple',
-            title: '啊  夏天的梦',
-            content: '是什么颜色的<br>是船边轻语的萤火<br>是桅杆小憩的海鸥<br>啊  夏天的梦<br>是什么颜色的呢<br>是繁星浇揉的月光<br>是雨后山寺的晚钟',
-            source: '上海彩虹室内合唱团 - 夏天的梦是什么颜色的呢',
-            date: '2026-08-19'
+            type: 'green',
+            title: 'ClassIslandInjector 新增功能',
+            content: '添加视频编辑器和市场功能，九月底前交付。',
+            date: '2026-08-28'
+        },
+        {
+            type: 'white',
+            title: '祝公主殿下生日快乐！！',
+            content: '今天是8月31日，是初音未来发行的19周年，将这条消息转发到5个群，初音就会从网络中出来抱抱你，并摸摸你的你的头～我帮大家试过了，是假的......而且还会被人骂术批😭但是今天真的是初音未来生日，祝公主殿下生日快乐！！',
+            date: '2026-08-31'
         },
        
     ];

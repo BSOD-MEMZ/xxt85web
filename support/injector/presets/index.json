@@ -1,0 +1,20 @@
+{
+  "schemaVersion": 1,
+  "indexUrl": "https://xxtsoft.top/support/injector/presets/index.json",
+  "updatedAt": "2026-08-26T12:00:00+08:00",
+  "presets": [
+    {
+      "id": "demo-glassmorphism",
+      "name": "玻璃拟态",
+      "author": "xxt8582753",
+      "school": "某某中学",
+      "description": "半透明毛玻璃质感……",
+      "pluginVersion": "1.1.0.4",
+      "minPluginVersion": "",
+      "createdAt": "2026-08-26T12:00:00+08:00",
+      "downloadUrl": "https://xxtsoft.top/support/injector/presets/demo-glassmorphism.cizip",
+      "previewUrl": "https://xxtsoft.top/support/injector/presets/demo-glassmorphism.png",
+      "sizeBytes": 0
+    }
+  ]
+}

@@ -1,9 +1,20 @@
 window.xxtArticleData = {
+    "taiko.html": {
+        title: "填补株洲市音游教育的空白！南方中学“咚咚雷音祭”计划！",
+        author: "xxt8582753",
+        desc: "株洲市南方中学成为湖南省第一所拥有太鼓的高中，让我们庆祝这一历史性时刻！",
+        img: "images/previews/taiko.jpg",
+        disturbing: true,
+        date: "2026年8月31日",
+        uac: true,
+        tags: ["rant", "school"],
+        url: "articles/taiko.html"
+    },
     "classislandinjector.html": {
         title: "我的课表不可能这么好看！ClassIslandInjector样式注入器绝赞发布！",
         author: "xxt8582753",
         desc: "基于注入的ClassIsland插件",
-        img: "",
+        img: "images/previews/cii.jpg",
         date: "2026年8月13日",
         tags: ["coding", "school"],
         url: "articles/classislandinjector.html"
@@ -44,7 +55,6 @@ window.xxtArticleData = {
         date: "2026年7月3日 - 正在编辑",
         disturbing: true,
         tags: ["school", "rant"],
-        editing: true,
         uac: true,
         url: "articles/unsleepnight.html"
     },
@@ -535,6 +545,7 @@ window.xxtArticleData = {
 };
 
 window.xxtArticleOrder = [
+    "taiko.html",
     "classislandinjector.html",
     "competition2.html",
     "windbg.html",
