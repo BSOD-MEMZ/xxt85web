@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>xxtsoft · 超魔丸バスターズ 故事导读</title>
+    <link rel="stylesheet" href="../../style.css" type="text/css" id="themeCss" />
+    <link rel="icon" href="../../images/icons/knowledges.png" type="image/x-icon">
+    <script src="../../js/theme-loader.js"></script>
+    <style>
+        /* ---------- 复古 Aero 玻璃风格雷达图 ---------- */
+        #mowanRadar {
+            display: block;
+            margin: 0 auto;
+            max-width: 100%;
+            height: auto;
+        }
+        #storyGraph {
+            display: block;
+            margin: 0 auto;
+            max-width: 100%;
+            height: auto;
+        }
+        .aero-radar-legend {
+            margin-top: 10px;
+            text-align: center;
+        }
+        .aero-radar-legend .chip {
+            display: inline-block;
+            margin: 4px 8px;
+            padding: 3px 12px;
+            white-space: nowrap;
+            font-size: 12px;
+            color: #11304f;
+            border: 1px solid #9FB4D0;
+            border-radius: 12px;
+            background: linear-gradient(180deg, rgba(255,255,255,0.96), rgba(226,236,250,0.88));
+            box-shadow: inset 0 1px 0 #fff, 0 1px 2px rgba(0,0,0,0.18);
+            cursor: url(../../images/aero_link.cur), pointer;
+            transition: background 0.2s ease, border-color 0.2s ease;
+        }
+        .aero-radar-legend .chip.chip-active {
+            border-color: #2F6FD6;
+            background: linear-gradient(180deg, #EAF4FF, #C9DFF9);
+            box-shadow: inset 0 1px 0 #fff, 0 0 0 1px rgba(47,111,214,0.35), 0 1px 3px rgba(0,0,0,0.2);
+        }
+        .aero-radar-legend .chip .swatch {
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            margin-right: 5px;
+            border-radius: 50%;
+            vertical-align: -1px;
+            box-shadow: inset 0 1px 1px rgba(255,255,255,0.6), 0 1px 2px rgba(0,0,0,0.3);
+        }
+        .aero-radar-legend .chip b {
+            margin-right: 0;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="titlebar">
+        <div class="wrap">
+            <h1>xxtsoft.top</h1>
+        </div>
+    </div>
+    <div class="navbar">
+        <div class="wrap">
+            <ul>
+                <li><a href="../../index.html">首页(H)</a></li>
+                <li><a href="../../articles.html">文章(A)</a></li>
+                <li><a href="../../downloads.html">下载(D)</a></li>
+                <li><a href="../../medias.html">多媒体(M)</a></li>
+                <li><a href="../../about.html">关于(A)</a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="content wrap">
+        <div class="main">
+            <h2><span style="color: #003399;">超魔丸バスターズ 故事导读</span></h2>
+            <p>这是一个真实存在的校园小团体：@kingstar 和我们这些志同道合的伙伴们热衷于在学校干各种“坏事”，不过与普通人单纯把校规当任务清单不同，我们致力以一种极客的方式，保证安全的情况下在学校留下一些“反抗的痕迹”。</p>
+            <h3>团队名称的由来？</h3>
+            <p>“バスターズ”一词意味着“破坏者”，而我们的生物老师喜欢说“你们都是一群魔丸”，故起此名。</p>
+            <h3>文章中提到的所有人都属于这个团队吗？</h3>
+            <p>不，大部分文章内出场人员还不够“魔丸”，目前超魔丸バスターズ有15名成员，而真正核心成员只有创始人@kingstar，以及两名技术人员：@AbCd和@xxt8582753</p>
+            <h3>主线剧情</h3>
+            <p>看完自动领50水晶和两个歌卡（？</p>
+            <canvas id="storyGraph"></canvas>
+            
+            <h3>核心成员能力雷达图</h3>
+
+            <canvas id="mowanRadar" width="620" height="480"></canvas>
+            <div class="aero-radar-legend" id="mowanRadarLegend"></div>
+
+        <img src="../../images/icons/dot.png" width="15" height="15"><a href="https://xxtsoft.top">返回主页</a>
+        </div>
+    </div>
+
+    <script>
+    (function() {
+        'use strict';
+
+        /* ===== 数据 ===== */
+        var dims = ['魔丸程度', '学习成绩', '编程能力', '老师信任', '精神状态', '游戏实力'];
+        var members = [
+            { name: 'kingstar',   color: '#2F6FD6', vals: [5, 5, 1, 1, 5, 5] },
+            { name: 'AbCd',       color: '#3E9B4F', vals: [3, 4, 5, 4, 3, 5] },
+            { name: 'xxt8582753', color: '#E08A1E', vals: [4, 2, 3, 3, 4, 3] }
+        ];
+        /* 等级取值：S=5 A=4 B=3 C=2 D=1 */
+
+        /* ===== 图例 ===== */
+        var leg = document.getElementById('mowanRadarLegend');
+        if (leg) {
+            var html = '';
+            for (var m = 0; m < members.length; m++) {
+                var mb = members[m];
+                html += '<span class="chip"><i class="swatch" style="background:' + mb.color + '"></i><b>@' + mb.name + '</b></span>';
+            }
+            leg.innerHTML = html;
+        }
+
+        var canvas = document.getElementById('mowanRadar');
+        if (!canvas || !canvas.getContext) { return; }
+
+        /* ===== 高分屏适配 ===== */
+        var dpr = window.devicePixelRatio || 1;
+        var W = 620, H = 480;
+        canvas.width = W * dpr;
+        canvas.height = H * dpr;
+        var ctx = canvas.getContext('2d');
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+        var cx = 310, cy = 268, R = 148, N = dims.length;
+
+        function hexRgb(hex) {
+            var n = parseInt(hex.slice(1), 16);
+            return { r: (n >> 16) & 255, g: (n >> 8) & 255, b: n & 255 };
+        }
+
+        function dir(i) {
+            var a = (i * 360 / N) * Math.PI / 180;
+            return { x: Math.sin(a), y: -Math.cos(a) };
+        }
+
+        function pos(i, r) {
+            var d = dir(i);
+            return { x: cx + d.x * r, y: cy + d.y * r };
+        }
+
+        function glassBubble(x, y, color, rad) {
+            var c = hexRgb(color);
+            var g = ctx.createRadialGradient(x - rad * 0.35, y - rad * 0.45, rad * 0.15, x, y, rad);
+            g.addColorStop(0, 'rgba(255,255,255,0.98)');
+            g.addColorStop(0.4, 'rgba(' + c.r + ',' + c.g + ',' + c.b + ',0.95)');
+            g.addColorStop(1, 'rgba(' + Math.floor(c.r * 0.5) + ',' + Math.floor(c.g * 0.5) + ',' + Math.floor(c.b * 0.5) + ',0.95)');
+            ctx.beginPath();
+            ctx.arc(x, y, rad, 0, Math.PI * 2);
+            ctx.fillStyle = g;
+            ctx.fill();
+            ctx.beginPath();
+            ctx.arc(x - rad * 0.3, y - rad * 0.35, rad * 0.3, 0, Math.PI * 2);
+            ctx.fillStyle = 'rgba(255,255,255,0.85)';
+            ctx.fill();
+        }
+
+        var active = -1; /* -1 = 显示全部；>=0 = 仅显示对应成员 */
+
+        function draw() {
+            ctx.clearRect(0, 0, W, H);
+
+        /* ===== 刻度辐条 ===== */
+        ctx.save();
+        ctx.strokeStyle = 'rgba(60,95,150,0.35)';
+        ctx.lineWidth = 1;
+        for (var i = 0; i < N; i++) {
+            var e = pos(i, R);
+            ctx.beginPath();
+            ctx.moveTo(cx, cy);
+            ctx.lineTo(e.x, e.y);
+            ctx.stroke();
+        }
+        ctx.restore();
+
+        /* ===== 五圈等级网格（外→内 S/A/B/C/D，内圈虚线更显“老图纸”味） ===== */
+        for (var lv = 1; lv <= 5; lv++) {
+            var rr = R * lv / 5;
+            ctx.beginPath();
+            for (i = 0; i < N; i++) {
+                var p = pos(i, rr);
+                if (i === 0) { ctx.moveTo(p.x, p.y); } else { ctx.lineTo(p.x, p.y); }
+            }
+            ctx.closePath();
+            ctx.save();
+            if (lv === 5) {
+                ctx.strokeStyle = 'rgba(65,105,165,0.9)';
+                ctx.lineWidth = 1.7;
+            } else {
+                ctx.strokeStyle = 'rgba(90,130,185,0.55)';
+                ctx.lineWidth = 1;
+                ctx.setLineDash([3, 3]);
+            }
+            ctx.stroke();
+            ctx.restore();
+        }
+        /* 外圈顶点定位销 */
+        for (i = 0; i < N; i++) {
+            var pin = pos(i, R);
+            ctx.beginPath();
+            ctx.arc(pin.x, pin.y, 2.4, 0, Math.PI * 2);
+            ctx.fillStyle = 'rgba(65,105,165,0.85)';
+            ctx.fill();
+        }
+
+        /* ===== 成员玻璃多边形（active 时不绘制其他成员） ===== */
+        for (var mi = 0; mi < members.length; mi++) {
+            if (active >= 0 && mi !== active) { continue; }
+            var mb = members[mi];
+            ctx.beginPath();
+            for (i = 0; i < N; i++) {
+                var vp = pos(i, R * mb.vals[i] / 5);
+                if (i === 0) { ctx.moveTo(vp.x, vp.y); } else { ctx.lineTo(vp.x, vp.y); }
+            }
+            ctx.closePath();
+
+            ctx.save();
+            var c2 = hexRgb(mb.color);
+            var boost = (active >= 0) ? 0.12 : 0;
+            var fg = ctx.createLinearGradient(0, cy - R, 0, cy + R);
+            fg.addColorStop(0, 'rgba(' + c2.r + ',' + c2.g + ',' + c2.b + ',' + (0.40 + boost) + ')');
+            fg.addColorStop(1, 'rgba(' + c2.r + ',' + c2.g + ',' + c2.b + ',' + (0.10 + boost) + ')');
+            ctx.fillStyle = fg;
+            ctx.fill();
+
+            ctx.shadowColor = mb.color;
+            ctx.shadowBlur = 15;
+            ctx.strokeStyle = mb.color;
+            ctx.lineWidth = 2.3;
+            ctx.globalAlpha = 0.95;
+            ctx.stroke();
+            ctx.shadowBlur = 0;
+
+            /* 玻璃小球顶点 */
+            for (i = 0; i < N; i++) {
+                var bv = pos(i, R * mb.vals[i] / 5);
+                glassBubble(bv.x, bv.y, mb.color, 5.5);
+            }
+            ctx.restore();
+        }
+
+        /* ===== 维度标签 ===== */
+        ctx.save();
+        ctx.font = '12px "Microsoft YaHei", "Segoe UI"';
+        ctx.fillStyle = '#123a66';
+        ctx.textBaseline = 'middle';
+        for (i = 0; i < N; i++) {
+            var d = dir(i);
+            var q = pos(i, R + 22);
+            var tx = q.x, ta = 'center';
+            if (d.x > 0.12) { ta = 'left'; tx += 7; }
+            else if (d.x < -0.12) { ta = 'right'; tx -= 7; }
+            ctx.textAlign = ta;
+            ctx.fillText(dims[i], tx, q.y);
+        }
+        ctx.restore();
+        } /* draw() 结束 */
+
+        /* ===== 交互：点中某人只看 TA，点空白恢复全部 ===== */
+        function polyPts(mb) {
+            var pts = [];
+            for (var i = 0; i < N; i++) { pts.push(pos(i, R * mb.vals[i] / 5)); }
+            return pts;
+        }
+
+        function pointInPoly(px, py, pts) {
+            var inside = false;
+            for (var i = 0, j = N - 1; i < N; j = i++) {
+                var xi = pts[i].x, yi = pts[i].y, xj = pts[j].x, yj = pts[j].y;
+                if (((yi > py) !== (yj > py)) && (px < (xj - xi) * (py - yi) / (yj - yi) + xi)) { inside = !inside; }
+            }
+            return inside;
+        }
+
+        function setActive(idx) {
+            active = idx;
+            draw();
+            if (leg) {
+                var chips = leg.children;
+                for (var k = 0; k < chips.length; k++) {
+                    chips[k].className = 'chip' + (k === idx ? ' chip-active' : '');
+                }
+            }
+        }
+
+        /* 图例 chip 点击：只看某人（再次点击同一个取消） */
+        if (leg) {
+            var chips = leg.children;
+            for (var ci = 0; ci < chips.length; ci++) {
+                (function(idx) {
+                    chips[ci].addEventListener('click', function() {
+                        setActive(idx === active ? -1 : idx);
+                    });
+                })(ci);
+            }
+        }
+
+        function canvasPoint(ev) {
+            var rect = canvas.getBoundingClientRect();
+            return {
+                x: (ev.clientX - rect.left) * (W / rect.width),
+                y: (ev.clientY - rect.top) * (H / rect.height)
+            };
+        }
+
+        /* 画布点击：点中某人多边形只看 TA；点空白恢复全部 */
+        canvas.addEventListener('click', function(ev) {
+            var pt = canvasPoint(ev);
+            for (var mi = members.length - 1; mi >= 0; mi--) {
+                if (pointInPoly(pt.x, pt.y, polyPts(members[mi]))) { setActive(mi); return; }
+            }
+            setActive(-1);
+        });
+
+        /* 悬停指针提示 */
+        canvas.addEventListener('mousemove', function(ev) {
+            var pt = canvasPoint(ev);
+            var hit = false;
+            for (var mi = members.length - 1; mi >= 0; mi--) {
+                if (pointInPoly(pt.x, pt.y, polyPts(members[mi]))) { hit = true; break; }
+            }
+            canvas.style.cursor = hit ? 'pointer' : 'default';
+        });
+
+        draw();
+    })();
+    </script>
+
+    <script>
+    (function() {
+        'use strict';
+        var story = [
+            { date: '2025.12', branch: 'main',   title: '殖民学校电脑搞开发', link: '../../articles/wefuckedsalt.html', linkText: '我和AbCd白嫖了一台12代i5电脑！' },
+            { date: '2025.12', branch: 'main',   title: '校内违规使用电子产品教学',link: '../../articles/fucknfzx.html', linkText: '校园电子产品生存指南' },
+            { date: '2026.1', branch: 'main',   title: '在学校里组NAS', link: '../../articles/webuildnas.html', linkText: '垃圾佬在学校里开网吧惨遭制裁' },
+            { date: '2026.2', branch: 'main',   title: '直接睡在机房里', link: 'https://xxtsoft.top/media/player.html?id=10', linkText: 'Mission Impossible : The Long Dark Basement - 碟中谍9：永夜堡垒' },
+            { date: '2026.4', branch: 'main',   title: '严厉谴责学校的电子产品大扫荡', link: '../../articles/robberofnfzx.html', linkText: '南方中学的居民和强盗' },
+            { date: '2026.5', branch: 'main',   title: '远程控制电脑遭到反噬', link: '../../articles/wefuckedsalt.html', linkText: '我和AbCd白嫖了一台12代i5电脑！' },
+            { date: '2026.6', branch: 'main',   title: '失去信任，决定斗争到底', link: '../../articles/wefuckedsalt.html', linkText: '我和AbCd白嫖了一台12代i5电脑！' },
+            { date: '2026.7', branch: 'main',   title: '被年级组组长猜疑', link: '../../articles/unsleepnight.html', linkText: '不眠之夜' },
+            { date: '2026.8', branch: 'main',   title: '在学校里打音游', link: '../../articles/taiko.html', linkText: '填补株洲市音游教育的空白！南方中学“咚咚雷音祭”计划！' },
+        ];
+
+        var canvas = document.getElementById('storyGraph');
+        if (!canvas || !canvas.getContext) { return; }
+
+        var dpr = window.devicePixelRatio || 1;
+        var W = 620, rowH = 80, topPad = 36, bottomPad = 24;
+        var H = topPad + (story.length - 1) * rowH + bottomPad;
+        canvas.width = W * dpr;
+        canvas.height = H * dpr;
+        var ctx = canvas.getContext('2d');
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+        var laneX0 = 64, laneGap = 52;
+        var spareColors = ['#3E9B4F', '#E08A1E', '#8E5BD6', '#2FA3A3'];
+        var lanes = {}, laneCount = 0, branchColor = { main: '#2F6FD6' };
+
+        function laneOf(name) {
+            if (!(name in lanes)) {
+                lanes[name] = laneCount++;
+                if (!(name in branchColor)) {
+                    branchColor[name] = spareColors[(laneCount - 2) % spareColors.length];
+                }
+            }
+            return lanes[name];
+        }
+
+        function hexRgb(hex) {
+            var n = parseInt(hex.slice(1), 16);
+            return { r: (n >> 16) & 255, g: (n >> 8) & 255, b: n & 255 };
+        }
+
+        /* Aero 玻璃小球节点（与雷达图同款） */
+        function glassDot(x, y, color, rad) {
+            var c = hexRgb(color);
+            var g = ctx.createRadialGradient(x - rad * 0.35, y - rad * 0.45, rad * 0.15, x, y, rad);
+            g.addColorStop(0, 'rgba(255,255,255,0.98)');
+            g.addColorStop(0.4, 'rgba(' + c.r + ',' + c.g + ',' + c.b + ',0.95)');
+            g.addColorStop(1, 'rgba(' + Math.floor(c.r * 0.5) + ',' + Math.floor(c.g * 0.5) + ',' + Math.floor(c.b * 0.5) + ',0.95)');
+            ctx.beginPath();
+            ctx.arc(x, y, rad, 0, Math.PI * 2);
+            ctx.fillStyle = g;
+            ctx.fill();
+            ctx.beginPath();
+            ctx.arc(x - rad * 0.3, y - rad * 0.35, rad * 0.3, 0, Math.PI * 2);
+            ctx.fillStyle = 'rgba(255,255,255,0.85)';
+            ctx.fill();
+        }
+
+        /* 直线 / gitgraph 的 S 形分叉合并曲线 */
+        function branchLine(x1, y1, x2, y2, color) {
+            ctx.save();
+            ctx.strokeStyle = color;
+            ctx.lineWidth = 2.4;
+            ctx.globalAlpha = 0.9;
+            ctx.shadowColor = color;
+            ctx.shadowBlur = 6;
+            ctx.beginPath();
+            if (Math.abs(x1 - x2) < 0.5) {
+                ctx.moveTo(x1, y1);
+                ctx.lineTo(x2, y2);
+            } else {
+                var dx = x2 - x1, dy = y2 - y1;
+                ctx.moveTo(x1, y1);
+                ctx.bezierCurveTo(x1 + dx * 0.6, y1, x2, y2 - dy * 0.6, x2, y2);
+            }
+            ctx.stroke();
+            ctx.restore();
+        }
+
+        function pill(x, y, w, h, r, color, text) {
+            ctx.save();
+            ctx.beginPath();
+            ctx.moveTo(x + r, y);
+            ctx.arcTo(x + w, y, x + w, y + h, r);
+            ctx.arcTo(x + w, y + h, x, y + h, r);
+            ctx.arcTo(x, y + h, x, y, r);
+            ctx.arcTo(x, y, x + w, y, r);
+            ctx.closePath();
+            ctx.fillStyle = color;
+            ctx.globalAlpha = 0.92;
+            ctx.fill();
+            ctx.globalAlpha = 1;
+            ctx.fillStyle = '#fff';
+            ctx.font = 'bold 10px "Segoe UI", "Microsoft YaHei"';
+            ctx.textBaseline = 'middle';
+            ctx.textAlign = 'left';
+            ctx.fillText(text, x + 7, y + h / 2 + 0.5);
+            ctx.restore();
+        }
+
+        function wrapText(text, x, y, maxW, lineH) {
+            if (!text) { return y - lineH; }
+            var line = '', yy = y;
+            for (var i = 0; i < text.length; i++) {
+                var test = line + text.charAt(i);
+                if (ctx.measureText(test).width > maxW && line) {
+                    ctx.fillText(line, x, yy);
+                    line = text.charAt(i);
+                    yy += lineH;
+                } else {
+                    line = test;
+                }
+            }
+            if (line) { ctx.fillText(line, x, yy); }
+            return yy;
+        }
+
+        /* 预计算每行的轨道与坐标 */
+        var rows = [];
+        for (var i = 0; i < story.length; i++) {
+            var b = story[i].branch || 'main';
+            laneOf(b);
+            rows.push({ branch: b, color: branchColor[b], x: laneX0 + lanes[b] * laneGap, y: topPad + i * rowH });
+        }
+
+        /* 连线（先线后点）：同支线连竖线，换支线画分叉/合并曲线，主线跨支线段落自动补竖线 */
+        var lastRow = {};
+        for (i = 0; i < rows.length; i++) {
+            var r = rows[i];
+            var last = lastRow[r.branch];
+            if (last !== undefined && !(last === i - 1 && rows[last].x !== r.x)) {
+                branchLine(rows[last].x, rows[last].y, r.x, r.y, r.color);
+            }
+            if (i > 0 && rows[i - 1].branch !== r.branch) {
+                branchLine(rows[i - 1].x, rows[i - 1].y, r.x, r.y, r.color);
+            }
+            lastRow[r.branch] = i;
+        }
+
+        /* 节点 */
+        for (i = 0; i < rows.length; i++) {
+            glassDot(rows[i].x, rows[i].y, rows[i].color, rows[i].branch === 'main' ? 7.5 : 6.5);
+        }
+
+        /* 分支标签 + 日期 + 标题 + 描述 */
+        for (i = 0; i < rows.length; i++) {
+            var r = rows[i];
+            var st = story[i];
+            var tx = r.x + 22;
+            var maxW = W - tx - 16;
+            ctx.font = 'bold 10px "Segoe UI", "Microsoft YaHei"';
+            var tw = ctx.measureText(r.branch).width + 14;
+            pill(tx, r.y - 31, tw, 15, 7.5, r.color, r.branch);
+            ctx.font = '11px "Segoe UI", "Microsoft YaHei"';
+            ctx.fillStyle = '#7a8ba6';
+            ctx.textBaseline = 'alphabetic';
+            ctx.fillText(st.date, tx + tw + 8, r.y - 19);
+            ctx.font = 'bold 13px "Microsoft YaHei", "Segoe UI"';
+            ctx.fillStyle = '#123a66';
+            ctx.fillText(st.title, tx, r.y - 3);
+            var descEnd = r.y - 1;
+            if (st.desc) {
+                ctx.font = '12px "Microsoft YaHei", "Segoe UI"';
+                ctx.fillStyle = '#5a708c';
+                descEnd = wrapText(st.desc, tx, r.y + 15, maxW, 16);
+            }
+            /* 链接文字（蓝色下划线，节点可点击） */
+            if (st.link) {
+                var linkY = st.desc ? descEnd + 18 : r.y + 15;
+                ctx.font = '12px "Segoe UI", "Microsoft YaHei"';
+                ctx.fillStyle = '#1a5cc8';
+                var linkStr = st.linkText || '查看详情 »';
+                ctx.fillText(linkStr, tx, linkY);
+                ctx.fillRect(tx, linkY + 2, ctx.measureText(linkStr).width, 1);
+                r.link = st.link;
+            }
+        }
+
+        /* 链接交互：悬停变指针，点击节点打开 link（当前页跳转） */
+        function storyPoint(ev) {
+            var rect = canvas.getBoundingClientRect();
+            return {
+                x: (ev.clientX - rect.left) * (W / rect.width),
+                y: (ev.clientY - rect.top) * (H / rect.height)
+            };
+        }
+        function hitStoryRow(pt) {
+            for (var i = 0; i < rows.length; i++) {
+                var r = rows[i];
+                if (r.link && pt.x > r.x - 14 && pt.x < W && pt.y > r.y - 36 && pt.y < r.y + 44) { return r; }
+            }
+            return null;
+        }
+        canvas.addEventListener('mousemove', function(ev) {
+            canvas.style.cursor = hitStoryRow(storyPoint(ev)) ? 'pointer' : 'default';
+        });
+        canvas.addEventListener('click', function(ev) {
+            var r = hitStoryRow(storyPoint(ev));
+            if (r) { window.location.href = r.link; }
+        });
+    })();
+    </script>
+</body>
+</html>
