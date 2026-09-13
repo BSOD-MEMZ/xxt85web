@@ -1,4 +1,13 @@
 window.xxtArticleData = {
+    "kb5124008.html": {
+        title: "疑似KB5124008引起的希沃展台ks.sys冲突蓝屏问题",
+        author: "xxt8582753",
+        desc: "我只是说，疑似嗷，别骂我……",
+        img: "",
+        date: "2026年9月11日",
+        tags: ["coding", "tutorial"],
+        url: "articles/kb5124008.html"
+    },
     "taiko.html": {
         title: "填补株洲市音游教育的空白！南方中学“咚咚雷音祭”计划！",
         author: "xxt8582753",
@@ -545,6 +554,7 @@ window.xxtArticleData = {
 };
 
 window.xxtArticleOrder = [
+    "kb5124008.html",
     "taiko.html",
     "classislandinjector.html",
     "competition2.html",

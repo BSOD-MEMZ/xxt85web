@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>疑似KB5124008引起的希沃展台ks.sys冲突蓝屏问题 ⭐ xxtsoft</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="header-image">
+        <img src="vista.jpg" alt="标题图片">
+        <div class="title-overlay">
+            <h1>疑似KB5124008引起的希沃展台ks.sys冲突蓝屏问题</h1>
+        </div>
+    </div>
+    <div class="gradient-divider">
+        <a href="javascript:window.close()" class="button"><img src="close.png" alt="" width="16" height="16" />
+            关闭页面</a>
+        <a href="../index.html" class="button"><img src="home.png" alt="" width="16" height="16" />
+            回到首页</a>
+        <a href="javascript:window.print()" class="button"><img src="printer.png" alt="" width="16" height="16" />
+            打印文章</a>
+    </div>
+    <div class="content-container">
+        <div class="author-info">
+            <p>作者：xxt8582753</p>
+            <p>发布日期：2026年9月11日</p>
+        </div>
+        <div class="article-content">
+            <p>今天又是被语数英物化生轮奸的一天（全是主课）英语课上到一半，电脑突然BSOD，随后自动重启。我没看清具体错误信息，只记得几个关键词：driver、ks.sys。</p>
+            <p>下课后，我立即打开<code>eventvwr</code>——确有此事，ID为1019，是这个系统文件让系统进入错误检查。</p>
+            <img src="assets/ksdotsys1.jpg">
+            <p>我认为这只是系统暂时抽风，毕竟Bug11并非浪得虚名，但上到第二节课，这个症状复发了。</p>
+            <p>为了避免影响后续教学，我必须在老师找人之前尽快修好电脑。其实一上午过去电脑总共炸了5次，那发作前有什么征兆呢？</p>
+            <p>根据前面的信息，ks.sys可能与驱动有关，而出事的时候正好是数学课和英语课，老师也正好在这个时候使用展台！但奇怪的是，并非一启动展台电脑就崩溃，而是使用到一阵子突然就黑屏。</p>
+            <p>让我们先把转储弄出来进行分析。关于WinDbg的使用我之前<a href="windbg.html">讲过了</a>，这里不多赘述，不过有些信息非常值得注意：</p>
+            <img src="assets/ksdotsys2.jpg">
+            <p>出事的时候IRQL很高，<code>Arg2: 0000000000000002</code>，这个数字意味着设备有多“紧急”，不过摄像头传画面确实会升高IRQL来处理硬件中断，问题就在于根据Windows的规定，IRQL到2的时候不能触发分页（也就是CPU要执行某个代码，但是发现内存里没有，必须要去硬盘里找）否则触发BSOD。</p>
+            <p>我是怎么知道的嘞？看这里：<code>An attempt was made to access a pageable (or completely invalid) address at an interrupt request level (IRQL) that is too high.</code>系统已经告诉我了，而<code>usbvideo.sys</code>、<code>ksthunk!CVideoCaptureThunkHandler::Release</code>之类的词出现，再结合事发时间，基本上就锁定问题所在了。</p>
+            <p>解决方案也极为简单——<b>不用展台就行了</b>，但这显然不可能。我怀疑是ks.sys本身损坏，<code>sfc /scannow</code>后查看日志却没有找到问题。我回忆起昨天晚上刚安装KB5124008更新，是不是它引起的？</p>
+            <p>但我向隔壁班电教求证——他们也收到这个更新并安装，而展台正常工作。我不信邪，让班上一个同学帮我把更新卸掉，重启后<b>展台工作一切正常。</b></p>
+            <p>我认为这很诡异：查阅微软官方文档，并没有证据表明此次更新会影响UVC设备的工作，其他班级也安装这个更新，电脑正常运转。可为什么我们在安装这个更新后无论多少次重启和检查，BSOD总能被触发，反倒是卸载更新后电脑恢复正常呢？</p>
+            <img src="assets/zcbc.jpg">
+            <p>因此，将这件事归咎于一个更新包属实不负责任，因此在标题中，我用了“疑似”一词，我也希望有小伙伴能为我解答一下。</p>
+            <hr>
+            <p>（2026/9/13补）原来我不是个例，大家<a href="https://forum.smart-teach.cn/d/2865-xian-zai-zhe-ge-ju-mian-zen-yao-ban">自己去看吧</a></p>
+        </div>
+    </div>
+    <script src="image-viewer.js"></script>
+
+<div class="giscus"></div>
+<script src="../js/giscus-loader.js"></script>
+
+    <script src="article-theme-loader.js"></script>
+</body>
+</html>
