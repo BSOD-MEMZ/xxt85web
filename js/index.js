@@ -188,7 +188,7 @@ window.xxtArticleData = {
     },
     "ninjawasinvincible.html": {
         title: "仁者无敌 - The True Power Behind Invincibility",
-        author: "Kingstar",
+        author: "kingstar",
         desc: "仁者无敌的真正力量在于通过仁爱与共识激发合作，使领导者和追随者朝向共同目标前进，从而战胜一切挑战。",
         img: "",
         date: "2026年2月6日",
