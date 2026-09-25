@@ -56,12 +56,26 @@
 | `articles/*.html` | 文章正文（生成产物，通常不动） |
 | `support/` `olds/` `live2d-widget/` | 附属页面、历史存档、看板娘组件 |
 
-**每个页面都挂了两样东西**，这是全站主题机制的基础：
+**顶层页都挂了两样东西**，这是全站主题机制的基础：
 
 ```html
 <link rel="stylesheet" href="style.css" type="text/css" id="themeCss" />
 <script src="js/theme-loader.js"></script>
 ```
+
+**文章页是另一套，别混**（`articles/*.html`，47 篇 + 1 篇特例）：
+
+```html
+<link rel="stylesheet" href="style.css">          <!-- 解析到 articles/style.css -->
+<script src="article-theme-loader.js"></script>   <!-- 在 body 末尾 -->
+```
+
+注意名字：文章页挂的是 `article-theme-loader.js`，它是 `articles/` 目录下的**另一个文件**，
+与顶层页的 `js/theme-loader.js` 毫无关系——两者只是名字像。
+文章页也不读 `#themeCss`，而是靠 loader 改写那个 `<link>` 的 href。
+
+> 特例：`articles/4thanniversary.html`（周年纪念页）自带完整的内联样式与脚本，不挂任何 loader，
+> 主题机制不会碰它。
 
 ### DOM 骨架（全站统一）
 
@@ -92,6 +106,17 @@
 | `modern-sticker.css` | 手账 Sticker Book | `js/modern-sticker.js` + `js/modern-sticker-icons.js` |
 
 新增主题 = 写一份自包含 CSS + 在 `js/index.js` 的 `themes` 数组加一项 +（可选）写同名 `modern-<name>.js`。**零 HTML 修改**。
+
+要用到文章页的主题，还得多做两步（都在 `articles/` 下，同样零 HTML 修改）：
+
+1. 写一份**文章页版样式** `modern-<name>-article.css`。文章页的 DOM 与顶层页完全不同
+   （`.header-image` / `.gradient-divider` / `.content-container` / `.article-content` /
+   `.xxt-code-block` / `.image-viewer-*`），顶层主题 CSS 的规则一条也套不上，必须单独写一份。
+2. 在 `articles/article-theme-loader.js` 的 `ARTICLE_THEME_MAP` 里登记一行
+   （`'modern-xxx.css': 'modern-xxx-article.css'`）。**没登记的主题会安全地保持文章页默认外观**，
+   不会出现「样式替换了但文件不存在」的空窗。同名 `.js` 会被自动加载，没有也行。
+
+只有 `modern-sticker.css` 走了这条路，文章页样式 = `articles/modern-sticker-article.css`。
 
 - 完整机制、切换与 DOM 还原规则、配套脚本加载 → **[`docs/THEMING.md`](docs/THEMING.md)**
 - 手账主题的设计规范、组件实现与技巧 → **[`docs/STICKER-BOOK.md`](docs/STICKER-BOOK.md)**

@@ -105,6 +105,61 @@ modern-sticker.css  →  js/modern-sticker.js   （theme-loader.js 自动派生�
 
 ---
 
+## 文章页主题（`articles/`）
+
+**文章页不在主站的主题系统里。** 这是最容易搞错的一处，动之前先读完本节。
+
+顶层页用 `js/theme-loader.js` + `link#themeCss`；文章页用的是 `articles/` 目录下另一套：
+
+```
+articles/article-theme-loader.js     文章页的主题加载器
+articles/style.css                   文章页的默认样式（344 行，自包含）
+articles/zuowen-style.css            「作文本」备选排版
+articles/modern-sticker-article.css  手账主题的文章页样式
+articles/modern-sticker-article.js   配套脚本（只做图标矢量化）
+```
+
+> 名字陷阱：文章页里那个 `<script src="article-theme-loader.js">` **不是** `js/theme-loader.js`。
+> 用 grep 找 `theme-loader` 时两者都会命中，别据此断定文章页跟随主站主题——它不会。
+> 文章页也不读 `#themeCss`，而是由 loader 改写 `<link>` 的 `href`。
+
+### 两层优先级
+
+`article-theme-loader.js` 按下面的顺序判断，前一层命中就 `return`：
+
+| 顺序 | 依据 | 命中后 |
+|---|---|---|
+| 1 | `localStorage['theme']` 在 `ARTICLE_THEME_MAP` 里 | 把默认样式表的 href 换成文章页主题样式，并加载同名 `.js` |
+| 2 | `localStorage['article_css'] === 'zuowen'` | 原有的「作文本」逻辑（禁用 + 注入），**一字未改** |
+| 3 | 都不命中 | 什么都不做，保持 `articles/style.css` |
+
+**默认主题（`style.css` / `xpstyle.css`）走的仍是原来的路径，行为与加入本机制前完全一致。**
+
+### 给新主题加文章页支持
+
+1. 在 `articles/` 下写 `modern-<name>-article.css`。
+   **必须自包含**——文章页的 DOM 与顶层页毫无重合，顶层主题的规则一条也套不上。
+   要覆盖的组件：`.header-image` / `.title-overlay` / `.gradient-divider` / `.button` /
+   `.content-container` / `.author-info` / `.article-content`（全套正文标签）/ `.tips` /
+   `.nbttree` / `.xxt-code-block` / `.code-container`（含 `td.gutter` / `td.code`）/
+   `.hljs-*` / `.image-viewer-*`。
+2. 在 `article-theme-loader.js` 的 `ARTICLE_THEME_MAP` 里登记一行。
+
+没登记的主题不会误替换文章页样式，所以忘了登记的最坏后果是「文章页保持原样」，不是白屏。
+
+### 图标
+
+文章页的图标复用主站的 `js/modern-sticker-icons.js`。
+**这不是额外开销**：用户在首页已经加载过同一个 URL，文章页再引用会命中浏览器缓存。
+`modern-sticker-article.js` 只做注入 sprite + 替换 `<img>`，不引入主站的
+`modern-sticker.js`——背景装饰、搜索框、卡片化那些是首页的东西，放进阅读页只会分散注意力。
+
+### 特例
+
+`articles/4thanniversary.html` 自带完整内联样式与脚本、不挂任何 loader，主题机制不碰它。
+
+---
+
 ## 首次访问引导（`theme-picker`）
 
 **入口必须在 `theme-loader.js`，不能放进某个主题的脚本里。**

@@ -1,0 +1,1271 @@
+/* =========================================================================
+   xxtsoft 文章页 · 手账主题（Sticker Book for Articles）
+   -------------------------------------------------------------------------
+   配套：根目录 `modern-sticker.css`（主站）、本站 `article-theme-loader.js`
+   加载：由 article-theme-loader.js 在 localStorage['theme'] 为 modern-* 时启用，
+         替换本站默认的 style.css。默认主题下本文件不会被加载。
+
+   硬约束（与主站一致，改动前先读 docs/STICKER-BOOK.md）：
+     · 禁用 backdrop-filter / 毛玻璃；只用柔和 box-shadow
+     · 字体只用本机字体，不下载任何字体文件
+     · 零外部请求、零新增图片（图形全部由 CSS 画出）
+     · 不修改任何文章正文
+   ========================================================================= */
+
+/* ---------------------------------------------------------------
+   1. 设计令牌（与根目录 modern-sticker.css 保持同源）
+   --------------------------------------------------------------- */
+:root {
+    /* 纸张 */
+    --paper: #FFFCF3;
+    --paper-2: #FBF5E4;
+    --paper-3: #F5EDD7;
+    --paper-sunk: #F8F2E2;
+
+    /* 墨色 */
+    --ink: #3D3A38;
+    --ink-2: #6B655C;
+    --ink-3: #968D7C;
+
+    /* 彩色注记 */
+    --c-rose: #E0416E;
+    --c-teal: #0E9E92;
+    --c-blue: #1478C4;
+    --c-amber: #D08A00;
+    --c-violet: #7A45D6;
+    --c-green: #2F9E3F;
+
+    /* 纸线与边框 */
+    --rule: #EADFC4;
+    --rule-2: #DCCFAE;
+    --rule-dash: #D3C6A2;
+
+    /* 贴纸色 */
+    --tape: #FFD21F;
+    --coral: #FF7A8A;
+    --mint: #3FC7BE;
+    --sky: #5FB8F0;
+    --lilac: #B08BE8;
+    --cream: #FFDD7A;
+
+    /* 圆角 */
+    --r-xs: 3px;
+    --r-sm: 5px;
+    --r-md: 8px;
+    --r-lg: 12px;
+    --r-pill: 999px;
+
+    /* 阴影 */
+    --sh-1: 0 1px 2px rgba(61, 58, 56, .07), 0 6px 14px -8px rgba(61, 58, 56, .16);
+    --sh-2: 0 2px 4px rgba(61, 58, 56, .09), 0 14px 26px -10px rgba(61, 58, 56, .22);
+
+    /* 字体（全部为本机字体） */
+    --font: "Microsoft YaHei UI", "Microsoft YaHei", "PingFang SC", "Hiragino Sans GB", "Source Han Sans SC", sans-serif;
+    --font-mono: Consolas, "Cascadia Mono", "Courier New", "Microsoft YaHei UI", monospace;
+
+    /* 动效 */
+    --ease-soft: cubic-bezier(.22, 1, .36, 1);
+    --ease-pop: cubic-bezier(.34, 1.56, .64, 1);
+    --t-fast: 140ms;
+    --t-mid: 260ms;
+    --t-slow: 420ms;
+
+    /* 版面 */
+    --art-max: 880px;
+    --art-pad: 44px;
+}
+
+/* ---------------------------------------------------------------
+   2. 纸面与基础
+   --------------------------------------------------------------- */
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+html {
+    -webkit-text-size-adjust: 100%;
+}
+
+body {
+    position: relative;
+    margin: 0;
+    padding: 0 0 60px;
+    font-family: var(--font);
+    font-size: 15px;
+    line-height: 1.85;
+    color: var(--ink);
+    background-color: var(--paper);
+    background-image: none;
+    cursor: default;
+    -webkit-font-smoothing: antialiased;
+}
+
+/* 纸面层:淡网格 + 三处彩色光晕,与主站同一张"纸" */
+body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    background-color: var(--paper);
+    background-image:
+        radial-gradient(circle at 14% 16%, rgba(255, 122, 138, .17), transparent 42%),
+        radial-gradient(circle at 86% 10%, rgba(63, 199, 190, .17), transparent 46%),
+        radial-gradient(circle at 76% 88%, rgba(255, 210, 31, .19), transparent 44%),
+        linear-gradient(rgba(61, 58, 56, .032) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(61, 58, 56, .032) 1px, transparent 1px);
+    background-size: auto, auto, auto, 24px 24px, 24px 24px;
+}
+
+::selection {
+    background: rgba(255, 210, 31, .48);
+    color: var(--ink);
+}
+
+:focus-visible {
+    outline: 2px dashed var(--c-blue);
+    outline-offset: 2px;
+    border-radius: var(--r-xs);
+}
+
+/* 滚动条:与主站同一套斜纹语言(条纹静止) */
+::-webkit-scrollbar {
+    width: 12px;
+    height: 12px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--paper-3);
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: var(--mint);
+    background-image: repeating-linear-gradient(
+        45deg,
+        rgba(255, 255, 255, .5) 0 5px,
+        transparent 5px 10px
+    );
+    background-size: 14px 14px;
+    border: 3px solid var(--paper-3);
+    border-radius: var(--r-pill);
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background-color: #2FB0A8;
+}
+
+html {
+    scrollbar-color: var(--mint) var(--paper-3);
+}
+
+/* ---------------------------------------------------------------
+   3. 封面与标题
+   --------------------------------------------------------------- */
+.header-image {
+    position: relative;
+    width: 100%;
+    height: clamp(180px, 26vw, 280px);
+    overflow: hidden;
+    background: var(--paper-3);
+}
+
+.header-image::after {
+    /* 底部的纸色渐隐,把照片"贴"到纸面上,而不是硬切一刀 */
+    content: "";
+    position: absolute;
+    inset: auto 0 0;
+    height: 42%;
+    pointer-events: none;
+    background: linear-gradient(to bottom, transparent, rgba(255, 252, 243, .92) 78%, var(--paper));
+}
+
+.header-image img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.title-overlay {
+    position: absolute;
+    top: auto;
+    bottom: clamp(28px, 5vw, 54px);
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 2;
+    width: min(var(--art-max), calc(100% - 32px));
+    padding: 0;
+    text-align: left;
+}
+
+/* 标题写在一条"贴上去的纸条"上 */
+.title-overlay h1 {
+    display: inline-block;
+    max-width: 100%;
+    margin: 0;
+    padding: .22em .7em .26em;
+    font-size: clamp(20px, 3.4vw, 31px);
+    font-weight: 700;
+    line-height: 1.45;
+    color: var(--ink);
+    text-shadow: none;
+    text-align: left;
+    background: rgba(255, 252, 243, .95);
+    border-radius: var(--r-sm);
+    box-shadow: var(--sh-2);
+    transform: rotate(-.7deg);
+}
+
+/* ---------------------------------------------------------------
+   4. 工具栏(关闭 / 回首页 / 打印)
+   --------------------------------------------------------------- */
+.gradient-divider {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 8px;
+    flex-wrap: wrap;
+    height: auto;
+    min-height: 46px;
+    margin: 0 auto 22px;
+    padding: 8px clamp(16px, 4vw, 24px);
+    background-image: none;
+    background-color: var(--paper-2);
+    border-bottom: 2px dashed var(--rule-dash);
+}
+
+.button {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 13px;
+    font-size: 13px;
+    line-height: 1.4;
+    color: var(--ink-2);
+    text-decoration: none;
+    background: var(--paper);
+    border: 1px solid var(--rule-2);
+    border-radius: var(--r-pill);
+    transition: background-color var(--t-fast) ease,
+                color var(--t-fast) ease,
+                transform var(--t-fast) var(--ease-soft),
+                border-color var(--t-fast) ease;
+}
+
+.button:hover {
+    color: var(--ink);
+    background: #FFFFFF;
+    border-color: var(--mint);
+    transform: translateY(-1px);
+}
+
+.button:active {
+    transform: translateY(0);
+}
+
+.button img {
+    display: block;
+    width: 16px;
+    height: 16px;
+}
+
+/* ---------------------------------------------------------------
+   4b. 图标
+   矢量化由 modern-sticker-article.js 完成(数据来自主站同一份精灵)
+   --------------------------------------------------------------- */
+.xxt-ic {
+    display: inline-block;
+    width: 1.05em;
+    height: 1.05em;
+    fill: currentColor;
+    flex: none;
+    vertical-align: -0.17em;
+}
+
+#xxt-icon-sprite {
+    position: absolute;
+    width: 0;
+    height: 0;
+    overflow: hidden;
+}
+
+/* 工具栏:图标与文字对齐 */
+.button .xxt-ic {
+    vertical-align: -0.16em;
+}
+
+/* 关闭圆点:平时只是一枚红点,hover 时浮出白色的 ×
+   (CSS 变量可以穿透 <use> 的影子边界,这是它能换色的原理) */
+.button:hover .xxt-ic[data-icon="close-dot"] {
+    --xxt-dot-x: rgba(255, 255, 255, .95);
+}
+
+/* 提示条:同一套图标,按语义分色 */
+.tips .xxt-ic[data-icon="warning"],
+.tips .xxt-ic[data-icon="lightbulb"],
+.tips .xxt-ic[data-icon="trophy"] {
+    fill: var(--c-amber);
+}
+
+.tips .xxt-ic[data-icon="info"],
+.tips .xxt-ic[data-icon="book"],
+.tips .xxt-ic[data-icon="books"] {
+    fill: var(--c-blue);
+}
+
+.tips .xxt-ic[data-icon="broadcast"] {
+    fill: var(--c-rose);
+}
+
+.tips .xxt-ic[data-icon="users"] {
+    fill: var(--c-green);
+}
+
+.tips .xxt-ic[data-icon="monitor"] {
+    fill: var(--c-teal);
+}
+
+/* ---------------------------------------------------------------
+   5. 正文容器:一张铺开的纸
+   --------------------------------------------------------------- */
+.content-container {
+    max-width: var(--art-max);
+    margin: 0 auto;
+    padding: 0 16px;
+}
+
+.author-info {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    flex-wrap: wrap;
+    margin-bottom: 24px;
+    padding: 12px 16px;
+    font-size: 13px;
+    color: var(--ink-2);
+    background: var(--paper-2);
+    border: 1px dashed var(--rule-dash);
+    border-radius: var(--r-md);
+}
+
+/* 左侧那道彩色书脊 */
+.author-info::before {
+    content: "";
+    flex: none;
+    width: 4px;
+    height: 26px;
+    background: var(--c-rose);
+    border-radius: var(--r-pill);
+}
+
+.author-info p {
+    margin: 0;
+    color: var(--ink-2);
+}
+
+.author-info p:first-child {
+    font-style: normal;
+    font-weight: 700;
+    color: var(--ink);
+}
+
+.author-info p:last-child {
+    font-size: 13px;
+}
+
+/* 两条信息之间的分隔点 */
+.author-info p + p::before {
+    content: "·";
+    margin-right: 12px;
+    color: var(--ink-3);
+}
+
+.article-content {
+    margin-top: 0;
+    padding: clamp(22px, 4.6vw, var(--art-pad));
+    background: #FFFFFF;
+    border: 1px solid var(--rule);
+    border-radius: var(--r-lg);
+    box-shadow: var(--sh-1);
+}
+
+/* ---------------------------------------------------------------
+   6. 正文排版
+   --------------------------------------------------------------- */
+.article-content p {
+    margin: 0 0 15px;
+    font-size: 16px;
+    line-height: 1.9;
+}
+
+.article-content > p:first-child,
+.article-content > :first-child {
+    margin-top: 0;
+}
+
+/* --- 标题:四色轮换,像换不同颜色的笔 --- */
+.article-content h2 {
+    position: relative;
+    margin: 40px 0 16px;
+    padding: 0 0 8px;
+    font-size: 21px;
+    line-height: 1.5;
+    color: var(--ink);
+    border-bottom: 1px solid var(--rule);
+}
+
+/* 底下那一道荧光笔 */
+.article-content h2::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: -1px;
+    width: 58px;
+    height: 3px;
+    background: var(--c-blue);
+    border-radius: var(--r-pill);
+}
+
+/* 标题前的实心小方块 */
+.article-content h2::before {
+    content: "";
+    display: inline-block;
+    width: 9px;
+    height: 9px;
+    margin-right: 9px;
+    vertical-align: .1em;
+    background: var(--c-blue);
+    border-radius: 2px;
+    transform: rotate(45deg);
+}
+
+/* 第 2 / 3 / 4 个标题分别换成青、玫红、琥珀,第 5 个回到蓝,如此循环 */
+.article-content h2:nth-of-type(4n + 2)::after,
+.article-content h2:nth-of-type(4n + 2)::before {
+    background: var(--c-teal);
+}
+
+.article-content h2:nth-of-type(4n + 3)::after,
+.article-content h2:nth-of-type(4n + 3)::before {
+    background: var(--c-rose);
+}
+
+.article-content h2:nth-of-type(4n + 4)::after,
+.article-content h2:nth-of-type(4n + 4)::before {
+    background: var(--c-amber);
+}
+
+.article-content h3 {
+    margin: 30px 0 12px;
+    font-size: 18px;
+    line-height: 1.55;
+    color: var(--ink);
+}
+
+.article-content h3::before {
+    content: "";
+    display: inline-block;
+    width: 4px;
+    height: .92em;
+    margin-right: 9px;
+    vertical-align: -.08em;
+    background: var(--c-violet);
+    border-radius: var(--r-pill);
+}
+
+.article-content h4 {
+    margin: 24px 0 10px;
+    font-size: 16px;
+    line-height: 1.6;
+    color: var(--c-blue);
+}
+
+.article-content h5,
+.article-content h6 {
+    margin: 20px 0 8px;
+    font-size: 15px;
+    color: var(--ink-2);
+}
+
+/* --- 列表:小方块替代前导圆点 --- */
+.article-content ul {
+    margin: 0 0 15px;
+    padding-left: 24px;
+    list-style: none;
+}
+
+.article-content ul li {
+    position: relative;
+    margin-bottom: 7px;
+    padding-left: 0;
+    font-size: 16px;
+    line-height: 1.85;
+    list-style: none;
+    background: none;
+}
+
+.article-content ul li::before {
+    content: "";
+    position: absolute;
+    left: -16px;
+    top: .74em;
+    width: 7px;
+    height: 7px;
+    background: var(--c-teal);
+    border-radius: 2px;
+    transform: rotate(45deg);
+}
+
+.article-content ul ul > li::before {
+    background: transparent;
+    border: 1.5px solid var(--c-amber);
+    border-radius: 50%;
+    transform: none;
+}
+
+.article-content ol {
+    margin: 0 0 15px;
+    padding-left: 26px;
+}
+
+.article-content ol li {
+    margin-bottom: 7px;
+    font-size: 16px;
+    line-height: 1.85;
+}
+
+.article-content ol li::marker {
+    color: var(--c-blue);
+    font-weight: 700;
+}
+
+/* --- 引用 --- */
+.article-content q,
+.article-content blockquote {
+    display: block;
+    margin: 0 0 15px;
+    padding: 10px 16px;
+    font-style: normal;
+    line-height: 1.85;
+    color: var(--ink-2);
+    background: var(--paper-2);
+    border-left: 3px solid var(--c-amber);
+    border-radius: 0 var(--r-sm) var(--r-sm) 0;
+}
+
+.article-content abbr {
+    color: var(--c-violet);
+    text-decoration: underline dotted;
+    cursor: help;
+}
+
+/* --- 链接:荧光笔划过 --- */
+.article-content a {
+    color: var(--c-blue);
+    text-decoration: none;
+    background-image: linear-gradient(to top, rgba(95, 184, 240, .3) 0 .5em, transparent .5em);
+    transition: background-color var(--t-fast) ease, color var(--t-fast) ease;
+}
+
+.article-content a:hover {
+    color: var(--c-rose);
+    background-image: linear-gradient(to top, rgba(255, 122, 138, .32) 0 .5em, transparent .5em);
+}
+
+/* --- 行内代码 --- */
+.article-content code {
+    padding: .12em .42em;
+    font-family: var(--font-mono);
+    font-size: .92em;
+    color: var(--c-rose);
+    background: var(--paper-3);
+    border: 1px dashed var(--rule-dash);
+    border-radius: var(--r-xs);
+}
+
+/* --- 图片:一张贴上去的相纸 --- */
+.article-content img {
+    max-width: 100%;
+    height: auto;
+    cursor: zoom-in;
+    background: #FFFFFF;
+    border: 1px solid var(--rule-2);
+    border-radius: var(--r-sm);
+    box-shadow: var(--sh-1);
+    transition: transform var(--t-mid) var(--ease-soft), box-shadow var(--t-mid) ease;
+}
+
+.article-content img:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--sh-2);
+}
+
+/* 正文里的小图标(提示条的 warning.png 这类)不该有相纸效果 */
+.article-content img[width="16"],
+.article-content img[width="18"],
+.article-content .tips img {
+    background: none;
+    border: 0;
+    border-radius: 0;
+    box-shadow: none;
+    cursor: default;
+    transform: none;
+}
+
+.article-content img[width="16"]:hover,
+.article-content img[width="18"]:hover,
+.article-content .tips img:hover {
+    transform: none;
+    box-shadow: none;
+}
+
+.article-content figure {
+    margin: 20px 0;
+    text-align: center;
+}
+
+.article-content figure img {
+    display: inline-block;
+}
+
+.article-content figcaption {
+    margin-top: 8px;
+    font-size: 12px;
+    line-height: 1.7;
+    color: var(--ink-3);
+    word-break: break-all;
+}
+
+/* --- 分隔线:手撕的虚线 --- */
+.article-content hr {
+    height: 0;
+    margin: 30px 0;
+    border: 0;
+    border-top: 2px dashed var(--rule-dash);
+}
+
+/* --- 表格 --- */
+.article-content table {
+    width: 100%;
+    margin: 0 0 15px;
+    border-collapse: collapse;
+    font-size: 14px;
+}
+
+.article-content th,
+.article-content td {
+    padding: 8px 12px;
+    border: 1px solid var(--rule);
+    text-align: left;
+}
+
+.article-content th {
+    background: var(--paper-2);
+    font-weight: 700;
+}
+
+.article-content strong {
+    color: var(--ink);
+}
+
+/* ---------------------------------------------------------------
+   7. 提示条(投稿声明 / 内容过时警告)
+   --------------------------------------------------------------- */
+.tips {
+    position: relative;
+    margin: 0 0 18px;
+    padding: 12px 16px 12px 18px;
+    font-size: 13px;
+    line-height: 1.8;
+    color: var(--ink-2);
+    background: var(--cream);
+    border: 0;
+    border-radius: var(--r-md);
+    box-shadow: var(--sh-1);
+}
+
+.tips::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 10px;
+    bottom: 10px;
+    width: 4px;
+    background: var(--c-amber);
+    border-radius: var(--r-pill);
+}
+
+.tips p {
+    margin: 0;
+    font-size: 13px;
+    line-height: 1.8;
+}
+
+.tips p + p {
+    margin-top: 4px;
+}
+
+.tips img {
+    vertical-align: middle;
+    background: none;
+    border: 0;
+    box-shadow: none;
+}
+
+/* 顶上有胶带的那种 */
+.tips::after {
+    content: "";
+    position: absolute;
+    right: 18px;
+    top: -9px;
+    width: 62px;
+    height: 18px;
+    background: rgba(255, 210, 31, .78);
+    border-radius: 1px;
+    transform: rotate(-2.4deg);
+    pointer-events: none;
+}
+
+/* ---------------------------------------------------------------
+   8. 树形目录(.nbttree)
+   --------------------------------------------------------------- */
+.nbttree {
+    margin: 0 0 20px;
+    padding: 16px 18px;
+    font-size: 14px;
+    line-height: 1.9;
+    background: var(--paper-2);
+    border: 1px dashed var(--rule-dash);
+    border-radius: var(--r-md);
+}
+
+.nbttree ul {
+    margin: 0;
+    padding-left: 18px;
+    list-style: none;
+}
+
+.nbttree li {
+    position: relative;
+    margin-bottom: 2px;
+    padding-left: 0;
+    font-size: 14px;
+    line-height: 1.9;
+    background: none;
+}
+
+/* 树形缩进的虚线引导 */
+.nbttree li::before {
+    content: "";
+    position: absolute;
+    left: -11px;
+    top: 0;
+    bottom: 0;
+    width: 1px;
+    height: auto;
+    background: none;
+    border-left: 1px dashed var(--rule-2);
+    transform: none;
+    border-radius: 0;
+}
+
+.nbttree > ul > li::before {
+    display: none;
+}
+
+.nbttree strong {
+    color: var(--c-blue);
+}
+
+.nbttree i {
+    display: none;   /* 历史上用 Font Awesome,页面并未引字体 —— 内容保留,只不显示 */
+}
+
+/* ---------------------------------------------------------------
+   9. 代码块
+   image-viewer.js 会把 .article-content pre 包成 .xxt-code-block
+   （标题栏 + pre + 复制按钮）
+   --------------------------------------------------------------- */
+.xxt-code-block {
+    position: relative;
+    margin: 18px 0;
+    overflow: hidden;
+    background: #FFFFFF;
+    border: 1px solid var(--rule-2);
+    border-radius: var(--r-md);
+    box-shadow: var(--sh-1);
+}
+
+/* 标题栏:一条贴纸标签 */
+.xxt-code-block .xxt-code-title {
+    height: auto;
+    padding: 6px 64px 6px 14px;
+    font-family: var(--font);
+    font-size: 12px;
+    line-height: 1.6;
+    color: var(--ink-2);
+    background: var(--paper-2);
+    border-bottom: 1px dashed var(--rule-dash);
+}
+
+.xxt-code-block .xxt-code-title::before {
+    content: "";
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    margin-right: 7px;
+    vertical-align: .02em;
+    background: var(--c-violet);
+    border-radius: 2px;
+    transform: rotate(45deg);
+}
+
+.xxt-code-block pre {
+    margin: 0;
+    padding: 14px 16px;
+    overflow-x: auto;
+    font-family: var(--font-mono);
+    font-size: 13px;
+    line-height: 1.7;
+    color: var(--ink);
+    white-space: pre;
+    background: #FFFFFF;
+    border: 0;
+    border-radius: 0;
+    -ms-overflow-style: -ms-autohiding-scrollbar;
+}
+
+.xxt-code-block pre code {
+    padding: 0;
+    font-family: inherit;
+    font-size: inherit;
+    color: inherit;
+    background: none;
+    border: 0;
+    border-radius: 0;
+}
+
+/* 复制按钮:CSS 画的双层方框,不依赖 copy.png */
+.xxt-code-block .xxt-copy-btn {
+    position: absolute;
+    top: 4px;
+    right: 6px;
+    width: 26px;
+    height: 24px;
+    cursor: pointer;
+    background: none;
+    border: 0;
+    border-radius: var(--r-sm);
+    opacity: .55;
+    transition: opacity var(--t-fast) ease, background-color var(--t-fast) ease;
+}
+
+.xxt-code-block .xxt-copy-btn::before,
+.xxt-code-block .xxt-copy-btn::after {
+    content: "";
+    position: absolute;
+    width: 9px;
+    height: 11px;
+    border: 1.5px solid var(--ink-2);
+    border-radius: 2px;
+}
+
+.xxt-code-block .xxt-copy-btn::before {
+    top: 5px;
+    left: 6px;
+}
+
+.xxt-code-block .xxt-copy-btn::after {
+    top: 9px;
+    left: 10px;
+    background: var(--paper-2);
+}
+
+.xxt-code-block:hover .xxt-copy-btn {
+    opacity: .9;
+}
+
+.xxt-code-block .xxt-copy-btn:hover {
+    opacity: 1;
+    background: var(--paper-3);
+}
+
+/* 复制成功:变绿并短暂放大 */
+.xxt-code-block .xxt-copy-btn.xxt-copied {
+    opacity: 1;
+    background: rgba(47, 158, 63, .16);
+}
+
+.xxt-code-block .xxt-copy-btn.xxt-copied::before,
+.xxt-code-block .xxt-copy-btn.xxt-copied::after {
+    border-color: var(--c-green);
+}
+
+/* --- 带表格行号列的代码块(Typora 导出的结构) --- */
+.code-container {
+    position: relative;
+    margin: 18px 0;
+    overflow: hidden;
+    background: #FFFFFF;
+    border: 1px solid var(--rule-2);
+    border-radius: var(--r-md);
+    box-shadow: var(--sh-1);
+}
+
+.table-container {
+    overflow-x: auto;
+}
+
+.code-container table {
+    width: 100%;
+    margin: 0;
+    border: 0;
+    border-collapse: collapse;
+    font-size: 13px;
+}
+
+.code-container td {
+    padding: 0;
+    border: 0;
+    vertical-align: top;
+}
+
+/* 行号列 */
+.code-container td.gutter {
+    width: 1%;
+    padding: 14px 0 14px 12px;
+    font-family: var(--font-mono);
+    font-size: 12px;
+    line-height: 1.7;
+    color: var(--ink-3);
+    text-align: right;
+    white-space: nowrap;
+    background: var(--paper-2);
+    border-right: 1px dashed var(--rule-dash);
+    user-select: none;
+}
+
+.code-container td.gutter pre {
+    margin: 0;
+    padding: 0;
+    font-family: inherit;
+    font-size: inherit;
+    line-height: inherit;
+    color: inherit;
+    background: none;
+    white-space: pre;
+}
+
+/* 代码列 */
+.code-container td.code {
+    padding: 14px 16px;
+}
+
+/* 表格结构里,内层不再重复画边框 */
+.code-container .xxt-code-block {
+    margin: 0;
+    border: 0;
+    border-radius: 0;
+    box-shadow: none;
+}
+
+.code-container .xxt-code-block .xxt-code-title {
+    margin: 0 0 8px;
+    padding: 0 0 6px;
+    background: none;
+    border-bottom: 1px dashed var(--rule-dash);
+}
+
+.code-container .xxt-code-block pre {
+    padding: 0;
+}
+
+/* 这个 .copy-btn 是 Typora 导出的残留(依赖未引入的 Font Awesome),让它别占位 */
+.code-container > .copy-btn {
+    display: none;
+}
+
+/* --- 语法高亮:沿用可读的浅色方案,只把冷色往暖里挪了一点 --- */
+.hljs-punctuation { color: #3D3A38; }
+.hljs-attr        { color: #C2453C; }
+.hljs-string      { color: #A31515; }
+.hljs-number      { color: #0B7A4B; }
+.hljs-keyword     { color: #1B4FD8; }
+.hljs-comment     { color: #6E8B5A; font-style: italic; }
+.hljs-function    { color: #795E26; }
+.hljs-type        { color: #267F99; }
+.hljs-built_in    { color: #1B4FD8; }
+.hljs-literal     { color: #1B4FD8; }
+.hljs-title       { color: #795E26; }
+.hljs-params      { color: #3D3A38; }
+.hljs-meta        { color: #8C8578; }
+.hljs-tag,
+.hljs-name        { color: #800000; }
+.hljs-selector-class,
+.hljs-selector-id { color: #800000; }
+
+/* ---------------------------------------------------------------
+   10. 图片查看器
+   --------------------------------------------------------------- */
+.image-viewer-modal {
+    display: none;
+    position: fixed;
+    z-index: 9999;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(45, 38, 32, .88);
+    animation: fadeIn .3s ease;
+}
+
+.image-viewer-modal.active {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.image-viewer-content {
+    position: relative;
+    max-width: min(92vw, 1100px);
+    max-height: 90vh;
+    padding: 10px;
+    background: var(--paper);
+    border-radius: var(--r-md);
+    box-shadow: var(--sh-2);
+    animation: slideIn .3s var(--ease-soft);
+}
+
+.image-viewer-img {
+    display: block;
+    max-width: 100%;
+    max-height: 82vh;
+    object-fit: contain;
+    border-radius: var(--r-sm);
+}
+
+.image-viewer-close,
+.image-viewer-nav {
+    padding: 6px;
+    background: var(--paper);
+    border: 1px solid var(--rule-2);
+    border-radius: 50%;
+    box-shadow: var(--sh-1);
+    transition: background-color var(--t-fast) ease, transform var(--t-fast) var(--ease-soft);
+}
+
+.image-viewer-close {
+    top: -13px;
+    right: -13px;
+    width: 34px;
+    height: 34px;
+}
+
+.image-viewer-nav {
+    top: 50%;
+    width: 40px;
+    height: 40px;
+    transform: translateY(-50%);
+}
+
+.image-viewer-prev {
+    left: -18px;
+}
+
+.image-viewer-next {
+    right: -18px;
+}
+
+.image-viewer-close:hover,
+.image-viewer-nav:hover {
+    background: #FFFFFF;
+}
+
+.image-viewer-prev:hover {
+    transform: translateY(-50%) translateX(-2px);
+}
+
+.image-viewer-next:hover {
+    transform: translateY(-50%) translateX(2px);
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+
+@keyframes slideIn {
+    from { opacity: 0; transform: scale(.94); }
+    to   { opacity: 1; transform: scale(1); }
+}
+
+/* ---------------------------------------------------------------
+   11. 页脚(留言区上方)
+   --------------------------------------------------------------- */
+.giscus {
+    max-width: var(--art-max);
+    margin: 26px auto 0;
+    padding: 0 16px;
+}
+
+/* ---------------------------------------------------------------
+   12. 响应式
+   --------------------------------------------------------------- */
+@media screen and (max-width: 900px) {
+    .article-content {
+        --art-pad: 26px;
+    }
+
+    .article-content p,
+    .article-content ul li,
+    .article-content ol li {
+        font-size: 17px;
+    }
+}
+
+@media screen and (max-width: 620px) {
+    body {
+        padding-bottom: 40px;
+    }
+
+    .header-image {
+        height: 168px;
+    }
+
+    .header-image::after {
+        height: 56%;
+    }
+
+    .title-overlay {
+        bottom: 18px;
+        width: calc(100% - 24px);
+    }
+
+    .title-overlay h1 {
+        font-size: 19px;
+        padding: .2em .6em .24em;
+    }
+
+    .gradient-divider {
+        justify-content: center;
+        gap: 6px;
+        padding: 8px 12px;
+        margin-bottom: 16px;
+    }
+
+    .button {
+        padding: 5px 11px;
+        font-size: 12px;
+    }
+
+    .content-container {
+        padding: 0 10px;
+    }
+
+    .article-content {
+        --art-pad: 18px;
+        border-radius: var(--r-md);
+    }
+
+    .article-content p,
+    .article-content ul li,
+    .article-content ol li {
+        font-size: 16px;
+    }
+
+    .article-content h2 {
+        margin-top: 32px;
+        font-size: 19px;
+    }
+
+    .article-content h3 {
+        font-size: 17px;
+    }
+
+    .code-container td.code {
+        padding: 12px;
+    }
+
+    .code-container .xxt-code-block pre,
+    .xxt-code-block pre {
+        font-size: 12px;
+    }
+
+    .image-viewer-close {
+        top: -10px;
+        right: -6px;
+    }
+
+    .image-viewer-prev {
+        left: -8px;
+    }
+
+    .image-viewer-next {
+        right: -8px;
+    }
+}
+
+/* ---------------------------------------------------------------
+   13. 打印:只留正文
+   --------------------------------------------------------------- */
+@media print {
+    body {
+        padding: 0;
+        background: #FFFFFF;
+    }
+
+    body::before,
+    .gradient-divider,
+    .giscus,
+    .image-viewer-modal,
+    .tips::after {
+        display: none !important;
+    }
+
+    .header-image {
+        height: 120px;
+    }
+
+    .header-image::after {
+        display: none;
+    }
+
+    .title-overlay {
+        display: none;
+    }
+
+    .article-content,
+    .author-info,
+    .tips,
+    .nbttree,
+    .xxt-code-block,
+    .code-container {
+        border-color: #CCCCCC;
+        box-shadow: none;
+    }
+}
+
+/* ---------------------------------------------------------------
+   14. 尊重"减少动态效果"
+   --------------------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: .01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: .01ms !important;
+        scroll-behavior: auto !important;
+    }
+
+    .title-overlay h1 {
+        transform: none;
+    }
+
+    .article-content img:hover,
+    .button:hover {
+        transform: none;
+    }
+}
