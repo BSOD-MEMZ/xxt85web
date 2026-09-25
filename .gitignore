@@ -1,0 +1,17 @@
+# 工作记忆与本地配置(仓库公开,勿提交)
+.workbuddy/
+.venv/
+__pycache__/
+*.pyc
+
+# 编辑器 / 系统
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# 临时文件
+*.tmp
+*.log
+~$*
