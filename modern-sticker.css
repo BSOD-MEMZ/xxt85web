@@ -2547,8 +2547,7 @@ body {
     background: #FFFFFF;
     border: 1px solid var(--rule-2);
     border-radius: var(--r-md);
-    box-shadow: 0 1px 2px rgba(61, 58, 56, .06),
-                0 6px 16px -8px rgba(61, 58, 56, .22);
+    box-shadow: none;
     overflow: hidden;
     text-decoration: none;
     transition: transform var(--t-slow) var(--ease-soft),
@@ -2561,8 +2560,7 @@ body {
     color: inherit;
     border-color: var(--mint);
     transform: translateY(-3px);
-    box-shadow: 0 2px 4px rgba(61, 58, 56, .08),
-                0 14px 26px -10px rgba(61, 58, 56, .3);
+    box-shadow: 0 4px 12px -6px rgba(61, 58, 56, .3);
 }
 
 /* 卡片不用纸角 */
