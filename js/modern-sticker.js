@@ -349,7 +349,12 @@
     /* -----------------------------------------------------------------
        5. 图标:Phosphor sprite 替换
        ----------------------------------------------------------------- */
-    var ICON_SELECTOR = 'img[src*="images/icons/"], img[src$="/hot.png"], ' +
+    /* 筛选 chip(.cat-btn)里的图标一律不换 —— 它们是配色装饰点,
+       主题里已经 display:none 了,替换成矢量只会多造无用节点,
+       而且会因 .xxt-ic[data-icon=…] 的着色规则和 chip 自身颜色打架。 */
+    var ICON_SELECTOR = 'img[src*="images/icons/"]:not(.cat-btn *), ' +
+        'img[src$="/hot.png"]:not(.cat-btn *), ' +
+        'img[src$="/online.png"]:not(.cat-btn *), ' +
         'img[src$="/busy.png"], img[src$="/Window_CloseButton.png"], ' +
         'img[src*="media/assets/prev.png"], img[src*="media/assets/next.png"], ' +
         'img[src*="media/assets/play.png"], img[src*="media/assets/pause.png"]';
@@ -727,7 +732,18 @@
         /* 圆角五角星:比四角闪光更"玩具"一点,呼应贴纸的钝角 */
         ['star-round', 28, '#D08A00', '38%', '54%', .13, 10],
         ['star-round', 20, '#E0416E', '64%', '84%', .21, 8],
-        ['star-round', 24, '#0E9E92', '12%', '34%', .17, 9]
+        ['star-round', 24, '#0E9E92', '12%', '34%', .17, 9],
+        /* 第二梯队:把空隙填满,形状更密一点但仍留白 */
+        ['heart',  20, '#FF7A8A', '21%', '26%', .15, 9],
+        ['heart',  15, '#B08BE8', '73%', '10%', .11, 7],
+        ['plus',   18, '#3FC7BE', '41%', '90%', .23, 8],
+        ['plus',   14, '#FFD21F', '86%', '42%', .13, 7],
+        ['star',   18, '#FF7A8A', '9%',  '72%', .25, 10],
+        ['dot',    14, '#1478C4', '33%', '38%', .19, 6],
+        ['ring',   20, '#E0A030', '56%', '8%',  .10, 9],
+        ['square', 18, '#0E9E92', '91%', '68%', .21, 8],
+        ['tri',    16, '#B08BE8', '65%', '32%', .09, 7],
+        ['star-round', 18, '#5FB8F0', '48%', '60%', .16, 8]
     ];
 
     function buildDeco() {

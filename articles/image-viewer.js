@@ -42,43 +42,56 @@
         document.body.appendChild(modal);
 
         const imgElement = modal.querySelector('.image-viewer-img');
-        const closeBtn = modal.querySelector('.image-viewer-close');
-        const prevBtn = modal.querySelector('.image-viewer-prev');
-        const nextBtn = modal.querySelector('.image-viewer-next');
+
+        // ⚠️ 导航 / 关闭按钮**不能**在这里缓存成常量:
+        // 手账主题会把它们从 <img> 换成 <svg>,缓存下来的引用会失效
+        // (样式加在脱离文档的旧节点上,看起来就是"按钮没反应/状态不对")。
+        // 所以一律用函数实时取。
+        const q = (sel) => modal.querySelector(sel);
+        const navBtns = () => [q('.image-viewer-prev'), q('.image-viewer-next')];
 
         // 为每个图片添加点击事件
         images.forEach((img, index) => {
             img.addEventListener('click', function(e) {
                 e.stopPropagation();
-                showImage(index, modal, imgElement, prevBtn, nextBtn);
+                showImage(index, modal, imgElement);
             });
         });
 
-        // 关闭按钮
-        closeBtn.addEventListener('click', function() {
-            closeModal(modal);
-        });
+        // 关闭 / 上一张 / 下一张:统一走**事件委托**,挂在不会变动的 modal 上。
+        // 这样无论图标是 PNG 还是被主题脚本换成了 <svg>,点击都不会失效
+        // —— 之前是直接绑在 <img> 上,换掉节点后事件就跟着没了。
+        modal.addEventListener('click', function (e) {
+            var t = e.target;
 
-        // 上一张按钮
-        prevBtn.addEventListener('click', function() {
-            if (currentImageIndex > 0) {
-                currentImageIndex--;
-                showImage(currentImageIndex, modal, imgElement, prevBtn, nextBtn);
+            if (t.closest && t.closest('.image-viewer-close')) {
+                e.stopPropagation();
+                closeModal(modal);
+                return;
             }
-        });
-
-        // 下一张按钮
-        nextBtn.addEventListener('click', function() {
-            if (currentImageIndex < images.length - 1) {
-                currentImageIndex++;
-                showImage(currentImageIndex, modal, imgElement, prevBtn, nextBtn);
+            if (t.closest && t.closest('.image-viewer-prev')) {
+                e.stopPropagation();
+                if (currentImageIndex > 0) {
+                    currentImageIndex--;
+                    showImage(currentImageIndex, modal, imgElement);
+                }
+                return;
+            }
+            if (t.closest && t.closest('.image-viewer-next')) {
+                e.stopPropagation();
+                if (currentImageIndex < images.length - 1) {
+                    currentImageIndex++;
+                    showImage(currentImageIndex, modal, imgElement);
+                }
             }
         });
 
         // 初始化按钮状态（只有一张图片的情况）
+        // —— 交给 showImage 统一处理,它也实时查询按钮,天然兼容图标替换
         if (images.length === 1) {
-            setNavState(prevBtn, true, 'left.png', 'left_disable.png');
-            setNavState(nextBtn, true, 'right.png', 'right_disable.png');
+            var btns = navBtns();
+            setNavState(btns[0], true, 'left.png', 'left_disable.png');
+            setNavState(btns[1], true, 'right.png', 'right_disable.png');
         }
 
         // 点击背景关闭
@@ -95,26 +108,80 @@
                     closeModal(modal);
                 } else if (e.key === 'ArrowLeft' && currentImageIndex > 0) {
                     currentImageIndex--;
-                    showImage(currentImageIndex, modal, imgElement, prevBtn, nextBtn);
+                    showImage(currentImageIndex, modal, imgElement);
                 } else if (e.key === 'ArrowRight' && currentImageIndex < images.length - 1) {
                     currentImageIndex++;
-                    showImage(currentImageIndex, modal, imgElement, prevBtn, nextBtn);
+                    showImage(currentImageIndex, modal, imgElement);
                 }
+            }
+        });
+
+        // 事件全部绑完(且用的是委托,不怕换节点),再尝试把手账主题的
+        // 矢量图标换上去。换图标在主题脚本那边也会做,这里只是"抢答"——
+        // 谁先跑都无所谓,因为点击走委托,不会再丢。
+        upgradeThemeIcons(modal);
+    }
+
+    /* 手账主题下,两处脚本都会给弹层换图标,谁先加载不确定。
+       这里做一遍幂等替换:已经是 <svg> 的跳过,还是 <img> 的换掉。
+
+       旧主题(默认样式)命中不了任何分支 —— 没有 XXT_ICON_MAP,直接返回,
+       行为一字未改。 */
+    function upgradeThemeIcons(modal) {
+        if (!window.XXT_ICON_MAP) return;
+
+        var spec = [
+            { cls: 'image-viewer-close', icon: 'imageclose.png', fallback: 'x' },
+            { cls: 'image-viewer-nav image-viewer-prev', icon: 'left.png', fallback: 'left' },
+            { cls: 'image-viewer-nav image-viewer-next', icon: 'right.png', fallback: 'right' }
+        ];
+
+        spec.forEach(function (item) {
+            var primary = item.cls.split(' ')[0];
+            var el = modal.querySelector('.' + primary);
+            if (!el) return;
+            if (el.tagName.toLowerCase() === 'svg') return;   // 已升级,跳过
+
+            var id = window.XXT_ICON_MAP[item.icon] ||
+                     window.XXT_ICON_MAP[item.fallback];
+            if (!id) return;
+
+            var svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+            svg.setAttribute('class', 'xxt-ic ' + item.cls);
+            svg.setAttribute('data-icon', id.replace(/^i-/, ''));
+            svg.setAttribute('aria-hidden', 'true');
+            svg.setAttribute('focusable', 'false');
+
+            var use = document.createElementNS('http://www.w3.org/2000/svg', 'use');
+            use.setAttribute('href', '#' + id);
+            svg.appendChild(use);
+
+            // 保留原 <img> 上的 title(无障碍 / 悬停提示)
+            var title = el.getAttribute('title');
+            if (title) svg.setAttribute('title', title);
+
+            if (el.parentNode) {
+                el.parentNode.replaceChild(svg, el);
             }
         });
     }
 
     // 显示图片
-    function showImage(index, modal, imgElement, prevBtn, nextBtn) {
+    // 只收 (index, modal, imgElement):导航按钮一律实时查询,
+    // 因为主题脚本随时可能把它们换成 <svg>(见 init() 里的说明)。
+    function showImage(index, modal, imgElement) {
         if (index < 0 || index >= images.length) return;
-        
+
         currentImageIndex = index;
         imgElement.src = images[index].src;
         modal.classList.add('active');
-        
-        // 更新导航按钮图片和状态
+
+        // 更新导航按钮状态。
         // 新主题下按钮已被换成 <svg>,所以状态用 class(is-disabled)表达,
         // 只有按钮仍是 <img> 时才回退到换图。
+        var prevBtn = modal.querySelector('.image-viewer-prev');
+        var nextBtn = modal.querySelector('.image-viewer-next');
+
         if (prevBtn && nextBtn) {
             var atFirst = currentImageIndex === 0;
             var atLast = currentImageIndex === images.length - 1;

@@ -123,6 +123,22 @@
 
 **手账主题的硬约束**：禁 `backdrop-filter`（`box-shadow` 可用）· 字体只用本机 `msyh` · 图标用 Phosphor 的 SVG sprite · 默认主题零影响。
 
+### 第三方资源全部本地化
+
+**不引任何外部 CDN**（隐私 + 离线可用）。已本地化的有：
+
+| 目录 | 内容 | 许可 |
+|---|---|---|
+| `js/modern-sticker-icons.js` | 图标 sprite（Phosphor + Simple Icons + 自绘） | MIT / CC0 |
+| `vendor/katex/` | KaTeX 0.16.9 + 20 个 woff2 字体 | MIT |
+| `live2d-widget/` | 看板娘本体与模型 | 见其 LICENSE |
+
+改图标映射后**必须重跑生成器**（脚本不提交）：
+
+```bash
+node .workbuddy/tmp/gen-icons.js js/modern-sticker-icons.js
+```
+
 ---
 
 ## 已知的坑
@@ -166,9 +182,7 @@
 
 首次访问的风格引导（`js/theme-picker.js`）由 **`theme-loader.js`** 加载。不要挪到 `modern-sticker.js` —— 新用户首屏是默认主题，那时手账脚本根本没加载，挪过去就永远不会弹。
 
-### 8. Umami 按开关加载（易被改回硬编码）
-
-`index.html` 的 head 里有一段内联脚本，**只有** `localStorage.umami_enabled !== 'false'` 时才
+### 8. Umami 按开关加载（易被改回硬编码）`index.html` 的 head 里有一段内联脚本，**只有** `localStorage.umami_enabled !== 'false'` 时才
 动态注入 Umami 的 `<script>`：
 
 ```html
@@ -192,6 +206,58 @@
   结果是用户取消了勾选脚本照常加载；而且 `preconnect` 本身就会向 `cloud.umami.is`
   发起 DNS 解析与 TCP 握手——**关掉状态下一次请求都不该发出**。
 - 改动需**刷新页面**才生效（脚本只在页面加载时注入一次）。
+
+### 9. 图标替换会吃掉点击事件
+
+`addEventListener` 绑在**元素实例**上。把带监听的 `<img>` 换成 `<svg>`，事件跟着元素一起消失，
+表现就是「按钮点不动」。已踩过两次：
+
+- `.uac-close-btn`：选择器里 `:not(.uac-close-btn)` 排除，由 `uac.js` 的 `upgradeCloseBtn()` 自己升级
+- `.image-viewer-close` / `.image-viewer-nav`：同样排除；`articles/image-viewer.js` 改用**事件委托**挂在 modal 上，
+  与节点是否被替换无关
+
+**加图标替换前先确认目标有没有绑事件。有就排除，或让原脚本自己升级，或改成委托。**
+
+### 10. 两个图标塞进一个 `<svg>` 时必须显式打底 `display:none`
+
+`#play-img` 要切「播放/暂停」，矢量没法换 `src`，所以两枚 `<use>` 一起塞。
+但全局 `.xxt-ic { display: inline-block }` 是 `(0,1,0)` 且在文件更靠后，
+隐藏规则若也只写 `(0,1,0)` 会被它盖掉 —— **两个图标同时画出来叠在一起**。
+隐藏规则要抬到 `(0,1,1)`：`svg#play-img use.xxt-play-icon { display: none }`。
+
+### 11. 主题 CSS 在文章页不存在
+
+`modern-sticker.css` **只在顶层页加载**；文章页走 `articles/modern-sticker-article.css`。
+任何「运行时才出现、且文章页也会出现」的组件（UAC 弹窗、图片查看器）都不能只写在顶层 CSS 里。
+
+UAC 的解法是把覆盖搬进 `js/uac.js`（`id="uac-sticker-styles"`，按主题开关注入），
+顶层页 + 文章页共用一份。**改 UAC 外观请改 `uac.js`。**
+
+### 12. 别信 `window.initWidget` 的 `export` 后缀
+
+`live2d-widget/dist/waifu-tips.js` 末尾有 `export { a as l }`，是打包器残留。
+它同时有 `window.initWidget = ...`，所以作为 `type="module"` 加载仍然正常。
+判断看板娘是否可用时，**以 `window.initWidget` 是否存在为准，别看那个 `export`。**
+
+另一个坑：`autoload.js` 里 `cubism5Path` 原本指向 `cubism.live2d.com`（外部 CDN）。
+本站模型（`model/bilibili-live/22`、`/33`）都是 Cubism 2 的 `model.moc`，
+版本判定为 2，**那条外部路径永远不会被读取** —— 已改成本地路径，别改回去。
+
+---
+
+## LaTeX 公式
+
+KaTeX 0.16.9 **已本地化**在 `vendor/katex/`（含 20 个 woff2，无 CDN 请求）。
+
+```html
+<script src="katex-loader.js"></script>   <!-- 文章页 </body> 前加这一行 -->
+```
+
+正文里直接写 `$…$`（行内）、`$$…$$`（独行），也支持 `\(…\)` / `\[…\]`。
+
+- **按需加载**：正文没有定界符就一个字节都不取
+- **不用**官方 `auto-render`：它跳过不了 `<pre>`/`<code>`，命令行里的 `$PATH`、PHP 变量会被误当公式
+- 包裹层 `.xxt-math-inline` / `.xxt-math-display`，两套文章页 CSS 各自排版
 
 ---
 

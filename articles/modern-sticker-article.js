@@ -20,9 +20,42 @@
     var SPRITE_URL = '../js/modern-sticker-icons.js';
 
     /* 需要替换的图标。用文件名查映射表,查不到就跳过原样保留 PNG。
-       UAC 对话框的关闭按钮单独排除:它的点击事件由 uac.js 自己绑定,
-       这里换掉 <img> 会连事件一起换没 —— 那枚图标交给 uac.js 处理。 */
-    var ICON_SELECTOR = 'img[src$=".png"]:not(.uac-close-btn), img[src$=".gif"]:not(.uac-close-btn)';
+
+       ⚠️ 两类元素必须排除 —— 它们的点击事件绑在 <img> 实例上,
+       而 addEventListener 是跟着元素走的,换掉 <img> 就等于把事件一起换没:
+
+         · .uac-close-btn   UAC 对话框关闭键,由 uac.js 自己绑定
+         · .image-viewer-*  图片查看器的关闭 / 上一张 / 下一张,
+                            由 image-viewer.js 自己绑定(它换完图标会重新绑)
+
+       两者各自的脚本会做"先绑事件、再换图标"的升级,所以这里不能碰。 */
+    var ICON_SELECTOR =
+        'img[src$=".png"]:not(.uac-close-btn):not(.image-viewer-close)' +
+        ':not(.image-viewer-nav), ' +
+        'img[src$=".gif"]:not(.uac-close-btn):not(.image-viewer-close)' +
+        ':not(.image-viewer-nav)';
+
+    /* 给某处按钮换矢量图标并"原样保留"原 <img> 的 class / 尺寸。
+       返回新的 <svg>;查不到映射就返回 null,调用方自己决定要不要回退。 */
+    function makeIcon(name, proto) {
+        var map = window.XXT_ICON_MAP;
+        if (!map) return null;
+        var id = map[name];
+        if (!id) return null;
+
+        var svg = document.createElementNS(SVG_NS, 'svg');
+        svg.setAttribute('class', proto && proto.className
+            ? 'xxt-ic ' + proto.className
+            : 'xxt-ic');
+        svg.setAttribute('data-icon', id.replace(/^i-/, ''));
+        svg.setAttribute('aria-hidden', 'true');
+        svg.setAttribute('focusable', 'false');
+
+        var use = document.createElementNS(SVG_NS, 'use');
+        use.setAttribute('href', '#' + id);
+        svg.appendChild(use);
+        return svg;
+    }
 
     /* 头图上的「关闭页面」:文字保留,图标换成矢量叉
        (旧样式不走本脚本,原 PNG 一字未改) */

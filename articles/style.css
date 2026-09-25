@@ -341,3 +341,32 @@ body {
     }
 }
 
+
+/* ---------------------------------------------------------------
+   LaTeX 公式(katex-loader.js 运行时生成 .xxt-math 包裹层)
+   KaTeX 自己的样式表负责字形,这里只管排版位置。
+   --------------------------------------------------------------- */
+.xxt-math-inline {
+    display: inline;
+    white-space: nowrap;
+}
+
+.xxt-math-display {
+    display: block;
+    overflow-x: auto;
+    overflow-y: hidden;
+    padding: 6px 2px;
+    text-align: center;
+    /* 长公式在窄屏上横向滚动而不是撑破容器 */
+    -webkit-overflow-scrolling: touch;
+}
+
+/* KaTeX 的行内公式自带较大的行高,略收一点避免正文行距被撑开 */
+.xxt-math-inline .katex {
+    font-size: 1.05em;
+}
+
+/* 公式里的颜色跟随正文,保证在深色/浅色排版下都读得出来 */
+.xxt-math .katex {
+    color: inherit;
+}

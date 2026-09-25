@@ -99,12 +99,60 @@ new MutationObserver(sync).observe(link, { attributes: true, attributeFilter: ['
 由 CSS 按 `.aero-player.is-playing` 决定显示哪一个。
 `player.js` 里 `setPlayingUI()` 负责同步这个 class（旧主题下它仍然照旧换 `<img src>`）。
 
+> ⚠️ **两枚 symbol 必须显式 `display: none` 打底**，再用状态类各放行一个。
+> 隐藏规则要写成 `svg#play-img use.xxx`（特异性 `(0,1,1)`）——
+> 全局 `.xxt-ic { display: inline-block }` 是 `(0,1,0)` 且在文件更靠后，
+> 特异性不够就会被它盖掉，结果是**播放/暂停两个图标同时画出来叠在一起**。
+
 ### UAC 的关闭按钮不要碰
 
 `js/uac.js` 自己给那枚 `<img class="uac-close-btn">` 绑了点击事件。
 文章页的图标替换若把它一并换掉，事件会连元素一起消失 ——
 所以 `articles/modern-sticker-article.js` 的 `ICON_SELECTOR` 里显式排除了 `.uac-close-btn`，
 矢量化改由 `uac.js` 的 `upgradeCloseBtn()` 自己完成。
+
+### 图标替换会吃掉点击事件（通用坑）
+
+`addEventListener` 绑在**元素实例**上。把带监听的 `<img>` 换成 `<svg>`，
+旧元素被替换出文档，监听跟着一起没了 —— 表现就是"按钮点不动"。
+
+已知两处踩过：
+
+| 元素 | 处理方式 |
+|---|---|
+| `.uac-close-btn` | 选择器里 `:not(.uac-close-btn)` 排除，`uac.js` 自己升级 |
+| `.image-viewer-close` / `.image-viewer-nav` | 选择器里 `:not(...)` 排除；`image-viewer.js` 改用**事件委托**挂在 modal 上，与节点是否被换无关 |
+
+**新加图标替换时先确认目标有没有绑事件；有就排除，或者让原脚本自己升级、或改委托。**
+
+### chips（`.cat-btn`）里的图标一律不换
+
+它们是配色装饰点，主题里已 `display: none`。替换成矢量只会多造无用节点，
+而且 `data-icon` 的着色规则会和 chip 自身颜色打架 —— 所以 `ICON_SELECTOR` 里
+用 `:not(.cat-btn *)` 排除。
+
+### UAC 在文章页也必须是手账样式
+
+顶层页的 `.uac-*` 规则原本写在 `modern-sticker.css`，**但文章页不加载那份 CSS**
+（只加载 `articles/modern-sticker-article.css`，里面没有任何 `.uac-*`），
+所以文章页的 UAC 会掉回 `uac.js` 自己注入的 Vista 基线。
+
+现在这份覆盖**整体搬到了 `js/uac.js`**（`id="uac-sticker-styles"`，仅在
+`localStorage.theme` 命中 `modern-sticker` 时注入），顶层页 + 文章页共用一份，
+也不受 CSS 加载顺序影响。改 UAC 外观请改 `uac.js`，别再往 `modern-sticker.css` 里加。
+
+### LaTeX 公式
+
+- 引擎：KaTeX 0.16.9，**已本地化**在 `vendor/katex/`（含 20 个 woff2）
+- 入口：`articles/katex-loader.js`，文章页加一行 `<script src="katex-loader.js">` 即可
+- 定界符：`$…$` / `\(…\)` 行内，`$$…$$` / `\[…\]` 独行
+- **按需加载**：正文里没有定界符就一个字节都不取
+- 不用 KaTeX 官方的 `auto-render`：它跳过不了 `<pre>`/`<code>`，
+  技术文里命令行提示符、PHP 变量、正则里的 `$` 会被误当公式 ——
+  本项目自己走 DOM 并跳过 `PRE/CODE/SCRIPT/STYLE/TEXTAREA/KBD/SAMP/NOSCRIPT`
+- 包裹层 `.xxt-math-inline` / `.xxt-math-display`，两套文章页 CSS 各自排版
+
+**改图标映射后要重跑生成器**：`node .workbuddy/tmp/gen-icons.js js/modern-sticker-icons.js`
 
 ---
 

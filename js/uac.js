@@ -31,6 +31,16 @@
 
     var RP = rootPath();
 
+    // ── 主题判定 ──
+    // 必须在这里就判出来,下面注入样式要用。
+    // 兼容读不到 localStorage 的情况(隐私模式)→ 当作默认主题。
+    var IS_STICKER = false;
+    try {
+        IS_STICKER = (localStorage.getItem('theme') || '').indexOf('modern-sticker') > -1;
+    } catch (e) {
+        IS_STICKER = false;
+    }
+
     // ── 播放音效 ──
     function playSound(file) {
         try {
@@ -128,6 +138,125 @@
             '.uac-banner-text{font-size:16px}',
             '.uac-buttons{padding:8px 10px}',
             '.uac-btn{min-width:60px;padding:4px 12px}',
+            '}'
+        ].join('\n');
+        document.head.appendChild(st);
+    })();
+
+    // ── 手账主题覆盖 ──
+    // 顶层页的 UAC 样式写在 modern-sticker.css 里,但**文章页根本不加载那份 CSS**
+    // (文章页走 articles/modern-sticker-article.css,里面没有任何 .uac-* 规则),
+    // 于是文章页上的 UAC 会掉回上面那套 Vista 基线。
+    //
+    // 修法:让 uac.js 自己带上这份覆盖。它后注入、特异性也更高,所以
+    // 顶层页 + 文章页都能拿到同一套手账外观,且不依赖 CSS 加载顺序。
+    (function () {
+        if (!IS_STICKER) return;
+        var id = 'uac-sticker-styles';
+        if (document.getElementById(id)) return;
+
+        var st = document.createElement('style');
+        st.id = id;
+        st.textContent = [
+            /* 遮罩:暖色纸感,柔和一点 */
+            '.uac-overlay{background:rgba(61,58,56,.4);padding:20px}',
+            /* 对话框:圆角纸卡 + 多层阴影,盖掉 Vista 框线 */
+            '.uac-dialog{',
+            'width:min(540px,100%);',
+            'background:#FFFDF8;',
+            'border:1px solid #E4DCCE;',
+            'border-radius:18px;',
+            'box-shadow:0 18px 40px -12px rgba(61,58,56,.38),',
+            '0 4px 12px -4px rgba(61,58,56,.18);',
+            'overflow:hidden;',
+            'animation:uacModalIn 320ms cubic-bezier(.34,1.4,.64,1)',
+            '}',
+            /* 干掉 Vista 的左右 / 上下框线伪元素 */
+            '.uac-dialog::before,.uac-dialog::after{display:none}',
+            '@keyframes uacModalIn{',
+            'from{opacity:0;transform:translateY(18px) rotate(-.6deg)}',
+            'to{opacity:1;transform:translateY(0) rotate(0deg)}',
+            '}',
+            /* 标题栏:不再用 framecaption 贴图 */
+            '.uac-titlebar{',
+            'height:auto;display:flex;align-items:center;gap:8px;',
+            'padding:11px 15px 9px;',
+            'border:none;border-bottom:1px dashed #DED4C2;',
+            'border-radius:0;background:#F7F1E6;',
+            'font-family:"Microsoft YaHei",msyh,sans-serif',
+            '}',
+            '.uac-titlebar::before{',
+            'content:"";flex:none;width:9px;height:9px;',
+            'background:#E0A030;border-radius:2px;transform:rotate(45deg)',
+            '}',
+            '.uac-title-text{font-size:14px;font-weight:500;color:#3D3A38}',
+            /* 关闭键:macOS 交通灯圆点(矢量化成功后由 JS 换成 svg) */
+            '.uac-close-btn{',
+            'margin-left:auto;width:22px;height:22px;flex-shrink:0;padding:0;',
+            'border-radius:50%;cursor:pointer;',
+            'transition:transform 160ms cubic-bezier(.34,1.56,.64,1)',
+            '}',
+            '.uac-close-btn:hover{transform:scale(1.1)}',
+            '.uac-close-btn:active{transform:scale(.94)}',
+            /* 内容区:去掉 Vista 下框线 */
+            '.uac-content{padding:15px 16px 16px;background:#FFFDF8}',
+            '.uac-content::before{display:none}',
+            /* Banner:淡黄便签 + 左上角胶带 */
+            '.uac-banner{',
+            'position:relative;display:flex;align-items:center;gap:11px;',
+            'background:#FFFBEA;border:1px solid #EFE0AE;border-radius:12px;',
+            'padding:12px 14px;margin-bottom:13px',
+            '}',
+            '.uac-banner::before{',
+            'content:"";position:absolute;top:-7px;left:16px;width:46px;height:15px;',
+            'background:rgba(255,210,31,.58);border-radius:2px;',
+            'transform:rotate(-3deg);',
+            'box-shadow:0 1px 2px rgba(61,58,56,.12);pointer-events:none',
+            '}',
+            '.uac-banner-icon{width:32px;height:32px;flex:none}',
+            '.uac-banner-text{font-size:13px;font-weight:500;color:#6B5200;line-height:1.5}',
+            /* 正文 */
+            '.uac-body{padding:0;font-size:13px;color:#6B6259;line-height:1.7;margin-bottom:15px}',
+            '.uac-message{margin:0 0 8px;color:#6B6259;font-size:13px;',
+            'font-family:"Microsoft YaHei",msyh,sans-serif}',
+            '.uac-link{color:#2F6E8E;border-bottom:1px solid rgba(47,110,142,.28);',
+            'text-decoration:none;font-size:13px}',
+            '.uac-link:hover{border-bottom-color:currentColor;text-decoration:none}',
+            /* 按钮区:右对齐的纸片按钮 */
+            '.uac-buttons{',
+            'display:flex;justify-content:flex-end;gap:8px;',
+            'padding:0;background:none',
+            '}',
+            '.uac-buttons-right{display:flex;gap:8px}',
+            '.uac-btn{',
+            'min-width:0;padding:7px 18px;',
+            'font-family:"Microsoft YaHei",msyh,sans-serif;font-size:13px;color:#3D3A38;',
+            'background:#F7F1E6;border:1px solid #E4DCCE;border-radius:9px;',
+            'box-shadow:0 1px 0 rgba(61,58,56,.10);cursor:pointer;',
+            'transition:transform 160ms ease,box-shadow 160ms ease,background-color 160ms ease',
+            '}',
+            '.uac-btn:hover{',
+            'background:#FFFDF8;transform:translateY(-1px);',
+            'box-shadow:0 3px 8px -2px rgba(61,58,56,.2);',
+            'border-color:#E4DCCE',
+            '}',
+            '.uac-btn:active{transform:translateY(1px);box-shadow:none}',
+            /* 「继续」= 主操作,填青色 */
+            '.uac-buttons-right .uac-btn:first-child{',
+            'color:#FFFFFF;background:#0E9E92;border-color:#0E9E92;',
+            'box-shadow:0 2px 6px -2px rgba(14,158,146,.55)',
+            '}',
+            '.uac-buttons-right .uac-btn:first-child:hover{',
+            'background:#0C8C82;border-color:#0C8C82;',
+            'box-shadow:0 4px 12px -3px rgba(14,158,146,.6)',
+            '}',
+            '@media(max-width:480px){',
+            '.uac-dialog{width:94vw;max-width:94vw}',
+            '.uac-body{padding:0}',
+            '.uac-banner{padding:10px 12px}',
+            '.uac-banner-text{font-size:13px}',
+            '.uac-buttons{padding:0}',
+            '.uac-btn{padding:7px 13px}',
             '}'
         ].join('\n');
         document.head.appendChild(st);
