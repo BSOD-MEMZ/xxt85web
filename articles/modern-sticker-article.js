@@ -19,8 +19,37 @@
     var SVG_NS = 'http://www.w3.org/2000/svg';
     var SPRITE_URL = '../js/modern-sticker-icons.js';
 
-    /* 需要替换的图标。用文件名查映射表,查不到就跳过原样保留 PNG。 */
-    var ICON_SELECTOR = 'img[src$=".png"], img[src$=".gif"]';
+    /* 需要替换的图标。用文件名查映射表,查不到就跳过原样保留 PNG。
+       UAC 对话框的关闭按钮单独排除:它的点击事件由 uac.js 自己绑定,
+       这里换掉 <img> 会连事件一起换没 —— 那枚图标交给 uac.js 处理。 */
+    var ICON_SELECTOR = 'img[src$=".png"]:not(.uac-close-btn), img[src$=".gif"]:not(.uac-close-btn)';
+
+    /* 头图上的「关闭页面」:文字保留,图标换成矢量叉
+       (旧样式不走本脚本,原 PNG 一字未改) */
+    function swapToolbarClose() {
+        var anchors = document.querySelectorAll('.gradient-divider .button');
+        for (var i = 0; i < anchors.length; i++) {
+            var a = anchors[i];
+            if (a.getAttribute('data-xxt-close')) continue;
+            if ((a.getAttribute('href') || '').indexOf('window.close') === -1) continue;
+
+            var img = a.querySelector('img');
+            if (!img || !img.parentNode) continue;
+
+            var svg = document.createElementNS(SVG_NS, 'svg');
+            svg.setAttribute('class', 'xxt-ic');
+            svg.setAttribute('data-icon', 'x');
+            svg.setAttribute('aria-hidden', 'true');
+            svg.setAttribute('focusable', 'false');
+
+            var use = document.createElementNS(SVG_NS, 'use');
+            use.setAttribute('href', '#i-x');
+            svg.appendChild(use);
+
+            img.parentNode.replaceChild(svg, img);
+            a.setAttribute('data-xxt-close', '1');
+        }
+    }
 
     function injectSprite() {
         if (document.getElementById('xxt-icon-sprite')) return;
@@ -70,6 +99,16 @@
     function run() {
         injectSprite();
         swapIcons();
+        swapToolbarClose();
+
+        /* 图片查看器由 image-viewer.js 在 DOMContentLoaded 时挂到 body 上,
+           两处脚本的加载顺序不固定 —— 所以这里用 MutationObserver 兜住
+           后出现的 <img>,它们一样会被换成矢量图标。 */
+        if (window.MutationObserver) {
+            new MutationObserver(function () {
+                swapIcons();
+            }).observe(document.body, { childList: true, subtree: true });
+        }
     }
 
     function loadSprite(done) {

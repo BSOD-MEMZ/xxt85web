@@ -645,6 +645,44 @@ body.customizing .content {
     display: none;
 }
 
+/* 删除组件的动画:像把一张贴纸从本子上撕下来
+   捏住(轻抬) → 侧倾缩小淡出,大约 340ms */
+.sidebar .window.xxt-removing {
+    pointer-events: none;
+    animation: stickerRemove 340ms var(--ease-soft) forwards;
+}
+
+@keyframes stickerRemove {
+    0% {
+        transform: scale(1) rotate(0deg);
+        opacity: 1;
+    }
+    22% {
+        transform: scale(1.04) rotate(-1.4deg) translateY(-4px);
+        opacity: 1;
+    }
+    100% {
+        transform: scale(.82) rotate(7deg) translateY(10px);
+        opacity: 0;
+    }
+}
+
+/* 撤销回来时反过来"贴回去" */
+.sidebar .window.xxt-restoring {
+    animation: stickerRestore 300ms var(--ease-pop) both;
+}
+
+@keyframes stickerRestore {
+    from {
+        transform: scale(.86) rotate(-5deg);
+        opacity: 0;
+    }
+    to {
+        transform: scale(1) rotate(0deg);
+        opacity: 1;
+    }
+}
+
 /* 拖拽排序中的状态:像被拿起来的一张纸 */
 .sidebar .window.dragging {
     opacity: .92;
@@ -1296,16 +1334,38 @@ body.customizing .footer {
     text-align: center;
 }
 
+/* 封面裁圆:唱片感,播放时整体旋转 */
+.wmp-album-art {
+    position: relative;
+    width: 152px;
+    height: 152px;
+    margin: 4px auto 10px;
+}
+
+/* 唱片外圈:一圈淡淡的手绘描边 + 中心轴孔 */
+.wmp-album-art::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    box-shadow:
+        inset 0 0 0 1px rgba(61, 58, 56, .18),
+        inset 0 0 0 7px #FFFFFF,
+        inset 0 0 0 8px rgba(61, 58, 56, .12);
+    pointer-events: none;
+}
+
 .wmp-album-art img {
     width: 100%;
-    max-width: 190px;
-    border-radius: var(--r-xs);
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
     display: block;
-    margin: 0 auto 8px;
+    background: var(--paper-3);
     transition: transform 900ms linear;
 }
 
-/* 播放中:封面缓慢旋转,像唱片(由 modern.js 切 .spinning) */
+/* 播放中:封面缓慢旋转,像唱片(由 modern.js 切 .playing) */
 .aero-player.playing .wmp-album-art img {
     animation: spinDisc 14s linear infinite;
 }
@@ -1328,7 +1388,7 @@ body.customizing .footer {
     height: 9px;
     background: var(--paper-3);
     border-radius: var(--r-pill);
-    margin: 0 3px 13px;
+    margin: 0 3px 15px;
     cursor: pointer;
 }
 
@@ -1340,50 +1400,137 @@ body.customizing .footer {
     transition: width 320ms var(--ease-soft);
 }
 
+/* 拖动手柄:自绘的贴纸圆点(不再用 wmpdot.png)
+   白圈 + 珊瑚色描边,中心再点一颗小圆,像贴上去的圆贴纸 */
 .wmp-dot {
     position: absolute;
     top: 50%;
     left: 0;
-    width: 15px;
-    height: 15px;
-    margin-left: -7px;
+    width: 16px;
+    height: 16px;
+    margin-left: -8px;
+    padding: 0;
+    border: 0;
     border-radius: 50%;
     background: #FFFFFF;
-    border: 2px solid var(--coral);
+    box-shadow:
+        inset 0 0 0 2.5px var(--coral),
+        0 1px 3px rgba(61, 58, 56, .26);
     transform: translateY(-50%);
-    box-shadow: 0 1px 3px rgba(61, 58, 56, .22);
+    transition: transform var(--t-fast) var(--ease-pop);
     cursor: grab;
 }
 
-/* 控制按钮:圆形贴纸 */
+/* 中心小点:用伪元素画,避免额外的背景图 */
+.wmp-dot::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 5px;
+    height: 5px;
+    margin: -2.5px 0 0 -2.5px;
+    background: var(--coral);
+    border-radius: 50%;
+}
+
+.wmp-dot:hover {
+    transform: translateY(-50%) scale(1.18);
+}
+
+.wmp-dot:active {
+    cursor: grabbing;
+    transform: translateY(-50%) scale(1.05);
+}
+
+/* 控制按钮:圆形贴纸,里面放矢量图标 */
 .wmp-controls {
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 16px;
+    gap: 14px;
     margin-bottom: 14px;
 }
 
-.wmp-controls img {
-    width: 32px;
-    height: 32px;
-    border-radius: 50%;
-    padding: 6px;
+.wmp-controls a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 34px;
+    height: 34px;
+    padding: 0;
+    color: var(--ink);
     background: var(--paper-2);
     border: 1px solid var(--rule);
+    border-radius: 50%;
     box-shadow: 0 1px 0 rgba(61, 58, 56, .10);
+    text-decoration: none;
     transition: transform var(--t-fast) var(--ease-pop),
-                background-color var(--t-fast) ease;
-    cursor: pointer;
+                background-color var(--t-fast) ease,
+                color var(--t-fast) ease,
+                box-shadow var(--t-fast) ease;
 }
 
-.wmp-controls img:hover {
+.wmp-controls a:hover {
+    color: var(--c-rose);
     background: var(--cream);
-    transform: translateY(-2px) scale(1.05);
+    transform: translateY(-2px) scale(1.06);
+    box-shadow: 0 4px 10px -3px rgba(61, 58, 56, .28);
 }
 
-.wmp-controls img:active {
-    transform: translateY(1px) scale(.96);
+.wmp-controls a:active {
+    transform: translateY(1px) scale(.95);
+    box-shadow: none;
+}
+
+/* 中间的播放/暂停按钮更大更醒目 */
+.wmp-controls a:nth-child(2) {
+    width: 42px;
+    height: 42px;
+    color: #FFFFFF;
+    background: var(--coral);
+    border-color: var(--coral);
+    box-shadow: 0 2px 8px -2px rgba(255, 122, 138, .7);
+}
+
+.wmp-controls a:nth-child(2):hover {
+    color: #FFFFFF;
+    background: #FF667A;
+}
+
+/* 播放/暂停图标切换:player.js 把状态挂在 .aero-player.is-playing 上,
+   这里用两条规则决定显示哪一个 symbol(矢量图标无法通过换 src 切换) */
+#play-img {
+    display: block;
+}
+
+#play-img .xxt-play-icon,
+#play-img .xxt-pause-icon {
+    display: none;
+}
+
+.aero-player.is-playing #play-img .xxt-pause-icon {
+    display: block;
+}
+
+.aero-player:not(.is-playing) #play-img .xxt-play-icon {
+    display: block;
+}
+
+.wmp-controls .xxt-ic {
+    width: 17px;
+    height: 17px;
+}
+
+.wmp-controls a:nth-child(2) .xxt-ic {
+    width: 20px;
+    height: 20px;
+}
+
+/* 未被矢量化的残留 PNG(理论上不会出现)也不至于溢出 */
+.wmp-controls img {
+    width: 17px;
+    height: 17px;
 }
 
 .wmp-playlist {
@@ -1417,11 +1564,6 @@ body.customizing .footer {
     background: var(--cream);
     color: var(--ink);
     font-weight: 500;
-}
-
-/* 播放器图标统一为贴纸色系(dot.png 等精灵图在新主题下隐藏) */
-.wmp-controls img {
-    font-size: 0;
 }
 
 /* ---------------------------------------------------------------
@@ -1744,6 +1886,17 @@ body.customizing .customize-grid-overlay {
     border-bottom: 1px dashed var(--rule-dash);
 }
 
+/* 标题左侧一枚警示方片,呼应代码块标题栏的菱形 */
+.uac-titlebar::before {
+    content: "";
+    flex: none;
+    width: 9px;
+    height: 9px;
+    background: #E0A030;
+    border-radius: 2px;
+    transform: rotate(45deg);
+}
+
 .uac-title-text {
     font-size: 14px;
     font-weight: 500;
@@ -1752,17 +1905,24 @@ body.customizing .customize-grid-overlay {
 
 .uac-close-btn {
     margin-left: auto;
-    width: 24px;
-    height: 24px;
+    width: 22px;
+    height: 22px;
+    padding: 0;
     cursor: pointer;
-    opacity: .7;
-    border-radius: var(--r-sm);
-    transition: opacity var(--t-fast) ease, background-color var(--t-fast) ease;
+    border-radius: 50%;
+    /* 与侧栏小窗口同一枚 macOS 交通灯圆点;× 只在 hover 时浮出 */
+    --xxt-dot: #FF5F57;
+    --xxt-dot-x: transparent;
+    transition: transform var(--t-fast) var(--ease-pop);
 }
 
 .uac-close-btn:hover {
-    opacity: 1;
-    background: var(--paper-3);
+    --xxt-dot-x: rgba(0, 0, 0, .58);
+    transform: scale(1.1);
+}
+
+.uac-close-btn:active {
+    transform: scale(.94);
 }
 
 .uac-content {
@@ -1770,6 +1930,7 @@ body.customizing .customize-grid-overlay {
 }
 
 .uac-banner {
+    position: relative;
     display: flex;
     align-items: center;
     gap: 11px;
@@ -1778,6 +1939,21 @@ body.customizing .customize-grid-overlay {
     border-radius: var(--r-md);
     padding: 12px 14px;
     margin-bottom: 13px;
+}
+
+/* 左上角一小片胶带,把它"贴"在对话框上 */
+.uac-banner::before {
+    content: "";
+    position: absolute;
+    top: -7px;
+    left: 16px;
+    width: 46px;
+    height: 15px;
+    background: rgba(255, 210, 31, .58);
+    border-radius: 2px;
+    transform: rotate(-3deg);
+    box-shadow: 0 1px 2px rgba(61, 58, 56, .12);
+    pointer-events: none;
 }
 
 .uac-banner-icon {
@@ -1849,6 +2025,25 @@ body.customizing .customize-grid-overlay {
 .uac-btn:active {
     transform: translateY(1px);
     box-shadow: none;
+}
+
+/* 「继续」是主操作:填色按钮,一眼看得出该点哪个
+   (第一个按钮 = 继续,第二个 = 取消) */
+.uac-buttons-right .uac-btn:first-child {
+    color: #FFFFFF;
+    background: var(--c-teal);
+    border-color: var(--c-teal);
+    box-shadow: 0 2px 6px -2px rgba(14, 158, 146, .55);
+}
+
+.uac-buttons-right .uac-btn:first-child:hover {
+    background: #0C8C82;
+    box-shadow: 0 4px 12px -3px rgba(14, 158, 146, .6);
+}
+
+/* 隐藏底部的 Vista 下框线(内容区自带纸边圆角) */
+.uac-content::before {
+    display: none;
 }
 
 /* ---------------------------------------------------------------
@@ -2750,6 +2945,21 @@ body {
 .xxt-deco-star {
     clip-path: polygon(50% 0%, 61% 39%, 100% 50%, 61% 61%, 50% 100%, 39% 61%, 0% 50%, 39% 39%);
     opacity: .28;
+}
+
+/* 圆角五角星:用 mask 裁出形状,颜色走 currentColor
+   (data URI 里的 currentColor 不会继承外层颜色,所以必须用 mask) */
+.xxt-deco-star-round {
+    background: currentColor;
+    opacity: .24;
+    -webkit-mask-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 2.6l2.7 5.9 6.4.7-4.8 4.3 1.3 6.3L12 16.6 6.4 19.8l1.3-6.3L2.9 9.2l6.4-.7z' fill='%23000' stroke='%23000' stroke-width='2.6' stroke-linejoin='round' stroke-linecap='round'/%3E%3C/svg%3E");
+    mask-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 2.6l2.7 5.9 6.4.7-4.8 4.3 1.3 6.3L12 16.6 6.4 19.8l1.3-6.3L2.9 9.2l6.4-.7z' fill='%23000' stroke='%23000' stroke-width='2.6' stroke-linejoin='round' stroke-linecap='round'/%3E%3C/svg%3E");
+    -webkit-mask-repeat: no-repeat;
+    mask-repeat: no-repeat;
+    -webkit-mask-position: center;
+    mask-position: center;
+    -webkit-mask-size: contain;
+    mask-size: contain;
 }
 
 .xxt-deco-tri {

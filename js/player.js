@@ -228,8 +228,25 @@
     var wmpInfo = document.getElementById('wmp-info');
     var playImg = document.getElementById('play-img');
     var track = document.getElementById('wmp-track');
+    var playerRoot = document.querySelector('.aero-player');
 
     if (!audio || !fill || !lyricTxt) return; // 非首页没有播放器
+
+    // 播放/暂停状态同步到容器上。
+    // 旧主题靠换 <img src>(下面照旧保留),手账主题下按钮已被换成 <svg>,
+    // 只能靠这个 class 让 CSS 决定显示播放还是暂停图标。
+    function setPlayingUI(isPlaying) {
+      if (playImg && playImg.tagName === 'IMG') {
+        playImg.src = isPlaying ? 'media/assets/pause.png' : 'media/assets/play.png';
+      }
+      if (playerRoot) {
+        if (isPlaying) {
+          playerRoot.classList.add('is-playing');
+        } else {
+          playerRoot.classList.remove('is-playing');
+        }
+      }
+    }
 
     var currentIndex = 0;
 
@@ -259,7 +276,7 @@
         wmpInfo.innerHTML = "<strong>" + songs[index].title + "</strong> - " + (songs[index].author || "未知作者");
       }
       audio.play();
-      if (playImg) playImg.src = 'media/assets/pause.png';
+      setPlayingUI(true);
       var lis = document.querySelectorAll('.wmp-playlist li');
       for (var j = 0; j < lis.length; j++) lis[j].className = '';
       var activeLi = document.getElementById('song-' + index);
@@ -270,10 +287,10 @@
       if (!audio) return;
       if (audio.paused) {
         audio.play();
-        if (playImg) playImg.src = 'media/assets/pause.png';
+        setPlayingUI(true);
       } else {
         audio.pause();
-        if (playImg) playImg.src = 'media/assets/play.png';
+        setPlayingUI(false);
       }
     };
 

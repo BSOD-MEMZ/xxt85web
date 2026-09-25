@@ -155,6 +155,54 @@
     titlebar.appendChild(titleSpan);
     titlebar.appendChild(closeBtn);
 
+    // 手账主题下把关闭按钮换成矢量交通灯圆点。
+    // 精灵表是异步加载的(主站首页的 modern-sticker.js / 文章页的
+    // modern-sticker-article.js 负责),拿不到就保持 PNG,不影响关闭功能。
+    var uacSpriteTried = false;
+    var closeBtnUpgraded = false;
+
+    function ensureUacSprite(cb) {
+        if (window.XXT_ICON_SPRITE) { cb(); return; }
+        if (uacSpriteTried) return;
+        uacSpriteTried = true;
+        var s = document.createElement('script');
+        s.src = RP + 'js/modern-sticker-icons.js';
+        s.onload = cb;
+        s.onerror = function () { /* 保持 PNG */ };
+        document.head.appendChild(s);
+    }
+
+    function upgradeCloseBtn() {
+        if (closeBtnUpgraded) return;
+
+        ensureUacSprite(function () {
+            if (closeBtnUpgraded || !window.XXT_ICON_SPRITE) return;
+
+            if (!document.getElementById('xxt-icon-sprite')) {
+                var holder = document.createElement('div');
+                holder.id = 'xxt-icon-sprite';
+                holder.setAttribute('aria-hidden', 'true');
+                holder.innerHTML = window.XXT_ICON_SPRITE;
+                document.body.insertBefore(holder, document.body.firstChild);
+            }
+
+            var svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+            svg.setAttribute('class', 'xxt-ic');
+            svg.setAttribute('data-icon', 'close-dot');
+            svg.setAttribute('aria-hidden', 'true');
+            svg.setAttribute('focusable', 'false');
+            var use = document.createElementNS('http://www.w3.org/2000/svg', 'use');
+            use.setAttribute('href', '#i-close-dot');
+            svg.appendChild(use);
+
+            closeBtnUpgraded = true;
+            closeBtn.parentNode.replaceChild(svg, closeBtn);
+            svg.style.cursor = 'pointer';
+            svg.style.flex = 'none';
+            svg.addEventListener('click', function (e) { e.preventDefault(); onNo(); });
+        });
+    }
+
     // 内容区
     var content = document.createElement('div');
     content.className = 'uac-content';
@@ -258,6 +306,18 @@
         playSound('media/assets/uac.wav');
         dialog.tabIndex = -1;
         dialog.focus();
+
+        /* 只在手账主题下做矢量化改造:默认主题保持原样 */
+        try {
+            var theme = localStorage.getItem('theme') || '';
+            if (theme.indexOf('modern-sticker') > -1) {
+                upgradeCloseBtn();
+                // 精灵表是异步加载的 —— 大约 1s 后再试一次
+                setTimeout(upgradeCloseBtn, 900);
+            }
+        } catch (err) {
+            /* 隐私模式下读不到 localStorage,保持 PNG */
+        }
     }
 
     if (document.readyState === 'loading') {

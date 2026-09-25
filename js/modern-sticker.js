@@ -350,7 +350,9 @@
        5. 图标:Phosphor sprite 替换
        ----------------------------------------------------------------- */
     var ICON_SELECTOR = 'img[src*="images/icons/"], img[src$="/hot.png"], ' +
-        'img[src$="/busy.png"], img[src$="/Window_CloseButton.png"]';
+        'img[src$="/busy.png"], img[src$="/Window_CloseButton.png"], ' +
+        'img[src*="media/assets/prev.png"], img[src*="media/assets/next.png"], ' +
+        'img[src*="media/assets/play.png"], img[src*="media/assets/pause.png"]';
     var SVG_NS = 'http://www.w3.org/2000/svg';
 
     var iconState = {
@@ -392,6 +394,34 @@
             var name = src.split('/').pop().split('?')[0].split('#')[0];
             var id = map[name];
             if (!id) continue;
+
+            // 播放键特殊处理:一个按钮要在"播放/暂停"两个图标间切换,
+            // 而矢量图标没法换 src —— 所以把两枚 symbol 一起塞进去,
+            // 由 CSS 根据 .aero-player.is-playing 决定显示哪个。
+            if (img.id === 'play-img') {
+                var svgBoth = document.createElementNS(SVG_NS, 'svg');
+                svgBoth.setAttribute('class', 'xxt-ic');
+                svgBoth.setAttribute('data-icon', 'play');
+                svgBoth.setAttribute('aria-hidden', 'true');
+                svgBoth.setAttribute('focusable', 'false');
+
+                var playUse = document.createElementNS(SVG_NS, 'use');
+                playUse.setAttribute('href', '#i-play');
+                playUse.setAttribute('class', 'xxt-play-icon');
+
+                var pauseUse = document.createElementNS(SVG_NS, 'use');
+                pauseUse.setAttribute('href', '#i-pause');
+                pauseUse.setAttribute('class', 'xxt-pause-icon');
+
+                svgBoth.appendChild(playUse);
+                svgBoth.appendChild(pauseUse);
+
+                if (img.parentNode) {
+                    img.parentNode.replaceChild(svgBoth, img);
+                    iconState.pairs.push({ svg: svgBoth, img: img });
+                }
+                continue;
+            }
 
             var svg = document.createElementNS(SVG_NS, 'svg');
             svg.setAttribute('class', img.className ? 'xxt-ic ' + img.className : 'xxt-ic');
@@ -554,6 +584,17 @@
         undo.textContent = '撤销';
         undo.addEventListener('click', function () {
             win.classList.remove('window-hidden');
+
+            // 贴回去:与"撕下来"对应的反向动画
+            if (!reduceMotion) {
+                win.classList.remove('xxt-restoring');
+                void win.offsetWidth;
+                win.classList.add('xxt-restoring');
+                window.setTimeout(function () {
+                    win.classList.remove('xxt-restoring');
+                }, 340);
+            }
+
             syncCustomizePanel(win);
             removeInfobar();
         });
@@ -586,6 +627,31 @@
         infobar = bar;
     }
 
+    /* 删除组件的动画:先把卡片"撕下来"再收起。
+       顺序 —— 轻微放大+抬升(像被捏住) → 侧倾缩小并淡出 → 加 window-hidden。
+       全程约 340ms;开了「减少动态效果」或事件被打断时直接收尾。 */
+    function animateRemove(win, done) {
+        if (reduceMotion) { done(); return; }
+
+        var finished = false;
+        var timer = null;
+
+        function finish() {
+            if (finished) return;
+            finished = true;
+            if (timer) clearTimeout(timer);
+            win.removeEventListener('animationend', finish);
+            win.classList.remove('xxt-removing');
+            done();
+        }
+
+        win.classList.remove('xxt-removing');
+        void win.offsetWidth;               // 强制重排,让动画能重复播放
+        win.classList.add('xxt-removing');
+        win.addEventListener('animationend', finish, { once: true });
+        timer = setTimeout(finish, 480);    // 兜底
+    }
+
     function initSidebarClose() {
         var sidebar = document.getElementById('sidebarContainer');
         if (!sidebar) return;
@@ -600,10 +666,16 @@
             var win = btn.closest('.window');
             if (!win) return;
             if (win.getAttribute('data-sidebar-id') === 'function') return;
+            if (win.classList.contains('window-hidden')) return;
 
-            win.classList.add('window-hidden');
-            syncCustomizePanel(win);
-            showInfobar(win);
+            // 动画期间先把卡片锁住,避免连点导致状态错乱
+            if (win.classList.contains('xxt-removing')) return;
+
+            animateRemove(win, function () {
+                win.classList.add('window-hidden');
+                syncCustomizePanel(win);
+                showInfobar(win);
+            });
         });
     }
 
@@ -651,7 +723,11 @@
         ['ring',   34, '#1478C4', '94%', '58%', .20, 12],
         ['tri',    14, '#3FC7BE', '24%', '88%', .14, 7],
         ['dot',    20, '#B08BE8', '52%', '40%', .24, 8],
-        ['square', 14, '#1478C4', '82%', '92%', .19, 6]
+        ['square', 14, '#1478C4', '82%', '92%', .19, 6],
+        /* 圆角五角星:比四角闪光更"玩具"一点,呼应贴纸的钝角 */
+        ['star-round', 28, '#D08A00', '38%', '54%', .13, 10],
+        ['star-round', 20, '#E0416E', '64%', '84%', .21, 8],
+        ['star-round', 24, '#0E9E92', '12%', '34%', .17, 9]
     ];
 
     function buildDeco() {
@@ -756,6 +832,13 @@
                 if (iconState.on) restoreIcons();
                 removeInfobar();
                 removeDeco();
+
+                // 切回旧主题时清掉动画过程中残留的状态类,
+                // 否则中途切换会留下半透明的卡片
+                var animating = document.querySelectorAll('.xxt-removing, .xxt-restoring');
+                for (var i = 0; i < animating.length; i++) {
+                    animating[i].classList.remove('xxt-removing', 'xxt-restoring');
+                }
             }
         }
 

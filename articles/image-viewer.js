@@ -77,12 +77,8 @@
 
         // 初始化按钮状态（只有一张图片的情况）
         if (images.length === 1) {
-            prevBtn.src = 'left-disable.png';
-            prevBtn.style.opacity = '0.5';
-            prevBtn.style.cursor = 'not-allowed';
-            nextBtn.src = 'right-disable.png';
-            nextBtn.style.opacity = '0.5';
-            nextBtn.style.cursor = 'not-allowed';
+            setNavState(prevBtn, true, 'left.png', 'left_disable.png');
+            setNavState(nextBtn, true, 'right.png', 'right_disable.png');
         }
 
         // 点击背景关闭
@@ -117,29 +113,56 @@
         modal.classList.add('active');
         
         // 更新导航按钮图片和状态
+        // 新主题下按钮已被换成 <svg>,所以状态用 class(is-disabled)表达,
+        // 只有按钮仍是 <img> 时才回退到换图。
         if (prevBtn && nextBtn) {
-            if (currentImageIndex === 0) {
-                prevBtn.src = 'left_disable.png';
-                prevBtn.style.cursor = 'not-allowed';
-            } else {
-                prevBtn.src = 'left.png';
-                prevBtn.style.cursor = 'pointer';
-            }
-            
-            if (currentImageIndex === images.length - 1) {
-                nextBtn.src = 'right_disable.png';
-                nextBtn.style.cursor = 'not-allowed';
-            } else {
-                nextBtn.src = 'right.png';
-                nextBtn.style.cursor = 'pointer';
-            }
+            var atFirst = currentImageIndex === 0;
+            var atLast = currentImageIndex === images.length - 1;
+
+            setNavState(prevBtn, atFirst, 'left.png', 'left_disable.png');
+            setNavState(nextBtn, atLast, 'right.png', 'right_disable.png');
+        }
+    }
+
+    function setNavState(btn, disabled, normalSrc, disabledSrc) {
+        if (btn.tagName === 'IMG') {
+            btn.src = disabled ? disabledSrc : normalSrc;
+            btn.style.opacity = disabled ? '0.5' : '';
+            btn.style.cursor = disabled ? 'not-allowed' : 'pointer';
+            return;
+        }
+        // 矢量按钮:只切 class,样式由 CSS 接管
+        if (disabled) {
+            btn.classList.add('is-disabled');
+        } else {
+            btn.classList.remove('is-disabled');
         }
     }
 
     // 关闭模态框
+    // closing 类先播退场动画,动画结束(或兜底超时)再真正隐藏。
+    // 连点 / 快速 ESC 用 _closing 标记挡住,避免动画被反复打断。
     function closeModal(modal) {
-        modal.classList.remove('active');
-        currentImageIndex = -1;
+        if (modal._closing) return;
+        modal._closing = true;
+        modal.classList.add('closing');
+
+        var done = false;
+        function finish() {
+            if (done) return;
+            done = true;
+            if (modal._closeTimer) {
+                clearTimeout(modal._closeTimer);
+                modal._closeTimer = null;
+            }
+            modal.classList.remove('active', 'closing');
+            modal._closing = false;
+            currentImageIndex = -1;
+        }
+
+        modal.addEventListener('animationend', finish, { once: true });
+        // 兜底:用户开了「减少动态效果」时动画会被禁用,这里保证一定收尾
+        modal._closeTimer = setTimeout(finish, 320);
     }
 
     // DOM加载完成后初始化
@@ -204,12 +227,20 @@
                         document.body.removeChild(ta);
                     }
 
-                    // 反馈：闪烁效果
-                    copyBtn.className = 'xxt-copy-btn xxt-copied';
-                    clearTimeout(copyBtn._t);
-                    copyBtn._t = setTimeout(function () {
-                        copyBtn.className = 'xxt-copy-btn';
-                    }, 1500);
+                    // 反馈:原图标缩小消失 → 绿色对勾浮出 → 还原成复制按钮
+                    // 用两段定时器串起来(IE 兼容,不用 class 动画的 animationend)
+                    copyBtn.className = 'xxt-copy-btn xxt-copy-shrink';
+                    clearTimeout(copyBtn._t1);
+                    clearTimeout(copyBtn._t2);
+                    copyBtn._t1 = setTimeout(function () {
+                        copyBtn.className = 'xxt-copy-btn xxt-copy-check';
+                        copyBtn._t2 = setTimeout(function () {
+                            copyBtn.className = 'xxt-copy-btn xxt-copy-out';
+                            copyBtn._t3 = setTimeout(function () {
+                                copyBtn.className = 'xxt-copy-btn';
+                            }, 200);
+                        }, 900);
+                    }, 180);
                 };
             })(pres[i]);
         }

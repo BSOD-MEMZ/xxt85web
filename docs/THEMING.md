@@ -82,6 +82,7 @@ link.href = rootPath + (localStorage['theme'] || 'style.css');
 | `modern-sticker.js` | 顶栏搜索框 | `searchBox.style.display = 'none'` |
 | `modern-sticker.js` | 背景装饰层 | `removeDeco()` 移除节点 |
 | `modern-sticker.js` | 侧栏提示条 | `removeInfobar()` |
+| `modern-sticker.js` | 侧栏删除动画的状态类 | `sync()` 里清掉 `.xxt-removing` / `.xxt-restoring` |
 
 统一监听 `#themeCss` 的 `href` 变化来判断是否切走：
 
@@ -90,6 +91,20 @@ new MutationObserver(sync).observe(link, { attributes: true, attributeFilter: ['
 ```
 
 **新增任何注入，都要在这个 `sync()` 里补上还原分支。**
+
+### 播放键是个例外
+
+`#play-img` 一个按钮要在「播放 / 暂停」两个图标间切换，而矢量图标没法换 `src`。
+做法：`modern-sticker.js` 把 `#i-play` 与 `#i-pause` 两枚 symbol 一起塞进同一个 `<svg>`，
+由 CSS 按 `.aero-player.is-playing` 决定显示哪一个。
+`player.js` 里 `setPlayingUI()` 负责同步这个 class（旧主题下它仍然照旧换 `<img src>`）。
+
+### UAC 的关闭按钮不要碰
+
+`js/uac.js` 自己给那枚 `<img class="uac-close-btn">` 绑了点击事件。
+文章页的图标替换若把它一并换掉，事件会连元素一起消失 ——
+所以 `articles/modern-sticker-article.js` 的 `ICON_SELECTOR` 里显式排除了 `.uac-close-btn`，
+矢量化改由 `uac.js` 的 `upgradeCloseBtn()` 自己完成。
 
 ---
 
@@ -153,6 +168,22 @@ articles/modern-sticker-article.js   配套脚本（只做图标矢量化）
 **这不是额外开销**：用户在首页已经加载过同一个 URL，文章页再引用会命中浏览器缓存。
 `modern-sticker-article.js` 只做注入 sprite + 替换 `<img>`，不引入主站的
 `modern-sticker.js`——背景装饰、搜索框、卡片化那些是首页的东西，放进阅读页只会分散注意力。
+
+图片查看器（`image-viewer.js` 运行时生成）与 UAC 对话框（`uac.js` 运行时生成）里的图标
+都在 `DOMContentLoaded` 之后才出现，所以 `modern-sticker-article.js` 挂了一个
+`MutationObserver` 兜底；首次 `swapIcons()` 同步执行，已经存在的图标也一并处理。
+
+### 文章页的错误处理约定
+
+`articles/image-viewer.js` 里有两处「不能靠元素属性表达状态」的地方：
+
+- **复制按钮的三段反馈**：矢量图标无法换 `src`，所以按下后走
+  `xxt-copy-shrink`（方框缩小消失）→ `xxt-copy-check`（绿勾用伪元素画）→ `xxt-copy-out` → 复位，
+  用两段 `setTimeout` 串起来（不用 `animationend`，保持 IE 兼容）。
+- **图片查看器的关闭动画**：`.closing` 类先播退场动画，靠 `animationend` + 320ms 兜底
+  再真正隐藏；`_closing` 标记挡住连点与快速 ESC。
+- **左右键的禁用态**：按钮被换成 `<svg>` 后 `.src` 赋值失效，改由 `setNavState()`
+  切 `.is-disabled` 类（`<img>` 时仍回退到换图，保证旧主题不变）。
 
 ### 特例
 
