@@ -83,9 +83,6 @@
         '<rect width="200" height="140" fill="url(#xxtWireWall)"/>' +
         '<rect width="200" height="16" fill="url(#xxtWireTitle)"/>' +
         '<rect x="7" y="6" width="26" height="5" rx="1" fill="#FFFFFF" opacity=".75"/>' +
-        '<rect x="156" y="5" width="10" height="6" rx="1.5" fill="#FFFFFF" opacity=".3"/>' +
-        '<rect x="169" y="5" width="10" height="6" rx="1.5" fill="#FFFFFF" opacity=".3"/>' +
-        '<rect x="182" y="5" width="11" height="6" rx="1.5" fill="#C4574F" opacity=".9"/>' +
         '<rect y="16" width="200" height="12" fill="url(#xxtWireMenu)"/>' +
         '<rect x="6" y="20" width="14" height="4" rx="1" fill="#7C8BA8"/>' +
         '<rect x="24" y="20" width="14" height="4" rx="1" fill="#7C8BA8"/>' +
@@ -151,26 +148,28 @@
         'align-items:center;justify-content:center;padding:20px;background:rgba(0,0,0,.45);',
         'font-family:"Microsoft YaHei UI","Microsoft YaHei",sans-serif;}',
         '.xxt-picker{width:min(720px,100%);max-height:88vh;overflow:auto;position:relative;}',
-        '.xxt-picker-lead{margin:0 0 14px;font-size:13px;line-height:1.75;color:#3D3A38;}',
-        '.xxt-picker-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:16px;}',
-        '.xxt-picker-card{display:block;width:100%;padding:10px;background:#FFFFFF;',
-        'border:2px solid #DCD6C8;border-radius:9px;cursor:pointer;text-align:left;',
-        'transition:border-color .15s ease,transform .15s ease,box-shadow .15s ease;}',
-        '.xxt-picker-card:hover{transform:translateY(-2px);box-shadow:0 6px 16px -8px rgba(0,0,0,.25);}',
-        '.xxt-picker-card.is-active{border-color:#3FC7BE;box-shadow:0 0 0 3px rgba(63,199,190,.25);}',
-        '.xxt-picker-card svg{display:block;width:100%;height:auto;border-radius:5px;}',
-        '.xxt-picker-name{display:block;margin-top:9px;font-size:13px;font-weight:500;color:#3D3A38;}',
-        '.xxt-picker-note{display:block;font-size:11px;color:#8C8578;margin-top:2px;}',
+        '.window.vista-dialog.xxt-picker > .window-content{padding:16px 18px 18px;}',
+        '.xxt-picker-lead{margin:0 0 15px;font-size:13px;line-height:1.8;color:#3D3A38;}',
+        '.xxt-picker-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:18px;}',
+        '.xxt-picker-card{display:block;width:100%;padding:8px 8px 10px;cursor:pointer;text-align:left;',
+        'background:linear-gradient(to bottom,#F2F2F2,#EBEBEB 50%,#DDDDDD 51%,#CFCFCF);',
+        'border:1px solid #707070;border-radius:3px;',
+        'transition:background .3s ease,border-color .3s ease;}',
+        '.xxt-picker-card:hover{',
+        'background:linear-gradient(to bottom,#E9F5FF,#D8EAFF 50%,#C4E0FF 51%,#B3D5FF);',
+        'border-color:#3C7FB1;}',
+        '.xxt-picker-card:active{background:rgba(180,210,240,.9);}',
+        '.xxt-picker-card.is-active{',
+        'background:linear-gradient(to bottom,#E1EFFF,#C8DFF8 50%,#B1D2F0 51%,#9FC5E8);',
+        'border-color:#3C7FB1;}',
+        '.xxt-picker-card svg{display:block;width:100%;height:auto;border-radius:2px;}',
+        '.xxt-picker-name{display:block;margin-top:9px;font-size:12px;font-weight:700;color:#000;}',
+        '.xxt-picker-note{display:block;font-size:11px;color:#555;margin-top:2px;font-weight:400;}',
         '.xxt-picker-foot{display:flex;align-items:center;justify-content:space-between;',
-        'gap:12px;flex-wrap:wrap;padding-top:14px;border-top:1px solid #E5E0D5;}',
+        'gap:12px;flex-wrap:wrap;padding-top:16px;border-top:1px solid #D5D5D5;}',
         '.xxt-picker-never{display:inline-flex;align-items:center;gap:7px;font-size:13px;',
-        'color:#3D3A38;cursor:pointer;}',
+        'color:#000;cursor:pointer;}',
         '.xxt-picker-acts{display:flex;gap:8px;}',
-        '.xxt-picker-btn{font-family:inherit;font-size:13px;padding:7px 20px;cursor:pointer;',
-        'border:1px solid #C9C2B0;border-radius:5px;background:#F5F2E8;color:#3D3A38;}',
-        '.xxt-picker-btn:hover{background:#FFFFFF;}',
-        '.xxt-picker-btn-primary{background:#3FC7BE;border-color:#2AA79F;color:#FFFFFF;}',
-        '.xxt-picker-btn-primary:hover{background:#37B8AF;}',
         '@media (max-width:560px){.xxt-picker-grid{grid-template-columns:1fr;}}'
     ].join('');
 
@@ -222,7 +221,7 @@
         titlebar.className = 'window-titlebar settings-titlebar';
         titlebar.appendChild(document.createTextNode('选一个你喜欢的风格'));
         var closeImg = document.createElement('img');
-        closeImg.src = 'images/icons/close.png';
+        closeImg.src = 'images/Window_CloseButton.png';
         closeImg.className = 'vista-close-btn xxt-picker-close';
         closeImg.alt = '关闭';
         closeImg.title = '关闭';
@@ -275,12 +274,12 @@
 
         var btnCancel = document.createElement('button');
         btnCancel.type = 'button';
-        btnCancel.className = 'xxt-picker-btn';
+        btnCancel.className = 'vista-btn';
         btnCancel.textContent = '关闭';
 
         var btnOk = document.createElement('button');
         btnOk.type = 'button';
-        btnOk.className = 'xxt-picker-btn xxt-picker-btn-primary';
+        btnOk.className = 'vista-btn vista-btn-primary';
         btnOk.textContent = '确定';
 
         acts.appendChild(btnCancel);
@@ -309,11 +308,14 @@
             if (overlay.parentNode) overlay.parentNode.removeChild(overlay);
         }
 
-        // 确定:保留预览到的主题,记为已选择
+        // 确定:保留预览到的主题,记为已选择,并立刻刷新
         btnOk.addEventListener('click', function () {
             write(KEY_THEME, chosenTheme);
             write(KEY_PICKED, '1');
             destroy();
+            // 刷新一次,让新主题从头完整加载(配套脚本、图标、卡片都重新走一遍),
+            // 否则停留在预览状态时,部分只会加载一次的脚本不会生效。
+            window.location.reload();
         });
 
         // 关闭:撤销预览,恢复进来时的主题;勾了"不再提醒"才永久停用

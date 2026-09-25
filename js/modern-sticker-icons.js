@@ -73,7 +73,8 @@ window.XXT_ICON_MAP = {
   "qq.png": "i-brand-tencentqq",
   "wechat.png": "i-brand-wechat",
   "github.png": "i-brand-github",
-  "close.png": "i-close-dot"
+  "close.png": "i-close-dot",
+  "Window_CloseButton.png": "i-close-dot"
 };
 
 window.XXT_ICON_BRAND = [

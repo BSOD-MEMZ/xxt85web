@@ -349,7 +349,8 @@
     /* -----------------------------------------------------------------
        5. 图标:Phosphor sprite 替换
        ----------------------------------------------------------------- */
-    var ICON_SELECTOR = 'img[src*="images/icons/"], img[src$="/hot.png"], img[src$="/busy.png"]';
+    var ICON_SELECTOR = 'img[src*="images/icons/"], img[src$="/hot.png"], ' +
+        'img[src$="/busy.png"], img[src$="/Window_CloseButton.png"]';
     var SVG_NS = 'http://www.w3.org/2000/svg';
 
     var iconState = {
