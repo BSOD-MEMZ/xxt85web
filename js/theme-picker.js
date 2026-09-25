@@ -55,29 +55,58 @@
        ----------------------------------------------------------------- */
     var WIRE_VISTA =
         '<svg viewBox="0 0 200 140" xmlns="http://www.w3.org/2000/svg">' +
-        '<rect width="200" height="140" fill="#DCE6F2"/>' +
-        '<rect width="200" height="17" fill="#3B6EA5"/>' +
-        '<circle cx="9" cy="8.5" r="3.4" fill="#FFFFFF" opacity=".85"/>' +
-        '<rect x="150" y="4.5" width="42" height="8" rx="2" fill="#FFFFFF" opacity=".45"/>' +
-        '<rect y="17" width="200" height="12" fill="#E5EAF5"/>' +
-        '<rect x="6" y="21" width="15" height="4" rx="1" fill="#93A2BD"/>' +
-        '<rect x="25" y="21" width="15" height="4" rx="1" fill="#93A2BD"/>' +
-        '<rect x="44" y="21" width="15" height="4" rx="1" fill="#93A2BD"/>' +
-        '<rect x="8" y="36" width="120" height="96" fill="#FFFFFF" stroke="#8FA9C9"/>' +
-        '<rect x="8" y="36" width="120" height="13" fill="#5B8DBE"/>' +
-        '<rect x="15" y="40.5" width="34" height="4" rx="1" fill="#FFFFFF" opacity=".8"/>' +
+        '<defs>' +
+        '<linearGradient id="xxtWireTitle" x1="0" y1="0" x2="0" y2="1">' +
+        '<stop offset="0" stop-color="#7A7979"/>' +
+        '<stop offset="0.5" stop-color="#3B3D3E"/>' +
+        '<stop offset="0.51" stop-color="#060F11"/>' +
+        '<stop offset="1" stop-color="#133C50"/>' +
+        '</linearGradient>' +
+        '<linearGradient id="xxtWireMenu" x1="0" y1="0" x2="0" y2="1">' +
+        '<stop offset="0" stop-color="#FEFEFE"/>' +
+        '<stop offset="0.3" stop-color="#E5EAF5"/>' +
+        '<stop offset="0.31" stop-color="#D4DBED"/>' +
+        '<stop offset="1" stop-color="#E1E6F6"/>' +
+        '</linearGradient>' +
+        '<linearGradient id="xxtWireWall" x1="0" y1="0" x2="1" y2="1">' +
+        '<stop offset="0" stop-color="#3E93A6"/>' +
+        '<stop offset="0.45" stop-color="#8FD2D6"/>' +
+        '<stop offset="1" stop-color="#256E88"/>' +
+        '</linearGradient>' +
+        '<linearGradient id="xxtWireBar" x1="0" y1="0" x2="0" y2="1">' +
+        '<stop offset="0" stop-color="#82AFBE"/>' +
+        '<stop offset="0.5" stop-color="#498BA0"/>' +
+        '<stop offset="0.51" stop-color="#115E77"/>' +
+        '<stop offset="1" stop-color="#529CAB"/>' +
+        '</linearGradient>' +
+        '</defs>' +
+        '<rect width="200" height="140" fill="url(#xxtWireWall)"/>' +
+        '<rect width="200" height="16" fill="url(#xxtWireTitle)"/>' +
+        '<rect x="7" y="6" width="26" height="5" rx="1" fill="#FFFFFF" opacity=".75"/>' +
+        '<rect x="156" y="5" width="10" height="6" rx="1.5" fill="#FFFFFF" opacity=".3"/>' +
+        '<rect x="169" y="5" width="10" height="6" rx="1.5" fill="#FFFFFF" opacity=".3"/>' +
+        '<rect x="182" y="5" width="11" height="6" rx="1.5" fill="#C4574F" opacity=".9"/>' +
+        '<rect y="16" width="200" height="12" fill="url(#xxtWireMenu)"/>' +
+        '<rect x="6" y="20" width="14" height="4" rx="1" fill="#7C8BA8"/>' +
+        '<rect x="24" y="20" width="14" height="4" rx="1" fill="#7C8BA8"/>' +
+        '<rect x="42" y="20" width="14" height="4" rx="1" fill="#7C8BA8"/>' +
+        '<rect x="60" y="20" width="14" height="4" rx="1" fill="#7C8BA8"/>' +
+        '<rect x="8" y="35" width="120" height="97" fill="#FFFFFF" stroke="#2CD3FE"/>' +
+        '<rect x="9" y="36" width="118" height="13" fill="url(#xxtWireBar)"/>' +
+        '<rect x="15" y="40.5" width="32" height="4" rx="1" fill="#FFFFFF" opacity=".85"/>' +
         '<rect x="15" y="58" width="104" height="5" rx="1" fill="#C7D5E6"/>' +
         '<rect x="15" y="70" width="92" height="5" rx="1" fill="#C7D5E6"/>' +
         '<rect x="15" y="82" width="98" height="5" rx="1" fill="#C7D5E6"/>' +
         '<rect x="15" y="94" width="76" height="5" rx="1" fill="#C7D5E6"/>' +
-        '<rect x="136" y="36" width="56" height="42" fill="#FFFFFF" stroke="#8FA9C9"/>' +
-        '<rect x="136" y="36" width="56" height="11" fill="#5B8DBE"/>' +
-        '<rect x="141" y="53" width="46" height="4" rx="1" fill="#C7D5E6"/>' +
-        '<rect x="141" y="63" width="38" height="4" rx="1" fill="#C7D5E6"/>' +
-        '<rect x="136" y="84" width="56" height="48" fill="#FFFFFF" stroke="#8FA9C9"/>' +
-        '<rect x="136" y="84" width="56" height="11" fill="#5B8DBE"/>' +
-        '<rect x="141" y="101" width="46" height="4" rx="1" fill="#C7D5E6"/>' +
-        '<rect x="141" y="111" width="34" height="4" rx="1" fill="#C7D5E6"/>' +
+        '<rect x="15" y="106" width="88" height="5" rx="1" fill="#C7D5E6"/>' +
+        '<rect x="136" y="35" width="56" height="44" fill="#FFFFFF" stroke="#2CD3FE"/>' +
+        '<rect x="137" y="36" width="54" height="11" fill="url(#xxtWireBar)"/>' +
+        '<rect x="141" y="54" width="46" height="4" rx="1" fill="#C7D5E6"/>' +
+        '<rect x="141" y="64" width="38" height="4" rx="1" fill="#C7D5E6"/>' +
+        '<rect x="136" y="86" width="56" height="46" fill="#FFFFFF" stroke="#2CD3FE"/>' +
+        '<rect x="137" y="87" width="54" height="11" fill="url(#xxtWireBar)"/>' +
+        '<rect x="141" y="105" width="46" height="4" rx="1" fill="#C7D5E6"/>' +
+        '<rect x="141" y="115" width="34" height="4" rx="1" fill="#C7D5E6"/>' +
         '</svg>';
 
     var WIRE_STICKER =
