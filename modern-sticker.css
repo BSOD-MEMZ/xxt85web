@@ -99,9 +99,12 @@ body {
     --mobile-bg: none;
 }
 
-/* 纸面层:不透明纸色 + 彩色光晕 + 极淡网格。
-   刻意不引用任何壁纸图片 —— 原先那层半透明的罩子底下还露着 Vista 壁纸的构图,
-   眯眼看依然像旧主题。现在整块换成主题自己的纸面。 */
+/* 纸面层:不透明纸色 + 三枚大圆形色块 + 极淡网格。
+   色块的做法直接照搬首次访问引导里那张"手账贴纸"骨架预览(WIRE_STICKER):
+   三个偏置的实心圆、低透明度、无羽化边界 —— 是"贴纸"而不是"渐变光晕"。
+   原先的 radial-gradient 是柔和的雾状光晕,视觉上仍偏旧主题的 Aero 味;
+   换成硬边圆形色块后,一眼就是拼贴本的气质。
+   (刻意不引用任何壁纸图片,整块用主题自己的纸面) */
 body::before {
     content: "";
     position: fixed;
@@ -110,47 +113,50 @@ body::before {
     pointer-events: none;
     background-color: var(--paper);
     background-image:
-        radial-gradient(circle at 14% 16%, rgba(255, 122, 138, .17), transparent 42%),
-        radial-gradient(circle at 86% 10%, rgba(63, 199, 190, .17), transparent 46%),
-        radial-gradient(circle at 76% 88%, rgba(255, 210, 31, .19), transparent 44%),
+        /* ── 三枚大圆:位置 / 尺寸取自骨架预览的比例,放到全视口上 ── */
+        radial-gradient(circle 34vmin at 15% 18%, rgba(255, 122, 138, .16) 99.5%, transparent 100%),
+        radial-gradient(circle 38vmin at 88% 80%, rgba(63, 199, 190, .16) 99.5%, transparent 100%),
+        radial-gradient(circle 26vmin at 78% 13%, rgba(255, 210, 31, .18) 99.5%, transparent 100%),
+        /* ── 纸面网格:24px 方格,极淡 ── */
         linear-gradient(rgba(61, 58, 56, .032) 1px, transparent 1px),
         linear-gradient(90deg, rgba(61, 58, 56, .032) 1px, transparent 1px);
     background-size: auto, auto, auto, 24px 24px, 24px 24px;
+    background-repeat: no-repeat, no-repeat, no-repeat, repeat, repeat;
 }
 
-/* 原有的"切换背景"按钮在新主题里改为切换纸面色调 */
+/* 原有的"切换背景"按钮在新主题里改为换一组色块配色 */
 html[data-xxt-bg="1"] body::before {
     background-image:
-        radial-gradient(circle at 20% 14%, rgba(95, 184, 240, .22), transparent 44%),
-        radial-gradient(circle at 82% 20%, rgba(176, 139, 232, .18), transparent 46%),
-        radial-gradient(circle at 70% 86%, rgba(63, 199, 190, .17), transparent 44%),
+        radial-gradient(circle 34vmin at 20% 16%, rgba(95, 184, 240, .20) 99.5%, transparent 100%),
+        radial-gradient(circle 38vmin at 84% 78%, rgba(176, 139, 232, .18) 99.5%, transparent 100%),
+        radial-gradient(circle 26vmin at 72% 12%, rgba(63, 199, 190, .18) 99.5%, transparent 100%),
         linear-gradient(rgba(61, 58, 56, .032) 1px, transparent 1px),
         linear-gradient(90deg, rgba(61, 58, 56, .032) 1px, transparent 1px);
 }
 
 html[data-xxt-bg="2"] body::before {
     background-image:
-        radial-gradient(circle at 16% 20%, rgba(224, 65, 110, .16), transparent 44%),
-        radial-gradient(circle at 84% 14%, rgba(208, 138, 0, .18), transparent 46%),
-        radial-gradient(circle at 74% 86%, rgba(255, 122, 138, .16), transparent 44%),
+        radial-gradient(circle 34vmin at 16% 20%, rgba(224, 65, 110, .16) 99.5%, transparent 100%),
+        radial-gradient(circle 38vmin at 86% 16%, rgba(208, 138, 0, .18) 99.5%, transparent 100%),
+        radial-gradient(circle 26vmin at 74% 84%, rgba(255, 122, 138, .17) 99.5%, transparent 100%),
         linear-gradient(rgba(61, 58, 56, .032) 1px, transparent 1px),
         linear-gradient(90deg, rgba(61, 58, 56, .032) 1px, transparent 1px);
 }
 
 html[data-xxt-bg="3"] body::before {
     background-image:
-        radial-gradient(circle at 18% 12%, rgba(122, 69, 214, .16), transparent 44%),
-        radial-gradient(circle at 86% 18%, rgba(63, 199, 190, .18), transparent 46%),
-        radial-gradient(circle at 68% 88%, rgba(95, 184, 240, .16), transparent 44%),
+        radial-gradient(circle 34vmin at 18% 14%, rgba(122, 69, 214, .16) 99.5%, transparent 100%),
+        radial-gradient(circle 38vmin at 86% 78%, rgba(63, 199, 190, .18) 99.5%, transparent 100%),
+        radial-gradient(circle 26vmin at 68% 86%, rgba(95, 184, 240, .17) 99.5%, transparent 100%),
         linear-gradient(rgba(61, 58, 56, .032) 1px, transparent 1px),
         linear-gradient(90deg, rgba(61, 58, 56, .032) 1px, transparent 1px);
 }
 
 html[data-xxt-bg="4"] body::before {
     background-image:
-        radial-gradient(circle at 22% 18%, rgba(255, 221, 122, .28), transparent 44%),
-        radial-gradient(circle at 80% 12%, rgba(255, 122, 138, .18), transparent 46%),
-        radial-gradient(circle at 72% 88%, rgba(47, 158, 63, .14), transparent 44%),
+        radial-gradient(circle 34vmin at 22% 18%, rgba(255, 221, 122, .26) 99.5%, transparent 100%),
+        radial-gradient(circle 38vmin at 82% 14%, rgba(255, 122, 138, .18) 99.5%, transparent 100%),
+        radial-gradient(circle 26vmin at 72% 86%, rgba(47, 158, 63, .15) 99.5%, transparent 100%),
         linear-gradient(rgba(61, 58, 56, .032) 1px, transparent 1px),
         linear-gradient(90deg, rgba(61, 58, 56, .032) 1px, transparent 1px);
 }
@@ -1375,13 +1381,12 @@ body.customizing .footer {
     transition: transform 900ms linear;
 }
 
-/* 播放中:封面缓慢旋转,像唱片(由 modern.js 切 .playing) */
-.aero-player.playing .wmp-album-art img {
-    animation: spinDisc 14s linear infinite;
-}
-
-@keyframes spinDisc {
-    to { transform: rotate(360deg); }
+/* 播放中封面像唱片一样转 —— 角度由 modern-sticker.js 逐帧写到行内 transform 上,
+   暂停时停在当前角度不回正。这里**不能**再挂 CSS animation:
+   animation 会覆盖行内 transform,一旦暂停被摘掉又会弹回 0deg。
+   (兜底:JS 没跑起来时封面就静止,不再有"转一下又弹回"的观感) */
+.aero-player .wmp-album-art img {
+    will-change: transform;
 }
 
 #lyric-wrapper {
@@ -1532,32 +1537,32 @@ img.wmp-dot,
    ⚠️ 必须用 `svg.xxt-ic` 把特异性抬到 (0,1,1),
    否则会被下面第 14d 节的 `.xxt-ic { display: inline-block }`(同为 0,1,0 但在文件更靠后)
    盖掉 —— 结果是 play / pause 两枚 symbol 同时画出来、叠在一起。 */
-#play-img,
-svg#play-img,
+/* 宿主 svg 本身:特异性 (0,1,1) 压过 .xxt-ic 的 (0,1,0) */
 svg.xxt-ic#play-img {
     display: block;
 }
 
+/* 两枚 symbol 默认全藏,再由下面两条按状态放行其中一枚。
+   顺序是硬要求:全藏必须排在两条放行规则之前 —— 反过来就会被掀掉,
+   两枚图标同时画出来,看着就是"播放暂停重叠"。 */
 svg#play-img use.xxt-play-icon,
 svg#play-img use.xxt-pause-icon {
     display: none;
 }
 
-.aero-player.is-playing svg#play-img use.xxt-pause-icon {
-    display: block;
-}
-
-.aero-player:not(.is-playing) svg#play-img use.xxt-play-icon {
-    display: block;
-}
-
-/* 兜底:万一 .aero-player 还没打上状态类,默认先显示"播放" */
+/* 未播放 → 只放行 play(这条同时兼任"还没打上状态类"的兜底) */
 svg#play-img use.xxt-play-icon {
     display: block;
 }
 
+/* 正在播放 → 收回 play,放行 pause
+   特异性 (0,2,2) > 上面那条 (0,1,1),稳稳压住 */
 .aero-player.is-playing svg#play-img use.xxt-play-icon {
     display: none;
+}
+
+.aero-player.is-playing svg#play-img use.xxt-pause-icon {
+    display: block;
 }
 
 .wmp-controls .xxt-ic {
@@ -1636,19 +1641,73 @@ svg#play-img use.xxt-play-icon {
     padding: 15px 16px 16px;
 }
 
+/* 对话框右上角的关闭键。
+   ⚠️ 这里的 <img> 不能被矢量化 —— 它的点击事件由 index.js 绑在元素实例上,
+   换成 <svg> 事件就没了(这就是"关闭按钮点不动"的原因)。
+   modern-sticker.js 会给它打 `data-xxt-keep` 跳过替换,外观改由 CSS 在这枚 <img>
+   自己身上画:把 PNG 内容推出可视区,再用伪元素画 macOS 交通灯圆点。 */
 .vista-close-btn {
-    width: 26px;
-    height: 26px;
+    position: relative;
+    width: 22px;
+    height: 22px;
     margin-left: auto;
+    padding: 0;
     cursor: pointer;
-    opacity: .75;
-    border-radius: var(--r-sm);
-    transition: opacity var(--t-fast) ease, background-color var(--t-fast) ease;
+    border-radius: 50%;
+    /* 清掉 PNG 画面 */
+    object-fit: none;
+    object-position: -9999px -9999px;
+    overflow: hidden;
+    background: none;
+    transition: transform var(--t-fast) var(--ease-pop);
+}
+
+/* 红点本体 */
+.vista-close-btn::before {
+    content: "";
+    position: absolute;
+    inset: 1px;
+    border-radius: 50%;
+    background: #FF5F57;
+    transition: background-color var(--t-fast) ease;
+}
+
+/* × 只在 hover 时浮出。
+   用两层 45° / -45° 渐变交叉成一个细十字 —— 比 clip-path 稳,
+   也不依赖第二个伪元素(::before 已经被红点占用了)。 */
+.vista-close-btn::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 8px;
+    height: 8px;
+    margin: -4px 0 0 -4px;
+    background:
+        linear-gradient(45deg, transparent calc(50% - 0.75px),
+                        rgba(0, 0, 0, .58) calc(50% - 0.75px),
+                        rgba(0, 0, 0, .58) calc(50% + 0.75px),
+                        transparent calc(50% + 0.75px)),
+        linear-gradient(-45deg, transparent calc(50% - 0.75px),
+                        rgba(0, 0, 0, .58) calc(50% - 0.75px),
+                        rgba(0, 0, 0, .58) calc(50% + 0.75px),
+                        transparent calc(50% + 0.75px));
+    opacity: 0;
+    transition: opacity var(--t-fast) ease;
+    pointer-events: none;
 }
 
 .vista-close-btn:hover {
+    transform: scale(1.1);
+    background: none;
+}
+
+.vista-close-btn:hover::after {
     opacity: 1;
-    background: var(--paper-3);
+}
+
+.vista-close-btn:active {
+    transform: scale(.94);
 }
 
 .vista-btn-primary {
@@ -2138,6 +2197,107 @@ body.customizing .customize-grid-overlay {
 .main .window-content h3:nth-of-type(4n+2) { color: var(--c-teal); }
 .main .window-content h3:nth-of-type(4n+3) { color: var(--c-amber); }
 .main .window-content h3:nth-of-type(4n+4) { color: var(--c-violet); }
+
+/* ---------------------------------------------------------------
+   14c. 无窗口包裹的页面(support/chomowan、articles.html、mirror 等)
+
+   这些页面 .main 下是"裸"的 h2 / p / h3 / hr,没有 .window-content,
+   于是上面那套窗口内规则一条都套不上;更要命的是 style.css 里
+   压根没有 hr 规则,<hr> 会以浏览器默认的 2px 内凹灰线出现 ——
+   在满纸拼贴里像一道裂口。这里一次性补齐。
+   --------------------------------------------------------------- */
+
+/* 分隔线:换成手账风格的虚线,两端略微收进,像撕纸的接缝 */
+.main > hr,
+.main hr {
+    height: 0;
+    margin: 20px 0;
+    border: 0;
+    border-top: 2px dashed var(--rule-dash);
+    background: none;
+    opacity: .85;
+}
+
+/* 裸 .main 里的正文卡片:让整块内容也落在纸上,与首页观感一致 */
+.main > h2:not(:first-child) {
+    margin-top: 22px;
+}
+
+/* 裸 .main 的三级小标题:左侧加一枚彩色小书签,和窗口内 h3 呼应 */
+.main > h3 {
+    position: relative;
+    padding-left: 14px;
+}
+
+.main > h3::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: .38em;
+    width: 6px;
+    height: 6px;
+    border-radius: 2px;
+    background: var(--c-teal);
+    transform: rotate(9deg);
+}
+
+.main > h3:nth-of-type(4n+1)::before { background: var(--c-blue); }
+.main > h3:nth-of-type(4n+2)::before { background: var(--c-teal); }
+.main > h3:nth-of-type(4n+3)::before { background: var(--c-amber); }
+.main > h3:nth-of-type(4n+4)::before { background: var(--c-violet); }
+
+/* 裸 .main 里指向站内的"返回主页"行(图标 + 链接)对齐一下 */
+.main > a {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.main > a img {
+    width: 15px;
+    height: 15px;
+}
+
+/* support/chomowan 的雷达图/剧情图是 canvas,给它们一张纸作底 */
+.main > canvas {
+    display: block;
+    max-width: 100%;
+    height: auto;
+    margin: 14px auto;
+    padding: 12px;
+    background: var(--paper-2);
+    border: 1px solid var(--rule);
+    border-radius: var(--r-md);
+    box-shadow: var(--sh-1);
+    box-sizing: content-box;
+}
+
+/* support/chomowan 页面自带一段 Aero 玻璃风格的图例 chip(内联 <style>)。
+   那套蓝白渐变在手账主题里格外突兀,这里用更高特异性把它改写成
+   主题自己的纸片贴纸。(该页 .chip 只出现在图例里,范围安全) */
+.aero-radar-legend .chip {
+    display: inline-block;
+    margin: 4px 6px;
+    padding: 4px 12px;
+    white-space: nowrap;
+    font-size: 12px;
+    color: var(--ink-2);
+    border: 1px solid var(--rule);
+    border-radius: var(--r-pill);
+    background: var(--paper-2);
+    box-shadow: var(--sh-1);
+    transition: background-color var(--t-fast) ease,
+                border-color var(--t-fast) ease,
+                transform var(--t-fast) var(--ease-pop);
+}
+
+.aero-radar-legend .chip.chip-active {
+    color: var(--ink);
+    border-color: var(--coral);
+    background: #FFF1F3;
+    box-shadow: 0 0 0 1px rgba(255, 122, 138, .35), var(--sh-1);
+    transform: translateY(-1px);
+}
 
 /* 侧栏卡片标题与它顶上那条胶带同色系 */
 .sidebar .window:nth-child(1) .window-titlebar { color: var(--c-amber); }

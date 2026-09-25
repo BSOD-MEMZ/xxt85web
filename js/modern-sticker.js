@@ -109,24 +109,89 @@
     }
 
     /* -----------------------------------------------------------------
-       3. 播放器:播放时封面旋转
+       3. 播放器:播放时封面旋转,暂停时**停在当前角度**(不回正)
+
+       旧实现靠 CSS animation(.playing 上加 spinDisc),一暂停 animation 被
+       摘掉,transform 立刻掉回 0deg —— 视觉上就是"啪"地弹回正位。
+
+       这里改成 JS 逐帧推进角度:
+         - play  → rAF 累加 angle(14s 一圈)
+         - pause → 取消 rAF,把最后一次的 angle 以行内 transform 固定在元素上
+       因为行内样式优先级最高,即使 animation / 主题 CSS 被切走也不会弹回。
        ----------------------------------------------------------------- */
     function initDisc() {
         var audio = document.getElementById('main-audio');
         var player = document.querySelector('.aero-player');
         if (!audio || !player) return;
 
+        var art = player.querySelector('.wmp-album-art img');
+        var reduceMotion = window.matchMedia &&
+            window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        var PERIOD = 14000;   /* 转一圈 14s,和原 CSS 动画保持一致 */
+        var angle = 0;        /* 当前角度(度) */
+        var rafId = 0;
+        var lastTs = 0;
+
+        function render() {
+            if (art) art.style.transform = 'rotate(' + angle.toFixed(2) + 'deg)';
+        }
+
+        /* 切回默认主题时把封面还原成"没被碰过"的样子:
+           停掉 rAF,角度归零,并**摘掉行内 transform** ——
+           否则默认主题的封面会一直歪着。 */
+        discReset = function () {
+            if (rafId) {
+                window.cancelAnimationFrame(rafId);
+                rafId = 0;
+            }
+            lastTs = 0;
+            angle = 0;
+            if (art) art.style.transform = '';
+        };
+
+        function step(ts) {
+            if (lastTs) {
+                angle = (angle + (ts - lastTs) * 360 / PERIOD) % 360;
+                render();
+            }
+            lastTs = ts;
+            rafId = window.requestAnimationFrame(step);
+        }
+
+        function start() {
+            if (reduceMotion || rafId) return;
+            lastTs = 0;
+            rafId = window.requestAnimationFrame(step);
+        }
+
+        function stop() {
+            if (rafId) {
+                window.cancelAnimationFrame(rafId);
+                rafId = 0;
+            }
+            lastTs = 0;
+            /* 不动 angle、不动 transform —— 就停在刚才那一帧 */
+            render();
+        }
+
         function sync() {
             if (audio.paused) {
                 player.classList.remove('playing');
+                stop();
             } else {
                 player.classList.add('playing');
+                start();
             }
         }
 
         audio.addEventListener('play', sync);
         audio.addEventListener('pause', sync);
         audio.addEventListener('ended', sync);
+        /* 切歌时封面换成新图,新元素没有行内 transform,角度归零即可 */
+        audio.addEventListener('loadstart', function () {
+            angle = 0;
+            render();
+        });
         sync();
     }
 
@@ -224,6 +289,9 @@
        旧主题要靠 hover 才看得到作者 / 简介 / 日期,这里直接铺成卡片常驻展示。
        数据取自 window.xxtArticleData(由 index.js 提供),不重复定义。
        ----------------------------------------------------------------- */
+    /* 由 initDisc() 赋值;切回默认主题时调用,摘掉封面上的行内旋转 */
+    var discReset = null;
+
     var articleState = {
         cards: false,
         saved: [],      // [{ li, html }] 用于切回旧主题时还原
@@ -348,16 +416,31 @@
 
     /* -----------------------------------------------------------------
        5. 图标:Phosphor sprite 替换
+       -----------------------------------------------------------------
+       ⚠️ 这里有一个反复踩的坑,先读再改:
+
+       `addEventListener` 绑在**元素实例**上。把带监听的 <img> 换成 <svg>,
+       旧节点被替换出文档,监听跟着一起消失 —— 表现是"按钮点不动"。
+       已经踩过四次:UAC 关闭键、图片查看器三个按钮、以及本轮各 dialog 的
+       右上角关闭键。
+
+       所以替换前必须先问一句:**这个 <img> 身上有没有事件?**
+       判断不了(JS 的 addEventListener 不留下任何可查询的痕迹),
+       于是改成"由会绑事件的代码主动登记":凡是脚本要给它绑点击的图标元素,
+       都打上 `data-xxt-keep` 属性。这里统一跳过,由原脚本自己决定外观。
+
+       配套约定:新加"可点击图标"时,记得打 `data-xxt-keep`,
+       或让该脚本自己做矢量化(像 uac.js / image-viewer.js 那样)。
        ----------------------------------------------------------------- */
-    /* 筛选 chip(.cat-btn)里的图标一律不换 —— 它们是配色装饰点,
-       主题里已经 display:none 了,替换成矢量只会多造无用节点,
-       而且会因 .xxt-ic[data-icon=…] 的着色规则和 chip 自身颜色打架。 */
-    var ICON_SELECTOR = 'img[src*="images/icons/"]:not(.cat-btn *), ' +
-        'img[src$="/hot.png"]:not(.cat-btn *), ' +
-        'img[src$="/online.png"]:not(.cat-btn *), ' +
-        'img[src$="/busy.png"], img[src$="/Window_CloseButton.png"], ' +
-        'img[src*="media/assets/prev.png"], img[src*="media/assets/next.png"], ' +
-        'img[src*="media/assets/play.png"], img[src*="media/assets/pause.png"]';
+    var ICON_SELECTOR = 'img[src*="images/icons/"]:not(.cat-btn *):not([data-xxt-keep]), ' +
+        'img[src$="/hot.png"]:not(.cat-btn *):not([data-xxt-keep]), ' +
+        'img[src$="/online.png"]:not(.cat-btn *):not([data-xxt-keep]), ' +
+        'img[src$="/busy.png"]:not([data-xxt-keep]), ' +
+        'img[src$="/Window_CloseButton.png"]:not([data-xxt-keep]), ' +
+        'img[src*="media/assets/prev.png"]:not([data-xxt-keep]), ' +
+        'img[src*="media/assets/next.png"]:not([data-xxt-keep]), ' +
+        'img[src*="media/assets/play.png"]:not([data-xxt-keep]), ' +
+        'img[src*="media/assets/pause.png"]:not([data-xxt-keep])';
     var SVG_NS = 'http://www.w3.org/2000/svg';
 
     var iconState = {
@@ -365,6 +448,25 @@
         pairs: []   // [{ svg, img }] 用于切回旧主题时原样还原
     };
     var iconPending = false;
+
+    /* 给"带事件的关闭键"打上标记。
+       index.html 里三处 <img class="vista-close-btn" src="images/Window_CloseButton.png">
+       (控制面板 / 留言本 / 欢迎框)的事件都由 index.js 绑 —— 它们不能被换掉。
+
+       用集合式选择器一次标完:只要它长得像"关闭按钮",又确实是 <img>,就标。
+       将来新增 dialog 时不用改 HTML,也不会漏。 */
+    function markKeepAlive() {
+        var btns = document.querySelectorAll(
+            '.vista-close-btn, .uac-close-btn, .image-viewer-close, ' +
+            '.image-viewer-nav, .sidebar-close-btn, .infobar-close, ' +
+            '[data-close], .xxt-copy-btn, .xxt-pin-close, .window-close'
+        );
+        for (var i = 0; i < btns.length; i++) {
+            if (btns[i].tagName === 'IMG') {
+                btns[i].setAttribute('data-xxt-keep', '1');
+            }
+        }
+    }
 
     function loadSprite(done) {
         if (window.XXT_ICON_SPRITE) return done();
@@ -465,10 +567,15 @@
 
     function initIcons() {
         ensureSpriteHolder();
+        markKeepAlive();   // 先打保护标记,再开始换 —— 顺序不能反
         swapIcons();
 
         if (window.MutationObserver) {
-            new MutationObserver(scheduleIconSwap).observe(document.body, {
+            new MutationObserver(function () {
+                // dialog 可能后出现,每次换之前重标一遍(幂等)
+                markKeepAlive();
+                scheduleIconSwap();
+            }).observe(document.body, {
                 childList: true,
                 subtree: true
             });
@@ -846,6 +953,7 @@
                     restoreCards();
                 }
                 if (iconState.on) restoreIcons();
+                if (discReset) discReset();
                 removeInfobar();
                 removeDeco();
 

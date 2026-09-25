@@ -197,15 +197,36 @@ html {
         linear-gradient(rgba(255, 252, 243, .30), rgba(255, 252, 243, .30));
 }
 
+/* 封面底部不再压渐隐 —— 改用一对"猫耳"把照片和下方工具栏缝在一起。
+   两片耳朵用 clip-path 切出圆角三角,叠在 .header-image 底边中点两侧,
+   露出的是纸色(--paper-2,与 .gradient-divider 同色),于是视觉上
+   照片像是被这张纸"叼住"了一角。 */
 .header-image::after {
-    /* 底部纸色渐隐,把封面"贴"回纸面上 */
     content: "";
     position: absolute;
-    inset: auto 0 0;
+    left: 50%;
+    bottom: 0;
     z-index: 2;
-    height: 46%;
+    width: clamp(96px, 16vw, 148px);
+    height: clamp(22px, 3.4vw, 32px);
+    margin-left: calc(clamp(96px, 16vw, 148px) / -2);
     pointer-events: none;
-    background: linear-gradient(to bottom, transparent, rgba(255, 252, 243, .94) 76%, var(--paper));
+    /* 两枚耳朵 + 中间的凹口,一次画完 */
+    background: var(--paper-2);
+    clip-path: polygon(
+        0% 100%,
+        0% 44%,
+        8% 10%,
+        22% 0%,
+        35% 12%,
+        50% 46%,
+        65% 12%,
+        78% 0%,
+        92% 10%,
+        100% 44%,
+        100% 100%
+    );
+    filter: drop-shadow(0 -1px 0 rgba(61, 58, 56, .10));
 }
 
 .title-overlay {
@@ -1316,7 +1337,9 @@ svg.image-viewer-nav {
     }
 
     .header-image::after {
-        height: 58%;
+        width: 92px;
+        height: 21px;
+        margin-left: -46px;
     }
 
     .title-overlay {
