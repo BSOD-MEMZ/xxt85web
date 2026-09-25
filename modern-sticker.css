@@ -22,6 +22,14 @@
     --ink-2: #6B655C;
     --ink-3: #968D7C;
 
+    /* 彩色注记(手账的多色笔) */
+    --c-rose: #C4607A;
+    --c-teal: #2F8F88;
+    --c-blue: #2F6E8E;
+    --c-amber: #A8741A;
+    --c-violet: #7C63A8;
+    --c-green: #4E8A4E;
+
     /* 纸线与边框 */
     --rule: #E5DECB;
     --rule-2: #D8D0BA;
@@ -723,32 +731,51 @@ body.customizing .footer {
     margin-bottom: 12px !important;
 }
 
-.cat-btn {
+/* 标签筛选 chips
+   注意:index.js 会在运行时往 <head> 注入一段 .cat-btn 的 Vista 渐变样式,
+   它出现在本文件之后,因此这里用 #tagFilters 前缀提高特异性来盖过它 */
+.cat-btn,
+#tagFilters .cat-btn {
     font-family: var(--font);
     font-size: 12px;
-    color: var(--ink-2);
-    background: var(--paper-2);
-    border: 1px dashed var(--rule-dash);
+    color: var(--c-blue);
+    background: #EFF6FA;
+    border: 1px solid #C6DDEA;
     border-radius: var(--r-pill);
-    padding: 3px 12px;
+    padding: 3px 13px;
     cursor: pointer;
     transition: transform var(--t-fast) var(--ease-pop),
                 background-color var(--t-fast) ease,
                 color var(--t-fast) ease,
-                border-color var(--t-fast) ease;
+                border-color var(--t-fast) ease,
+                box-shadow var(--t-fast) ease;
 }
 
-.cat-btn:hover {
-    background: #FFFDF8;
+/* 逐枚换色,像一排彩色印章 */
+#tagFilters .cat-btn:nth-child(6n+1) { color: var(--c-blue);   background: #EFF6FA; border-color: #C6DDEA; }
+#tagFilters .cat-btn:nth-child(6n+2) { color: var(--c-teal);   background: #EAF7F5; border-color: #BEE4E0; }
+#tagFilters .cat-btn:nth-child(6n+3) { color: var(--c-amber);  background: #FDF5E3; border-color: #EBD9A8; }
+#tagFilters .cat-btn:nth-child(6n+4) { color: var(--c-rose);   background: #FDF0F3; border-color: #F2CBD5; }
+#tagFilters .cat-btn:nth-child(6n+5) { color: var(--c-violet); background: #F4F1FB; border-color: #D9CFEE; }
+#tagFilters .cat-btn:nth-child(6n+6) { color: var(--c-green);  background: #F0F7EC; border-color: #CCE2C0; }
+
+.cat-btn:hover,
+#tagFilters .cat-btn:hover {
     color: var(--ink);
     transform: translateY(-1px);
+    box-shadow: 0 3px 8px -3px rgba(61, 58, 56, .3);
 }
 
-.cat-btn.active {
-    background: var(--mint);
-    border-style: solid;
-    border-color: #5FAFAA;
+/* 选中态放最后,确保盖过上面的逐枚换色 */
+.cat-btn.active,
+#tagFilters .cat-btn.active {
     color: #FFFFFF;
+    background: var(--c-teal);
+    border-color: #23726C;
+}
+
+.cat-btn img {
+    display: none;
 }
 
 /* 盖章动效(由 modern.js 在点击时挂上 .stamping) */
@@ -1986,6 +2013,196 @@ body.customizing .customize-grid-overlay {
 }
 
 /* ---------------------------------------------------------------
+   14b. 多色文字
+   --------------------------------------------------------------- */
+/* 主标题:用彩笔写的大字(HTML 里有内联的 #003399,须 !important 覆盖) */
+.main > h2 {
+    color: var(--c-rose);
+}
+
+.main > h2 span {
+    color: inherit !important;
+}
+
+/* 主内容卡片的四个分组标题,四色轮换 */
+.main .window-content h3:nth-of-type(4n+1) { color: var(--c-blue); }
+.main .window-content h3:nth-of-type(4n+2) { color: var(--c-teal); }
+.main .window-content h3:nth-of-type(4n+3) { color: var(--c-amber); }
+.main .window-content h3:nth-of-type(4n+4) { color: var(--c-violet); }
+
+/* 侧栏卡片标题与它顶上那条胶带同色系 */
+.sidebar .window:nth-child(1) .window-titlebar { color: var(--c-amber); }
+.sidebar .window:nth-child(2) .window-titlebar { color: var(--c-teal); }
+.sidebar .window:nth-child(3) .window-titlebar { color: var(--c-blue); }
+.sidebar .window:nth-child(4) .window-titlebar { color: var(--c-rose); }
+.sidebar .window:nth-child(5) .window-titlebar { color: var(--c-violet); }
+
+/* 公告栏标题 */
+.tips p:first-child {
+    color: var(--c-rose);
+}
+
+/* 页脚链接 */
+.footer a { color: var(--c-blue); }
+
+/* ---------------------------------------------------------------
+   14c. 顶栏合并:站名在左,导航与搜索在右
+   做法是把 .navbar 绝对定位到 .titlebar 那一行的右侧,
+   不改动任何 HTML 结构,因此切回旧主题时旧样式照常生效。
+   --------------------------------------------------------------- */
+body {
+    position: relative;
+}
+
+.titlebar {
+    min-height: 58px;
+    padding: 12px 0 11px;
+    padding-right: 640px;   /* 给右侧的导航与搜索留位;窄于 1240px 时降级为两行 */
+}
+
+.titlebar h1 {
+    line-height: 34px;
+}
+
+.navbar {
+    position: absolute;
+    top: 0;
+    right: 0;
+    left: auto;
+    width: auto;
+    height: 58px;
+    padding: 0;
+    background: none;
+    border-bottom: 0;
+    overflow: visible;
+}
+
+.navbar .wrap {
+    display: flex;
+    align-items: center;
+    gap: 13px;
+    width: auto;
+    max-width: none;
+    height: 100%;
+    margin: 0;
+    padding: 0 24px;
+}
+
+.navbar ul {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    padding: 0;
+}
+
+/* 导航项:胶囊贴纸 */
+.navbar a {
+    background: none;
+    border: 1px solid transparent;
+    border-radius: var(--r-pill);
+    padding: 6px 12px;
+    color: var(--ink-2);
+}
+
+.navbar a:hover {
+    background: var(--paper-3);
+    border-bottom: 1px solid transparent;
+    color: var(--ink);
+    transform: none;
+}
+
+/* 搜索框(由 modern.js 注入;非新主题下会被隐藏) */
+.xxt-nav-search {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    flex: none;
+    background: var(--paper);
+    border: 1px solid var(--rule-2);
+    border-radius: var(--r-pill);
+    padding: 3px 4px 3px 13px;
+    box-shadow: inset 0 1px 3px rgba(61, 58, 56, .06);
+}
+
+.xxt-nav-search input {
+    width: 130px;
+    border: 0;
+    outline: none;
+    background: none;
+    font-family: var(--font);
+    font-size: 13px;
+    color: var(--ink);
+}
+
+.xxt-nav-search input::placeholder {
+    color: var(--ink-3);
+}
+
+.xxt-nav-search button {
+    flex: none;
+    width: 27px;
+    height: 27px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 0;
+    border-radius: 50%;
+    background: var(--mint);
+    color: #FFFFFF;
+    cursor: pointer;
+    transition: background-color var(--t-fast) ease,
+                transform var(--t-fast) var(--ease-pop);
+}
+
+.xxt-nav-search button:hover {
+    background: var(--c-teal);
+    transform: scale(1.07);
+}
+
+.xxt-nav-search button:active {
+    transform: scale(.94);
+}
+
+/* 视口不够宽时提前恢复成上下两行,避免标题与右侧导航重叠 */
+@media screen and (max-width: 1240px) {
+    .titlebar {
+        min-height: 0;
+        padding-right: 0;
+    }
+
+    .navbar {
+        position: static;
+        width: auto;
+        height: auto;
+        border-bottom: 1px solid var(--rule);
+    }
+
+    .navbar .wrap {
+        height: auto;
+        padding: 0 24px;
+    }
+}
+
+/* ---------------------------------------------------------------
+   14d. 图标(Phosphor sprite,由 modern.js 注入)
+   --------------------------------------------------------------- */
+.xxt-ic {
+    display: inline-block;
+    width: 1.05em;
+    height: 1.05em;
+    fill: currentColor;
+    flex: none;
+    vertical-align: -0.17em;
+}
+
+#xxt-icon-sprite {
+    position: absolute;
+    width: 0;
+    height: 0;
+    overflow: hidden;
+}
+
+/* ---------------------------------------------------------------
    15. 响应式(桌面优先,基础降级)
    --------------------------------------------------------------- */
 @media screen and (max-width: 1000px) {
@@ -2005,6 +2222,29 @@ body.customizing .customize-grid-overlay {
 
     .titlebar h1 {
         font-size: 21px;
+    }
+
+    /* 顶栏恢复上下两行,导航不再绝对定位 */
+    .titlebar {
+        min-height: 0;
+        padding-right: 0;
+    }
+
+    .navbar {
+        position: static;
+        width: auto;
+        height: auto;
+        border-bottom: 1px solid var(--rule);
+    }
+
+    .navbar .wrap {
+        height: auto;
+        flex-wrap: wrap;
+        padding: 0 18px;
+    }
+
+    .xxt-nav-search input {
+        width: 100px;
     }
 
     .customize-panel {

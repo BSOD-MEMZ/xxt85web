@@ -9,8 +9,11 @@
  *   2. 标签盖章   —— 点击文章标签筛选时的盖章反馈
  *   3. 黑胶旋转   —— 播放器播放时封面缓慢旋转
  *   4. 贴纸角标   —— 给近期文章贴角标,读过的换成小勾
+ *   5. 图标替换   —— 把 images/icons/*.png 换成 Phosphor 矢量图标
+ *   6. 搜索框     —— 在顶栏右侧注入站内搜索框
  *
- * 说明:不改动任何既有脚本;所有记录仅存于本地,不上传任何数据。
+ * 所有 DOM 改动都会在切回旧主题时原样还原,旧样式不受任何影响。
+ * 所有记录仅存于本地,不上传任何数据。
  */
 (function () {
     'use strict';
@@ -21,19 +24,23 @@
     var reduceMotion = window.matchMedia &&
         window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
+    // 从本脚本自身位置推导站点根路径,兼容 file:// 与 http(s)://
+    var SELF_SRC = (document.currentScript && document.currentScript.src) || '';
+    var SITE_ROOT = SELF_SRC.replace(/\/js\/[^\/?#]+.*$/, '/');
+
     /* -----------------------------------------------------------------
        1. 贴纸抬起
        ----------------------------------------------------------------- */
     function initStickerLift() {
-        // 仅在有精确指针(hover)的设备上启用;触屏走按下反馈,由 CSS 负责
         if (!window.matchMedia) return;
+        // 仅在有精确指针(hover)的设备启用;触屏走 CSS 的按下反馈
         if (!window.matchMedia('(hover: hover) and (pointer: fine)').matches) return;
         if (reduceMotion) return;
 
         var SELECTOR = '.window, .download-card, .video-item';
-        var MAX_TILT = 1.6;   // 最大倾斜角度(度)
-        var BASE_LIFT = -2;   // 基础抬升(px)
-        var EXTRA_LIFT = 2;   // 倾斜带来的额外抬升(px)
+        var MAX_TILT = 1.6;
+        var BASE_LIFT = -2;
+        var EXTRA_LIFT = 2;
 
         var rafId = null;
         var lastEvent = null;
@@ -50,12 +57,8 @@
             var px = (e.clientX - rect.left) / rect.width - 0.5;
             var py = (e.clientY - rect.top) / rect.height - 0.5;
 
-            // 指针偏右 → 右侧被压下 → 顺时针小幅旋转
-            var tilt = (px * MAX_TILT * 2).toFixed(2);
-            var lift = (BASE_LIFT - Math.abs(py) * EXTRA_LIFT).toFixed(2);
-
-            el.style.setProperty('--tilt', tilt + 'deg');
-            el.style.setProperty('--lift', lift + 'px');
+            el.style.setProperty('--tilt', (px * MAX_TILT * 2).toFixed(2) + 'deg');
+            el.style.setProperty('--lift', (BASE_LIFT - Math.abs(py) * EXTRA_LIFT).toFixed(2) + 'px');
             el.classList.add('sticker-lift');
         }
 
@@ -78,12 +81,10 @@
         document.addEventListener('pointerout', function (e) {
             var el = e.target && e.target.closest ? e.target.closest(SELECTOR) : null;
             if (!el) return;
-            // 在元素内部移动不释放
             if (e.relatedTarget && el.contains(e.relatedTarget)) return;
             release(el);
         }, { passive: true });
 
-        // 页面滚动或离开视口时收干净,避免残留倾斜
         window.addEventListener('blur', function () {
             var lifted = document.querySelectorAll('.sticker-lift');
             for (var i = 0; i < lifted.length; i++) release(lifted[i]);
@@ -101,7 +102,6 @@
             if (!btn) return;
 
             btn.classList.remove('stamping');
-            // 强制回流以重启动画
             void btn.offsetWidth;
             btn.classList.add('stamping');
 
@@ -204,7 +204,6 @@
             }
         }
 
-        // 记录已读
         list.addEventListener('click', function (e) {
             var a = e.target && e.target.closest ? e.target.closest('a') : null;
             if (!a) return;
@@ -216,10 +215,193 @@
 
         mark();
 
-        // 标签筛选会重渲染列表,跟随更新
         if (window.MutationObserver) {
             new MutationObserver(mark).observe(list, { childList: true });
         }
+    }
+
+    /* -----------------------------------------------------------------
+       5. 图标:Phosphor sprite 替换
+       ----------------------------------------------------------------- */
+    var ICON_SELECTOR = 'img[src*="images/icons/"], img[src$="/hot.png"], img[src$="/busy.png"]';
+    var SVG_NS = 'http://www.w3.org/2000/svg';
+
+    var iconState = {
+        on: true,
+        pairs: []   // [{ svg, img }] 用于切回旧主题时原样还原
+    };
+    var iconPending = false;
+
+    function loadSprite(done) {
+        if (window.XXT_ICON_SPRITE) return done();
+
+        var s = document.createElement('script');
+        s.src = SITE_ROOT + 'js/modern-sticker-icons.js';
+        s.onload = done;
+        s.onerror = done;
+        document.head.appendChild(s);
+    }
+
+    function ensureSpriteHolder() {
+        if (document.getElementById('xxt-icon-sprite')) return;
+        if (!window.XXT_ICON_SPRITE) return;
+
+        var holder = document.createElement('div');
+        holder.id = 'xxt-icon-sprite';
+        holder.setAttribute('aria-hidden', 'true');
+        holder.innerHTML = window.XXT_ICON_SPRITE;
+        document.body.insertBefore(holder, document.body.firstChild);
+    }
+
+    function swapIcons() {
+        if (!iconState.on) return;
+        var map = window.XXT_ICON_MAP;
+        if (!map) return;
+
+        var imgs = document.querySelectorAll(ICON_SELECTOR);
+        for (var i = 0; i < imgs.length; i++) {
+            var img = imgs[i];
+            var src = img.getAttribute('src') || '';
+            var name = src.split('/').pop().split('?')[0].split('#')[0];
+            var id = map[name];
+            if (!id) continue;
+
+            var svg = document.createElementNS(SVG_NS, 'svg');
+            svg.setAttribute('class', img.className ? 'xxt-ic ' + img.className : 'xxt-ic');
+            svg.setAttribute('aria-hidden', 'true');
+            svg.setAttribute('focusable', 'false');
+
+            // 大尺寸图标(个性化面板等)沿用原来的像素尺寸
+            var w = parseInt(img.getAttribute('width') || '', 10);
+            var h = parseInt(img.getAttribute('height') || '', 10);
+            if (w >= 28) {
+                svg.style.width = w + 'px';
+                svg.style.height = (h || w) + 'px';
+                svg.style.verticalAlign = 'middle';
+            }
+
+            var use = document.createElementNS(SVG_NS, 'use');
+            use.setAttribute('href', '#' + id);
+            svg.appendChild(use);
+
+            if (img.parentNode) {
+                img.parentNode.replaceChild(svg, img);
+                iconState.pairs.push({ svg: svg, img: img });
+            }
+        }
+    }
+
+    function scheduleIconSwap() {
+        if (!iconState.on || iconPending) return;
+        iconPending = true;
+        requestAnimationFrame(function () {
+            iconPending = false;
+            swapIcons();
+        });
+    }
+
+    function initIcons() {
+        ensureSpriteHolder();
+        swapIcons();
+
+        if (window.MutationObserver) {
+            new MutationObserver(scheduleIconSwap).observe(document.body, {
+                childList: true,
+                subtree: true
+            });
+        }
+    }
+
+    function restoreIcons() {
+        iconState.on = false;
+        for (var i = 0; i < iconState.pairs.length; i++) {
+            var pair = iconState.pairs[i];
+            if (pair.svg.parentNode) {
+                pair.svg.parentNode.replaceChild(pair.img, pair.svg);
+            }
+        }
+        iconState.pairs = [];
+    }
+
+    /* -----------------------------------------------------------------
+       6. 顶栏搜索框
+       ----------------------------------------------------------------- */
+    var searchBox = null;
+
+    function buildSearchBox() {
+        var box = document.createElement('div');
+        box.className = 'xxt-nav-search';
+        box.innerHTML =
+            '<input type="text" placeholder="站内搜索" aria-label="站内搜索" />' +
+            '<button type="button" aria-label="搜索">' +
+            '<svg class="xxt-ic" aria-hidden="true" focusable="false">' +
+            '<use href="#i-magnifying-glass"></use></svg>' +
+            '</button>';
+        return box;
+    }
+
+    function initSearchBox() {
+        var host = document.querySelector('.navbar .wrap');
+        if (!host) return;
+        if (host.querySelector('.xxt-nav-search')) return;
+
+        searchBox = buildSearchBox();
+        host.appendChild(searchBox);
+
+        var input = searchBox.querySelector('input');
+        var btn = searchBox.querySelector('button');
+
+        function go() {
+            var term = input.value.trim();
+            if (!term) {
+                input.focus();
+                return;
+            }
+            window.location.href = SITE_ROOT + 'search.html?s=' + encodeURIComponent(term);
+        }
+
+        btn.addEventListener('click', go);
+        input.addEventListener('keydown', function (e) {
+            if (e.key === 'Enter') go();
+        });
+    }
+
+    /* -----------------------------------------------------------------
+       主题切换同步:切回旧主题时把 DOM 原样还原
+       ----------------------------------------------------------------- */
+    function initThemeSync() {
+        var link = document.getElementById('themeCss');
+
+        function isModernTheme() {
+            if (!link) return true;
+            return (link.getAttribute('href') || '').indexOf('modern-sticker') > -1;
+        }
+
+        function sync() {
+            var modern = isModernTheme();
+
+            if (searchBox) {
+                searchBox.style.display = modern ? '' : 'none';
+            }
+
+            if (modern) {
+                if (!iconState.on) {
+                    iconState.on = true;
+                    swapIcons();
+                }
+            } else if (iconState.on) {
+                restoreIcons();
+            }
+        }
+
+        if (link && window.MutationObserver) {
+            new MutationObserver(sync).observe(link, {
+                attributes: true,
+                attributeFilter: ['href']
+            });
+        }
+
+        sync();
     }
 
     /* -----------------------------------------------------------------
@@ -230,6 +412,12 @@
         initStamp();
         initDisc();
         initBadges();
+
+        loadSprite(function () {
+            initIcons();
+            initSearchBox();
+            initThemeSync();
+        });
     }
 
     if (document.readyState === 'loading') {
