@@ -12,36 +12,36 @@
    --------------------------------------------------------------- */
 :root {
     /* 纸张 */
-    --paper: #FDFBF4;
-    --paper-2: #F8F4E8;
-    --paper-3: #F2EDDD;
-    --paper-sunk: #F5F1E4;
+    --paper: #FFFCF3;
+    --paper-2: #FBF5E4;
+    --paper-3: #F5EDD7;
+    --paper-sunk: #F8F2E2;
 
     /* 墨色 */
     --ink: #3D3A38;
     --ink-2: #6B655C;
     --ink-3: #968D7C;
 
-    /* 彩色注记(手账的多色笔) */
-    --c-rose: #C4607A;
-    --c-teal: #2F8F88;
-    --c-blue: #2F6E8E;
-    --c-amber: #A8741A;
-    --c-violet: #7C63A8;
-    --c-green: #4E8A4E;
+    /* 彩色注记(手账的多色笔,饱和度调高) */
+    --c-rose: #E0416E;
+    --c-teal: #0E9E92;
+    --c-blue: #1478C4;
+    --c-amber: #D08A00;
+    --c-violet: #7A45D6;
+    --c-green: #2F9E3F;
 
     /* 纸线与边框 */
-    --rule: #E5DECB;
-    --rule-2: #D8D0BA;
-    --rule-dash: #CFC6AC;
+    --rule: #EADFC4;
+    --rule-2: #DCCFAE;
+    --rule-dash: #D3C6A2;
 
     /* 贴纸色 */
-    --tape: #FFD966;
-    --coral: #FF9AA2;
-    --mint: #7EC8C4;
-    --sky: #A8D8F2;
-    --lilac: #C9B6E4;
-    --cream: #FFE3A3;
+    --tape: #FFD21F;
+    --coral: #FF7A8A;
+    --mint: #3FC7BE;
+    --sky: #5FB8F0;
+    --lilac: #B08BE8;
+    --cream: #FFDD7A;
 
     /* 语义色 */
     --ok: #6BAF6B;
@@ -93,28 +93,66 @@ body {
     line-height: 1.7;
     color: var(--ink);
     background-color: var(--paper);
-    background-image: url("background.webp");
-    background-position: center center;
-    background-repeat: no-repeat;
-    background-attachment: fixed;
-    background-size: cover;
+    background-image: none;
     cursor: default;
     -webkit-font-smoothing: antialiased;
-    --mobile-bg: url("background.webp");
+    --mobile-bg: none;
 }
 
-/* 纸张纹理层:极淡的方格 + 纸纤维,视觉上把壁纸压成"垫在本子下的桌面" */
+/* 纸面层:不透明纸色 + 彩色光晕 + 极淡网格。
+   刻意不引用任何壁纸图片 —— 原先那层半透明的罩子底下还露着 Vista 壁纸的构图,
+   眯眼看依然像旧主题。现在整块换成主题自己的纸面。 */
 body::before {
     content: "";
     position: fixed;
     inset: 0;
     z-index: -1;
     pointer-events: none;
-    background-color: rgba(253, 251, 244, .82);
+    background-color: var(--paper);
     background-image:
-        linear-gradient(rgba(61, 58, 56, .035) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(61, 58, 56, .035) 1px, transparent 1px);
-    background-size: 24px 24px, 24px 24px;
+        radial-gradient(circle at 14% 16%, rgba(255, 122, 138, .17), transparent 42%),
+        radial-gradient(circle at 86% 10%, rgba(63, 199, 190, .17), transparent 46%),
+        radial-gradient(circle at 76% 88%, rgba(255, 210, 31, .19), transparent 44%),
+        linear-gradient(rgba(61, 58, 56, .032) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(61, 58, 56, .032) 1px, transparent 1px);
+    background-size: auto, auto, auto, 24px 24px, 24px 24px;
+}
+
+/* 原有的"切换背景"按钮在新主题里改为切换纸面色调 */
+html[data-xxt-bg="1"] body::before {
+    background-image:
+        radial-gradient(circle at 20% 14%, rgba(95, 184, 240, .22), transparent 44%),
+        radial-gradient(circle at 82% 20%, rgba(176, 139, 232, .18), transparent 46%),
+        radial-gradient(circle at 70% 86%, rgba(63, 199, 190, .17), transparent 44%),
+        linear-gradient(rgba(61, 58, 56, .032) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(61, 58, 56, .032) 1px, transparent 1px);
+}
+
+html[data-xxt-bg="2"] body::before {
+    background-image:
+        radial-gradient(circle at 16% 20%, rgba(224, 65, 110, .16), transparent 44%),
+        radial-gradient(circle at 84% 14%, rgba(208, 138, 0, .18), transparent 46%),
+        radial-gradient(circle at 74% 86%, rgba(255, 122, 138, .16), transparent 44%),
+        linear-gradient(rgba(61, 58, 56, .032) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(61, 58, 56, .032) 1px, transparent 1px);
+}
+
+html[data-xxt-bg="3"] body::before {
+    background-image:
+        radial-gradient(circle at 18% 12%, rgba(122, 69, 214, .16), transparent 44%),
+        radial-gradient(circle at 86% 18%, rgba(63, 199, 190, .18), transparent 46%),
+        radial-gradient(circle at 68% 88%, rgba(95, 184, 240, .16), transparent 44%),
+        linear-gradient(rgba(61, 58, 56, .032) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(61, 58, 56, .032) 1px, transparent 1px);
+}
+
+html[data-xxt-bg="4"] body::before {
+    background-image:
+        radial-gradient(circle at 22% 18%, rgba(255, 221, 122, .28), transparent 44%),
+        radial-gradient(circle at 80% 12%, rgba(255, 122, 138, .18), transparent 46%),
+        radial-gradient(circle at 72% 88%, rgba(47, 158, 63, .14), transparent 44%),
+        linear-gradient(rgba(61, 58, 56, .032) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(61, 58, 56, .032) 1px, transparent 1px);
 }
 
 a {
@@ -210,9 +248,9 @@ img {
     display: none;
 }
 
-/* 页眉:像本子封面上的一张标签 */
+/* 页眉:像本子封面上的一张标签(纯色纸,不用渐变) */
 .titlebar {
-    background: linear-gradient(to bottom, #FFFDF8 0%, var(--paper-2) 100%);
+    background: var(--paper-2);
     border-bottom: 1px dashed var(--rule-dash);
     padding: 16px 0 14px;
 }
@@ -455,7 +493,7 @@ body.customizing .content {
 
 /* 贴纸抬起(由 modern.js 按指针位置写入 --tilt / --lift) */
 .window.sticker-lift {
-    transform: translate3d(0, var(--lift, -2px), 0) rotate(var(--tilt, 0deg));
+    transform: translate3d(0, var(--lift, -2px), 0);
     box-shadow: var(--sh-2);
 }
 
@@ -565,23 +603,27 @@ body.customizing .content {
     flex: none;
 }
 
-/* 侧栏关闭按钮:藏在 hover 里 */
+/* 侧栏关闭圆点:常驻显示(用 !important 覆盖 HTML 内联的 display:none) */
 .sidebar-close-btn {
-    width: 14px;
-    height: 14px;
+    display: inline-block !important;
+    width: 13px;
+    height: 13px;
     margin-left: auto;
-    opacity: 0;
+    padding: 0;
+    vertical-align: middle;
     cursor: pointer;
-    transition: opacity var(--t-fast) ease;
-}
-
-.sidebar .window:hover .sidebar-close-btn,
-.customizing .sidebar-close-btn {
-    opacity: .5;
+    border-radius: 50%;
+    transition: transform var(--t-fast) var(--ease-pop),
+                filter var(--t-fast) ease;
 }
 
 .sidebar-close-btn:hover {
-    opacity: 1;
+    filter: brightness(1.08);
+    transform: scale(1.15);
+}
+
+.sidebar-close-btn:active {
+    transform: scale(.95);
 }
 
 .sidebar .window.window-hidden {
@@ -1074,7 +1116,7 @@ body.customizing .footer {
 }
 
 .download-card.sticker-lift {
-    transform: translate3d(0, var(--lift, -3px), 0) rotate(var(--tilt, 0deg));
+    transform: translate3d(0, var(--lift, -3px), 0);
     box-shadow: var(--sh-2);
 }
 
@@ -1122,7 +1164,7 @@ body.customizing .footer {
 }
 
 .video-item.sticker-lift {
-    transform: translate3d(0, var(--lift, -2px), 0) rotate(var(--tilt, 0deg));
+    transform: translate3d(0, var(--lift, -2px), 0);
     box-shadow: var(--sh-2);
 }
 
@@ -2079,7 +2121,7 @@ body {
 
 .navbar .wrap {
     display: flex;
-    align-items: center;
+    align-items: flex-end;
     gap: 13px;
     width: auto;
     max-width: none;
@@ -2090,25 +2132,28 @@ body {
 
 .navbar ul {
     display: flex;
-    align-items: center;
+    align-items: flex-end;
     gap: 5px;
     padding: 0;
 }
 
-/* 导航项:胶囊贴纸 */
+/* 导航项:索引页签(底部圆角 + 描边,贴在顶栏下沿) */
 .navbar a {
-    background: none;
-    border: 1px solid transparent;
-    border-radius: var(--r-pill);
-    padding: 6px 12px;
+    background: var(--paper-2);
+    border: 1px solid var(--rule-2);
+    border-bottom: 0;
+    border-radius: var(--r-sm) var(--r-sm) 0 0;
+    padding: 6px 14px 8px;
     color: var(--ink-2);
+    transition: background-color var(--t-fast) ease,
+                color var(--t-fast) ease,
+                transform var(--t-fast) var(--ease-soft);
 }
 
 .navbar a:hover {
-    background: var(--paper-3);
-    border-bottom: 1px solid transparent;
+    background: #FFFFFF;
     color: var(--ink);
-    transform: none;
+    transform: translateY(-2px);
 }
 
 /* 搜索框(由 modern.js 注入;非新主题下会被隐藏) */
@@ -2117,6 +2162,7 @@ body {
     align-items: center;
     gap: 4px;
     flex: none;
+    margin-bottom: 11px;
     background: var(--paper);
     border: 1px solid var(--rule-2);
     border-radius: var(--r-pill);
@@ -2184,7 +2230,7 @@ body {
 }
 
 /* ---------------------------------------------------------------
-   14d. 图标(Phosphor sprite,由 modern.js 注入)
+   14d. 图标(由 modern.js 注入的 Phosphor sprite)
    --------------------------------------------------------------- */
 .xxt-ic {
     display: inline-block;
@@ -2200,6 +2246,161 @@ body {
     width: 0;
     height: 0;
     overflow: hidden;
+}
+
+/* 按语义分类着色 —— 这是"多彩"的来源。
+   品牌图标(在 sprite 里写死了品牌色)不受这里影响。 */
+.xxt-ic[data-icon="article"],
+.xxt-ic[data-icon="newspaper"],
+.xxt-ic[data-icon="book"],
+.xxt-ic[data-icon="books"],
+.xxt-ic[data-icon="notebook"],
+.xxt-ic[data-icon="stack"],
+.xxt-ic[data-icon="archive"],
+.xxt-ic[data-icon="book-open"],
+.xxt-ic[data-icon="student"],
+.xxt-ic[data-icon="lock"],
+.xxt-ic[data-icon="shield-check"],
+.xxt-ic[data-icon="prohibit"] { color: var(--c-blue); }
+
+.xxt-ic[data-icon="house"],
+.xxt-ic[data-icon="map-pin"],
+.xxt-ic[data-icon="globe"],
+.xxt-ic[data-icon="globe-hemisphere-west"],
+.xxt-ic[data-icon="desktop"],
+.xxt-ic[data-icon="device-mobile"],
+.xxt-ic[data-icon="cpu"],
+.xxt-ic[data-icon="cube"],
+.xxt-ic[data-icon="table"] { color: var(--c-teal); }
+
+.xxt-ic[data-icon="music-notes"],
+.xxt-ic[data-icon="disc"],
+.xxt-ic[data-icon="film-strip"],
+.xxt-ic[data-icon="game-controller"],
+.xxt-ic[data-icon="play-circle"],
+.xxt-ic[data-icon="broadcast"],
+.xxt-ic[data-icon="speaker-high"],
+.xxt-ic[data-icon="heart"] { color: var(--c-rose); }
+
+.xxt-ic[data-icon="palette"],
+.xxt-ic[data-icon="gear"],
+.xxt-ic[data-icon="sliders-horizontal"],
+.xxt-ic[data-icon="image"],
+.xxt-ic[data-icon="squares-four"],
+.xxt-ic[data-icon="calendar-blank"],
+.xxt-ic[data-icon="chart-bar"],
+.xxt-ic[data-icon="magnifying-glass"],
+.xxt-ic[data-icon="address-book"] { color: var(--c-violet); }
+
+.xxt-ic[data-icon="coins"],
+.xxt-ic[data-icon="gift"],
+.xxt-ic[data-icon="trophy"],
+.xxt-ic[data-icon="fire"],
+.xxt-ic[data-icon="lightbulb"],
+.xxt-ic[data-icon="warning"],
+.xxt-ic[data-icon="hourglass-medium"],
+.xxt-ic[data-icon="lightning"] { color: var(--c-amber); }
+
+.xxt-ic[data-icon="user"],
+.xxt-ic[data-icon="users"],
+.xxt-ic[data-icon="user-plus"],
+.xxt-ic[data-icon="chat-circle-text"],
+.xxt-ic[data-icon="chat-circle-dots"] { color: var(--c-green); }
+
+.xxt-ic[data-icon="question"],
+.xxt-ic[data-icon="info"],
+.xxt-ic[data-icon="note"],
+.xxt-ic[data-icon="copy"],
+.xxt-ic[data-icon="presentation"],
+.xxt-ic[data-icon="presentation-chart"],
+.xxt-ic[data-icon="envelope-simple"],
+.xxt-ic[data-icon="rss"],
+.xxt-ic[data-icon="download-simple"],
+.xxt-ic[data-icon="arrow-square-out"],
+.xxt-ic[data-icon="arrow-right"] { color: var(--ink-2); }
+
+.xxt-ic[data-icon="circle"],
+.xxt-ic[data-icon="plus"] { color: var(--ink-3); }
+
+/* ---------------------------------------------------------------
+   14e. 信息条(隐藏侧栏模块后的提示)
+   --------------------------------------------------------------- */
+.xxt-infobar {
+    position: fixed;
+    left: 50%;
+    bottom: 20px;
+    transform: translateX(-50%);
+    z-index: 10003;
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    max-width: calc(100vw - 32px);
+    background: var(--paper);
+    border: 1px solid var(--rule-2);
+    border-radius: var(--r-pill);
+    box-shadow: var(--sh-2);
+    padding: 9px 11px 9px 18px;
+    animation: infobarIn 300ms var(--ease-soft);
+}
+
+@keyframes infobarIn {
+    from { opacity: 0; transform: translateX(-50%) translateY(12px); }
+    to   { opacity: 1; transform: translateX(-50%) translateY(0); }
+}
+
+.xxt-infobar-text {
+    font-size: 13px;
+    color: var(--ink);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.xxt-infobar-btn {
+    flex: none;
+    font-family: var(--font);
+    font-size: 12px;
+    color: var(--ink);
+    background: var(--paper-2);
+    border: 1px solid var(--rule-2);
+    border-radius: var(--r-pill);
+    padding: 4px 13px;
+    cursor: pointer;
+    transition: background-color var(--t-fast) ease,
+                transform var(--t-fast) var(--ease-soft);
+}
+
+.xxt-infobar-btn:hover {
+    background: #FFFFFF;
+    transform: translateY(-1px);
+}
+
+.xxt-infobar-btn:active {
+    transform: translateY(1px);
+}
+
+.xxt-infobar-close {
+    flex: none;
+    width: 20px;
+    height: 20px;
+    padding: 0;
+    border: 0;
+    background: none;
+    line-height: 0;
+    cursor: pointer;
+    opacity: .85;
+    transition: transform var(--t-fast) var(--ease-pop), opacity var(--t-fast) ease;
+}
+
+.xxt-infobar-close:hover {
+    opacity: 1;
+    transform: scale(1.15);
+}
+
+.xxt-infobar-close .xxt-ic {
+    width: 15px;
+    height: 15px;
+    vertical-align: middle;
 }
 
 /* ---------------------------------------------------------------

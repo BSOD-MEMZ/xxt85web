@@ -38,9 +38,8 @@
         if (reduceMotion) return;
 
         var SELECTOR = '.window, .download-card, .video-item';
-        var MAX_TILT = 1.6;
-        var BASE_LIFT = -2;
-        var EXTRA_LIFT = 2;
+        var BASE_LIFT = -1.5;   // 只保留很轻微的上浮,不做旋转
+        var EXTRA_LIFT = 1.5;
 
         var rafId = null;
         var lastEvent = null;
@@ -54,10 +53,8 @@
             var rect = el.getBoundingClientRect();
             if (!rect.width || !rect.height) return;
 
-            var px = (e.clientX - rect.left) / rect.width - 0.5;
             var py = (e.clientY - rect.top) / rect.height - 0.5;
 
-            el.style.setProperty('--tilt', (px * MAX_TILT * 2).toFixed(2) + 'deg');
             el.style.setProperty('--lift', (BASE_LIFT - Math.abs(py) * EXTRA_LIFT).toFixed(2) + 'px');
             el.classList.add('sticker-lift');
         }
@@ -268,6 +265,7 @@
 
             var svg = document.createElementNS(SVG_NS, 'svg');
             svg.setAttribute('class', img.className ? 'xxt-ic ' + img.className : 'xxt-ic');
+            svg.setAttribute('data-icon', id.replace(/^i-/, ''));
             svg.setAttribute('aria-hidden', 'true');
             svg.setAttribute('focusable', 'false');
 
@@ -367,6 +365,146 @@
     }
 
     /* -----------------------------------------------------------------
+       7. 侧栏小窗口:常驻圆点关闭 + 信息条
+       ----------------------------------------------------------------- */
+    var TIP_MUTE_KEY = 'xxt-sidebar-tip-muted';
+    var infobar = null;
+
+    function sidebarName(win) {
+        var bar = win.querySelector('.window-titlebar');
+        if (!bar) return '这个模块';
+        var text = '';
+        for (var i = 0; i < bar.childNodes.length; i++) {
+            var node = bar.childNodes[i];
+            if (node.nodeType === 3) text += node.nodeValue;
+        }
+        text = text.replace(/\s+/g, ' ').trim();
+        return text ? '「' + text + '」' : '这个模块';
+    }
+
+    function syncCustomizePanel(win) {
+        var panel = document.getElementById('customizePanel');
+        if (!panel) return;
+        var id = win.getAttribute('data-sidebar-id');
+        if (!id) return;
+        var item = panel.querySelector('.customize-icon-item[data-sidebar-id="' + id + '"]');
+        if (!item) return;
+        if (win.classList.contains('window-hidden')) {
+            item.classList.add('grayed');
+        } else {
+            item.classList.remove('grayed');
+        }
+    }
+
+    function removeInfobar() {
+        if (infobar && infobar.parentNode) infobar.parentNode.removeChild(infobar);
+        infobar = null;
+    }
+
+    function showInfobar(win) {
+        removeInfobar();
+        try {
+            if (localStorage.getItem(TIP_MUTE_KEY) === '1') return;
+        } catch (err) {
+            /* 隐私模式:照常显示 */
+        }
+
+        var bar = document.createElement('div');
+        bar.className = 'xxt-infobar';
+        bar.setAttribute('role', 'status');
+
+        var text = document.createElement('span');
+        text.className = 'xxt-infobar-text';
+        text.textContent = '已隐藏' + sidebarName(win) + ',可在个性化中加回';
+        bar.appendChild(text);
+
+        var undo = document.createElement('button');
+        undo.type = 'button';
+        undo.className = 'xxt-infobar-btn';
+        undo.textContent = '撤销';
+        undo.addEventListener('click', function () {
+            win.classList.remove('window-hidden');
+            syncCustomizePanel(win);
+            removeInfobar();
+        });
+        bar.appendChild(undo);
+
+        var mute = document.createElement('button');
+        mute.type = 'button';
+        mute.className = 'xxt-infobar-btn';
+        mute.textContent = '不再提醒';
+        mute.addEventListener('click', function () {
+            try {
+                localStorage.setItem(TIP_MUTE_KEY, '1');
+            } catch (err) {
+                /* 忽略 */
+            }
+            removeInfobar();
+        });
+        bar.appendChild(mute);
+
+        var close = document.createElement('button');
+        close.type = 'button';
+        close.className = 'xxt-infobar-close';
+        close.setAttribute('aria-label', '关闭');
+        close.innerHTML = '<svg class="xxt-ic" aria-hidden="true">' +
+            '<use href="#i-close-dot"></use></svg>';
+        close.addEventListener('click', removeInfobar);
+        bar.appendChild(close);
+
+        document.body.appendChild(bar);
+        infobar = bar;
+    }
+
+    function initSidebarClose() {
+        var sidebar = document.getElementById('sidebarContainer');
+        if (!sidebar) return;
+
+        sidebar.addEventListener('click', function (e) {
+            var btn = e.target && e.target.closest ? e.target.closest('.sidebar-close-btn') : null;
+            if (!btn) return;
+
+            // 个性化模式下交给 index.js 处理(它会更新面板状态)
+            if (document.body.classList.contains('customizing')) return;
+
+            var win = btn.closest('.window');
+            if (!win) return;
+            if (win.getAttribute('data-sidebar-id') === 'function') return;
+
+            win.classList.add('window-hidden');
+            syncCustomizePanel(win);
+            showInfobar(win);
+        });
+    }
+
+    /* -----------------------------------------------------------------
+       8. 背景:沿用原有的"切换背景"按钮,换成手账纸面色调
+       ----------------------------------------------------------------- */
+    var BG_TONES = 5;
+
+    function initBgTone() {
+        function sync() {
+            var idx = parseInt(localStorage.getItem('bgIndex') || '0', 10);
+            if (isNaN(idx) || idx < 0) idx = 0;
+            document.documentElement.setAttribute('data-xxt-bg', String(idx % BG_TONES));
+        }
+
+        sync();
+
+        // index.js 的 cycleBackground() 会改写 body 的内联 background-image
+        if (window.MutationObserver) {
+            new MutationObserver(sync).observe(document.body, {
+                attributes: true,
+                attributeFilter: ['style']
+            });
+        }
+
+        window.addEventListener('storage', function (e) {
+            if (e.key === 'bgIndex') sync();
+        });
+    }
+
+    /* -----------------------------------------------------------------
        主题切换同步:切回旧主题时把 DOM 原样还原
        ----------------------------------------------------------------- */
     function initThemeSync() {
@@ -383,6 +521,8 @@
             if (searchBox) {
                 searchBox.style.display = modern ? '' : 'none';
             }
+
+            if (!modern) removeInfobar();
 
             if (modern) {
                 if (!iconState.on) {
@@ -412,6 +552,8 @@
         initStamp();
         initDisc();
         initBadges();
+        initSidebarClose();
+        initBgTone();
 
         loadSprite(function () {
             initIcons();
