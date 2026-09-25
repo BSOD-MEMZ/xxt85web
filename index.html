@@ -10,10 +10,23 @@
     <link rel="stylesheet" href="style.css" type="text/css" id="themeCss" />
     <script src="js/theme-loader.js"></script>
     <base target="_blank">
-    <link rel="preconnect" href="https://cloud.umami.is">
-    <link rel="preconnect" href="https://xxtsoft.top">
-    <script defer src="https://cloud.umami.is/script.js"
-        data-website-id="340048fa-ac87-4757-8011-6ade14611b24"></script>
+    <!-- 访问统计:默认开启,用户可在「控制面板」里关闭
+         关闭后连 DNS 预连接都不会发出;改动需刷新页面生效 -->
+    <script>
+        (function () {
+            'use strict';
+            try {
+                if (localStorage.getItem('umami_enabled') === 'false') return;
+            } catch (err) {
+                /* 隐私模式下读不到,按默认开启处理 */
+            }
+            var s = document.createElement('script');
+            s.defer = true;
+            s.src = 'https://cloud.umami.is/script.js';
+            s.setAttribute('data-website-id', '340048fa-ac87-4757-8011-6ade14611b24');
+            document.head.appendChild(s);
+        })();
+    </script>
 </head>
 
 <body>

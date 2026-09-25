@@ -31,8 +31,9 @@
 这几条是站长的立场，不是建议。违反它们等于拆掉这个站。
 
 1. **零外部依赖。** 不引入任何第三方 CDN、前端框架、npm 包、统计/追踪脚本。所有资源必须托管在本仓库内。
-2. **隐私至上。** 不做任何数据收集。站点目前只有一个 Umami 访问统计（仅首页加载）。
-   注意：**它的开关目前是失效的**（见「已知的坑」第 8 条）。在修好之前，不要新增任何统计。
+2. **隐私至上。** 不做任何数据收集。站点目前只有一个 Umami 访问统计（仅首页加载），
+   且**开关是真正生效的**（见「已知的坑」第 8 条）——用户在控制面板关掉后，
+   连 DNS 预连接都不会发出。不要改成默认强制加载，也不要新增任何其它统计。
 3. **不做破坏性改动。** 默认主题（`style.css`）必须始终保持现状。新样式一律以「新主题」的形式加入，由用户在个性化面板里手动启用。
 4. **零构建。** 没有打包、没有编译、没有 npm。改完文件就是成品，直接刷新即可生效。
 5. **不修改文章正文与描述文本**，除非任务明确要求。
@@ -140,20 +141,32 @@
 
 首次访问的风格引导（`js/theme-picker.js`）由 **`theme-loader.js`** 加载。不要挪到 `modern-sticker.js` —— 新用户首屏是默认主题，那时手账脚本根本没加载，挪过去就永远不会弹。
 
-### 8. Umami 的开关目前是失效的（待修）
+### 8. Umami 按开关加载（易被改回硬编码）
 
-`index.html` 的 head 里，Umami 的 `<script>` 与两个 `preconnect` 是**硬编码、无条件加载**的：
+`index.html` 的 head 里有一段内联脚本，**只有** `localStorage.umami_enabled !== 'false'` 时才
+动态注入 Umami 的 `<script>`：
 
 ```html
-<link rel="preconnect" href="https://cloud.umami.is">
-<script defer src="https://cloud.umami.is/script.js" data-website-id="..."></script>
+<script>
+  (function () {
+    if (localStorage.getItem('umami_enabled') === 'false') return;
+    var s = document.createElement('script');
+    s.defer = true;
+    s.src = 'https://cloud.umami.is/script.js';
+    s.setAttribute('data-website-id', '...');
+    document.head.appendChild(s);
+  })();
+</script>
 ```
 
-而 `js/index.js` 只把开关状态写进 `localStorage.umami_enabled`（第 641 / 701 行附近），**没有任何代码读它来决定是否加载**。
+关于这段有三个必须知道的事实：
 
-结果：用户在控制面板取消勾选「启用 Umami 统计」，脚本照样加载。这与站点的隐私立场相悖。
-
-参考修法：摘掉 `index.html` 里的 script 与 preconnect，改由 `index.js` 按 `umami_enabled` 动态注入（默认开启时也要尊重用户的关闭选择；改完需刷新生效）。
+- **默认是开启的**，与 `js/index.js`（`getItem('umami_enabled') !== 'false'`）保持一致。
+  这是原有行为，不要擅自改变默认值。
+- **不要改回硬编码的 `<link rel="preconnect">` + `<script>`**。曾经就是那样写的，
+  结果是用户取消了勾选脚本照常加载；而且 `preconnect` 本身就会向 `cloud.umami.is`
+  发起 DNS 解析与 TCP 握手——**关掉状态下一次请求都不该发出**。
+- 改动需**刷新页面**才生效（脚本只在页面加载时注入一次）。
 
 ---
 
