@@ -171,9 +171,11 @@ p {
     margin: 0 0 10px;
 }
 
-ul {
+ul,
+ol {
     margin: 0 0 10px;
-    padding-left: 20px;
+    padding-left: 0;
+    list-style: none;
 }
 
 li {
@@ -2137,11 +2139,10 @@ body {
     padding: 0;
 }
 
-/* 导航项:索引页签(底部圆角 + 描边,贴在顶栏下沿) */
+/* 导航项:索引页签(底部圆角、无描边,贴在顶栏下沿) */
 .navbar a {
-    background: var(--paper-2);
-    border: 1px solid var(--rule-2);
-    border-bottom: 0;
+    background: var(--paper-3);
+    border: 0;
     border-radius: var(--r-sm) var(--r-sm) 0 0;
     padding: 6px 14px 8px;
     color: var(--ink-2);
@@ -2402,6 +2403,79 @@ body {
     height: 15px;
     vertical-align: middle;
 }
+
+/* ---------------------------------------------------------------
+   14f. 项目进度条:斜纹填充的胶囊
+   --------------------------------------------------------------- */
+.progress-item {
+    margin-bottom: 11px;
+}
+
+.progress-label {
+    font-size: 12px;
+    color: var(--ink-2);
+    margin-bottom: 5px;
+}
+
+.vista-progress-track {
+    position: relative;
+    height: 15px;
+    padding: 2px;
+    background: var(--paper-3);
+    border-radius: var(--r-pill);
+    box-shadow: inset 0 1px 3px rgba(61, 58, 56, .13);
+    overflow: hidden;
+}
+
+.vista-progress-fill,
+.vista-progress-fill-pause {
+    height: 100%;
+    border-radius: var(--r-pill);
+    background-color: var(--mint);
+    background-image: repeating-linear-gradient(
+        45deg,
+        rgba(255, 255, 255, .42) 0 5px,
+        transparent 5px 10px
+    );
+    background-size: 14px 14px;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, .4);
+    transition: width 480ms var(--ease-soft);
+    animation: stripeRun 900ms linear infinite;
+}
+
+@keyframes stripeRun {
+    to { background-position: 14px 0; }
+}
+
+/* 每个项目一个颜色,排在一起显得活泼 */
+.progress-item:nth-child(1) .vista-progress-fill { background-color: var(--mint); }
+.progress-item:nth-child(2) .vista-progress-fill { background-color: var(--sky); }
+.progress-item:nth-child(3) .vista-progress-fill { background-color: var(--tape); }
+.progress-item:nth-child(4) .vista-progress-fill { background-color: var(--lilac); }
+
+/* [暂停维护] 的走灰底,停掉条纹滚动 */
+.vista-progress-fill-pause {
+    background-color: #BFB6A4;
+    animation: none;
+}
+
+/* ---------------------------------------------------------------
+   14g. 关闭圆点:每张卡片一个颜色,× 只在 hover 时浮出
+   --------------------------------------------------------------- */
+.sidebar-close-btn {
+    --xxt-dot: #FF5F57;
+    --xxt-dot-x: transparent;
+}
+
+.sidebar-close-btn:hover {
+    --xxt-dot-x: rgba(0, 0, 0, .58);
+}
+
+.sidebar .window:nth-child(1) .sidebar-close-btn { --xxt-dot: #FF5F57; }
+.sidebar .window:nth-child(2) .sidebar-close-btn { --xxt-dot: #FFBD2E; }
+.sidebar .window:nth-child(3) .sidebar-close-btn { --xxt-dot: #28C840; }
+.sidebar .window:nth-child(4) .sidebar-close-btn { --xxt-dot: #3FC7BE; }
+.sidebar .window:nth-child(5) .sidebar-close-btn { --xxt-dot: #B08BE8; }
 
 /* ---------------------------------------------------------------
    15. 响应式(桌面优先,基础降级)
