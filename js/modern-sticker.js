@@ -275,12 +275,7 @@
             if (a.getAttribute('target')) link.setAttribute('target', a.getAttribute('target'));
             if (a.getAttribute('rel')) link.setAttribute('rel', a.getAttribute('rel'));
 
-            var html = '';
-            if (d.img) {
-                html += '<div class="xxt-card-thumb"><img src="' + d.img + '" alt="" loading="lazy" ' +
-                    'onerror="this.parentNode.style.display=\'none\'"></div>';
-            }
-            html += '<div class="xxt-card-main">';
+            var html = '<div class="xxt-card-main">';
             html += '<div class="xxt-card-title">' + clone.innerHTML + '</div>';
             if (d.desc) html += '<p class="xxt-card-desc">' + d.desc + '</p>';
             html += '<div class="xxt-card-meta">';
@@ -610,6 +605,93 @@
     }
 
     /* -----------------------------------------------------------------
+       8b. 背景装饰:漂浮几何 + 滚动视差
+       形状全是 CSS 画的,不引入任何图片;视差用 rAF 节流,
+       每一层的速度不同,滚动时错开形成纵深。
+       ----------------------------------------------------------------- */
+    var DECO = [
+        ['dot',    16, '#FF7A8A', '7%',  '16%', .10, 7],
+        ['ring',   26, '#3FC7BE', '16%', '62%', .18, 9],
+        ['square', 20, '#FFD21F', '30%', '12%', .08, 8],
+        ['star',   22, '#B08BE8', '46%', '72%', .22, 11],
+        ['tri',    18, '#5FB8F0', '58%', '20%', .12, 8],
+        ['dot',    12, '#0E9E92', '68%', '48%', .26, 6],
+        ['square', 26, '#FF7A8A', '78%', '78%', .16, 10],
+        ['star',   16, '#FFD21F', '88%', '26%', .09, 9],
+        ['ring',   34, '#1478C4', '94%', '58%', .20, 12],
+        ['tri',    14, '#3FC7BE', '24%', '88%', .14, 7],
+        ['dot',    20, '#B08BE8', '52%', '40%', .24, 8],
+        ['square', 14, '#1478C4', '82%', '92%', .19, 6]
+    ];
+
+    function buildDeco() {
+        var host = document.createElement('div');
+        host.id = 'xxt-bg-deco';
+        host.setAttribute('aria-hidden', 'true');
+
+        for (var i = 0; i < DECO.length; i++) {
+            var cfg = DECO[i];
+
+            var wrap = document.createElement('div');
+            wrap.className = 'xxt-deco';
+            wrap.setAttribute('data-speed', String(cfg[5]));
+            wrap.style.left = cfg[3];
+            wrap.style.top = cfg[4];
+
+            var shape = document.createElement('span');
+            shape.className = 'xxt-deco-shape xxt-deco-' + cfg[0];
+            shape.style.width = cfg[1] + 'px';
+            shape.style.height = cfg[1] + 'px';
+            shape.style.color = cfg[2];
+            shape.style.animationDuration = cfg[6] + 's';
+            shape.style.animationDelay = (-i * 0.7).toFixed(1) + 's';
+
+            wrap.appendChild(shape);
+            host.appendChild(wrap);
+        }
+
+        document.body.insertBefore(host, document.body.firstChild);
+        return host;
+    }
+
+    function initDeco() {
+        if (reduceMotion) return;
+
+        var host = document.getElementById('xxt-bg-deco') || buildDeco();
+        if (!host) return;
+
+        var items = host.querySelectorAll('.xxt-deco');
+        var ticking = false;
+
+        function update() {
+            ticking = false;
+            var y = window.pageYOffset ||
+                (document.documentElement && document.documentElement.scrollTop) || 0;
+
+            for (var i = 0; i < items.length; i++) {
+                var speed = parseFloat(items[i].getAttribute('data-speed')) || 0.15;
+                items[i].style.transform =
+                    'translate3d(0,' + (-y * speed).toFixed(1) + 'px,0)';
+            }
+        }
+
+        function onScroll() {
+            if (ticking) return;
+            ticking = true;
+            requestAnimationFrame(update);
+        }
+
+        window.addEventListener('scroll', onScroll, { passive: true });
+        window.addEventListener('resize', onScroll, { passive: true });
+        update();
+    }
+
+    function removeDeco() {
+        var host = document.getElementById('xxt-bg-deco');
+        if (host && host.parentNode) host.parentNode.removeChild(host);
+    }
+
+    /* -----------------------------------------------------------------
        主题切换同步:切回旧主题时把 DOM 原样还原
        ----------------------------------------------------------------- */
     function initThemeSync() {
@@ -643,6 +725,7 @@
                 }
                 if (iconState.on) restoreIcons();
                 removeInfobar();
+                removeDeco();
             }
         }
 
@@ -666,6 +749,7 @@
         initBadges();
         initSidebarClose();
         initBgTone();
+        initDeco();
 
         loadSprite(function () {
             initIcons();
