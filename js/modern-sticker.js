@@ -226,8 +226,26 @@
        ----------------------------------------------------------------- */
     var articleState = {
         cards: false,
-        saved: []   // [{ li, html }] 用于切回旧主题时还原
+        saved: [],      // [{ li, html }] 用于切回旧主题时还原
+        firstRun: true  // 只在首次铺卡片时播入场动画
     };
+
+    // 列表还是空的时候先摆几张骨架,index.js 渲染时会被整体替换
+    function showSkeleton() {
+        var list = document.getElementById('articleList');
+        if (!list || list.children.length) return;
+
+        var html = '';
+        for (var i = 0; i < 6; i++) {
+            html += '<li class="xxt-skeleton" aria-hidden="true">' +
+                '<span class="xxt-sk-line xxt-sk-title"></span>' +
+                '<span class="xxt-sk-line"></span>' +
+                '<span class="xxt-sk-line xxt-sk-short"></span>' +
+                '<span class="xxt-sk-line xxt-sk-meta"></span>' +
+                '</li>';
+        }
+        list.innerHTML = html;
+    }
 
     function tagLabel(key) {
         var cfg = window.xxtTagConfig || {};
@@ -240,6 +258,7 @@
 
         var data = window.xxtArticleData || {};
         var items = list.querySelectorAll('li');
+        var made = 0;
 
         for (var i = 0; i < items.length; i++) {
             var li = items[i];
@@ -290,10 +309,20 @@
             html += '</div></div>';
 
             link.innerHTML = html;
+
+            // 首次铺卡片时错落入场(错峰 45ms),之后筛选重渲染不再播
+            if (articleState.firstRun && !reduceMotion) {
+                link.classList.add('xxt-card-enter');
+                link.style.animationDelay = (made * 45) + 'ms';
+            }
+            made++;
+
             li.classList.add('xxt-card');
             li.innerHTML = '';
             li.appendChild(link);
         }
+
+        if (made > 0) articleState.firstRun = false;
     }
 
     function restoreCards() {
@@ -743,6 +772,7 @@
        启动
        ----------------------------------------------------------------- */
     function boot() {
+        showSkeleton();
         initStickerLift();
         initStamp();
         initDisc();

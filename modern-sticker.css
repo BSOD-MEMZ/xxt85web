@@ -792,7 +792,7 @@ body.customizing .footer {
    注意:index.js 会在运行时往 <head> 注入一段 .cat-btn 的 Vista 渐变样式,
    它出现在本文件之后,因此这里用 #tagFilters 前缀提高特异性来盖过它 */
 .cat-btn,
-#tagFilters .cat-btn {
+:is(#tagFilters, #categoryFilters) .cat-btn {
     font-family: var(--font);
     font-size: 12px;
     color: var(--c-blue);
@@ -809,15 +809,15 @@ body.customizing .footer {
 }
 
 /* 逐枚换色,像一排彩色印章 */
-#tagFilters .cat-btn:nth-child(6n+1) { color: var(--c-blue);   background: #EFF6FA; border-color: #C6DDEA; }
-#tagFilters .cat-btn:nth-child(6n+2) { color: var(--c-teal);   background: #EAF7F5; border-color: #BEE4E0; }
-#tagFilters .cat-btn:nth-child(6n+3) { color: var(--c-amber);  background: #FDF5E3; border-color: #EBD9A8; }
-#tagFilters .cat-btn:nth-child(6n+4) { color: var(--c-rose);   background: #FDF0F3; border-color: #F2CBD5; }
-#tagFilters .cat-btn:nth-child(6n+5) { color: var(--c-violet); background: #F4F1FB; border-color: #D9CFEE; }
-#tagFilters .cat-btn:nth-child(6n+6) { color: var(--c-green);  background: #F0F7EC; border-color: #CCE2C0; }
+:is(#tagFilters, #categoryFilters) .cat-btn:nth-child(6n+1) { color: var(--c-blue);   background: #EFF6FA; border-color: #C6DDEA; }
+:is(#tagFilters, #categoryFilters) .cat-btn:nth-child(6n+2) { color: var(--c-teal);   background: #EAF7F5; border-color: #BEE4E0; }
+:is(#tagFilters, #categoryFilters) .cat-btn:nth-child(6n+3) { color: var(--c-amber);  background: #FDF5E3; border-color: #EBD9A8; }
+:is(#tagFilters, #categoryFilters) .cat-btn:nth-child(6n+4) { color: var(--c-rose);   background: #FDF0F3; border-color: #F2CBD5; }
+:is(#tagFilters, #categoryFilters) .cat-btn:nth-child(6n+5) { color: var(--c-violet); background: #F4F1FB; border-color: #D9CFEE; }
+:is(#tagFilters, #categoryFilters) .cat-btn:nth-child(6n+6) { color: var(--c-green);  background: #F0F7EC; border-color: #CCE2C0; }
 
 .cat-btn:hover,
-#tagFilters .cat-btn:hover {
+:is(#tagFilters, #categoryFilters) .cat-btn:hover {
     color: var(--ink);
     transform: translateY(-1px);
     box-shadow: 0 3px 8px -3px rgba(61, 58, 56, .3);
@@ -825,7 +825,7 @@ body.customizing .footer {
 
 /* 选中态放最后,确保盖过上面的逐枚换色 */
 .cat-btn.active,
-#tagFilters .cat-btn.active {
+:is(#tagFilters, #categoryFilters) .cat-btn.active {
     color: #FFFFFF;
     background: var(--c-teal);
     border-color: #23726C;
@@ -2049,7 +2049,7 @@ body.customizing .customize-grid-overlay {
 /* ---------------------------------------------------------------
    14. 贴纸角标(由 modern.js 判定新文章 / 已读)
    --------------------------------------------------------------- */
-.article-list li.is-new a::before {
+#articleList li.is-new a::before {
     content: "";
     display: inline-block;
     width: 8px;
@@ -2060,7 +2060,7 @@ body.customizing .customize-grid-overlay {
     transform: rotate(9deg) translateY(-1px);
 }
 
-.article-list li.is-read a::before {
+#articleList li.is-read a::before {
     content: "✓";
     display: inline-block;
     margin-right: 7px;
@@ -2525,8 +2525,8 @@ body {
     display: none;
 }
 
-/* 页脚那条 GitHub 链接:横跨整行 */
-#articleList > li:not(.xxt-card) {
+/* 页脚那条 GitHub 链接:横跨整行(骨架卡片除外) */
+#articleList > li:not(.xxt-card):not(.xxt-skeleton) {
     grid-column: 1 / -1;
     text-align: center;
     font-size: 12px;
@@ -2535,12 +2535,12 @@ body {
     border-bottom: 0;
 }
 
-.article-list li {
+#articleList li {
     margin: 0;
     border-bottom: 0;
 }
 
-.article-list li.xxt-card .xxt-card-link {
+#articleList li.xxt-card .xxt-card-link {
     display: flex;
     flex-direction: column;
     height: 100%;
@@ -2556,7 +2556,7 @@ body {
                 border-color var(--t-fast) ease;
 }
 
-.article-list li.xxt-card .xxt-card-link:hover {
+#articleList li.xxt-card .xxt-card-link:hover {
     background: #FFFFFF;
     color: inherit;
     border-color: var(--mint);
@@ -2566,7 +2566,7 @@ body {
 }
 
 /* 卡片不用纸角 */
-.article-list li.xxt-card a::after {
+#articleList li.xxt-card a::after {
     display: none;
 }
 
@@ -2632,12 +2632,12 @@ body {
 }
 
 /* 卡片模式下,新文章角标改挂在标题上 */
-.article-list li.is-new a::before,
-.article-list li.is-read a::before {
+#articleList li.is-new a::before,
+#articleList li.is-read a::before {
     display: none;
 }
 
-.article-list li.is-new .xxt-card-title::before {
+#articleList li.is-new .xxt-card-title::before {
     content: "";
     display: inline-block;
     width: 8px;
@@ -2648,13 +2648,57 @@ body {
     transform: rotate(9deg) translateY(-1px);
 }
 
-.article-list li.is-read .xxt-card-title::before {
+#articleList li.is-read .xxt-card-title::before {
     content: "✓";
     display: inline-block;
     margin-right: 7px;
     font-size: 12px;
     line-height: 1;
     color: var(--mint);
+}
+
+/* ---------------------------------------------------------------
+   14h2. 骨架屏与卡片入场
+   --------------------------------------------------------------- */
+#articleList > li.xxt-skeleton {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    min-height: 122px;
+    padding: 15px;
+    background: #FFFFFF;
+    border: 1px solid var(--rule);
+    border-radius: var(--r-md);
+}
+
+.xxt-sk-line {
+    display: block;
+    height: 10px;
+    border-radius: var(--r-pill);
+    background: linear-gradient(90deg,
+        var(--paper-3) 0%, var(--paper-2) 50%, var(--paper-3) 100%);
+    background-size: 220% 100%;
+    animation: skShimmer 1.6s linear infinite;
+}
+
+.xxt-sk-title { height: 14px; width: 72%; }
+.xxt-sk-short { width: 58%; }
+.xxt-sk-meta { width: 42%; margin-top: auto; }
+
+@keyframes skShimmer {
+    from { background-position: 180% 0; }
+    to   { background-position: -80% 0; }
+}
+
+/* 卡片依次贴上来的入场(delay 由 modern.js 逐张递增) */
+@keyframes cardEnter {
+    from { opacity: 0; transform: translateY(10px) scale(.985); }
+    to   { opacity: 1; transform: none; }
+}
+
+#articleList li.xxt-card .xxt-card-link.xxt-card-enter {
+    /* backwards:延迟期间保持起始态,播完立刻交还给元素自身样式(否则会盖住 hover) */
+    animation: cardEnter 380ms var(--ease-soft) backwards;
 }
 
 /* ---------------------------------------------------------------
