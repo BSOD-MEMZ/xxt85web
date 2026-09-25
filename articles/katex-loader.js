@@ -22,14 +22,21 @@
     'use strict';
 
     var BASE = (function () {
-        // 由本脚本自身的 src 推路径,文章页都在 articles/ 下,能正确解析
+        // 由本脚本自身的 src 推路径。
+        // 本脚本在 articles/ 下,而 KaTeX 落在站点根的 vendor/katex/ ——
+        // 所以从自己的 URL 里砍掉 "articles/katex-loader.js",
+        // 得到站点根,再拼 vendor/katex/。(曾经这里直接返回 articles/,
+        // 结果去取 articles/katex.min.js 404,公式一直渲染不出来。)
         var ss = document.getElementsByTagName('script');
         for (var i = ss.length - 1; i >= 0; i--) {
             if (ss[i].src && ss[i].src.indexOf('katex-loader.js') !== -1) {
-                return ss[i].src.replace(/katex-loader\.js.*$/, '');
+                return ss[i].src.replace(/articles\/katex-loader\.js.*$/, '') +
+                    'vendor/katex/';
             }
         }
-        return '';
+        // 兜底:如果没匹配到 articles/ 前缀(比如被内联或换了目录),
+        // 回退成"相对本文件"的 ../vendor/katex/
+        return '../vendor/katex/';
     })();
 
     /* 定界符。顺序有讲究:$$ 必须在 $ 前面,否则 $$ 会被当成两个 $ 处理 */

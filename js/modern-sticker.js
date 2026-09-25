@@ -449,22 +449,46 @@
     };
     var iconPending = false;
 
-    /* 给"带事件的关闭键"打上标记。
-       index.html 里三处 <img class="vista-close-btn" src="images/Window_CloseButton.png">
-       (控制面板 / 留言本 / 欢迎框)的事件都由 index.js 绑 —— 它们不能被换掉。
+    /* 给「换掉就会丢事件、且原脚本不会重新绑定」的关闭键打标记。
 
-       用集合式选择器一次标完:只要它长得像"关闭按钮",又确实是 <img>,就标。
-       将来新增 dialog 时不用改 HTML,也不会漏。 */
+       ⚠️ 这份名单必须**尽量小**。第十二轮踩过:一口气把
+       .vista-close-btn / .sidebar-close-btn 也塞进来,结果它们不再被矢量化,
+       直接露出原始 PNG —— 首页小窗关闭键"返祖",若干窗口的圆点整个消失。
+
+       判断标准:这个元素被换成 <svg> 之后,点击还有效吗?
+         · 事件委托(c 挂在父容器).sidebar-close-btn —— 换掉没事 → 不标
+         · 原脚本自己会重新绑 .uac-close-btn(uac.js 建了一个新 <svg> 并 addEventListener)
+           → 但 uac.js 用的是 images/Window_CloseButton.png,会被通配符命中,
+             所以必须标,否则两套逻辑打架
+         · 直接 addEventListener 绑在本体上,且没人会重绑 → **必须标**
+
+       index.html 里三处 <img class="vista-close-btn" src="images/Window_CloseButton.png">
+       (控制面板 / 留言本 / 欢迎框)的事件由 index.js 直接绑在本体上,换成 <svg> 就丢。
+       但它们的外观需要那个 macos 圆点 —— 所以**不标**,改由 CSS 在 <img> 上自绘
+       (见 modern-sticker.css 的 .vista-close-btn::before/::after,用
+        object-position:-9999px 把 PNG 推出视野,再画红点 + hover 浮出 ×)。
+       这样事件和外观同时保住。 */
     function markKeepAlive() {
         var btns = document.querySelectorAll(
-            '.vista-close-btn, .uac-close-btn, .image-viewer-close, ' +
-            '.image-viewer-nav, .sidebar-close-btn, .infobar-close, ' +
-            '[data-close], .xxt-copy-btn, .xxt-pin-close, .window-close'
+            '.uac-close-btn, .image-viewer-close, .image-viewer-nav, ' +
+            '.infobar-close, .xxt-copy-btn, .xxt-pin-close'
         );
         for (var i = 0; i < btns.length; i++) {
             if (btns[i].tagName === 'IMG') {
                 btns[i].setAttribute('data-xxt-keep', '1');
             }
+        }
+
+        // 从名单里移除过的类名,要把残留的标记清掉 ——
+        // 否则页面若在中途热重载/二次执行,旧的 data-xxt-keep 会一直挡着矢量化
+        var stale = document.querySelectorAll(
+            '.vista-close-btn[data-xxt-keep], ' +
+            '.sidebar-close-btn[data-xxt-keep], ' +
+            '[data-close][data-xxt-keep], ' +
+            '.window-close[data-xxt-keep]'
+        );
+        for (var j = 0; j < stale.length; j++) {
+            stale[j].removeAttribute('data-xxt-keep');
         }
     }
 

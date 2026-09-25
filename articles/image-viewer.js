@@ -22,17 +22,26 @@
     function init() {
         // 获取所有文章内容中的图片
         const contentImages = document.querySelectorAll('.article-content img');
-        
+
         if (contentImages.length === 0) return;
 
+        // 工具栏那三枚图标不在 .article-content 里,但要防患于未然 ——
+        // 它们和正文图放一起会被当成可预览的图。
+        const DECOR_ICONS = /(^|\/)(close|home|printer|left|right|imageclose)\.png$/i;
+
+        // 判定"这是一张正文图"。
+        //
+        // ⚠️ 这里曾经写过 `img.src && !img.src.includes('.png') || img.src.includes('.jpg') || ...`,
+        // 因为 `&&` 比 `||` 结合得紧,实际等价于
+        //     (src && 不是png) || 是jpg || 是jpeg || ...
+        // 于是**所有纯 .png 的正文图被整条排除**(png 不可能又同时是 jpg),
+        // 表现就是"点图片打不开预览"。bmp / webp / gif 等也从没被正确接纳过。
+        // 现在改成:排除已知的装饰图标,其余一律当作正文图。
         images = Array.from(contentImages).filter(img => {
-            // 过滤掉非图片内容的img标签（如按钮图标等）
-            return img.src && 
-                   !img.src.includes('.png') || 
-                   img.src.includes('.jpg') || 
-                   img.src.includes('.jpeg') || 
-                   img.src.includes('.webp') ||
-                   img.src.includes('.gif');
+            const src = img.getAttribute('src') || img.src || '';
+            if (!src) return false;
+            if (DECOR_ICONS.test(src.split('?')[0].split('#')[0])) return false;
+            return true;
         });
 
         if (images.length === 0) return;
