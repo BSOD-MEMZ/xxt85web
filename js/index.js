@@ -669,6 +669,17 @@ window.xxtTagConfig = {
     if (closeBtn) closeBtn.addEventListener('click', hideDialog);
     if (overlay) overlay.addEventListener('click', hideDialog);
 
+    // 兜底:主题脚本可能把这枚 <img> 换成 <svg>(换掉后上面那条监听就失效了),
+    // 或者被伪元素盖住导致点不到元素本身。这里在**不会变动的容器**上再挂一层
+    // 事件委托,只要点在关闭键的区域内就关 —— 无论它现在是什么标签。
+    // 与既有的直接监听并存,重复触发也只是把 display 再设一次 none,无害。
+    dialog.addEventListener('click', function (e) {
+      var t = e.target;
+      if (t && t.closest && t.closest('.vista-close-btn')) {
+        hideDialog();
+      }
+    });
+
     if (resetBtn) {
       resetBtn.addEventListener('click', function () {
         if (confirm('确定要恢复默认设置吗？这将重置背景、设置偏好等，并刷新页面。')) {
@@ -792,6 +803,16 @@ window.xxtTagConfig = {
   };
 
   if (closeGuestbookBtn) closeGuestbookBtn.addEventListener('click', hideGuestbookDialog);
+
+  // 兜底:同控制面板 —— 容器上再挂一层委托,图标被换掉 / 被伪元素盖住也点得动
+  if (guestbookDialog) {
+    guestbookDialog.addEventListener('click', function (e) {
+      var t = e.target;
+      if (t && t.closest && t.closest('.vista-close-btn')) {
+        hideGuestbookDialog();
+      }
+    });
+  }
   if (guestbookOverlay) {
     guestbookOverlay.addEventListener('click', function(e) {
       // 关闭留言本对话框
@@ -1471,6 +1492,13 @@ window.xxtTagConfig = {
     }
 
     if (closeBtn) closeBtn.addEventListener('click', hideDialog);
+    // 兜底:容器委托 —— 图标被换掉 / 被伪元素盖住也点得动
+    dialog.addEventListener('click', function (e) {
+      var t = e.target;
+      if (t && t.closest && t.closest('.vista-close-btn')) {
+        hideDialog();
+      }
+    });
     if (overlay) {
       overlay.addEventListener('click', function() {
         if (dialog.style.display === 'block') {

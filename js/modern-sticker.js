@@ -10,6 +10,7 @@
  *   3. 黑胶旋转   —— 播放器播放时封面缓慢旋转
  *   4. 贴纸角标   —— 给近期文章贴角标,读过的换成小勾
  *   5. 图标替换   —— 把 images/icons/*.png 换成 Phosphor 矢量图标
+ *                    (换成 <svg> 会丢 addEventListener,故有 data-xxt-keep 名单)
  *   6. 搜索框     —— 在顶栏右侧注入站内搜索框
  *
  * 所有 DOM 改动都会在切回旧主题时原样还原,旧样式不受任何影响。
@@ -465,9 +466,13 @@
        index.html 里三处 <img class="vista-close-btn" src="images/Window_CloseButton.png">
        (控制面板 / 留言本 / 欢迎框)的事件由 index.js 直接绑在本体上,换成 <svg> 就丢。
        但它们的外观需要那个 macos 圆点 —— 所以**不标**,改由 CSS 在 <img> 上自绘
-       (见 modern-sticker.css 的 .vista-close-btn::before/::after,用
+       (见 modern-sticker.css 的 .vista-close-btn 与 ::after,用
         object-position:-9999px 把 PNG 推出视野,再画红点 + hover 浮出 ×)。
-       这样事件和外观同时保住。 */
+       这样事件和外观同时保住。
+
+       第十六轮实测:上一版在这儿写了 ".vista-close-btn::before",但 CSS 侧
+       ::before 早被删掉了(它才是吞点击的元凶),注释成了过期信息 —— 已改成 ::after。
+       改这块时记得同步 CSS 里的注释,两处本来就容易走散。 */
     function markKeepAlive() {
         var btns = document.querySelectorAll(
             '.uac-close-btn, .image-viewer-close, .image-viewer-nav, ' +

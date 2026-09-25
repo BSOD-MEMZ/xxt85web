@@ -206,6 +206,14 @@
         if (closeNoteDialogBtn) closeNoteDialogBtn.addEventListener('click', hideNoteDialog);
         if (noteDialogOverlay) noteDialogOverlay.addEventListener('click', hideNoteDialog);
 
+        // 兜底:手账主题会把 images/Window_CloseButton.png 换成 <svg>,
+        // 换掉之后上面那条直接监听就失效了。这里在不会变动的容器上再挂一层
+        // 事件委托,只要点在关闭键区域内就关 —— 无论它现在是什么标签。
+        noteDialog.addEventListener('click', function (e) {
+            var t = e.target;
+            if (t && t.closest && t.closest('.vista-close-btn')) hideNoteDialog();
+        });
+
         renderFilter();
         renderNotes();
     })();

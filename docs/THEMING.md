@@ -118,16 +118,56 @@ MutationObserver         // 每次回调重打一遍(幂等),覆盖动态弹窗
 | 元素 | 换成 svg 后 | 结论 |
 |---|---|---|
 | `.sidebar-close-btn` | 委托在 sidebar 上 | 不标 |
-| `.vista-close-btn` | 事件直接绑本体，会丢；但外观需要 macos 圆点 | 不标，CSS 在 `<img>` 上自绘 |
+| `.vista-close-btn` | 直接绑本体会丢 → **补上容器委托**后就没问题 | 不标（外观交给 `#i-close-dot`） |
 | `.uac-close-btn` | `uac.js` 自建 `<svg>` 并重绑；src 是 `Window_CloseButton.png` 会被命中 | **标** |
 | `.image-viewer-close` / `.image-viewer-nav` | 配套脚本自己升级 | 标 |
 
 当前名单：`.uac-close-btn` · `.image-viewer-close` · `.image-viewer-nav` ·
 `.infobar-close` · `.xxt-copy-btn` · `.xxt-pin-close`
 
-`.vista-close-btn` 的外观由 CSS 画在那枚**保留的 `<img>`** 上
-（`object-position: -9999px -9999px` 推走 PNG，`::before` 画红点、`::after` hover 浮出 ×）
-—— **事件和外观同时保住，这是关键技巧。**
+> ⚠️ **第十六轮定论：`.vista-close-btn` = 矢量化 + 容器委托，别自己画圆。**
+>
+> 它在名单里 → 露出原始 PNG（"返祖"）；移出名单 → 换成 `<svg>` 后**直接监听死了，按钮按不动**。
+> 同一个根因的两个面，报过两次。
+>
+> **正解：照常矢量化**（外观 = sprite 的 `#i-close-dot` 符号，红圆点 + hover 浮出 ×，
+> 颜色走 `--xxt-dot` / `--xxt-dot-x`，与侧栏完全同一套），
+> **点击由容器上的委托兜底**：`closest('.vista-close-btn')`。
+>
+> 委托一共四处，别漏掉后两处（它们不在 `index.js` 里）：
+> `js/index.js`（控制面板 / 留言本 / 欢迎框）、
+> `support/notes/index.html`（内联脚本）、
+> `js/theme-picker.js`（运行时建按钮）。
+>
+> ❌ 不要写 `background` / `::before` / `::after` —— 符号已经画了一个，会叠成两个圆；
+> `<img>` 的 `::before` 还会吞点击。
+> ❌ 不要写 `object-position: -9999px` —— sprite 没加载时整枚按钮会消失。
+
+### 关闭键外观的单一来源
+
+`.vista-close-btn` 与 `.sidebar-close-btn` **共用同一套变量**，只有这两条规则：
+
+```css
+.vista-close-btn          { --xxt-dot: #FF5F57; --xxt-dot-x: transparent; }
+.vista-close-btn:hover    { --xxt-dot-x: rgba(0, 0, 0, .58); }
+```
+
+颜色实际由 `js/modern-sticker-icons.js` 里的 symbol 读取：
+
+```svg
+<symbol id="i-close-dot" viewBox="0 0 16 16">
+  <circle cx="8" cy="8" r="7.6" fill="var(--xxt-dot, #FF5F57)"/>
+  <path d="M5.6 5.6 L10.4 10.4 M10.4 5.6 L5.6 10.4"
+        stroke="var(--xxt-dot-x, transparent)" stroke-width="1.7"
+        stroke-linecap="round" fill="none"/>
+</symbol>
+```
+
+> 为什么 symbol 里的 `fill="var(--xxt-dot)"` 不会被 `.xxt-ic { fill: currentColor }` 盖掉？
+> 因为那条 CSS 作用在 `<svg>` 上、是**继承值**，而 `<circle>` 自带的表现属性
+> 是作用在元素自身的声明 —— 自身声明永远赢过继承值。
+
+改图标颜色时**只动这两条规则**，别去碰符号。
 
 ### 播放键是个例外
 

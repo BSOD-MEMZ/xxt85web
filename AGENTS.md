@@ -233,7 +233,7 @@ js/modern-sticker.js
 | 元素 | 换掉会怎样 | 结论 |
 |---|---|---|
 | `.sidebar-close-btn` | `index.js` 走**事件委托**挂在 sidebar 上 | 换掉没事 → **不标** |
-| `.vista-close-btn` | `index.js` **直接绑在本体**上，换掉就丢 | 但外观需要 macos 圆点 → **不标**，改由 CSS 在 `<img>` 上自绘 |
+| `.vista-close-btn` | 直接绑在本体上，换掉就丢 → **补上容器委托后**换掉没事 | 外观要 macos 圆点 → **不标** |
 | `.uac-close-btn` | `uac.js` 自己建 `<svg>` 并重新 `addEventListener` | 它的 `src` 是 `Window_CloseButton.png`，会被通配符命中 → **必须标** |
 | `.image-viewer-*` | `image-viewer.js` 走事件委托 | 换掉没事，但配套脚本自己会升级 → **标**(见下) |
 
@@ -241,9 +241,32 @@ js/modern-sticker.js
 `.uac-close-btn` · `.image-viewer-close` · `.image-viewer-nav` ·
 `.infobar-close` · `.xxt-copy-btn` · `.xxt-pin-close`
 
-`.vista-close-btn` 的外观由 CSS 画在那枚**保留的 `<img>`** 上
-（`object-position: -9999px -9999px` 把 PNG 推出视野，`::before` 画红点、
-`::after` hover 浮出 ×）——**这样事件和外观同时保住**，这是关键技巧。
+> ⚠️ **第十六轮定论：`.vista-close-btn` 的正确做法是「矢量化 + 容器委托」。**
+>
+> 它在 `markKeepAlive` 名单里时 → 不矢量化 → 露出原始 PNG（"返祖"）；
+> 移出名单后 → 被换成 `<svg>` → 外观对了，但**直接监听死了，按钮按不动**。
+> 两次都是同一个根因的两个面。
+>
+> **最终方案：让它照常被矢量化**（外观交给 `#i-close-dot` 符号，红圆点 + hover 浮出 ×，
+> 颜色走 `--xxt-dot` / `--xxt-dot-x` —— 与侧栏 `.sidebar-close-btn` **同一套**），
+> **点击改由容器上的事件委托兜底**：
+>
+> ```js
+> // js/index.js —— 三处 dialog 各一份
+> dialog.addEventListener('click', function (e) {
+>     var t = e.target;
+>     if (t && t.closest && t.closest('.vista-close-btn')) hideDialog();
+> });
+> ```
+>
+> 另外两处不在 `index.js` 里，别漏：
+> `support/notes/index.html`（内联脚本，`noteDialog` 委托）、
+> `js/theme-picker.js`（运行时建按钮，`dialog` 委托）。
+>
+> ❌ **不要**在 `.vista-close-btn` 上写 `background` / `::before` / `::after` 自己画圆：
+> 符号已经画了一个，会叠成两个；`<img>` 的 `::before` 还会吞点击。
+> ❌ 也**不要**写 `object-position: -9999px` 藏 PNG —— 一旦矢量化失败（sprite 没加载），
+> 整枚按钮就彻底消失了。
 
 如果某处确实需要脚本自己升级图标（如文章页的 `image-viewer.js`），
 优先用**事件委托**挂在父容器上，与节点是否被替换无关。

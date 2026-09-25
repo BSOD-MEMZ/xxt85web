@@ -331,6 +331,16 @@
             destroy();
         });
 
+        // 兜底:手账主题会把 Window_CloseButton.png 换成 <svg>(换掉后上面那条监听就失效),
+        // 也可能被伪元素盖住。这里在对话框外壳上再挂一层事件委托 —— 外壳不会被动过。
+        dialog.addEventListener('click', function (e) {
+            var t = e.target;
+            if (t && t.closest && t.closest('.vista-close-btn')) {
+                if (btnCancel.click) btnCancel.click();
+                else destroy();
+            }
+        });
+
         markActive();
     }
 

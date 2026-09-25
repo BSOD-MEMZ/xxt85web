@@ -1641,73 +1641,41 @@ svg#play-img use.xxt-play-icon {
     padding: 15px 16px 16px;
 }
 
-/* 对话框右上角的关闭键。
-   ⚠️ 这里的 <img> 不能被矢量化 —— 它的点击事件由 index.js 绑在元素实例上,
-   换成 <svg> 事件就没了(这就是"关闭按钮点不动"的原因)。
-   modern-sticker.js 会给它打 `data-xxt-keep` 跳过替换,外观改由 CSS 在这枚 <img>
-   自己身上画:把 PNG 内容推出可视区,再用伪元素画 macOS 交通灯圆点。 */
+/* 对话框右上角的关闭键(控制面板 / 留言本 / 欢迎框 / 便笺 / 风格引导)。
+
+   手账主题下 modern-sticker.js 会把它矢量化成
+     <svg class="xxt-ic vista-close-btn"><use href="#i-close-dot"/></svg>
+   外观由 sprite 里的 #i-close-dot 画:红圆点 + hover 浮出 ×,
+   颜色走 --xxt-dot / --xxt-dot-x —— 与侧栏 .sidebar-close-btn 是同一套。
+   所以这里**只写颜色变量和位置,不要自己画圆**:
+     · 写 background 会和符号叠成两个圆;
+     · 在 <img> 上用 ::before 画底圆,那个伪元素会参与命中测试、把点击吞掉(踩过)。
+
+   ⚠️ 点击靠的是**容器上的事件委托**,不是绑在元素本体的监听。
+   元素被换成 <svg> 之后,index.js 里那条
+     closeBtn.addEventListener('click', hideDialog)
+   就失效了 —— 这才是"关闭按钮按不动"的真正原因(报过两次)。
+   修复见 js/index.js 三处 closest('.vista-close-btn') 兜底。 */
 .vista-close-btn {
-    position: relative;
-    width: 22px;
-    height: 22px;
+    --xxt-dot: #FF5F57;
+    --xxt-dot-x: transparent;
     margin-left: auto;
     padding: 0;
+    vertical-align: middle;
     cursor: pointer;
-    border-radius: 50%;
-    /* 清掉 PNG 画面 */
-    object-fit: none;
-    object-position: -9999px -9999px;
-    overflow: hidden;
-    background: none;
-    transition: transform var(--t-fast) var(--ease-pop);
-}
-
-/* 红点本体 */
-.vista-close-btn::before {
-    content: "";
-    position: absolute;
-    inset: 1px;
-    border-radius: 50%;
-    background: #FF5F57;
-    transition: background-color var(--t-fast) ease;
-}
-
-/* × 只在 hover 时浮出。
-   用两层 45° / -45° 渐变交叉成一个细十字 —— 比 clip-path 稳,
-   也不依赖第二个伪元素(::before 已经被红点占用了)。 */
-.vista-close-btn::after {
-    content: "";
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 8px;
-    height: 8px;
-    margin: -4px 0 0 -4px;
-    background:
-        linear-gradient(45deg, transparent calc(50% - 0.75px),
-                        rgba(0, 0, 0, .58) calc(50% - 0.75px),
-                        rgba(0, 0, 0, .58) calc(50% + 0.75px),
-                        transparent calc(50% + 0.75px)),
-        linear-gradient(-45deg, transparent calc(50% - 0.75px),
-                        rgba(0, 0, 0, .58) calc(50% - 0.75px),
-                        rgba(0, 0, 0, .58) calc(50% + 0.75px),
-                        transparent calc(50% + 0.75px));
-    opacity: 0;
-    transition: opacity var(--t-fast) ease;
-    pointer-events: none;
+    flex: none;
+    transition: transform var(--t-fast) var(--ease-pop),
+                filter var(--t-fast) ease;
 }
 
 .vista-close-btn:hover {
-    transform: scale(1.1);
-    background: none;
-}
-
-.vista-close-btn:hover::after {
-    opacity: 1;
+    --xxt-dot-x: rgba(0, 0, 0, .58);
+    filter: brightness(1.08);
+    transform: scale(1.15);
 }
 
 .vista-close-btn:active {
-    transform: scale(.94);
+    transform: scale(.95);
 }
 
 .vista-btn-primary {
