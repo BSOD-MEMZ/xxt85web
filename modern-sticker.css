@@ -254,9 +254,9 @@ html {
    --------------------------------------------------------------- */
 .wrap {
     width: auto;
-    max-width: 1180px;
+    max-width: 1440px;
     margin: 0 auto;
-    padding: 0 24px;
+    padding: 0 28px;
 }
 
 .clear {
@@ -390,10 +390,10 @@ html {
 /* 内容区:浮动双栏 → Grid */
 .content {
     display: grid;
-    grid-template-columns: minmax(0, 1fr) 300px;
-    gap: 22px;
+    grid-template-columns: minmax(0, 1fr) 320px;
+    gap: 26px;
     align-items: start;
-    padding: 22px 0 32px;
+    padding: 24px 0 36px;
 }
 
 .content::after {
@@ -401,7 +401,7 @@ html {
 }
 
 body.customizing .content {
-    grid-template-columns: minmax(0, 1fr) 300px;
+    grid-template-columns: minmax(0, 1fr) 320px;
 }
 
 .main {
@@ -2507,6 +2507,168 @@ body {
 .sidebar .window:nth-child(3) .sidebar-close-btn { --xxt-dot: #28C840; }
 .sidebar .window:nth-child(4) .sidebar-close-btn { --xxt-dot: #3FC7BE; }
 .sidebar .window:nth-child(5) .sidebar-close-btn { --xxt-dot: #B08BE8; }
+
+/* ---------------------------------------------------------------
+   14h. 文章列表:卡片
+   旧主题要靠 hover 才看得到作者 / 简介 / 日期,这里铺成卡片常驻展示
+   --------------------------------------------------------------- */
+#articleList {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 14px;
+    margin: 12px 0 6px;
+    list-style: none;
+    padding-left: 0;
+}
+
+#articleList > br {
+    display: none;
+}
+
+/* 页脚那条 GitHub 链接:横跨整行 */
+#articleList > li:not(.xxt-card) {
+    grid-column: 1 / -1;
+    text-align: center;
+    font-size: 12px;
+    color: var(--ink-3);
+    padding: 11px 0 2px;
+    border-bottom: 0;
+}
+
+.article-list li {
+    margin: 0;
+    border-bottom: 0;
+}
+
+.article-list li.xxt-card .xxt-card-link {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    background: var(--paper);
+    border: 1px solid var(--rule);
+    border-radius: var(--r-md);
+    box-shadow: var(--sh-1);
+    overflow: hidden;
+    text-decoration: none;
+    transition: transform var(--t-slow) var(--ease-soft),
+                box-shadow var(--t-mid) ease,
+                border-color var(--t-fast) ease;
+}
+
+.article-list li.xxt-card .xxt-card-link:hover {
+    background: var(--paper);
+    color: inherit;
+    border-color: var(--rule-2);
+    transform: translateY(-3px);
+    box-shadow: var(--sh-2);
+}
+
+/* 卡片不用纸角,避免和缩略图打架 */
+.article-list li.xxt-card a::after {
+    display: none;
+}
+
+.xxt-card-thumb {
+    aspect-ratio: 16 / 9;
+    overflow: hidden;
+    background: var(--paper-3);
+    border-bottom: 1px dashed var(--rule);
+}
+
+.xxt-card-thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    border-radius: 0;
+}
+
+.xxt-card-main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding: 14px 15px 15px;
+}
+
+.xxt-card-title {
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 1.55;
+    color: var(--ink);
+}
+
+.xxt-card-title img {
+    margin-right: 5px;
+}
+
+.xxt-card-desc {
+    margin: 0;
+    font-size: 12px;
+    line-height: 1.65;
+    color: var(--ink-2);
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.xxt-card-meta {
+    margin-top: auto;
+    padding-top: 9px;
+    border-top: 1px dashed var(--rule);
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 7px;
+    font-size: 11px;
+    color: var(--ink-3);
+}
+
+.xxt-card-author {
+    color: var(--c-teal);
+}
+
+.xxt-card-tag {
+    font-size: 11px;
+    color: var(--c-blue);
+    background: #EFF6FA;
+    border: 1px solid #C6DDEA;
+    border-radius: var(--r-pill);
+    padding: 1px 9px;
+    cursor: pointer;
+    transition: background-color var(--t-fast) ease;
+}
+
+.xxt-card-tag:hover {
+    background: #FFFFFF;
+}
+
+/* 卡片模式下,新文章角标改挂在标题上 */
+.article-list li.is-new a::before,
+.article-list li.is-read a::before {
+    display: none;
+}
+
+.article-list li.is-new .xxt-card-title::before {
+    content: "";
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    margin-right: 7px;
+    background: var(--coral);
+    border-radius: 2px;
+    transform: rotate(9deg) translateY(-1px);
+}
+
+.article-list li.is-read .xxt-card-title::before {
+    content: "✓";
+    display: inline-block;
+    margin-right: 7px;
+    font-size: 12px;
+    line-height: 1;
+    color: var(--mint);
+}
 
 /* ---------------------------------------------------------------
    15. 响应式(桌面优先,基础降级)

@@ -179,6 +179,8 @@
         }
 
         function mark() {
+            if (articleState.cards) buildCards();
+
             var items = list.querySelectorAll('li');
             for (var i = 0; i < items.length; i++) {
                 var li = items[i];
@@ -216,6 +218,109 @@
             new MutationObserver(mark).observe(list, { childList: true });
         }
     }
+
+    /* -----------------------------------------------------------------
+       4b. 文章列表卡片化
+       旧主题要靠 hover 才看得到作者 / 简介 / 日期,这里直接铺成卡片常驻展示。
+       数据取自 window.xxtArticleData(由 index.js 提供),不重复定义。
+       ----------------------------------------------------------------- */
+    var articleState = {
+        cards: false,
+        saved: []   // [{ li, html }] 用于切回旧主题时还原
+    };
+
+    function tagLabel(key) {
+        var cfg = window.xxtTagConfig || {};
+        return (cfg[key] && cfg[key].name) ? cfg[key].name : key;
+    }
+
+    function buildCards() {
+        var list = document.getElementById('articleList');
+        if (!list) return;
+
+        var data = window.xxtArticleData || {};
+        var items = list.querySelectorAll('li');
+
+        for (var i = 0; i < items.length; i++) {
+            var li = items[i];
+            if (li.classList.contains('xxt-card')) continue;
+
+            var a = li.querySelector('a');
+            if (!a) continue;
+
+            var href = a.getAttribute('href') || '';
+            if (href.indexOf('github.com') > -1) continue;   // 跳过页脚那条外链
+
+            var key = null;
+            for (var k in data) {
+                if (data[k] && data[k].url === href) {
+                    key = k;
+                    break;
+                }
+            }
+            if (!key) continue;
+
+            var d = data[key];
+
+            articleState.saved.push({ li: li, html: li.innerHTML });
+
+            // 沿用原标题(含"编辑中""外链""热门"等标记图标),剔除 hover 预览框
+            var clone = a.cloneNode(true);
+            var box = clone.querySelector('.preview-box');
+            if (box && box.parentNode) box.parentNode.removeChild(box);
+
+            var link = document.createElement('a');
+            link.className = 'xxt-card-link';
+            link.setAttribute('href', href);
+            if (a.getAttribute('target')) link.setAttribute('target', a.getAttribute('target'));
+            if (a.getAttribute('rel')) link.setAttribute('rel', a.getAttribute('rel'));
+
+            var html = '';
+            if (d.img) {
+                html += '<div class="xxt-card-thumb"><img src="' + d.img + '" alt="" loading="lazy" ' +
+                    'onerror="this.parentNode.style.display=\'none\'"></div>';
+            }
+            html += '<div class="xxt-card-main">';
+            html += '<div class="xxt-card-title">' + clone.innerHTML + '</div>';
+            if (d.desc) html += '<p class="xxt-card-desc">' + d.desc + '</p>';
+            html += '<div class="xxt-card-meta">';
+            if (d.author) html += '<span class="xxt-card-author">' + d.author + '</span>';
+            if (d.date) html += '<span class="xxt-card-date">' + d.date + '</span>';
+            if (d.tags && d.tags.length) {
+                for (var t = 0; t < d.tags.length; t++) {
+                    html += '<span class="xxt-card-tag" data-tag="' + d.tags[t] + '">' +
+                        tagLabel(d.tags[t]) + '</span>';
+                }
+            }
+            html += '</div></div>';
+
+            link.innerHTML = html;
+            li.classList.add('xxt-card');
+            li.innerHTML = '';
+            li.appendChild(link);
+        }
+    }
+
+    function restoreCards() {
+        for (var i = 0; i < articleState.saved.length; i++) {
+            var item = articleState.saved[i];
+            item.li.classList.remove('xxt-card');
+            item.li.innerHTML = item.html;
+        }
+        articleState.saved = [];
+    }
+
+    // 卡片上的标签可以直接当筛选器用
+    document.addEventListener('click', function (e) {
+        var tag = e.target && e.target.closest ? e.target.closest('.xxt-card-tag') : null;
+        if (!tag) return;
+        e.preventDefault();
+        e.stopPropagation();
+
+        var key = tag.getAttribute('data-tag');
+        var btn = document.querySelector('.cat-btn[data-tag="' + key + '"]');
+        if (btn) btn.click();
+    }, true);
 
     /* -----------------------------------------------------------------
        5. 图标:Phosphor sprite 替换
@@ -522,15 +627,22 @@
                 searchBox.style.display = modern ? '' : 'none';
             }
 
-            if (!modern) removeInfobar();
-
             if (modern) {
+                if (!articleState.cards) {
+                    articleState.cards = true;
+                    buildCards();
+                }
                 if (!iconState.on) {
                     iconState.on = true;
                     swapIcons();
                 }
-            } else if (iconState.on) {
-                restoreIcons();
+            } else {
+                if (articleState.cards) {
+                    articleState.cards = false;
+                    restoreCards();
+                }
+                if (iconState.on) restoreIcons();
+                removeInfobar();
             }
         }
 
