@@ -11,4 +11,13 @@
     // 从 theme-loader.js 自身位置推导站点根目录，兼容 file:// 和 http(s)://
     var rootPath = document.currentScript.src.replace(/\/js\/theme-loader\.js.*$/, '/');
     link.href = rootPath + theme;
+
+    // 部分主题带有配套脚本(modern-xxx.css → js/modern-xxx.js)。
+    // 默认主题 style.css / xpstyle.css 不匹配此规则,行为与改动前完全一致。
+    var paired = /^(modern[a-z0-9-]*)\.css$/i.exec(theme);
+    if (!paired) return;
+    var script = document.createElement('script');
+    script.src = rootPath + 'js/' + paired[1] + '.js';
+    script.defer = true;
+    document.head.appendChild(script);
 })();

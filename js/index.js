@@ -1007,7 +1007,7 @@ window.xxtTagConfig = {
     if (!panel || !openBtn) return;
 
     // 主题列表
-    var themes = ['style.css', 'xpstyle.css'];
+    var themes = ['style.css', 'xpstyle.css', 'modern-sticker.css'];
 
     // 保存打开时的初始状态，用于"取消"恢复
     var savedWindowStates = {};
