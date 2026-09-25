@@ -95,23 +95,39 @@ new MutationObserver(sync).observe(link, { attributes: true, attributeFilter: ['
 特别注意**写进行内样式**的注入（如封面的 `style.transform`）——
 切回旧主题时不会自动消失，必须显式清掉。
 
-### 图标替换的通用保护：`data-xxt-keep`
+### 图标替换的通用保护：`data-xxt-keep`（名单必须尽量小）
 
 `addEventListener` 绑在元素实例上，把 `<img>` 换成 `<svg>` 会连事件一起丢掉。
-先后踩过四次（UAC 关闭、图片预览关闭/翻页、对话框关闭、侧栏关闭），
-第四轮起改为机制级收口，**不要再一个个加 `:not()` 例外**：
+先后踩过四次（UAC 关闭、图片预览关闭/翻页、对话框关闭、侧栏关闭）。
 
 ```js
 // js/modern-sticker.js
-markKeepAlive()          // 给可点击图标元素打 data-xxt-keep
+markKeepAlive()          // 给"必须保留 <img> 本体"的元素打 data-xxt-keep
 ICON_SELECTOR            // 每个分支统一 :not([data-xxt-keep])
 initIcons()              // markKeepAlive() 必须早于 swapIcons()
 MutationObserver         // 每次回调重打一遍(幂等),覆盖动态弹窗
 ```
 
-候选类名见 `markKeepAlive()` 内的列表。**新增弹窗只需把关闭按钮类名加进那张表，零 HTML 改动。**
-外观则由 CSS 画在那枚保留的 `<img>` 上（`.vista-close-btn` 用
-`object-position: -9999px -9999px` 把 PNG 推出视野，再 `::before/::after` 自绘红点）。
+> ⚠️ **第五轮踩过：这份名单一网打尽就出事。**
+> 当时把 `.vista-close-btn` / `.sidebar-close-btn` 也标了 → 它们不再被矢量化，
+> 直接露出原始 PNG：首页小窗关闭键"返祖"，侧栏圆点整个消失
+> （那套圆点是**矢量化后的 `i-close-dot`** 画的，不是 CSS 画的）。
+
+**唯一判断标准：这个元素被换成 `<svg>` 之后，点击还有效吗？**
+
+| 元素 | 换成 svg 后 | 结论 |
+|---|---|---|
+| `.sidebar-close-btn` | 委托在 sidebar 上 | 不标 |
+| `.vista-close-btn` | 事件直接绑本体，会丢；但外观需要 macos 圆点 | 不标，CSS 在 `<img>` 上自绘 |
+| `.uac-close-btn` | `uac.js` 自建 `<svg>` 并重绑；src 是 `Window_CloseButton.png` 会被命中 | **标** |
+| `.image-viewer-close` / `.image-viewer-nav` | 配套脚本自己升级 | 标 |
+
+当前名单：`.uac-close-btn` · `.image-viewer-close` · `.image-viewer-nav` ·
+`.infobar-close` · `.xxt-copy-btn` · `.xxt-pin-close`
+
+`.vista-close-btn` 的外观由 CSS 画在那枚**保留的 `<img>`** 上
+（`object-position: -9999px -9999px` 推走 PNG，`::before` 画红点、`::after` hover 浮出 ×）
+—— **事件和外观同时保住，这是关键技巧。**
 
 ### 播放键是个例外
 

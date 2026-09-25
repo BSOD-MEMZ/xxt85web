@@ -207,33 +207,43 @@ node .workbuddy/tmp/gen-icons.js js/modern-sticker-icons.js
   发起 DNS 解析与 TCP 握手——**关掉状态下一次请求都不该发出**。
 - 改动需**刷新页面**才生效（脚本只在页面加载时注入一次）。
 
-### 9. 图标替换会吃掉点击事件（已有统一机制，别再逐个打补丁）
+### 9. 图标替换会吃掉点击事件（有机制，但名单必须尽量小）
 
 `addEventListener` 绑在**元素实例**上。把带监听的 `<img>` 换成 `<svg>`，事件跟着元素一起消失，
 表现就是「按钮点不动」。先后踩过四次：UAC 关闭、图片预览关闭/翻页、对话框 `.vista-close-btn`、
 侧栏关闭。
 
-**第四轮起改为机制级收口，不要再一个个加 `:not()` 例外：**
+机制：
 
 ```
 js/modern-sticker.js
-  markKeepAlive()   → 给一批"可点击图标元素"打 data-xxt-keep
+  markKeepAlive()   → 给"必须保留 <img> 本体"的元素打 data-xxt-keep
   ICON_SELECTOR     → 每个分支统一 :not([data-xxt-keep])
   initIcons()       → markKeepAlive() 必须早于 swapIcons()(顺序反了会漏标)
   MutationObserver  → 每次回调重打一遍(幂等),覆盖动态弹出的对话框
 ```
 
-`markKeepAlive()` 里的候选类名：
+> ⚠️ **第五轮踩过：这份名单一网打尽就出事。**
+> 当时把 `.vista-close-btn` / `.sidebar-close-btn` 也标了，结果它们不再被矢量化，
+> 直接露出原始 PNG —— 首页小窗关闭键"返祖"，侧栏的圆点整个消失
+> （那套圆点是靠矢量化后的 `i-close-dot` 画的，不是 CSS 画的）。
 
-```
-.vista-close-btn  .uac-close-btn  .image-viewer-close  .image-viewer-nav
-.sidebar-close-btn  .infobar-close  [data-close]  .xxt-copy-btn
-.xxt-pin-close  .window-close
-```
+**唯一判断标准：这个元素被换成 `<svg>` 之后，点击还有效吗？**
 
-**新增弹窗时：把它的关闭按钮类名加进这张表即可，不必改 HTML、不必写新选择器。**
-外观改由 CSS 直接画在那枚「保留的 `<img>`」上（如 `.vista-close-btn` 用
-`object-position: -9999px -9999px` 把 PNG 推出视野，再用 `::before/::after` 自绘红点）。
+| 元素 | 换掉会怎样 | 结论 |
+|---|---|---|
+| `.sidebar-close-btn` | `index.js` 走**事件委托**挂在 sidebar 上 | 换掉没事 → **不标** |
+| `.vista-close-btn` | `index.js` **直接绑在本体**上，换掉就丢 | 但外观需要 macos 圆点 → **不标**，改由 CSS 在 `<img>` 上自绘 |
+| `.uac-close-btn` | `uac.js` 自己建 `<svg>` 并重新 `addEventListener` | 它的 `src` 是 `Window_CloseButton.png`，会被通配符命中 → **必须标** |
+| `.image-viewer-*` | `image-viewer.js` 走事件委托 | 换掉没事，但配套脚本自己会升级 → **标**(见下) |
+
+当前名单（`markKeepAlive()`）：
+`.uac-close-btn` · `.image-viewer-close` · `.image-viewer-nav` ·
+`.infobar-close` · `.xxt-copy-btn` · `.xxt-pin-close`
+
+`.vista-close-btn` 的外观由 CSS 画在那枚**保留的 `<img>`** 上
+（`object-position: -9999px -9999px` 把 PNG 推出视野，`::before` 画红点、
+`::after` hover 浮出 ×）——**这样事件和外观同时保住**，这是关键技巧。
 
 如果某处确实需要脚本自己升级图标（如文章页的 `image-viewer.js`），
 优先用**事件委托**挂在父容器上，与节点是否被替换无关。
@@ -302,6 +312,36 @@ loadstart(切歌) → angle = 0
 `discReset()` 已在 `initThemeSync()` 的还原分支里调用 —— **新增这类「写进行内样式」的
 注入，务必同样挂上还原，否则切回旧主题会留下残余。**
 
+### 14. 别相信「加载失败会被看到」——`onerror` 静默吞掉的坑
+
+第五轮踩到：`katex-loader.js` 的 `BASE` 用自身 `src` 推出 `articles/`，
+但 KaTeX 实际躺在站点根的 `vendor/katex/`。于是它去请求 `articles/katex.min.js` → 404，
+`onerror` 里只是 `loadCallbacks = []` 静默收场，**页面上一点报错都没有**，
+表现就是「公式没渲染，一堆 `$`」。这种 bug 靠肉眼看页面是查不出来的。
+
+两条经验：
+
+1. **路径一定要实测解析结果**，别推一遍就当对。用 `node -e` 模拟几种 src
+   （`https://` / `http://localhost` / `file://`）看拼出来什么。
+2. **凡是 `onerror` 静默降级的加载器，都要有独立验证手段。**
+   KaTeX 这种可以在 Node 里用 `vm` + 最小 DOM 垫片跑一遍
+   （`document.compatMode='CSS1Compat'`，否则它会抱怨 quirks mode）。
+
+### 15. `&&` 和 `||` 混用会悄悄吃掉一整类图片
+
+`articles/image-viewer.js` 里的旧过滤器：
+
+```js
+img.src && !img.src.includes('.png') || img.src.includes('.jpg') || …
+```
+
+`&&` 结合得比 `||` 紧，实际等价于 `(src && 不是png) || 是jpg || …`。
+`.png` 不可能同时又是 `.jpg`，**于是所有纯 `.png` 的正文图被整条排除** ——
+点上去没反应。`assets/xpbutton3.png`、`bmp324.png`、`AeroShot6.png` 全中招。
+
+改成**允许式**判定更稳：排除已知的装饰图标（`close`/`home`/`printer`/`left`/`right`），
+其余一律当正文图。
+
 ---
 
 ## LaTeX 公式
@@ -312,11 +352,23 @@ KaTeX 0.16.9 **已本地化**在 `vendor/katex/`（含 20 个 woff2，无 CDN �
 <script src="katex-loader.js"></script>   <!-- 文章页 </body> 前加这一行 -->
 ```
 
+> ⚠️ **路径推导是这里最容易翻车的地方。**
+> `katex-loader.js` 在 `articles/`，而 KaTeX 在站点根的 `vendor/katex/` ——
+> 两者不同目录。`BASE` 必须从自身 `src` 里砍掉 `articles/katex-loader.js`
+> 得到站点根，再拼 `vendor/katex/`（另留 `../vendor/katex/` 兜底）。
+> 写错就会 404，而 `onerror` 是静默降级的，**页面上一堆 `$` 且毫无报错**（第五轮就是）。
+
 正文里直接写 `$…$`（行内）、`$$…$$`（独行），也支持 `\(…\)` / `\[…\]`。
 
 - **按需加载**：正文没有定界符就一个字节都不取
 - **不用**官方 `auto-render`：它跳过不了 `<pre>`/`<code>`，命令行里的 `$PATH`、PHP 变量会被误当公式
 - 包裹层 `.xxt-math-inline` / `.xxt-math-display`，两套文章页 CSS 各自排版
+- 自测（无需浏览器）：
+  ```bash
+  node -e "const fs=require('fs'),vm=require('vm'); ..."   # vm + DOM 垫片跑真 KaTeX
+  ```
+  重点验证 `katex.version` 能打印、`renderToString` 有输出、
+  且 `vendor/katex/fonts/` 里 20 个 woff2 与 CSS 的 20 条 `url(fonts/…)` 一一对应。
 
 ---
 
