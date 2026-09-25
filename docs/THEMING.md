@@ -83,6 +83,7 @@ link.href = rootPath + (localStorage['theme'] || 'style.css');
 | `modern-sticker.js` | 背景装饰层 | `removeDeco()` 移除节点 |
 | `modern-sticker.js` | 侧栏提示条 | `removeInfobar()` |
 | `modern-sticker.js` | 侧栏删除动画的状态类 | `sync()` 里清掉 `.xxt-removing` / `.xxt-restoring` |
+| `modern-sticker.js` | 唱片封面的行内 `transform`（旋转角） | `discReset()` 摘掉行内 style + 归零角度 |
 
 统一监听 `#themeCss` 的 `href` 变化来判断是否切走：
 
@@ -91,6 +92,26 @@ new MutationObserver(sync).observe(link, { attributes: true, attributeFilter: ['
 ```
 
 **新增任何注入，都要在这个 `sync()` 里补上还原分支。**
+特别注意**写进行内样式**的注入（如封面的 `style.transform`）——
+切回旧主题时不会自动消失，必须显式清掉。
+
+### 图标替换的通用保护：`data-xxt-keep`
+
+`addEventListener` 绑在元素实例上，把 `<img>` 换成 `<svg>` 会连事件一起丢掉。
+先后踩过四次（UAC 关闭、图片预览关闭/翻页、对话框关闭、侧栏关闭），
+第四轮起改为机制级收口，**不要再一个个加 `:not()` 例外**：
+
+```js
+// js/modern-sticker.js
+markKeepAlive()          // 给可点击图标元素打 data-xxt-keep
+ICON_SELECTOR            // 每个分支统一 :not([data-xxt-keep])
+initIcons()              // markKeepAlive() 必须早于 swapIcons()
+MutationObserver         // 每次回调重打一遍(幂等),覆盖动态弹窗
+```
+
+候选类名见 `markKeepAlive()` 内的列表。**新增弹窗只需把关闭按钮类名加进那张表，零 HTML 改动。**
+外观则由 CSS 画在那枚保留的 `<img>` 上（`.vista-close-btn` 用
+`object-position: -9999px -9999px` 把 PNG 推出视野，再 `::before/::after` 自绘红点）。
 
 ### 播放键是个例外
 
@@ -103,6 +124,27 @@ new MutationObserver(sync).observe(link, { attributes: true, attributeFilter: ['
 > 隐藏规则要写成 `svg#play-img use.xxx`（特异性 `(0,1,1)`）——
 > 全局 `.xxt-ic { display: inline-block }` 是 `(0,1,0)` 且在文件更靠后，
 > 特异性不够就会被它盖掉，结果是**播放/暂停两个图标同时画出来叠在一起**。
+>
+> ⚠️ **顺序同样致命**：必须是「先全藏 → 再无条件放行 play → 最后用
+> `.aero-player.is-playing` (`(0,2,2)`) 收回 play 放行 pause」。
+> 若在「全藏」之后又出现一条同特异性的 play 规则，会把 `display:none` 掀掉，
+> 两个图标再次重叠（第三轮就栽在这）。
+> 判特异性别靠肉眼，跑 `.workbuddy/tmp/test-play-cascade.js`（自写层叠模拟器）。
+
+### 唱片旋转：只能写行内 `transform`
+
+封面旋转**不能**用 CSS `animation`：一暂停 `.playing` 被摘，animation 消失，
+`transform` 立刻掉回 `0deg` —— 看着就是「啪」地弹回正位。
+且 `animation` 在运行时会覆盖行内 `transform`，两者不能共存。
+
+现实现（`modern-sticker.js` 的 `initDisc()`）：
+
+```
+play   → rAF 累加 angle(14s 一圈),写进行内 transform
+pause  → cancelAnimationFrame,不重置 angle → 停在当前帧
+loadstart(切歌) → angle = 0
+切回默认主题   → discReset() 摘掉行内 transform
+```
 
 ### UAC 的关闭按钮不要碰
 
@@ -113,23 +155,37 @@ new MutationObserver(sync).observe(link, { attributes: true, attributeFilter: ['
 
 ### 图标替换会吃掉点击事件（通用坑）
 
-`addEventListener` 绑在**元素实例**上。把带监听的 `<img>` 换成 `<svg>`，
-旧元素被替换出文档，监听跟着一起没了 —— 表现就是"按钮点不动"。
+→ 见上文 [「图标替换的通用保护：`data-xxt-keep`」](#图标替换的通用保护data-xxt-keep)。
+一句话：**别再逐个加 `:not()`，把类名加进 `markKeepAlive()` 的候选表。**
 
-已知两处踩过：
-
-| 元素 | 处理方式 |
-|---|---|
-| `.uac-close-btn` | 选择器里 `:not(.uac-close-btn)` 排除，`uac.js` 自己升级 |
-| `.image-viewer-close` / `.image-viewer-nav` | 选择器里 `:not(...)` 排除；`image-viewer.js` 改用**事件委托**挂在 modal 上，与节点是否被换无关 |
-
-**新加图标替换时先确认目标有没有绑事件；有就排除，或者让原脚本自己升级、或改委托。**
+若某处确实需要脚本自己升级图标（如文章页的 `image-viewer.js`），
+优先用**事件委托**挂在父容器上，与节点是否被替换无关。
 
 ### chips（`.cat-btn`）里的图标一律不换
 
 它们是配色装饰点，主题里已 `display: none`。替换成矢量只会多造无用节点，
 而且 `data-icon` 的着色规则会和 chip 自身颜色打架 —— 所以 `ICON_SELECTOR` 里
 用 `:not(.cat-btn *)` 排除。
+
+### 无窗口包裹的页面（裸 `.main`）
+
+多数页面的内容包在 `.window > .window-content` 里，主题规则针对这个结构写。
+但有些页面 `.main` 下是**裸**的 `h2 / p / h3 / hr`，一条窗口规则都套不上：
+
+- `support/chomowan/index.html`（雷达图 / 剧情图两段 canvas）
+- `articles.html`（0 个 `.window`）
+
+这类页面在 `modern-sticker.css` 里有专门一节 `14c` 兜底：
+
+| 元素 | 问题 | 处理 |
+|---|---|---|
+| `hr` | **`style.css` 从未定义过 `hr`**，一直是浏览器默认的灰色凹线 | 改成主题的 `2px dashed` 接缝 |
+| 裸 `.main > h3` | 没有窗口内那套四色轮换 | 左侧补一枚旋转 9° 的彩色小书签 |
+| 裸 `.main > canvas` | 直接贴在白纸上，没有边界 | 给一张纸作底（纸色 + 描边 + 圆角 + 阴影） |
+| 页面自带的内联 Aero 样式 | 如 chomowan 的 `.aero-radar-legend .chip` 蓝白玻璃渐变 | 用更高特异性在主题里改写（不改 HTML） |
+
+**约定：这类页面不写入主题系统之外的处理，一律在 `modern-sticker.css` 里兜底，
+不碰页面自己的 HTML。**
 
 ### UAC 在文章页也必须是手账样式
 

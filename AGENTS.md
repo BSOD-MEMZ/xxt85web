@@ -207,23 +207,58 @@ node .workbuddy/tmp/gen-icons.js js/modern-sticker-icons.js
   发起 DNS 解析与 TCP 握手——**关掉状态下一次请求都不该发出**。
 - 改动需**刷新页面**才生效（脚本只在页面加载时注入一次）。
 
-### 9. 图标替换会吃掉点击事件
+### 9. 图标替换会吃掉点击事件（已有统一机制，别再逐个打补丁）
 
 `addEventListener` 绑在**元素实例**上。把带监听的 `<img>` 换成 `<svg>`，事件跟着元素一起消失，
-表现就是「按钮点不动」。已踩过两次：
+表现就是「按钮点不动」。先后踩过四次：UAC 关闭、图片预览关闭/翻页、对话框 `.vista-close-btn`、
+侧栏关闭。
 
-- `.uac-close-btn`：选择器里 `:not(.uac-close-btn)` 排除，由 `uac.js` 的 `upgradeCloseBtn()` 自己升级
-- `.image-viewer-close` / `.image-viewer-nav`：同样排除；`articles/image-viewer.js` 改用**事件委托**挂在 modal 上，
-  与节点是否被替换无关
+**第四轮起改为机制级收口，不要再一个个加 `:not()` 例外：**
 
-**加图标替换前先确认目标有没有绑事件。有就排除，或让原脚本自己升级，或改成委托。**
+```
+js/modern-sticker.js
+  markKeepAlive()   → 给一批"可点击图标元素"打 data-xxt-keep
+  ICON_SELECTOR     → 每个分支统一 :not([data-xxt-keep])
+  initIcons()       → markKeepAlive() 必须早于 swapIcons()(顺序反了会漏标)
+  MutationObserver  → 每次回调重打一遍(幂等),覆盖动态弹出的对话框
+```
 
-### 10. 两个图标塞进一个 `<svg>` 时必须显式打底 `display:none`
+`markKeepAlive()` 里的候选类名：
+
+```
+.vista-close-btn  .uac-close-btn  .image-viewer-close  .image-viewer-nav
+.sidebar-close-btn  .infobar-close  [data-close]  .xxt-copy-btn
+.xxt-pin-close  .window-close
+```
+
+**新增弹窗时：把它的关闭按钮类名加进这张表即可，不必改 HTML、不必写新选择器。**
+外观改由 CSS 直接画在那枚「保留的 `<img>`」上（如 `.vista-close-btn` 用
+`object-position: -9999px -9999px` 把 PNG 推出视野，再用 `::before/::after` 自绘红点）。
+
+如果某处确实需要脚本自己升级图标（如文章页的 `image-viewer.js`），
+优先用**事件委托**挂在父容器上，与节点是否被替换无关。
+
+### 10. 两个图标塞进一个 `<svg>` 时必须显式打底 `display:none`，且顺序不能反
 
 `#play-img` 要切「播放/暂停」，矢量没法换 `src`，所以两枚 `<use>` 一起塞。
 但全局 `.xxt-ic { display: inline-block }` 是 `(0,1,0)` 且在文件更靠后，
 隐藏规则若也只写 `(0,1,0)` 会被它盖掉 —— **两个图标同时画出来叠在一起**。
 隐藏规则要抬到 `(0,1,1)`：`svg#play-img use.xxt-play-icon { display: none }`。
+
+**更隐蔽的坑（第三轮就是栽在这）：** 三条规则的特异性/顺序必须严格是
+
+```
+1. svg#play-img use.xxt-play-icon,
+   svg#play-img use.xxt-pause-icon        { display: none  }   ← 先全藏
+2. svg#play-img use.xxt-play-icon         { display: block }   ← 无条件放行 play
+3. .aero-player.is-playing …play-icon     { display: none  }   ← 播放时收回
+   .aero-player.is-playing …pause-icon    { display: block }
+```
+
+第 2 条若被写到第 1 条之前（或之后又出现一条同特异性的 play 规则），
+就会把第 1 条的 `display:none` 掀掉，**两枚图标又叠一起**。
+判特异性别靠肉眼 —— `.workbuddy/tmp/test-play-cascade.js` 是个自写的层叠模拟器，
+跑一遍就有结论。
 
 ### 11. 主题 CSS 在文章页不存在
 
@@ -242,6 +277,30 @@ UAC 的解法是把覆盖搬进 `js/uac.js`（`id="uac-sticker-styles"`，按主
 另一个坑：`autoload.js` 里 `cubism5Path` 原本指向 `cubism.live2d.com`（外部 CDN）。
 本站模型（`model/bilibili-live/22`、`/33`）都是 Cubism 2 的 `model.moc`，
 版本判定为 2，**那条外部路径永远不会被读取** —— 已改成本地路径，别改回去。
+
+### 13. 想「暂停后停在原角度」，就不能用 CSS `animation`
+
+唱片封面（`.wmp-album-art img`）原本靠 `.aero-player.playing { animation: spinDisc }` 转。
+问题：一暂停 `.playing` 被摘掉，animation 随之消失，`transform` 立刻掉回 `0deg` ——
+视觉上就是「啪」地弹回正位。
+
+**`animation` 和行内 `transform` 会互相打架**：animation 在跑的时候会覆盖行内值。
+所以「保持角度」只能二选一：
+
+- 用 JS 逐帧累加角度，写进 **行内 `transform`**（行内优先级最高，谁也掀不掉）
+- 暂停 = `cancelAnimationFrame` + 不动角度 + 重新 `render()`
+
+现实现见 `js/modern-sticker.js` 的 `initDisc()`：
+
+```
+play   → requestAnimationFrame 累加 angle(14s 一圈)
+pause  → cancelAnimationFrame,不重置 angle,把当前角度固化到行内 transform
+loadstart(切歌) → angle = 0
+切回默认主题 → discReset() 摘掉行内 transform(否则默认主题封面一直歪着)
+```
+
+`discReset()` 已在 `initThemeSync()` 的还原分支里调用 —— **新增这类「写进行内样式」的
+注入，务必同样挂上还原，否则切回旧主题会留下残余。**
 
 ---
 
