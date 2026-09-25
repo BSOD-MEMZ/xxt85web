@@ -216,10 +216,14 @@ img {
     border-radius: var(--r-xs);
 }
 
-/* 滚动条 */
+/* 滚动条:沿用进度条的斜纹语言,但条纹静止不动 */
+html {
+    scrollbar-color: var(--mint) var(--paper-sunk);
+}
+
 ::-webkit-scrollbar {
-    width: 11px;
-    height: 11px;
+    width: 13px;
+    height: 13px;
 }
 
 ::-webkit-scrollbar-track {
@@ -227,13 +231,22 @@ img {
 }
 
 ::-webkit-scrollbar-thumb {
-    background: var(--rule-2);
+    background-color: var(--mint);
+    background-image: repeating-linear-gradient(
+        45deg,
+        rgba(255, 255, 255, .45) 0 4px,
+        transparent 4px 8px
+    );
     border: 3px solid var(--paper-sunk);
     border-radius: var(--r-pill);
 }
 
 ::-webkit-scrollbar-thumb:hover {
-    background: var(--ink-3);
+    background-color: var(--c-teal);
+}
+
+::-webkit-scrollbar-corner {
+    background: var(--paper-sunk);
 }
 
 /* ---------------------------------------------------------------
@@ -2101,7 +2114,6 @@ body {
 .titlebar {
     min-height: 58px;
     padding: 12px 0 11px;
-    padding-right: 640px;   /* 给右侧的导航与搜索留位;窄于 1240px 时降级为两行 */
 }
 
 .titlebar h1 {
@@ -2111,59 +2123,81 @@ body {
 .navbar {
     position: absolute;
     top: 0;
+    left: 0;
     right: 0;
-    left: auto;
     width: auto;
     height: 58px;
     padding: 0;
     background: none;
     border-bottom: 0;
     overflow: visible;
+    pointer-events: none;   /* 顶栏空白处不挡交互 */
 }
 
 .navbar .wrap {
+    position: relative;
     display: flex;
-    align-items: flex-end;
-    gap: 13px;
+    align-items: center;
+    justify-content: center;
     width: auto;
     max-width: none;
     height: 100%;
     margin: 0;
     padding: 0 24px;
+    pointer-events: auto;
 }
 
 .navbar ul {
     display: flex;
-    align-items: flex-end;
-    gap: 5px;
+    align-items: center;
+    gap: 4px;
     padding: 0;
 }
 
-/* 导航项:索引页签(底部圆角、无描边,贴在顶栏下沿) */
+/* 导航项:纯文字,无背景无描边;悬停时浮出一条短下划线 */
 .navbar a {
-    background: var(--paper-3);
+    position: relative;
+    background: none;
     border: 0;
-    border-radius: var(--r-sm) var(--r-sm) 0 0;
-    padding: 6px 14px 8px;
+    border-radius: 0;
+    padding: 7px 12px;
     color: var(--ink-2);
-    transition: background-color var(--t-fast) ease,
-                color var(--t-fast) ease,
-                transform var(--t-fast) var(--ease-soft);
+    transition: color var(--t-fast) ease;
+}
+
+.navbar a::after {
+    content: "";
+    position: absolute;
+    left: 12px;
+    right: 12px;
+    bottom: 3px;
+    height: 2px;
+    border-radius: 2px;
+    background: currentColor;
+    transform: scaleX(0);
+    transition: transform var(--t-mid) var(--ease-soft);
 }
 
 .navbar a:hover {
-    background: #FFFFFF;
-    color: var(--ink);
-    transform: translateY(-2px);
+    color: var(--c-teal);
+    background: none;
+    transform: none;
+}
+
+.navbar a:hover::after {
+    transform: scaleX(1);
 }
 
 /* 搜索框(由 modern.js 注入;非新主题下会被隐藏) */
 .xxt-nav-search {
+    position: absolute;
+    right: 24px;
+    top: 50%;
+    transform: translateY(-50%);
     display: flex;
     align-items: center;
     gap: 4px;
     flex: none;
-    margin-bottom: 11px;
     background: var(--paper);
     border: 1px solid var(--rule-2);
     border-radius: var(--r-pill);
@@ -2420,10 +2454,8 @@ body {
 .vista-progress-track {
     position: relative;
     height: 15px;
-    padding: 2px;
     background: var(--paper-3);
     border-radius: var(--r-pill);
-    box-shadow: inset 0 1px 3px rgba(61, 58, 56, .13);
     overflow: hidden;
 }
 
@@ -2438,7 +2470,6 @@ body {
         transparent 5px 10px
     );
     background-size: 14px 14px;
-    box-shadow: inset 0 1px 0 rgba(255, 255, 255, .4);
     transition: width 480ms var(--ease-soft);
     animation: stripeRun 900ms linear infinite;
 }
