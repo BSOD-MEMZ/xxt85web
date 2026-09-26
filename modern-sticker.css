@@ -66,6 +66,12 @@
     --veil-2: rgba(61, 58, 56, .07);        /* 凹槽(进度条轨道) */
     --veil-warm: rgba(255, 221, 122, .38);  /* 正在播放 / 选中:暖黄 */
 
+    /* 内页那一层米黄:比 --paper 深一档,专门用来把"内容区"从页面背景里分出来
+       (文章正文卡、评论区卡)。取值刻意夹在 --paper-2 与 --paper-3 之间 ——
+       上面那层留给提示条 / 标题栏(paper-2),下面那层留给 code、凹槽(paper-3),
+       这样米黄、浅纸、深纸三级还都分得清。 */
+    --paper-leaf: #F9F0DC;
+
     /* 圆角 */
     --r-xs: 3px;
     --r-sm: 5px;
@@ -2703,9 +2709,13 @@ body.customizing .customize-grid-overlay {
     margin-bottom: 7px;
 }
 
-/* Giscus 留言板容器 */
+/* Giscus 留言板容器
+   底色用 --paper-leaf(内页米黄),不是 --paper —— 这里刻意和文章页的
+   .article-content 用同一层纸;而 iframe 里的 giscus 主题
+   (css/giscus-sticker-theme.css 的 --color-canvas-default)是同一个值,
+   于是 iframe 与容器无缝,整块看着就是一张纸卡。 */
 .giscus {
-    background: var(--paper);
+    background: var(--paper-leaf);
     border: 1px solid var(--rule);
     border-radius: var(--r-md);
     box-shadow: var(--sh-1);

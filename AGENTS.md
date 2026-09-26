@@ -139,6 +139,12 @@
 node .workbuddy/tmp/gen-icons.js js/modern-sticker-icons.js
 ```
 
+> **唯一一处有意为之的外部依赖是 giscus**（评论 / 留言本）：它本体就跑在
+> `giscus.app` 的 iframe 里，没法本地化。除了它，页面不向任何第三方发起请求
+> （Umami 那个有开关，默认开、可关，见坑 8）。
+> giscus 的**主题**是本地文件（`css/giscus-theme.css` / `css/giscus-sticker-theme.css`），
+> 只是要用绝对 URL 交给它 —— 见坑 23。
+
 ---
 
 ## 已知的坑
@@ -648,6 +654,41 @@ DOMContentLoaded
 
 **这是个跨两条规则的约定**（一边写 `z-index:-1`，另一边不许用实色），
 `test-round12.js` 会把两侧都断言上。
+
+### 23. giscus 是**另一份文档**：父页面的 CSS 一条都进不去
+
+评论区跑在 giscus.app 的 iframe 里。所以：
+
+- **换装只能靠 `data-theme`** 指向一份 giscus 读得懂的 CSS。两份：
+  `css/giscus-theme.css`（默认主题，**别动**）· `css/giscus-sticker-theme.css`（手账）。
+  分流在 `js/giscus-loader.js`（读 `localStorage['theme']`，与 `js/uac.js` 同一套判定）。
+- **主题地址必须是绝对 https URL**，而且**本地预览永远看不到效果**：
+  giscus 是在 giscus.app 那个 iframe 里去取这份 CSS 的 —— 相对路径会解析到 giscus.app，
+  指到 `http://localhost` 会被当混合内容拦掉。**改完 giscus 主题必须部署 + 刷新才算数。**
+- **跨文档同值**：iframe 里的主题色读不到父页面的变量，只能写死。所以
+  `--color-canvas-default` 必须 **逐字符等于** 父页面给 iframe 铺的底色（手账里都是
+  `#F9F0DC`，即 `--paper-leaf`），`--color-fg-default` / `--color-border-default` 同理。
+  写岔了 iframe 圆角处会露出一圈别的颜色。`test-round14.js` 比对这三对。
+- **变量名用 GitHub Primer 的原名**（`--color-canvas-default` / `--color-fg-default` /
+  `--color-border-default` / `--color-btn-*` …）。老文件里那族
+  `--color-bg-primary` / `--color-text-primary` / `--color-border-primary` giscus
+  **根本不读**，写了等于白写（那些规则能生效纯粹是靠文件末尾的显式选择器）。
+- **外框别用真 `border`**：iframe 的 `height` 是 giscus 按内容量算好写进行内的。
+  `content-box` 下 `width:100%` + 2px 边框 = 横向溢出 2px；`border-box` 又会把底部内容切掉 2px。
+  用 `box-shadow: 0 0 0 1px var(--rule)` 那圈**不出现在布局里**的环。
+
+> 顺带记一下手账主题现在的**纸色层级**（写新组件时按这个排队，别越级）：
+>
+> ```
+> 页面背景 --paper        #FFFCF3   252.0
+> 提示条 / 标题栏 --paper-2 #FBF5E4   245.0
+> 正文卡 / 评论区 --paper-leaf #F9F0DC  240.5   ← 第十四轮新增
+> 行内 code / 凹槽 --paper-3 #F5EDD7   237.1
+> 相纸 / 代码块 #FFFFFF              255
+> ```
+>
+> `--paper-leaf` 刻意夹在 `--paper-2` 与 `--paper-3` 中间：正文那一层要比页面深
+> （不然看不出层级，拍立得的白框也糊在纸里），但又不能深到和 code 撞车。
 
 ---
 

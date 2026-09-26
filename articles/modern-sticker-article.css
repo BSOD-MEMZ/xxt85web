@@ -59,6 +59,14 @@
     --xxt-star-size: 19px 19px;
     --xxt-star-pos: right -2px bottom -3px;
 
+    /* 内页那一层米黄:比 --paper 深一档,专门用来把"内容区"从页面背景里分出来
+       (文章正文卡、评论区卡)。取值刻意夹在 --paper-2 与 --paper-3 之间 ——
+       上面那层留给提示条 / 代码块标题栏(paper-2),下面那层留给 code(paper-3),
+       这样米黄、浅纸、深纸三级还都分得清。
+       ⚠️ 必须与 modern-sticker.css 的同名令牌一致(test-round14 会比对);
+          css/giscus-sticker-theme.css 里也有一份硬编码的同值(iframe 读不到这里的变量)。 */
+    --paper-leaf: #F9F0DC;
+
     /* 圆角 */
     --r-xs: 3px;
     --r-sm: 5px;
@@ -431,7 +439,9 @@ html {
 .article-content {
     margin-top: 0;
     padding: clamp(22px, 4.6vw, var(--art-pad));
-    background: #FFFFFF;
+    /* 内页米黄,不再是纯白 —— 否则正文里的拍立得(纯白框)白对白,边框看不出来。
+       这一层比页面背景 --paper 深一档,卡片边界更清楚。 */
+    background: var(--paper-leaf);
     border: 1px solid var(--rule);
     border-radius: var(--r-lg);
     box-shadow: var(--sh-1);
@@ -685,9 +695,13 @@ html {
     box-sizing: border-box;
     padding: 10px 10px 30px;
     margin: 6px 0 12px;
+    /* 纯白。正文那一层已经是米黄(--paper-leaf),所以白框自己就跳出来了 ——
+       这里是"最亮的一层",不要再往下调,否则又会糊在纸色里。 */
     background: #FFFFFF;
     border-radius: 2px;
-    box-shadow: var(--sh-1);
+    /* 阴影用 --sh-2 打底(--sh-1 在米黄上偏轻,相纸浮不起来),
+       hover 再上一档到 --sh-3 */
+    box-shadow: var(--sh-2);
     rotate: var(--tilt, 0deg);
     transition: transform var(--t-mid) var(--ease-soft),
                 box-shadow var(--t-mid) ease;
@@ -695,7 +709,7 @@ html {
 
 .article-content .xxt-photo:hover {
     transform: translateY(-3px);
-    box-shadow: var(--sh-2);
+    box-shadow: var(--sh-3);
 }
 
 .article-content .xxt-photo > img {
@@ -1381,6 +1395,26 @@ svg.image-viewer-nav use {
     max-width: var(--art-max);
     margin: 26px auto 0;
     padding: 0 16px;
+}
+
+/* 评论区的外框贴在 iframe 上(不是挂在 .giscus 上):
+   .giscus 的内容盒正好是 art-max - 32,和 .article-content 严格对齐;
+   给容器加边框 + padding 会让卡片左右各缩进去,两块纸就对不齐了。
+   ⚠️ 描边用 box-shadow 的 1px 环,不用真 border —— iframe 的 height 是 giscus
+      按内容量算好写进行内的,border 会占布局:content-box 下 width:100% + 2px
+      边框就是横向溢出 2px,而 box-sizing:border-box 又会把底部内容切掉 2px。
+      环不出现在布局里,两个问题一起没有。
+   ⚠️ iframe 是替换元素,圆角要配 overflow:hidden 才裁得干净。
+   ⚠️ 底色跟 giscus 主题里的 --color-canvas-default 是同一个值
+      (css/giscus-sticker-theme.css),两边写岔了会在圆角处露出一圈别的颜色。 */
+.giscus iframe {
+    display: block;
+    width: 100%;
+    background: var(--paper-leaf);
+    border: 0;
+    border-radius: var(--r-lg);
+    box-shadow: 0 0 0 1px var(--rule), var(--sh-1);
+    overflow: hidden;
 }
 
 /* ---------------------------------------------------------------

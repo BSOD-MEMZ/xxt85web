@@ -1,0 +1,374 @@
+/* ============================================
+   Giscus 自定义主题 — xxtsoft 手账 / Sticker Book
+   米黄纸面 + 墨色文字 + 珊瑚/青点缀,圆角纸片,虚线分隔。
+   （默认主题继续用 css/giscus-theme.css,那份一个字没动。）
+
+   ⚠️ 这个文件在 giscus.app 的 iframe 里生效,**读不到父页面的 CSS 变量**,
+      所以颜色全部写死。其中这几个值和 articles/modern-sticker-article.css
+      的 :root 令牌是同一个:
+        #F9F0DC = --paper-leaf(内页米黄;也是 iframe 容器的底色)
+        #3D3A38 = --ink          #EADFC4 = --rule
+      两边写岔了,圆角处会露出一圈别的颜色。test-round14 会比对。
+
+   ⚠️ 变量名用 **GitHub Primer 的原名**(--color-canvas-default 那一族)。
+      老那份 Vista 主题里写的 --color-bg-primary / --color-text-primary /
+      --color-border-primary 那一族 giscus **根本不读**,等于白写 ——
+      那些规则能生效纯粹是靠文件末尾的显式选择器。这里把两族都留着,
+      既让组件真正吃到颜色,也不怕某天回退到旧名字。
+   ============================================ */
+
+:root {
+  color-scheme: light;   /* 别让滚动条跟着系统变深色 */
+}
+
+/* iframe 本体透明:底色由 <main> 给(giscus 内容不长时,
+   露出来的是父页面给 iframe 设的那层同色底,不会出现白边) */
+html,
+body {
+  background: transparent;
+}
+
+main {
+  /* ---- 语法高亮:纸面上的墨色系,不刺眼 ---- */
+  --color-prettylights-syntax-comment: #968D7C;
+  --color-prettylights-syntax-constant: #1478C4;
+  --color-prettylights-syntax-entity: #7A45D6;
+  --color-prettylights-syntax-storage-modifier-import: #3D3A38;
+  --color-prettylights-syntax-entity-tag: #2F9E3F;
+  --color-prettylights-syntax-keyword: #E0416E;
+  --color-prettylights-syntax-string: #0E9E92;
+  --color-prettylights-syntax-variable: #B07400;
+  --color-prettylights-syntax-brackethighlighter-unmatched: #D6435F;
+  --color-prettylights-syntax-invalid-illegal-text: #FFFDF8;
+  --color-prettylights-syntax-invalid-illegal-bg: #D6435F;
+  --color-prettylights-syntax-carriage-return-text: #FFFDF8;
+  --color-prettylights-syntax-carriage-return-bg: #E0416E;
+  --color-prettylights-syntax-string-regexp: #2F9E3F;
+  --color-prettylights-syntax-markup-list: #B07400;
+  --color-prettylights-syntax-markup-heading: #0E9E92;
+  --color-prettylights-syntax-markup-italic: #3D3A38;
+  --color-prettylights-syntax-markup-bold: #3D3A38;
+  --color-prettylights-syntax-markup-deleted-text: #D6435F;
+  --color-prettylights-syntax-markup-deleted-bg: rgba(224, 65, 110, .10);
+  --color-prettylights-syntax-markup-inserted-text: #2F9E3F;
+  --color-prettylights-syntax-markup-inserted-bg: rgba(47, 158, 63, .10);
+  --color-prettylights-syntax-markup-changed-text: #B07400;
+  --color-prettylights-syntax-markup-changed-bg: rgba(208, 138, 0, .12);
+  --color-prettylights-syntax-markup-ignored-text: #968D7C;
+  --color-prettylights-syntax-markup-ignored-bg: #1478C4;
+  --color-prettylights-syntax-meta-diff-range: #7A45D6;
+  --color-prettylights-syntax-brackethighlighter-angle: #6B655C;
+  --color-prettylights-syntax-sublimelinter-gutter-mark: #968D7C;
+  --color-prettylights-syntax-constant-other-reference-link: #1478C4;
+
+  /* ---- 文字 ---- */
+  --color-fg-default: #3D3A38;
+  --color-fg-muted: #6B655C;
+  --color-fg-subtle: #968D7C;
+
+  /* ---- 纸面:默认那层就是内页米黄,和父页面的卡片同色 ---- */
+  --color-canvas-default: #F9F0DC;
+  --color-canvas-overlay: #FFFDF8;
+  --color-canvas-inset: #F5EDD7;
+  --color-canvas-subtle: #FBF5E4;
+
+  /* ---- 线 ---- */
+  --color-border-default: #EADFC4;
+  --color-border-muted: #DCCFAE;
+  --color-neutral-muted: rgba(61, 58, 56, .08);
+
+  /* ---- 强调 ---- */
+  --color-accent-fg: #1478C4;            /* 链接:与正文链接同色 */
+  --color-accent-emphasis: #0E9E92;      /* 主操作:与站内主按钮同色 */
+  --color-accent-muted: rgba(20, 120, 196, .35);
+  --color-accent-subtle: rgba(20, 120, 196, .10);
+
+  /* ---- 状态 ---- */
+  --color-success-fg: #2F9E3F;
+  --color-success-emphasis: #2F9E3F;
+  --color-attention-fg: #B07400;
+  --color-attention-emphasis: #D08A00;
+  --color-attention-muted: rgba(208, 138, 0, .35);
+  --color-attention-subtle: rgba(255, 210, 31, .22);
+  --color-danger-fg: #D6435F;
+  --color-danger-emphasis: #E0416E;
+  --color-danger-muted: rgba(224, 65, 110, .35);
+  --color-danger-subtle: rgba(255, 122, 138, .14);
+
+  /* ---- 按钮:纸片,不是玻璃 ---- */
+  --color-btn-text: #3D3A38;
+  --color-btn-bg: #FFFDF8;
+  --color-btn-border: #E4DCCE;
+  --color-btn-shadow: 0 1px 0 rgba(61, 58, 56, .08);
+  --color-btn-inset-shadow: inset 0 1px 0 rgba(255, 255, 255, .7);
+  --color-btn-hover-bg: #FFFFFF;
+  --color-btn-hover-border: #DCCFAE;
+  --color-btn-active-bg: #F5EDD7;
+  --color-btn-active-border: #DCCFAE;
+  --color-btn-selected-bg: #F5EDD7;
+
+  --color-btn-primary-text: #FFFFFF;
+  --color-btn-primary-bg: #0E9E92;
+  --color-btn-primary-border: #0C8C82;
+  --color-btn-primary-shadow: 0 1px 0 rgba(12, 140, 130, .18);
+  --color-btn-primary-inset-shadow: inset 0 1px 0 rgba(255, 255, 255, .12);
+  --color-btn-primary-hover-bg: #0C8C82;
+  --color-btn-primary-hover-border: #0A7A72;
+  --color-btn-primary-selected-bg: #0A7A72;
+  --color-btn-primary-selected-shadow: none;
+  --color-btn-primary-disabled-text: rgba(255, 255, 255, .75);
+  --color-btn-primary-disabled-bg: #8FCFC9;
+  --color-btn-primary-disabled-border: #8FCFC9;
+
+  --color-primer-shadow-focus: 0 0 0 3px rgba(14, 158, 146, .25);
+
+  /* ---- 圆角 / 字体 ---- */
+  --borderRadius-small: 6px;
+  --borderRadius-medium: 10px;
+  --borderRadius-large: 14px;
+  --fontStack-primary: "Microsoft YaHei UI", "Microsoft YaHei", "PingFang SC",
+    "Hiragino Sans GB", "Source Han Sans SC", sans-serif;
+  --fontStack-monospace: Consolas, "Cascadia Mono", "Courier New", monospace;
+
+  /* ---- 旧名字留一份(老文件在用;giscus 不读也无害) ---- */
+  --color-bg-primary: #F9F0DC;
+  --color-bg-secondary: #FBF5E4;
+  --color-bg-tertiary: #F5EDD7;
+  --color-bg-canvas: #F9F0DC;
+  --color-text-primary: #3D3A38;
+  --color-text-secondary: #6B655C;
+  --color-text-tertiary: #968D7C;
+  --color-text-link: #1478C4;
+  --color-border-primary: #EADFC4;
+  --color-border-secondary: #DCCFAE;
+  --color-input-bg: #FFFDF8;
+  --color-input-border: #E4DCCE;
+  --color-input-focus-border: #0E9E92;
+  --color-input-focus-ring: rgba(14, 158, 146, .25);
+  --color-shadow-medium: rgba(61, 58, 56, .12);
+  --color-shadow-large: rgba(61, 58, 56, .20);
+
+  font-family: var(--fontStack-primary);
+  font-size: 13px;
+  line-height: 1.7;
+  color: var(--color-fg-default);
+  background: var(--color-canvas-default);
+}
+
+/* 评论数标题:像卡片头那样一枚小标签 + 虚线 */
+main .gsc-header {
+  padding-bottom: 10px;
+  border-bottom: 1px dashed var(--color-border-muted);
+  margin-bottom: 16px;
+}
+
+main .gsc-header h4 {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--color-fg-default);
+}
+
+main .gsc-header h4::before {
+  content: "";
+  flex: none;
+  width: 9px;
+  height: 9px;
+  background: #0E9E92;
+  border-radius: 2px;
+  transform: rotate(-6deg);
+}
+
+/* 评论卡片:纸片,分隔用虚线,悬停只上一层半透明薄纱 */
+main .gsc-comment {
+  padding: 12px 10px;
+  border-bottom: 1px dashed var(--color-border-muted);
+  border-radius: var(--borderRadius-medium);
+  transition: background-color .14s ease;
+}
+
+main .gsc-comment:hover {
+  background: rgba(61, 58, 56, .045);
+}
+
+main .gsc-comment:last-child {
+  border-bottom: 0;
+}
+
+/* 头像:一枚圆贴纸 */
+main .gsc-comment img.avatar,
+main .gsc-comment .gsc-avatar {
+  border-radius: 50%;
+  box-shadow: 0 1px 3px rgba(61, 58, 56, .22);
+}
+
+/* 输入区:白纸片浮在米黄上 */
+main .gsc-comment-box {
+  background: #FFFDF8;
+  border: 1px solid var(--color-border-default);
+  border-radius: var(--borderRadius-medium);
+  box-shadow: 0 1px 2px rgba(61, 58, 56, .08),
+    0 8px 18px -10px rgba(61, 58, 56, .20);
+  overflow: hidden;
+}
+
+main .gsc-comment-box:focus-within {
+  border-color: #0E9E92;
+  box-shadow: 0 0 0 3px rgba(14, 158, 146, .22);
+}
+
+/* Write / Preview 标签条:去掉渐变,换成纸 + 虚线 */
+main .gsc-comment-box-tabs {
+  background: #FBF5E4;
+  border-bottom: 1px dashed var(--color-border-muted);
+  border-radius: 0;
+}
+
+main .gsc-comment-box-tabs button {
+  font-family: var(--fontStack-primary);
+  font-size: 12px;
+  color: var(--color-fg-muted);
+  border-radius: var(--borderRadius-small);
+}
+
+main .gsc-comment-box-tabs button[aria-selected="true"] {
+  color: var(--color-fg-default);
+  font-weight: 500;
+}
+
+main .gsc-comment-box textarea,
+main .gsc-reply-box textarea {
+  font-family: var(--fontStack-primary);
+  font-size: 13px;
+  color: var(--color-fg-default);
+  background: #FFFDF8;
+  border-radius: var(--borderRadius-small);
+}
+
+main .gsc-comment-box textarea:focus,
+main .gsc-reply-box textarea:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(14, 158, 146, .22);
+}
+
+/* 主按钮(提交») :青色纸片 + 右下角一枚圆角五角星,
+   和站内 .vista-btn-primary / uac 的「继续」是同一个花样。
+   ⚠️ 只写 background-color / background-image 两个长写 —— 简写会把另一半吃掉。
+   ⚠️ 星形 data URI 必须与主题 :root 的 --xxt-star-tile 同形(测试会比对 path)。 */
+main .gsc-comment-box button[type="submit"],
+main .gsc-reply-box button[type="submit"] {
+  font-family: var(--fontStack-primary);
+  font-size: 12px;
+  padding: 5px 15px;
+  color: var(--color-btn-primary-text);
+  background-color: var(--color-btn-primary-bg);
+  background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cg opacity='.42'%3E%3Cpath d='M12 2.6l2.7 5.9 6.4.7-4.8 4.3 1.3 6.3L12 16.6 6.4 19.8l1.3-6.3L2.9 9.2l6.4-.7z' fill='%23FFFFFF' stroke='%23FFFFFF' stroke-width='2.6' stroke-linejoin='round' stroke-linecap='round'/%3E%3C/g%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-size: 15px 15px;
+  background-position: right 3px bottom 3px;
+  border: 1px solid var(--color-btn-primary-border);
+  border-radius: var(--borderRadius-medium);
+  box-shadow: 0 2px 6px -2px rgba(14, 158, 146, .5);
+  cursor: pointer;
+  transition: background-color .14s ease, transform .14s ease, box-shadow .14s ease;
+}
+
+main .gsc-comment-box button[type="submit"]:hover,
+main .gsc-reply-box button[type="submit"]:hover {
+  background-color: var(--color-btn-primary-hover-bg);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px -3px rgba(14, 158, 146, .55);
+}
+
+main .gsc-comment-box button[type="submit"]:active,
+main .gsc-reply-box button[type="submit"]:active {
+  transform: translateY(1px);
+  box-shadow: none;
+}
+
+/* 登录按钮:纸片 */
+main .gsc-social-button {
+  font-family: var(--fontStack-primary);
+  font-size: 12px;
+  color: var(--color-btn-text);
+  background: var(--color-btn-bg);
+  border: 1px solid var(--color-btn-border);
+  border-radius: var(--borderRadius-medium);
+  box-shadow: 0 1px 0 rgba(61, 58, 56, .08);
+  transition: background-color .14s ease, border-color .14s ease, transform .14s ease;
+}
+
+main .gsc-social-button:hover {
+  background: var(--color-btn-hover-bg);
+  border-color: var(--color-btn-hover-border);
+  transform: translateY(-1px);
+}
+
+/* Reaction:圆角纸片,选中时染上强调色 */
+main .gsc-reactions {
+  margin-bottom: 16px;
+}
+
+main .gsc-reactions button {
+  border-radius: var(--borderRadius-medium);
+  border: 1px solid transparent;
+  transition: background-color .14s ease, border-color .14s ease;
+}
+
+main .gsc-reactions button:hover {
+  background: var(--color-accent-subtle);
+  border-color: var(--color-border-default);
+}
+
+main .gsc-reactions button[data-reaction-clicked="true"] {
+  background: var(--color-accent-subtle);
+  border-color: #0E9E92;
+}
+
+/* 分页 */
+main .gsc-pagination button {
+  font-size: 12px;
+  background: var(--color-btn-bg);
+  border: 1px solid var(--color-border-default);
+  border-radius: var(--borderRadius-medium);
+}
+
+main .gsc-pagination button:hover {
+  background: var(--color-btn-hover-bg);
+  border-color: #0E9E92;
+}
+
+/* 时间戳 */
+main .gsc-timestamp {
+  font-size: 11px;
+  color: var(--color-fg-subtle);
+}
+
+/* 链接:与正文一样,底下一条荧光笔划过的痕迹 */
+main a {
+  color: var(--color-accent-fg);
+  text-decoration: none;
+  background-image: linear-gradient(to top, rgba(95, 184, 240, .30) 0 .45em, transparent .45em);
+  transition: color .14s ease;
+}
+
+main a:hover {
+  color: #E0416E;
+  background-image: linear-gradient(to top, rgba(255, 122, 138, .32) 0 .45em, transparent .45em);
+  text-decoration: none;
+}
+
+/* 代码:纸上的浅坑 */
+main code,
+main pre {
+  font-family: var(--fontStack-monospace);
+  background: #F5EDD7;
+  border-radius: var(--borderRadius-small);
+}
+
+main pre {
+  padding: 12px 14px;
+  border: 1px dashed var(--color-border-muted);
+}

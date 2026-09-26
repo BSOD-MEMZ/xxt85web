@@ -53,7 +53,42 @@ link.href = rootPath + (localStorage['theme'] || 'style.css');
 
 3. **（可选）需要改 DOM 就写配套脚本**，命名 `modern-<name>.js`，`theme-loader.js` 会自动加载。
 
+4. **（可选）giscus 评论区也要跟着换** —— 见下一节。不做也不会出错，评论区只是继续用默认那份主题。
+
 **零 HTML 修改。**
+
+---
+
+## giscus 评论区：父页面管不着它
+
+评论区跑在 **giscus.app 的 iframe** 里，父页面的 CSS 一条也进不去。
+所以给评论区换装只能走 `data-theme`，让 giscus 自己去取一份它能读懂的 CSS：
+
+| 文件 | 谁在用 |
+|---|---|
+| `css/giscus-theme.css` | 默认主题（Vista / Aero 蓝）。**原样保留，别动** |
+| `css/giscus-sticker-theme.css` | 手账主题（内页米黄 + 墨色 + 珊瑚/青） |
+
+分流在 `js/giscus-loader.js`：读 `localStorage['theme']`，命中 `modern-sticker` 就用后者
+（与 `js/uac.js` 的 `IS_STICKER` 同一套判定）。
+
+三个必须知道的事实：
+
+- **主题地址必须是绝对 https URL。** giscus 是在 giscus.app 那个 iframe 里取这份 CSS 的：
+  相对路径会解析到 giscus.app 上，指到 `http://localhost` 则会被浏览器当混合内容拦掉。
+  → **本地预览看不到 giscus 的新主题，得部署之后刷新才算数**。这是链路的固有限制。
+- **颜色只能写死**，不能用父页面的 CSS 变量。所以 `css/giscus-sticker-theme.css` 里的
+  `#F9F0DC`（`--color-canvas-default`）、`#3D3A38`（`--color-fg-default`）、
+  `#EADFC4`（`--color-border-default`）必须分别等于主题的 `--paper-leaf` / `--ink` / `--rule`，
+  否则 iframe 圆角处会露出一圈别的颜色。`test-round14.js` 会比对。
+- **变量名要用 GitHub Primer 的原名**（`--color-canvas-default` / `--color-fg-default` /
+  `--color-border-default` …）。老那份文件里写的 `--color-bg-primary` / `--color-text-primary`
+  / `--color-border-primary` 那一族 giscus **根本不读**，等于白写 —— 那些规则能生效
+  纯粹是靠文件末尾的显式选择器。新增主题时别再走那条路。
+
+另外，容器（`.giscus`）本身在主题 CSS 里管：文章页把外框挂在 **iframe** 上
+（描边用 `box-shadow` 的 1px 环，不用真 `border` —— iframe 的 height 是 giscus 算好写进行内的，
+`border` 会让 `width:100%` 横向溢出 2px，而 `border-box` 又会把底部内容切掉 2px）。
 
 ---
 
