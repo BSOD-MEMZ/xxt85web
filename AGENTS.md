@@ -593,6 +593,62 @@ DOMContentLoaded
 （原来它和主路径给的图标不一致，CSS 里那条 `.button:hover .xxt-ic[data-icon="close-dot"]`
 的 hover 白叉永远不出现）。
 
+### 22. 三个「不报错但做不成」的写法（第十三轮）
+
+**① `<img>` 是替换元素，`::before` / `::after` 根本不渲染。**
+
+给正文图挂胶带、挂角标、挂任何装饰，都挂不到 `<img>` 自己身上。
+背景层也不行 —— `background` 永远画在内容**下面**，胶带会被照片压住。
+要挂东西只能**包一层**（`articles/modern-sticker-article.js` 的 `buildPolaroids()`
+包了个 `<span class="xxt-photo">`，白框和 `::before` 胶带都挂在框上）。
+
+配套两条：
+
+- **倾倒用独立的 `rotate` 属性，别写进 `transform`** —— 否则和 `:hover` 的
+  `translateY` 互相覆盖（同一条 `transform` 只能有一个值）。
+  独立的 `translate` / `rotate` / `scale` 三者与 `transform` 是**叠加**的。
+- 包装函数必须**幂等**：`article-theme-loader.js` 在文章页被引入了两次
+  （head 一次、body 结尾一次），配套脚本会执行两遍。
+
+**② 只按后缀挑元素，会把「名字撞车的截图」当图标换掉。**
+
+`articles/assets/warning.png` 是一张 **1920×1080 的截图**（`alt="截图"`），
+文件名却正好是图标表里的 `warning.png`。选择器原来写的是 `img[src$=".png"]`，
+于是这张截图被静默换成 16px 的警告小图标，**页面零报错**。
+
+现在文章页的选择器是：
+
+```js
+'img[width][src$=".png"]:not(.uac-close-btn), ' +
+'img[width][src$=".gif"]:not(.uac-close-btn), ' +
+'img[src*="images/icons/"]:not(.uac-close-btn)'
+```
+
+- `[width]` 是闸门：文章里的真图标全都带 `width`（16 / 20）
+- `images/icons/` 那一支是必要的例外：`wefuckedsalt` 的 tips 里那枚
+  `knowledges.png` 没写 `width`，只在 icons 目录下
+- 全站实测：候选 243，老选择器会收 243，新的只收 180 —— 63 张截图不再被误收
+
+> 断言这类"过滤器"时，**匹配规则要从选择器字符串本身推出来**，
+> 不能把规则在测试里再抄一遍 —— 抄一遍的话，选择器哪天把 `[width]` 丢了，
+> 测试还是照旧全绿。另外补一条空转守卫：新选择器必须**仍然收得到 ≥150 个**
+> 真图标，否则"没有截图被误收"是白测。
+
+**③ 下层的装饰被"实色填充"盖住时，改填充，不要抬层级。**
+
+侧栏小窗口右下角压着一枚图标底纹（`.xxt-win-mark`），而它必须在**正文下面**
+（`z-index: -1`）—— 所以列表项、进度条轨道这些**不能用实色打底**，
+否则整片盖住底纹。做法是新增半透明薄纱令牌：
+
+```css
+--veil-1:    rgba(61, 58, 56, .045);    /* 列表 hover */
+--veil-2:    rgba(61, 58, 56, .07);     /* 凹槽（进度条轨道） */
+--veil-warm: rgba(255, 221, 122, .38);  /* 正在播放 / 选中 */
+```
+
+**这是个跨两条规则的约定**（一边写 `z-index:-1`，另一边不许用实色），
+`test-round12.js` 会把两侧都断言上。
+
 ---
 
 ## LaTeX 公式
