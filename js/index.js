@@ -1,4 +1,13 @@
 window.xxtArticleData = {
+    "cppsekai.html": {
+        title: "专为班级希沃设计的PJSK模拟器——CppSekai",
+        author: "xxt8582753",
+        desc: "课间十分钟，教室变机厅，将pjsk移植到Windows！",
+        img: "",
+        date: "2026年9月25日",
+        tags: ["coding", "school"],
+        url: "articles/cppsekai.html"
+    },
     "kb5124008.html": {
         title: "疑似KB5124008引起的希沃展台ks.sys冲突蓝屏问题",
         author: "xxt8582753",
@@ -554,6 +563,7 @@ window.xxtArticleData = {
 };
 
 window.xxtArticleOrder = [
+    "cppsekai.html",
     "kb5124008.html",
     "taiko.html",
     "classislandinjector.html",
