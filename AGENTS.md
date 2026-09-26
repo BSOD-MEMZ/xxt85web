@@ -451,6 +451,24 @@ stylesheet 里再写 `row-gap` 是压不住的。
 > 行内声明，做真·层叠求解（特异性 → 源序 → `!important`），逐条判定"这处覆盖真的赢了吗"。
 > **新增对 `support/*` 页面的覆盖时,照抄这套判法。**
 
+**已经确认的三个实例（都是同一个根因）：**
+
+| 页面 | 排在主题之后的是什么 | 压法 |
+|---|---|---|
+| `support/chomowan` | 页面自己的 `<style>`（现已抽成 `chomowan.css`） | `#mowanRadarLegend .chip` (1,1,0) |
+| `medias.html` | `media/medias.js` **运行时注入**的 `#xxt-media-stats-css` | `#mediaStats li a` (1,0,2) |
+| `media/player.html` | 整份 `media/style.css`（head 里排在主题之后） | `body:has(.video-container) …` (0,2,1) |
+
+`media/player.html` 那招值得学：**.video-container 全站只出现在播放页**，
+所以用 `body:has(.video-container) .titlebar` 既把特异性顶到 (0,2,1)，又天然只作用于那一页，
+不必给每一页都写一遍同值规则。`:has()` 不支持时整块跳过、页面保持原样，属安全降级。
+
+> ⚠️ **抬了特异性，别忘了响应式那几块也要跟着抬。**
+> 7b 节把封面写成 `#videoList .video-thumb { width: 168px }`（1,1,0），
+> 而 620 断点里原来那条 `.video-thumb { width: 100% }` 只有 (0,1,0) ——
+> 窄屏"封面占满一行"当场失效。**基规则抬了特异性，媒体查询里同名规则必须一起抬**，
+> `.workbuddy/tmp/test-round10.js` 里专门有一条断言盯这个。
+
 ### 19. canvas 里的「样式」不在 CSS 里 —— 图表换主题要走配色表
 
 `<canvas>` 内部的颜色、字体、线宽全都是 JS 的绘制指令，CSS 一条也够不到

@@ -445,7 +445,12 @@
         // 左右翻页箭头:support/manga 的漫画阅读器是顶层页里唯一用它们的地方
         // (文章页的图片查看器走自己那套 image-viewer.js,不受这里影响)
         'img[src*="images/left.png"]:not([data-xxt-keep]), ' +
-        'img[src*="images/right.png"]:not([data-xxt-keep])';
+        'img[src*="images/right.png"]:not([data-xxt-keep]), ' +
+        // 播放页(media/player.html)的下载图标直接用 media/assets/ 下的那份,
+        // 不走 images/icons/(列表页那边由 medias.js 的 dlIcon() 换算过去),
+        // 所以单独补两条。这两个路径全站只有 media/videos.js 的数据在用
+        'img[src*="assets/downvideo.png"]:not([data-xxt-keep]), ' +
+        'img[src*="assets/bilibili.png"]:not([data-xxt-keep])';
     var SVG_NS = 'http://www.w3.org/2000/svg';
 
     var iconState = {

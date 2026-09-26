@@ -1328,6 +1328,473 @@ body.customizing .footer {
 }
 
 /* ---------------------------------------------------------------
+   7b. 媒体库:medias.html(列表)· media/player.html(播放页)
+
+   ⚠️ 这两个页面的覆盖**全部要抬特异性**,原因有两个,都是"排在主题之后"那类坑:
+     1. player.html 除了主题还挂了 `media/style.css`,而它在文档里排在主题**之后**
+        (head:主题 link → theme-loader → media/style.css),同特异性时它赢。
+        所以这里用 `.video-container .xxx` / `body:has(.video-container) …` 这种
+        带父级或 :has 的写法把特异性顶上去,而不是靠 !important 堆。
+        (`:has()` 不支持的浏览器会整块跳过 —— 页面只是保持现状,不会坏。)
+     2. medias.html 侧栏统计的样式是 `media/medias.js` **运行时注入**的
+        (`#xxt-media-stats-css`,`#mediaStats a` = (1,0,1)),同样排在主题之后,
+        得用 `#mediaStats li a` (1,0,2) 才压得住。
+
+   两页的 HTML 一行没动。
+   --------------------------------------------------------------- */
+
+/* ============ medias.html:视频卡片 ============ */
+
+/* 下载链接在原始 HTML 里嵌在外层 <a>(整卡链接)里面,属非法嵌套,
+   浏览器解析时会把它们挪到卡片层级 —— flex-wrap 保证无论落在哪都能自己占行 */
+#videoList .video-item {
+    flex-wrap: wrap;
+}
+
+/* 封面:裁成 16:9 的相纸 */
+#videoList .video-thumb {
+    width: 168px;
+}
+
+#videoList .video-thumb img {
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+    border: 4px solid #FFFFFF;
+    box-sizing: border-box;
+    box-shadow: var(--sh-1);
+    background: var(--paper-3);
+}
+
+/* 播放角标:原样式只给了它定位,是个**空 div**(什么都不画)。
+   手账主题用 CSS 现画:圆形贴纸 + 三角/闪电,不再依赖任何图片 */
+#videoList .play-icon,
+#videoList .flash-play-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 46px;
+    height: 46px;
+    background: rgba(255, 252, 243, .9);
+    border: 2px solid var(--coral);
+    border-radius: 50%;
+    box-shadow: 0 2px 8px -2px rgba(61, 58, 56, .5);
+    opacity: 1;
+    transform: translate(-50%, -50%);
+    transition: transform var(--t-mid) var(--ease-pop),
+                background-color var(--t-fast) ease;
+}
+
+#videoList .flash-play-icon {
+    border-color: var(--lilac);
+}
+
+/* 悬停整卡时角标弹一下 */
+#videoList .video-item:hover .play-icon,
+#videoList .video-item:hover .flash-play-icon {
+    background: #FFFFFF;
+    transform: translate(-50%, -50%) scale(1.1);
+}
+
+#videoList .play-icon::before {
+    content: "";
+    width: 0;
+    height: 0;
+    margin-left: 4px;
+    border-left: 13px solid var(--coral);
+    border-top: 8px solid transparent;
+    border-bottom: 8px solid transparent;
+}
+
+/* Flash 用闪电代替三角 */
+#videoList .flash-play-icon::before {
+    content: "";
+    width: 17px;
+    height: 21px;
+    background: var(--lilac);
+    clip-path: polygon(58% 0%, 16% 54%, 44% 54%, 38% 100%, 84% 44%, 52% 44%);
+}
+
+#videoList .video-title {
+    font-size: 15px;
+    line-height: 1.5;
+}
+
+#videoList .video-author {
+    font-size: 11.5px;
+}
+
+/* 下载 / 观看链接 = 纸片小标签。
+   选择器故意不看父级:那些 <a> 被解析到哪一层都能命中 */
+#videoList .video-item a[href]:not([href*="player.html"]),
+#videoList .video-item a:not([href]) {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    margin: 5px 6px 0 0;
+    padding: 3px 11px;
+    font-size: 12px;
+    color: var(--ink-2);
+    background: var(--paper-2);
+    border: 1px dashed var(--rule-dash);
+    border-radius: var(--r-pill);
+    transition: transform var(--t-fast) var(--ease-pop),
+                background-color var(--t-fast) ease,
+                color var(--t-fast) ease;
+}
+
+#videoList .video-item a[href]:not([href*="player.html"]):hover,
+#videoList .video-item a:not([href]):hover {
+    color: var(--ink);
+    background: var(--tape);
+    transform: translateY(-1px);
+}
+
+/* 暂无 / 不提供的那几条:整枚淡下去 */
+#videoList .video-item a:not([href]),
+#videoList .video-item a > del {
+    color: var(--ink-3);
+    opacity: .8;
+}
+
+/* ============ medias.html:侧栏"统计"筛选 ============ */
+#mediaStats li a {
+    color: var(--ink-2);
+    text-decoration: none;
+    border-bottom: 0;
+}
+
+#mediaStats li a:hover {
+    color: var(--ink);
+    text-decoration: none;
+}
+
+#mediaStats li a.active {
+    color: var(--c-teal);
+    font-weight: 500;
+}
+
+/* 选中那一行整块高亮(li 有内边距,高亮要落在 li 上才铺满) */
+#mediaStats li:has(a.active) {
+    background: #EAF7F5;
+    border-color: #BEE4E0;
+}
+
+/* ============ media/player.html:页架 ============ */
+
+/* media/style.css 把 body 的字号/颜色也覆盖了,这里收回主题的排版值 */
+body:has(.video-container) {
+    font-family: var(--font);
+    font-size: 14px;
+    line-height: 1.7;
+    color: var(--ink);
+}
+
+/* 页眉:media/style.css 刷成了深色 Aero 渐变,收回来 */
+body:has(.video-container) .titlebar {
+    background: var(--paper-2);
+    border-bottom: 1px dashed var(--rule-dash);
+    color: var(--ink);
+    padding: 16px 0 14px;
+}
+
+body:has(.video-container) .titlebar h1 {
+    font-size: 25px;
+    font-weight: 500;
+    letter-spacing: .02em;
+    padding-left: 0;
+}
+
+/* 播放页没有侧栏,让三块内容跨满整行 —— 否则双栏网格会空出 320px 把它挤窄 */
+body:has(.video-container) .video-container,
+body:has(.video-container) .download-section,
+body:has(.video-container) #not-found {
+    grid-column: 1 / -1;
+}
+
+/* 播放器外壳 = 一张纸 */
+body:has(.video-container) .video-container {
+    position: relative;
+    background: var(--paper);
+    border: 1px solid var(--rule-2);
+    border-radius: var(--r-md);
+    box-shadow: var(--sh-1);
+    padding: 15px 16px 17px;
+    margin-bottom: 18px;
+}
+
+/* 顶上贴一段胶带,和 .window / .tips / #manga-reader 同一组数值 */
+body:has(.video-container) .video-container::before {
+    content: "";
+    position: absolute;
+    top: -9px;
+    left: 28px;
+    width: 62px;
+    height: 18px;
+    background: var(--tape);
+    opacity: .8;
+    transform: rotate(-2.5deg);
+    box-shadow: 0 1px 2px rgba(61, 58, 56, .12);
+    pointer-events: none;
+}
+
+body:has(.video-container) .video-title {
+    font-size: 19px;
+    font-weight: 500;
+    color: var(--ink);
+    margin: 0 0 12px;
+}
+
+body:has(.video-container) .video-player {
+    border-radius: var(--r-sm);
+    overflow: hidden;
+}
+
+body:has(.video-container) .video-meta {
+    color: var(--ink-3);
+    font-size: 12px;
+}
+
+body:has(.video-container) .video-description {
+    color: var(--ink-2);
+    font-size: 13px;
+    line-height: 1.75;
+    border-top: 1px dashed var(--rule);
+    padding-top: 12px;
+}
+
+/* ============ media/player.html:播放控件 ============ */
+
+/* 控件条:media/style.css 铺的是 Vista 玻璃条(bar.png),换成一条纸带 */
+body:has(.video-container) .player-controls {
+    background: var(--paper-2);
+    background-image: none;
+    border-top: 1px dashed var(--rule-dash);
+    padding: 8px 10px;
+}
+
+/* 按钮:圆形贴纸。行内/媒体样式里的 PNG 图标会被下面这行整体清掉
+   (background 简写会把 background-image 一起重置),所以不用 !important */
+body:has(.video-container) .control-button {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 30px;
+    background: var(--paper);
+    border: 1px solid var(--rule);
+    border-radius: 50%;
+    color: var(--ink-2);
+    box-shadow: 0 1px 0 rgba(61, 58, 56, .10);
+    transition: transform var(--t-fast) var(--ease-pop),
+                background-color var(--t-fast) ease,
+                color var(--t-fast) ease;
+}
+
+body:has(.video-container) .control-button:hover {
+    color: var(--c-teal);
+    background: var(--cream);
+    transform: translateY(-1px);
+}
+
+body:has(.video-container) .control-button:active {
+    transform: translateY(1px) scale(.94);
+}
+
+/* 播放 / 暂停(两个状态各画一个,颜色走 currentColor) */
+body:has(.video-container) .play-btn::before {
+    content: "";
+    width: 0;
+    height: 0;
+    margin-left: 3px;
+    border-left: 11px solid currentColor;
+    border-top: 7px solid transparent;
+    border-bottom: 7px solid transparent;
+}
+
+body:has(.video-container) .pause-btn::before {
+    content: "";
+    width: 5px;
+    height: 12px;
+    border-left: 4px solid currentColor;
+    border-right: 4px solid currentColor;
+}
+
+/* 喇叭 / 静音 */
+body:has(.video-container) .mute-btn::before,
+body:has(.video-container) .muted-btn::before {
+    content: "";
+    width: 15px;
+    height: 14px;
+    background: currentColor;
+    clip-path: polygon(0% 32%, 30% 32%, 60% 6%, 60% 94%, 30% 68%, 0% 68%);
+}
+
+body:has(.video-container) .mute-btn::after {
+    content: "";
+    width: 7px;
+    height: 7px;
+    margin-left: 3px;
+    border: 2px solid currentColor;
+    border-left-color: transparent;
+    border-top-color: transparent;
+    border-bottom-color: transparent;
+    border-radius: 50%;
+}
+
+/* 静音 = 喇叭 + 一个叉(用两条斜向渐变画,不引任何字体/图片) */
+body:has(.video-container) .muted-btn::after {
+    content: "";
+    width: 11px;
+    height: 11px;
+    margin-left: 3px;
+    background:
+        linear-gradient(45deg, transparent 43%, currentColor 43%, currentColor 57%, transparent 57%),
+        linear-gradient(-45deg, transparent 43%, currentColor 43%, currentColor 57%, transparent 57%);
+}
+
+/* 全屏 / 退出全屏:两枚对角括号 */
+body:has(.video-container) .fullscreen-btn::before,
+body:has(.video-container) .fullscreen-btn::after,
+body:has(.video-container) .exit-fullscreen-btn::before,
+body:has(.video-container) .exit-fullscreen-btn::after {
+    content: "";
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    border: 2px solid currentColor;
+}
+
+body:has(.video-container) .fullscreen-btn::before {
+    top: 6px;
+    left: 6px;
+    border-right: 0;
+    border-bottom: 0;
+}
+
+body:has(.video-container) .fullscreen-btn::after {
+    right: 6px;
+    bottom: 6px;
+    border-left: 0;
+    border-top: 0;
+}
+
+body:has(.video-container) .exit-fullscreen-btn::before {
+    top: 6px;
+    left: 6px;
+    border-left: 0;
+    border-top: 0;
+}
+
+body:has(.video-container) .exit-fullscreen-btn::after {
+    right: 6px;
+    bottom: 6px;
+    border-right: 0;
+    border-bottom: 0;
+}
+
+/* 进度条:蜡笔线 + 珊瑚色填充 */
+body:has(.video-container) .progress-container {
+    height: 9px;
+    background: var(--paper-3);
+    border: 0;
+    border-radius: var(--r-pill);
+}
+
+body:has(.video-container) .progress-bar {
+    background: var(--coral);
+    border-radius: var(--r-pill);
+}
+
+/* 拖动点:和 WMP 侧栏那颗是同一套画法 —— 把 wmpdot.png 推出可视区,
+   自己画一颗白圈珊瑚点的贴纸圆(该元素 pointer-events:none,纯装饰) */
+body:has(.video-container) .progress-dot {
+    width: 16px;
+    height: 16px;
+    border: 0;
+    border-radius: 50%;
+    background: #FFFFFF;
+    box-shadow: inset 0 0 0 2.5px var(--coral), 0 1px 3px rgba(61, 58, 56, .26);
+    object-fit: none;
+    object-position: -9999px -9999px;
+    box-sizing: border-box;
+}
+
+body:has(.video-container) .time-display {
+    color: var(--ink-2);
+    background: var(--paper);
+    border: 1px solid var(--rule);
+    border-radius: var(--r-sm);
+    font-variant-numeric: tabular-nums;
+}
+
+/* 音量条:纸槽 + 白圈珊瑚点的拇指 */
+body:has(.video-container) .volume-slider {
+    -webkit-appearance: none;
+    appearance: none;
+    height: 6px;
+    background: var(--paper-3);
+    border-radius: var(--r-pill);
+}
+
+body:has(.video-container) .volume-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: #FFFFFF;
+    box-shadow: inset 0 0 0 2.5px var(--coral), 0 1px 2px rgba(61, 58, 56, .3);
+    cursor: pointer;
+}
+
+body:has(.video-container) .volume-slider::-moz-range-thumb {
+    width: 14px;
+    height: 14px;
+    border: 0;
+    border-radius: 50%;
+    background: #FFFFFF;
+    box-shadow: inset 0 0 0 2.5px var(--coral), 0 1px 2px rgba(61, 58, 56, .3);
+    cursor: pointer;
+}
+
+/* 下载区:一张虚线边的便签 */
+body:has(.video-container) .download-section {
+    margin-top: 0;
+    background: var(--paper-2);
+    border: 1px dashed var(--rule-dash);
+    border-radius: var(--r-md);
+    padding: 15px 16px 16px;
+}
+
+body:has(.video-container) .download-section h3 {
+    color: var(--c-amber);
+    font-size: 14px;
+}
+
+body:has(.video-container) .download-section .download-link {
+    display: inline-flex;
+    align-items: center;
+    padding: 6px 14px;
+    font-size: 13px;
+    color: var(--ink);
+    background: var(--paper);
+    border: 1px solid var(--rule-2);
+    border-radius: var(--r-sm);
+    box-shadow: 0 1px 0 rgba(61, 58, 56, .10);
+    text-decoration: none;
+    border-bottom: 1px solid var(--rule-2);
+    transition: transform var(--t-fast) var(--ease-soft),
+                box-shadow var(--t-fast) ease,
+                background-color var(--t-fast) ease;
+}
+
+body:has(.video-container) .download-section .download-link:hover {
+    background: #FFFDF8;
+    transform: translateY(-1px);
+    box-shadow: 0 3px 8px -2px rgba(61, 58, 56, .22);
+}
+
+/* ---------------------------------------------------------------
    8. WMP 播放器
    --------------------------------------------------------------- */
 .aero-player {
@@ -3352,7 +3819,10 @@ body {
         flex-direction: column;
     }
 
-    .video-thumb {
+    /* 要带 #videoList —— 上面 7b 节那条 #videoList .video-thumb(1,1,0)
+       比这里的 .video-thumb(0,1,0) 高,不跟着抬特异性就把窄屏的"封面占满一行"顶掉了 */
+    .video-thumb,
+    #videoList .video-thumb {
         width: 100%;
     }
 
