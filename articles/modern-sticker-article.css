@@ -712,14 +712,15 @@ html {
     box-shadow: none;
 }
 
-/* 胶带:压在白框的上边缘,一半在框外。两道渐变叠出一层薄纸的反光。 */
+/* 胶带:压在白框上边缘,并且**往照片上压进去一点点**(::before 是绝对定位,
+   画在在流的照片之上),看着才像"把照片按住"。两道渐变叠出一层薄纸的反光。 */
 .article-content .xxt-photo::before {
     content: "";
     position: absolute;
-    top: -9px;
+    top: -6px;
     left: calc(50% + var(--tape-shift, 0px));
     width: 64px;
-    height: 19px;
+    height: 22px;
     margin-left: -32px;
     background:
         linear-gradient(180deg,
