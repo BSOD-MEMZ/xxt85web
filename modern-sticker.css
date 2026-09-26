@@ -2348,13 +2348,26 @@ body.customizing .customize-grid-overlay {
     box-sizing: content-box;
 }
 
+/* ⚠️ 上面 12px 内边距 + 1px 描边是 content-box,而页面自己写了 max-width:100%
+   —— 两者相加,整块画布比 .main 宽 26px。窄屏上这就是一条横向滚动条。
+   页面那条是 #id 选择器,得用 .main > canvas#id(1,1,1)才压得住 (1,0,0)。 */
+.main > canvas#mowanRadar,
+.main > canvas#storyGraph {
+    max-width: calc(100% - 26px);
+}
+
 /* support/chomowan 页面自带一段 Aero 玻璃风格的图例 chip(内联 <style>)。
-   那套蓝白渐变在手账主题里格外突兀,这里用更高特异性把它改写成
-   主题自己的纸片贴纸。(该页 .chip 只出现在图例里,范围安全) */
-.aero-radar-legend .chip {
+   那套蓝白渐变在手账主题里格外突兀,这里把它改写成主题自己的纸片贴纸。
+   (该页 .chip 只出现在图例里,范围安全)
+
+   ⚠️ 必须带上 #mowanRadarLegend 把特异性抬到 (1,1,0):
+   页面那段 <style> 排在主题 <link> **之后**(head 里是 link → script → style),
+   同特异性的规则一律是页面赢 —— 原来写成 .aero-radar-legend .chip 时
+   和页面里的选择器一模一样,结果一条都没生效,chip 一直是 Aero 蓝。 */
+#mowanRadarLegend .chip {
     display: inline-block;
-    margin: 4px 6px;
-    padding: 4px 12px;
+    margin: 4px 8px;
+    padding: 4px 13px;
     white-space: nowrap;
     font-size: 12px;
     color: var(--ink-2);
@@ -2362,17 +2375,138 @@ body.customizing .customize-grid-overlay {
     border-radius: var(--r-pill);
     background: var(--paper-2);
     box-shadow: var(--sh-1);
+    /* 页面写的是 aero_link.cur,一枚 Aero 玻璃指针 */
+    cursor: pointer;
     transition: background-color var(--t-fast) ease,
                 border-color var(--t-fast) ease,
                 transform var(--t-fast) var(--ease-pop);
 }
 
-.aero-radar-legend .chip.chip-active {
+#mowanRadarLegend .chip:hover {
+    border-color: var(--rule-2);
+    background: #FFFDF8;
+    transform: translateY(-1px);
+}
+
+/* 选中某位成员时亮起来的 chip */
+#mowanRadarLegend .chip.chip-active {
     color: var(--ink);
     border-color: var(--coral);
     background: #FFF1F3;
     box-shadow: 0 0 0 1px rgba(255, 122, 138, .35), var(--sh-1);
     transform: translateY(-1px);
+}
+
+/* 成员色块:页面上是玻璃珠(内嵌高光 + 外投影),换成落在纸上的一颗实心圆点。
+   颜色本身由 JS 写进行内 background,不动。 */
+#mowanRadarLegend .swatch {
+    box-shadow: inset 0 0 0 1px rgba(61, 58, 56, .18);
+}
+
+/* ---------- support/manga 在线漫画阅读器 ---------- */
+
+/* 整个阅读器 = 摊在桌上的一册原稿 */
+#manga-reader {
+    position: relative;   /* 给下面那段胶带做定位基准 */
+    background: var(--paper);
+    border: 1px solid var(--rule-2);
+    border-radius: var(--r-md);
+    box-shadow: var(--sh-1);
+    padding: 15px 14px 17px;
+    margin: 20px 0 14px;
+}
+
+/* 顶上贴一段胶带:和 .window / .tips 用的是同一组数值,卡片语言保持一致 */
+#manga-reader::before {
+    content: "";
+    position: absolute;
+    top: -9px;
+    left: 28px;
+    width: 62px;
+    height: 18px;
+    background: var(--tape);
+    opacity: .8;
+    transform: rotate(-2.5deg);
+    box-shadow: 0 1px 2px rgba(61, 58, 56, .12);
+    pointer-events: none;
+}
+
+/* 工具条:窄屏必须能换行。
+   行内写了 display:flex / gap:12px,但没写 flex-wrap,所以这条不用 !important;
+   gap 也别改 —— 行内的 gap 简写会把 row-gap 一起锁成 12px。 */
+#manga-toolbar {
+    flex-wrap: wrap;
+}
+
+/* 页码 = 一枚纸片标签 */
+#page-info {
+    color: var(--ink-2);
+    background: var(--paper-2);
+    border: 1px dashed var(--rule-dash);
+    border-radius: var(--r-pill);
+    padding: 3px 12px;
+    box-sizing: border-box;
+}
+
+/* 跳转输入框:和站内其它输入框同一套纸面 */
+#page-jump {
+    font-family: var(--font);
+    color: var(--ink);
+    background: var(--paper);
+    border: 1px solid var(--rule-2);
+    border-radius: var(--r-sm);
+}
+
+/* 上一页 / 下一页:圆形贴纸按钮。行内写了 background:none / border:none,要压住 */
+#btn-prev,
+#btn-next {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 38px;
+    height: 38px;
+    background: var(--paper-2) !important;
+    border: 1px solid var(--rule) !important;
+    border-radius: 50%;
+    color: var(--ink-2);
+    box-shadow: 0 1px 0 rgba(61, 58, 56, .10);
+    transition: transform var(--t-fast) var(--ease-pop),
+                background-color var(--t-fast) ease,
+                color var(--t-fast) ease,
+                box-shadow var(--t-fast) ease;
+}
+
+#btn-prev:hover,
+#btn-next:hover {
+    color: var(--c-teal);
+    background: var(--cream) !important;
+    transform: translateY(-2px) scale(1.06);
+    box-shadow: 0 4px 10px -3px rgba(61, 58, 56, .28);
+}
+
+#btn-prev:active,
+#btn-next:active {
+    transform: translateY(1px) scale(.95);
+    box-shadow: none;
+}
+
+/* 箭头由 JS 换成矢量 caret(images/left.png → i-caret-left,right.png 同理)。
+   换出来的 <svg> 拿不到行内那 32px,尺寸得在这里补 */
+#manga-toolbar .xxt-ic {
+    width: 24px;
+    height: 24px;
+}
+
+/* 画页 = 夹进册子的一张原稿:行内那道生硬的黑投影换成纸片投影,
+   再加一圈白边当卡纸。
+   border-box 必须一起写 —— 行内 max-width:100% 是按内容盒算的,
+   光加边框会让整页比容器宽 12px。 */
+#manga-img {
+    background: #FFFFFF;
+    border: 6px solid #FFFFFF;
+    border-radius: var(--r-sm);
+    box-sizing: border-box;
+    box-shadow: var(--sh-2) !important;
 }
 
 /* 侧栏卡片标题与它顶上那条胶带同色系 */

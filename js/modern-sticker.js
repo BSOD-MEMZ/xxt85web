@@ -441,7 +441,11 @@
         'img[src*="media/assets/prev.png"]:not([data-xxt-keep]), ' +
         'img[src*="media/assets/next.png"]:not([data-xxt-keep]), ' +
         'img[src*="media/assets/play.png"]:not([data-xxt-keep]), ' +
-        'img[src*="media/assets/pause.png"]:not([data-xxt-keep])';
+        'img[src*="media/assets/pause.png"]:not([data-xxt-keep]), ' +
+        // 左右翻页箭头:support/manga 的漫画阅读器是顶层页里唯一用它们的地方
+        // (文章页的图片查看器走自己那套 image-viewer.js,不受这里影响)
+        'img[src*="images/left.png"]:not([data-xxt-keep]), ' +
+        'img[src*="images/right.png"]:not([data-xxt-keep])';
     var SVG_NS = 'http://www.w3.org/2000/svg';
 
     var iconState = {

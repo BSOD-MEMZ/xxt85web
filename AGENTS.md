@@ -422,6 +422,37 @@ img.src && !img.src.includes('.png') || img.src.includes('.jpg') || …
 
 ---
 
+### 18. 页面自带的 `<style>` 排在主题之后 —— 同特异性 = 页面赢
+
+`support/chomowan` 的 head 是 `link#themeCss` → `js/theme-loader.js` → 一坨 `<style>`。
+`theme-loader.js` 只改写那个 `<link>` 的 `href`（不新建节点），所以**页面那段 `<style>`
+永远排在主题 CSS 之后**。CSS 层叠看的是样式表在文档里的顺序，不是加载完成的先后 ——
+于是**同特异性的规则一律是页面赢**。
+
+坑就出在这里：`modern-sticker.css` 的 14c 里原本有一条 `.aero-radar-legend .chip`，
+想把手账风格盖到那页的 Aero 玻璃图例上；页面自己的选择器**一模一样**（都是 `(0,2,0)`），
+页面又在后面 —— 这条规则从写下那天起就没生效过，chip 一直是 Aero 蓝。
+而静态审计只断言"规则存在"，所以一路绿灯（第八轮才发现）。
+
+**给这类页面（chomowan / manga / 其它 `support/*`）写覆盖时：**
+
+| 对方怎么写 | 你要怎么压 |
+|---|---|
+| 页面 `<style>` 用 `#id` | 用 `.main > canvas#id` 这种带父级的写法抬到 `(1,1,1)` |
+| 页面 `<style>` 用 `.class` | 用页面里的 `#id` 做前缀（如 `#mowanRadarLegend .chip`） |
+| 元素**行内** `style="…"` | 只能 `!important`（行内声明压得过任何普通样式表规则） |
+
+`#manga-reader` 这类行内写了 `background:none` / `border:none` / `box-shadow:…` 的，
+一律 `!important`；而**页面没写过的属性**（如 `flex-wrap`、`border-radius`）正常写就行，
+别滥用 `!important` —— 有一条 `gap` 简写的坑：行内 `gap:12px` 会连 `row-gap` 一起锁死，
+stylesheet 里再写 `row-gap` 是压不住的。
+
+> 验证不能只查"规则在不在"：`.workbuddy/tmp/test-round8.js` 会解析两侧样式表 +
+> 行内声明，做真·层叠求解（特异性 → 源序 → `!important`），逐条判定"这处覆盖真的赢了吗"。
+> **新增对 `support/*` 页面的覆盖时,照抄这套判法。**
+
+---
+
 ## LaTeX 公式
 
 KaTeX 0.16.9 **已本地化**在 `vendor/katex/`（含 20 个 woff2，无 CDN 请求）。
