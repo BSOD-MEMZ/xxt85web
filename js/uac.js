@@ -205,7 +205,14 @@
             '.uac-banner{',
             'position:relative;display:flex;align-items:center;gap:11px;',
             'background:#FFFBEA;border:1px solid #EFE0AE;border-radius:12px;',
-            'padding:12px 14px;margin-bottom:13px',
+            'padding:12px 14px;margin-bottom:13px;',
+            /* ⚠️ color 必须写。上面那套 Vista 基线里是 `.uac-banner{...color:#fff}`
+               (深蓝渐变配白字),而这个覆盖块只改了底色、没动 color ——
+               于是 color 仍然是 #fff,盾牌图标(矢量化后的 <svg class="xxt-ic">,
+               走 fill:currentColor)继承了它 → **白图标压在淡黄便签上,几乎看不见**。
+               用深琥珀:与便签的暖色同族,对 #FFFBEA 的对比度约 3.8:1
+               (比 --c-amber #D08A00 的 2.8:1 稳,图标类元素 3:1 以上才够看)。 */
+            'color:#B07400;',
             '}',
             '.uac-banner::before{',
             'content:"";position:absolute;top:-7px;left:16px;width:46px;height:15px;',

@@ -120,7 +120,7 @@ MutationObserver         // 每次回调重打一遍(幂等),覆盖动态弹窗
 | `.sidebar-close-btn` | 委托在 sidebar 上 | 不标 |
 | `.vista-close-btn` | 直接绑本体会丢 → **补上容器委托**后就没问题 | 不标（外观交给 `#i-close-dot`） |
 | `.uac-close-btn` | `uac.js` 自建 `<svg>` 并重绑；src 是 `Window_CloseButton.png` 会被命中 | **标** |
-| `.image-viewer-close` / `.image-viewer-nav` | 配套脚本自己升级 | 标 |
+| `.image-viewer-close` / `.image-viewer-nav` | 图片查看器**只出现在文章页**，顶层脚本本来也碰不到它们 | 标（这条在顶层名单里其实是死条目；文章页那边由 `modern-sticker-article.js` 矢量化，见下） |
 
 当前名单：`.uac-close-btn` · `.image-viewer-close` · `.image-viewer-nav` ·
 `.infobar-close` · `.xxt-copy-btn` · `.xxt-pin-close`
@@ -168,6 +168,21 @@ MutationObserver         // 每次回调重打一遍(幂等),覆盖动态弹窗
 > 是作用在元素自身的声明 —— 自身声明永远赢过继承值。
 
 改图标颜色时**只动这两条规则**，别去碰符号。
+
+站内**三处**关闭键、**同一枚**符号，只有变量值各写一份：
+
+| 谁 | 在哪 | 变量写在哪 |
+|---|---|---|
+| `.vista-close-btn` | 顶层页对话框（控制面板 / 留言本 / 欢迎框） | `modern-sticker.css` |
+| `.sidebar-close-btn` | 侧栏窗口 | `modern-sticker.css` |
+| `.image-viewer-close` | 文章页图片查看器（`imageclose.png` → `i-close-dot`） | `articles/modern-sticker-article.css` |
+
+> ⚠️ 图片查看器那一枚**不能**再套纸底/描边：`.image-viewer-close` 身上原本有
+> 共用的 `background: var(--paper); border: 1px solid var(--rule-2)`，
+> 而符号画的是一个几乎铺满整框的红圆 —— 外圈会剩一圈纸色描边，看着像"圆环套圆点"。
+> 所以 `svg.image-viewer-close` 里写了 `background: none; border: none`；
+> **连带 `.image-viewer-close:hover` 里也不能写 `background`**：
+> 它的特异性是 `(0,2,0)`，会盖过 `svg.image-viewer-close` 的 `(0,1,1)`，一 hover 就冒出白底。
 
 ### 播放键是个例外
 
@@ -224,6 +239,19 @@ loadstart(切歌) → angle = 0
 
 若某处确实需要脚本自己升级图标（如文章页的 `image-viewer.js`），
 优先用**事件委托**挂在父容器上，与节点是否被替换无关。
+
+> ⚠️ **别拿"另一个脚本会做"当排除理由。** 第十一轮的实例：文章页的
+> `ICON_SELECTOR` 把图片查看器的三个键 `:not()` 掉了，理由是 `image-viewer.js`
+> 自己会升级 —— 但那个升级在 `window.XXT_ICON_MAP` 还不存在时**静默返回**
+> （精灵表是主题脚本那一刻才 `<script>` 加载的），于是两边都没换，**页面零报错**。
+>
+> 排除前只问一句：**这个元素被换成 `<svg>` 之后，点击还有效吗？**
+> 走委托的（查看器三个键、`.sidebar-close-btn`、`.vista-close-btn`）→ 不该排除；
+> 只有事件**直接绑在元素实例**上的才排除（目前只有 `.uac-close-btn` 一处）。
+>
+> 给图标上色的注意点：`fill: currentColor` 的图标，颜色**完全来自继承** ——
+> 覆盖样式块只改 `background` 不改 `color`，图标就会继承到父级（乃至基线里
+> 那条 `color:#fff`）的颜色。UAC 的盾牌就这么在白底便签上白了一轮。
 
 ### chips（`.cat-btn`）里的图标一律不换
 

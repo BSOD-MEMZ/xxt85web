@@ -540,9 +540,58 @@ cp .workbuddy/tmp/icons-new.js js/modern-sticker-icons.js       # 确认无误�
 **重跑生成器有漂移风险**（Simple Icons 用的是 `@latest`），所以 `cmp-icons.js` 会比
 「已有符号内容有没有变」「映射表有没有动」—— 别跳过它直接覆盖。
 
-> 两个配套断言（`test-round10.js`）：**脚本里引用的每个 `#i-xxx` 都必须在精灵表里存在**
-> （拼错一个就是"图标不显示"而页面不报错）；**`XXT_ICON_MAP` 与上一版逐字符一致**
-> （那是 `<img>` 替换的命根子，加符号不该动它）。
+> 三个配套断言（`test-round10.js`）：**脚本里引用的每个 `#i-xxx` 都必须在精灵表里存在**
+> （拼错一个就是"图标不显示"而页面不报错）；**`XXT_ICON_MAP` 相对上一版只能有登记过的改动**
+> （那是 `<img>` 替换的命根子，加符号不该动它 —— 有意的改动写进 `MAP_CHANGES` 白名单，
+> 别让"与上一版一致"变成"谁都不敢改映射"）。
+
+### 21. 「两边都以为对方会做」= 谁都没做
+
+**症状 A：文章页图片查看器的关闭 / 左右键一直是原始 PNG。**
+
+`articles/modern-sticker-article.js` 的 `ICON_SELECTOR` 把这三个键 `:not()` 掉了，
+理由是"`image-viewer.js` 自己会换图标"；而 `image-viewer.js` 那套 `upgradeThemeIcons()`
+确实存在 —— 但它只在 `window.XXT_ICON_MAP` **已经存在**时才动手，
+而精灵表是主题脚本那一刻才开始 `<script>` 加载的：
+
+```
+DOMContentLoaded
+  ├─ image-viewer.js  init()      → 建弹层 → upgradeThemeIcons() → XXT_ICON_MAP 还不存在 → 静默跳过
+  └─ 主题脚本 boot()  → loadSprite() → 精灵到位 → run()
+                                        └─ swapIcons() 把这三个键 :not() 掉了 → 也不管
+```
+
+两边都写了替换代码，两边都没生效，**页面零报错**。
+
+**判据（以后排除图标前只问这一句）：这个元素被换成 `<svg>` 之后，点击还有效吗？**
+
+- 事件**直接绑在元素实例**上、且没人会重绑 → 必须排除（`.uac-close-btn` 是唯一一个）
+- 走**事件委托**（挂在父容器上）→ 换掉没事，**不该排除**
+  （图片查看器的关闭/翻页挂在 `modal` 上；`.vista-close-btn` / `.sidebar-close-btn` 同理）
+
+现在三个键交给文章页脚本（它有"精灵加载完 → `run()`"+"MutationObserver"双保险，
+弹层无论早于还是晚于精灵出现都能覆盖），`image-viewer.js` 那套保留作幂等兜底。
+
+**症状 B：UAC 的盾牌图标在白底上看不见。**
+
+`js/uac.js` 里手账覆盖块只改了 `.uac-banner` 的 `background`、**没声明 `color`**，
+而它上面那套 Vista 基线写的是 `.uac-banner{...color:#fff}`（深蓝渐变配白字）。
+两条选择器完全同特异性 → 覆盖块在后，但**没声明就压不住**，实际 `color` 仍是 `#fff`；
+矢量化后的 `<svg class="xxt-ic">` 走 `fill: currentColor`，于是白盾牌压在 `#FFFBEA` 便签上
+（对比度 1.04:1，等于看不见）。
+
+> 通则：**换底色的覆盖块，记得把字色/图标色一起声明**。`fill: currentColor` 的图标
+> 颜色完全来自继承，查样式时"这枚图标为什么是白的"要看的是**祖先的 `color`**，
+> 不是图标自己的规则。
+> 量化的判据写进了 `test-round11.js`：算 WCAG 对比度，图标类元素要 ≥ 3:1
+> （现在用的 `#B07400` 是 3.79:1，白色只有 1.04:1）。
+
+顺便：`imageclose.png` 的映射原本是 `i-x`（普通叉），但 `articles/modern-sticker-article.css`
+里早就写了 `--xxt-dot` / `--xxt-dot-x` —— **那两个变量只有 `close-dot` 这个 symbol 会读**，
+所以映射改成 `i-close-dot` 后，站内三处关闭键（对话框 / 侧栏 / 图片查看器）才真正是同一枚。
+`i-x` 因此没人引用了，已从精灵表删除；`swapToolbarClose()` 的兜底也从 `#i-x` 改成 `#i-close-dot`
+（原来它和主路径给的图标不一致，CSS 里那条 `.button:hover .xxt-ic[data-icon="close-dot"]`
+的 hover 白叉永远不出现）。
 
 ---
 

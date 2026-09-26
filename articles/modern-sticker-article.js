@@ -21,19 +21,24 @@
 
     /* 需要替换的图标。用文件名查映射表,查不到就跳过原样保留 PNG。
 
-       ⚠️ 两类元素必须排除 —— 它们的点击事件绑在 <img> 实例上,
+       ⚠️ 只排除一类元素 —— 它的点击事件直接绑在 <img> 实例上,
        而 addEventListener 是跟着元素走的,换掉 <img> 就等于把事件一起换没:
 
-         · .uac-close-btn   UAC 对话框关闭键,由 uac.js 自己绑定
-         · .image-viewer-*  图片查看器的关闭 / 上一张 / 下一张,
-                            由 image-viewer.js 自己绑定(它换完图标会重新绑)
+         · .uac-close-btn   UAC 对话框关闭键,uac.js 把监听直接绑在本体上
+                            (它自己换完 <svg> 会重新绑,所以这里不能抢)
 
-       两者各自的脚本会做"先绑事件、再换图标"的升级,所以这里不能碰。 */
+       ⚠️ 图片查看器的三个键(.image-viewer-close / -prev / -next)**必须留在这里** ——
+       它们以前被 :not() 排除掉了,理由是"image-viewer.js 自己会换",
+       但那个替换只在**精灵表已经加载好**时才生效:image-viewer.js 在
+       DOMContentLoaded 里建弹层并当场升级,而精灵是本脚本那一刻才开始加载的
+       → window.XXT_ICON_MAP 还不存在 → 升级被静默跳过,三个键一直是原始 PNG。
+       现在交给这里:本脚本有"精灵加载完 → run()" + MutationObserver 双保险,
+       弹层无论发生在加载前还是加载后都能被覆盖。
+       (image-viewer.js 自己那套还在,两边幂等,谁先跑都只是跳过已换好的 <svg>。)
+       点击不会丢 —— image-viewer.js 的关闭/翻页走的是 modal 上的事件委托。 */
     var ICON_SELECTOR =
-        'img[src$=".png"]:not(.uac-close-btn):not(.image-viewer-close)' +
-        ':not(.image-viewer-nav), ' +
-        'img[src$=".gif"]:not(.uac-close-btn):not(.image-viewer-close)' +
-        ':not(.image-viewer-nav)';
+        'img[src$=".png"]:not(.uac-close-btn), ' +
+        'img[src$=".gif"]:not(.uac-close-btn)';
 
     /* 给某处按钮换矢量图标并"原样保留"原 <img> 的 class / 尺寸。
        返回新的 <svg>;查不到映射就返回 null,调用方自己决定要不要回退。 */
@@ -58,7 +63,12 @@
     }
 
     /* 头图上的「关闭页面」:文字保留,图标换成矢量叉
-       (旧样式不走本脚本,原 PNG 一字未改) */
+       (旧样式不走本脚本,原 PNG 一字未改)
+
+       ⚠️ 用 close-dot 而不是普通的 i-x:站内所有关闭键都是这枚交通灯圆点
+       (素材是 close.png,走上面的通用分支本来就映射到 close-dot),
+       而 CSS 里那条 `.button:hover .xxt-ic[data-icon="close-dot"]`
+       正是给这枚图标配的 hover 白叉 —— 两处对不上就会"有个叉永远不出现"。 */
     function swapToolbarClose() {
         var anchors = document.querySelectorAll('.gradient-divider .button');
         for (var i = 0; i < anchors.length; i++) {
@@ -71,12 +81,12 @@
 
             var svg = document.createElementNS(SVG_NS, 'svg');
             svg.setAttribute('class', 'xxt-ic');
-            svg.setAttribute('data-icon', 'x');
+            svg.setAttribute('data-icon', 'close-dot');
             svg.setAttribute('aria-hidden', 'true');
             svg.setAttribute('focusable', 'false');
 
             var use = document.createElementNS(SVG_NS, 'use');
-            use.setAttribute('href', '#i-x');
+            use.setAttribute('href', '#i-close-dot');
             svg.appendChild(use);
 
             img.parentNode.replaceChild(svg, img);
@@ -122,6 +132,11 @@
             var use = document.createElementNS(SVG_NS, 'use');
             use.setAttribute('href', '#' + id);
             svg.appendChild(use);
+
+            /* title 原样带走(image-viewer.js 里那套替换也这么做)。
+               图片查看器的三个键都带 title,换完不该把悬停提示弄丢 */
+            var title = img.getAttribute('title');
+            if (title) svg.setAttribute('title', title);
 
             if (img.parentNode) {
                 img.parentNode.replaceChild(svg, img);

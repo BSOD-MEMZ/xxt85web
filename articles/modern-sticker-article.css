@@ -1171,7 +1171,8 @@ html {
 
 /* 关闭:与侧栏小窗口同一枚 macOS 交通灯圆点
    平时只是一枚红点,hover 浮出 ✕;新主题下由 modern-sticker-article.js
-   把 <img> 换成 <svg class="xxt-ic"><use href="#i-x"> */
+   把 <img> 换成 <svg class="xxt-ic"><use href="#i-close-dot">
+   (素材 imageclose.png 在 XXT_ICON_MAP 里映射到 i-close-dot) */
 .image-viewer-close {
     top: -13px;
     right: -13px;
@@ -1182,13 +1183,20 @@ html {
     --xxt-dot-x: transparent;
 }
 
+/* ⚠️ hover 里**不要**再写 background —— `.image-viewer-close:hover` 的特异性是 (0,2,0),
+   会盖过下面 `svg.image-viewer-close` 的 (0,1,1):一 hover 就冒出个纸色圆底,
+   红点外面套一圈白环。矢量化之后这个圆底本来就要撤掉,所以这里更不该再加。 */
 .image-viewer-close:hover {
     --xxt-dot-x: rgba(0, 0, 0, .58);
-    background: var(--paper);
 }
 
 /* 矢量化后 <img> 变成同一个元素上的 <svg class="xxt-ic image-viewer-close">
-   —— 用 svg 前缀把特异性抬到 (0,1,1),盖过全局 .xxt-ic 的 inline-block */
+   —— 用 svg 前缀把特异性抬到 (0,1,1),盖过全局 .xxt-ic 的 inline-block。
+
+   ⚠️ 这里**不画圆**:圆点由 sprite 里的 #i-close-dot 自己画(和 .vista-close-btn /
+   .sidebar-close-btn 同一套)。所以纸底和描边都要撤掉,只留投影 ——
+   否则 34px 的红点外面会再套一圈 1px 纸色描边,看着像个"圆环套圆点"。
+   (同理别用 ::before / ::after 补圆:会叠成两个。) */
 svg.image-viewer-close {
     padding: 0;
     display: block;
@@ -1196,8 +1204,12 @@ svg.image-viewer-close {
     height: 34px;
     flex: none;
     box-sizing: border-box;
+    border: none;
+    background: none;
     border-radius: 50%;
-    /* 交通灯红点:圆点本体由 sprite 里的 i-close-dot 画 */
+    box-shadow: 0 2px 8px -2px rgba(61, 58, 56, .45);
+    /* 红点走 symbol 自带的 fill="var(--xxt-dot)";
+       currentColor 只是给"万一 sprite 缺失"时的兜底色 */
     fill: currentColor;
 }
 
@@ -1223,6 +1235,13 @@ svg.image-viewer-nav {
     width: 40px;
     height: 40px;
     flex: none;
+}
+
+/* 命中测试落到 <svg> 本体上(和关闭键一致)——
+   走委托的 closest('.image-viewer-prev') 从哪儿都能找到,
+   但让 padding 区域也算点击有助于小屏点得准 */
+svg.image-viewer-nav use {
+    pointer-events: none;
 }
 
 .image-viewer-prev {
