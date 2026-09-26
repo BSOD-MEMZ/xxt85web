@@ -509,6 +509,43 @@ stylesheet 里再写 `row-gap` 是压不住的。
 
 ---
 
+### 20. 图标是 `background-image` 画的那些元素：只能靠主题脚本注入 `<use>`
+
+`js/modern-sticker.js` 的图标机制是「把 `<img>` 换成 `<svg><use>`」——
+它够不到**压根没有 `<img>`、图标靠 CSS `background-image` 画**的元素。
+媒体库就有两处：列表页封面上的播放角标（`.play-icon` / `.flash-play-icon`，空 `div`）、
+播放页控件条的按钮（`#video-player .control-button`，背景图是 `media/assets/*.png`）。
+
+做法（见 `js/modern-sticker.js` 第 5b 节）：
+
+- 主题脚本直接把 `<svg><use href="#i-…">` **塞进**这些元素，图标取自同一份精灵表；
+- **有状态的按钮把两枚图标都塞进去**（播放/暂停、扬声器/静音、全屏/退出），
+  由 CSS 按按钮当前的类放行其中一枚 —— 和 `#play-img` 同一套路，因此不用监听类变化；
+- 注入的东西要在 `initThemeSync()` 里还原（`restoreMediaIcons()`），切回旧主题不留残余；
+- 动态渲染的内容（`medias.js` 渲染的列表、`player.html` 渲染的控件）靠
+  `initIcons()` 里那个 MutationObserver 补上（`scheduleMediaIcons()`）。
+
+⚠️ **别在手绘 CSS 图标上纠缠。** 第十轮先手搓了一套三角/双条/喇叭/叉/对角括号，
+被站长一句"看着怪怪的，用现成的图标库"打回 —— 这个站的"现成图标库"就是
+`js/modern-sticker-icons.js`（Phosphor + Simple Icons，本地化、无 CDN）。缺图标就补进精灵表：
+
+```bash
+node .workbuddy/tmp/gen-icons.js .workbuddy/tmp/icons-new.js   # 先输出到临时文件
+node .workbuddy/tmp/cmp-icons.js                                # 比对:只允许精灵表那行变、且是纯追加
+cp .workbuddy/tmp/icons-new.js js/modern-sticker-icons.js       # 确认无误再覆盖
+```
+
+`gen-icons.js` 里的 `EXTRA_PHOSPHOR` 是「没有对应 PNG、只进精灵表不进映射表」的图标
+（播放器控件要的 `speaker-slash` / `arrows-out` / `arrows-in` 就是这么加的）。
+**重跑生成器有漂移风险**（Simple Icons 用的是 `@latest`），所以 `cmp-icons.js` 会比
+「已有符号内容有没有变」「映射表有没有动」—— 别跳过它直接覆盖。
+
+> 两个配套断言（`test-round10.js`）：**脚本里引用的每个 `#i-xxx` 都必须在精灵表里存在**
+> （拼错一个就是"图标不显示"而页面不报错）；**`XXT_ICON_MAP` 与上一版逐字符一致**
+> （那是 `<img>` 替换的命根子，加符号不该动它）。
+
+---
+
 ## LaTeX 公式
 
 KaTeX 0.16.9 **已本地化**在 `vendor/katex/`（含 20 个 woff2，无 CDN 请求）。
@@ -553,6 +590,20 @@ python -m http.server 8765 --bind 127.0.0.1
 - `?ripple=debug` —— 任意设备上强制启用触摸涟漪
 
 主题与开关状态都存在 `localStorage`，想模拟全新访客就清掉 `theme` / `xxt-theme-picked` / `xxt-theme-never`。
+
+### 写验证脚本时注意行尾（坑过一次）
+
+仓库是 `core.autocrlf=true`，**工作区里的文件是 CRLF**（`style.css`、`index.html`、
+`js/index.js`、`media/style.css` 全是；只有用写入工具新建的文件才是 LF）。
+于是断言里但凡写了 `'\n}'` / `'a,\nb'` 这种 pattern，在 CRLF 文件上**静默匹配不到** ——
+`if (hit >= 0) { …一堆 check… }` 整段被跳过，测试照样报绿。
+（第十轮就中过：`indexOf('@media … 620px')` 之后找 `'\n}\n'` 拿到 -1，
+那几条断言其实一条都没跑。）
+
+**规矩：测试里的 `read()` 一律带 `.replace(/\r\n/g, '\n')`。**
+另外 Python 的文本模式 `open(..., 'w')` 在 Windows 上会把整份文件 LF→CRLF，
+用它批量改过 CSS/JS 之后记得确认一遍行尾没被整体翻掉（提交不受影响，autocrlf 会归一，
+但**读文件的测试脚本会当场失效**）。
 
 ---
 

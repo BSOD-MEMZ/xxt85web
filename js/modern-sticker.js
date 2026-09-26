@@ -614,12 +614,15 @@
         ensureSpriteHolder();
         markKeepAlive();   // 先打保护标记,再开始换 —— 顺序不能反
         swapIcons();
+        decorateMediaIcons();
 
         if (window.MutationObserver) {
             new MutationObserver(function () {
                 // dialog 可能后出现,每次换之前重标一遍(幂等)
                 markKeepAlive();
                 scheduleIconSwap();
+                // 媒体库的列表/播放器都是脚本渲染出来的,得跟着补图标
+                scheduleMediaIcons();
             }).observe(document.body, {
                 childList: true,
                 subtree: true
@@ -636,6 +639,103 @@
             }
         }
         iconState.pairs = [];
+    }
+
+    /* -----------------------------------------------------------------
+       5b. 媒体库:给"本来没图标"的元素补上矢量图标
+
+       媒体库有两处图标是 CSS background-image 画的,压根没有 <img>,
+       所以上面那套"换 <img>"的机制够不到:
+         · 列表页封面上的播放角标(#videoList .play-icon / .flash-play-icon,空 div)
+         · 播放页控件条的按钮(#video-player .control-button,背景是 media/assets/*.png)
+       这里直接把 <svg><use> 塞进元素里,图标全部取自同一份精灵表。
+
+       有状态的按钮(播放/暂停、扬声器/静音、全屏/退出)**两枚都塞**,
+       由 CSS 按按钮当前的类决定显示哪一枚 —— 与 #play-img 同一套路子,
+       按钮的类由 player.js 切换,所以不用去监听它。
+       ----------------------------------------------------------------- */
+    var BADGE_ICONS = [
+        ['#videoList .play-icon', 'i-play'],
+        ['#videoList .flash-play-icon', 'i-lightning']
+    ];
+
+    var CTRL_ICON_SETS = [
+        {
+            match: /(^|\s)(play|pause)-btn(\s|$)/,
+            icons: [['i-play', 'xxt-ctrl-play'], ['i-pause', 'xxt-ctrl-pause']]
+        },
+        {
+            match: /(^|\s)(mute|muted)-btn(\s|$)/,
+            icons: [['i-speaker-high', 'xxt-ctrl-vol'], ['i-speaker-slash', 'xxt-ctrl-mute']]
+        },
+        {
+            match: /(^|\s)(exit-)?fullscreen-btn(\s|$)/,
+            icons: [['i-arrows-out', 'xxt-ctrl-fs'], ['i-arrows-in', 'xxt-ctrl-fs-in']]
+        }
+    ];
+
+    var mediaIconNodes = [];
+    var mediaIconPending = false;
+
+    function makeIconUse(iconId, extraClass) {
+        var svg = document.createElementNS(SVG_NS, 'svg');
+        svg.setAttribute('class', extraClass ? 'xxt-ic ' + extraClass : 'xxt-ic');
+        svg.setAttribute('aria-hidden', 'true');
+        svg.setAttribute('focusable', 'false');
+        var use = document.createElementNS(SVG_NS, 'use');
+        use.setAttribute('href', '#' + iconId);
+        svg.appendChild(use);
+        return svg;
+    }
+
+    function decorateMediaIcons() {
+        if (!iconState.on || !window.XXT_ICON_SPRITE) return;
+
+        var i, j;
+
+        /* 封面角标 */
+        for (i = 0; i < BADGE_ICONS.length; i++) {
+            var hosts = document.querySelectorAll(BADGE_ICONS[i][0]);
+            for (j = 0; j < hosts.length; j++) {
+                if (hosts[j].querySelector('.xxt-ic')) continue;   // 已经补过
+                var badge = makeIconUse(BADGE_ICONS[i][1], '');
+                hosts[j].appendChild(badge);
+                mediaIconNodes.push(badge);
+            }
+        }
+
+        /* 播放控件按钮:按当前的类决定塞哪一对 */
+        var btns = document.querySelectorAll('#video-player .control-button');
+        for (i = 0; i < btns.length; i++) {
+            if (btns[i].querySelector('.xxt-ic')) continue;
+            var cls = ' ' + (btns[i].className || '') + ' ';
+            for (j = 0; j < CTRL_ICON_SETS.length; j++) {
+                if (!CTRL_ICON_SETS[j].match.test(cls)) continue;
+                var set = CTRL_ICON_SETS[j].icons;
+                for (var k = 0; k < set.length; k++) {
+                    var ic = makeIconUse(set[k][0], set[k][1]);
+                    btns[i].appendChild(ic);
+                    mediaIconNodes.push(ic);
+                }
+            }
+        }
+    }
+
+    function scheduleMediaIcons() {
+        if (!iconState.on || mediaIconPending) return;
+        mediaIconPending = true;
+        requestAnimationFrame(function () {
+            mediaIconPending = false;
+            decorateMediaIcons();
+        });
+    }
+
+    function restoreMediaIcons() {
+        for (var i = 0; i < mediaIconNodes.length; i++) {
+            var n = mediaIconNodes[i];
+            if (n.parentNode) n.parentNode.removeChild(n);
+        }
+        mediaIconNodes = [];
     }
 
     /* -----------------------------------------------------------------
@@ -991,6 +1091,7 @@
                 if (!iconState.on) {
                     iconState.on = true;
                     swapIcons();
+                    decorateMediaIcons();
                 }
             } else {
                 if (articleState.cards) {
@@ -998,6 +1099,7 @@
                     restoreCards();
                 }
                 if (iconState.on) restoreIcons();
+                restoreMediaIcons();
                 if (discReset) discReset();
                 removeInfobar();
                 removeDeco();

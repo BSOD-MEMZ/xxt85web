@@ -1351,29 +1351,47 @@ body.customizing .footer {
     flex-wrap: wrap;
 }
 
-/* 封面:裁成 16:9 的相纸 */
+/* 封面:一块 16:9 的卡纸。有封面的把图铺满,**没封面的(Flash 那两条数据里
+   压根没有 poster)也照样撑出封面位** —— 之前 .video-thumb 只有宽度没有高度,
+   Flash 条目那块地方会直接塌成 0 高,看着就是"封面没了" */
 #videoList .video-thumb {
+    position: relative;
+    flex: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     width: 168px;
+    aspect-ratio: 16 / 9;
+    background: var(--paper-3);
+    border: 1px solid var(--rule);
+    border-radius: var(--r-sm);
+    overflow: hidden;
+}
+
+/* Flash 条目换个淡紫纸,一眼看出不是普通视频 */
+#videoList .video-thumb:has(.flash-play-icon) {
+    background: #F4F1FB;
+    border-color: #D9CFEE;
 }
 
 #videoList .video-thumb img {
-    aspect-ratio: 16 / 9;
+    width: 100%;
+    height: 100%;
     object-fit: cover;
-    border: 4px solid #FFFFFF;
-    box-sizing: border-box;
-    box-shadow: var(--sh-1);
-    background: var(--paper-3);
+    border-radius: 0;
+    box-shadow: none;
+    display: block;
 }
 
-/* 播放角标:原样式只给了它定位,是个**空 div**(什么都不画)。
-   手账主题用 CSS 现画:圆形贴纸 + 三角/闪电,不再依赖任何图片 */
+/* 播放角标:圆贴纸 + 精灵表里的图标(图标由 js/modern-sticker.js 注入,
+   原来是个空 div —— 主题只给了它定位,画面上什么都没有) */
 #videoList .play-icon,
 #videoList .flash-play-icon {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 46px;
-    height: 46px;
+    width: 44px;
+    height: 44px;
     background: rgba(255, 252, 243, .9);
     border: 2px solid var(--coral);
     border-radius: 50%;
@@ -1395,23 +1413,17 @@ body.customizing .footer {
     transform: translate(-50%, -50%) scale(1.1);
 }
 
-#videoList .play-icon::before {
-    content: "";
-    width: 0;
-    height: 0;
-    margin-left: 4px;
-    border-left: 13px solid var(--coral);
-    border-top: 8px solid transparent;
-    border-bottom: 8px solid transparent;
+/* 角标里的图标:特异性要压过文件末尾那条通用 .xxt-ic */
+#videoList .play-icon .xxt-ic {
+    width: 20px;
+    height: 20px;
+    color: var(--coral);
 }
 
-/* Flash 用闪电代替三角 */
-#videoList .flash-play-icon::before {
-    content: "";
-    width: 17px;
-    height: 21px;
-    background: var(--lilac);
-    clip-path: polygon(58% 0%, 16% 54%, 44% 54%, 38% 100%, 84% 44%, 52% 44%);
+#videoList .flash-play-icon .xxt-ic {
+    width: 22px;
+    height: 22px;
+    color: var(--lilac);
 }
 
 #videoList .video-title {
@@ -1575,7 +1587,6 @@ body:has(.video-container) .player-controls {
 /* 按钮:圆形贴纸。行内/媒体样式里的 PNG 图标会被下面这行整体清掉
    (background 简写会把 background-image 一起重置),所以不用 !important */
 body:has(.video-container) .control-button {
-    position: relative;
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -1601,96 +1612,30 @@ body:has(.video-container) .control-button:active {
     transform: translateY(1px) scale(.94);
 }
 
-/* 播放 / 暂停(两个状态各画一个,颜色走 currentColor) */
-body:has(.video-container) .play-btn::before {
-    content: "";
-    width: 0;
-    height: 0;
-    margin-left: 3px;
-    border-left: 11px solid currentColor;
-    border-top: 7px solid transparent;
-    border-bottom: 7px solid transparent;
+/* 按钮里的图标:全部取自精灵表(js/modern-sticker.js 注入 <svg><use>)。
+   有状态的三对图标都塞进去了,**默认全藏,按按钮当前的类放行其中一枚** ——
+   和 #play-img 是同一套路子,所以 player.js 换类时不用重新注入。
+   (特异性要压过文件末尾那条通用 .xxt-ic{display:inline-block}) */
+body:has(.video-container) #video-player .control-button .xxt-ic {
+    display: none;
+    width: 17px;
+    height: 17px;
 }
 
-body:has(.video-container) .pause-btn::before {
-    content: "";
-    width: 5px;
-    height: 12px;
-    border-left: 4px solid currentColor;
-    border-right: 4px solid currentColor;
+body:has(.video-container) #video-player .play-btn .xxt-ctrl-play,
+body:has(.video-container) #video-player .pause-btn .xxt-ctrl-pause,
+body:has(.video-container) #video-player .mute-btn .xxt-ctrl-vol,
+body:has(.video-container) #video-player .muted-btn .xxt-ctrl-mute,
+body:has(.video-container) #video-player .fullscreen-btn .xxt-ctrl-fs,
+body:has(.video-container) #video-player .exit-fullscreen-btn .xxt-ctrl-fs-in {
+    display: block;
 }
 
-/* 喇叭 / 静音 */
-body:has(.video-container) .mute-btn::before,
-body:has(.video-container) .muted-btn::before {
-    content: "";
-    width: 15px;
-    height: 14px;
-    background: currentColor;
-    clip-path: polygon(0% 32%, 30% 32%, 60% 6%, 60% 94%, 30% 68%, 0% 68%);
-}
-
-body:has(.video-container) .mute-btn::after {
-    content: "";
-    width: 7px;
-    height: 7px;
-    margin-left: 3px;
-    border: 2px solid currentColor;
-    border-left-color: transparent;
-    border-top-color: transparent;
-    border-bottom-color: transparent;
-    border-radius: 50%;
-}
-
-/* 静音 = 喇叭 + 一个叉(用两条斜向渐变画,不引任何字体/图片) */
-body:has(.video-container) .muted-btn::after {
-    content: "";
-    width: 11px;
-    height: 11px;
-    margin-left: 3px;
-    background:
-        linear-gradient(45deg, transparent 43%, currentColor 43%, currentColor 57%, transparent 57%),
-        linear-gradient(-45deg, transparent 43%, currentColor 43%, currentColor 57%, transparent 57%);
-}
-
-/* 全屏 / 退出全屏:两枚对角括号 */
-body:has(.video-container) .fullscreen-btn::before,
-body:has(.video-container) .fullscreen-btn::after,
-body:has(.video-container) .exit-fullscreen-btn::before,
-body:has(.video-container) .exit-fullscreen-btn::after {
-    content: "";
-    position: absolute;
-    width: 8px;
-    height: 8px;
-    border: 2px solid currentColor;
-}
-
-body:has(.video-container) .fullscreen-btn::before {
-    top: 6px;
-    left: 6px;
-    border-right: 0;
-    border-bottom: 0;
-}
-
-body:has(.video-container) .fullscreen-btn::after {
-    right: 6px;
-    bottom: 6px;
-    border-left: 0;
-    border-top: 0;
-}
-
-body:has(.video-container) .exit-fullscreen-btn::before {
-    top: 6px;
-    left: 6px;
-    border-left: 0;
-    border-top: 0;
-}
-
-body:has(.video-container) .exit-fullscreen-btn::after {
-    right: 6px;
-    bottom: 6px;
-    border-right: 0;
-    border-bottom: 0;
+/* 音量那两个按钮偏小,图标给大一点才好认 */
+body:has(.video-container) #video-player .mute-btn .xxt-ic,
+body:has(.video-container) #video-player .muted-btn .xxt-ic {
+    width: 18px;
+    height: 18px;
 }
 
 /* 进度条:蜡笔线 + 珊瑚色填充 */
