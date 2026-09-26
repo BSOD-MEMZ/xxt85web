@@ -1,0 +1,68 @@
+/* ==========================================================================
+   support/chomowan · 页面自有样式
+   --------------------------------------------------------------------------
+   从 index.html 的 <style> 原样搬出来的,内容一个字没改。
+   只放这一页自己的东西(画布盒子尺寸 + 雷达图图例 chip),
+   主题相关的覆盖一律在 modern-sticker.css 第 14c 节里。
+
+   ⚠️ 位置很重要:在 index.html 里这份 <link> 必须排在主题 link **之后**
+   (head 里是 主题link → theme-loader.js → 本文件)。
+   页面自己的规则排在后面 + 同特异性时页面赢 —— modern-sticker.css 里那几条
+   覆盖都带着 #mowanRadarLegend 前缀,就是按这个前提写的。
+   ========================================================================== */
+
+/* ---------- 复古 Aero 玻璃风格雷达图 ---------- */
+#mowanRadar {
+    display: block;
+    margin: 0 auto;
+    max-width: 100%;
+    height: auto;
+}
+
+#storyGraph {
+    display: block;
+    margin: 0 auto;
+    max-width: 100%;
+    height: auto;
+}
+
+.aero-radar-legend {
+    margin-top: 10px;
+    text-align: center;
+}
+
+.aero-radar-legend .chip {
+    display: inline-block;
+    margin: 4px 8px;
+    padding: 3px 12px;
+    white-space: nowrap;
+    font-size: 12px;
+    color: #11304f;
+    border: 1px solid #9FB4D0;
+    border-radius: 12px;
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.96), rgba(226, 236, 250, 0.88));
+    box-shadow: inset 0 1px 0 #fff, 0 1px 2px rgba(0, 0, 0, 0.18);
+    cursor: url(../../images/aero_link.cur), pointer;
+    transition: background 0.2s ease, border-color 0.2s ease;
+}
+
+.aero-radar-legend .chip.chip-active {
+    border-color: #2F6FD6;
+    background: linear-gradient(180deg, #EAF4FF, #C9DFF9);
+    box-shadow: inset 0 1px 0 #fff, 0 0 0 1px rgba(47, 111, 214, 0.35), 0 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+.aero-radar-legend .chip .swatch {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    margin-right: 5px;
+    border-radius: 50%;
+    vertical-align: -1px;
+    box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.6), 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.aero-radar-legend .chip b {
+    margin-right: 0;
+    font-weight: bold;
+}
