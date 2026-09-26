@@ -248,13 +248,23 @@
             'border-color:#E4DCCE',
             '}',
             '.uac-btn:active{transform:translateY(1px);box-shadow:none}',
-            /* 「继续」= 主操作,填青色 */
+            /* 「继续」= 主操作,填青色 + 圆角五角星底纹
+               底纹取自主题 :root 的 --xxt-star-tile(顶层页读 modern-sticker.css,
+               文章页读 articles/modern-sticker-article.css,两份同名同值) */
             '.uac-buttons-right .uac-btn:first-child{',
-            'color:#FFFFFF;background:#0E9E92;border-color:#0E9E92;',
+            'color:#FFFFFF;',
+            'background:#0E9E92;',
+            'background-image:var(--xxt-star-tile);',
+            'background-repeat:repeat;',
+            'background-size:var(--xxt-star-size);',
+            'background-position:var(--xxt-star-pos);',
+            'border-color:#0E9E92;',
             'box-shadow:0 2px 6px -2px rgba(14,158,146,.55)',
             '}',
+            /* ⚠️ hover 只能写 background-color。上面 .uac-btn:hover 用的是简写,
+               这里若也写简写,底纹会被重置成 none */
             '.uac-buttons-right .uac-btn:first-child:hover{',
-            'background:#0C8C82;border-color:#0C8C82;',
+            'background-color:#0C8C82;border-color:#0C8C82;',
             'box-shadow:0 4px 12px -3px rgba(14,158,146,.6)',
             '}',
             '@media(max-width:480px){',

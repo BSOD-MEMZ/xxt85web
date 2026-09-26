@@ -615,6 +615,7 @@
         markKeepAlive();   // 先打保护标记,再开始换 —— 顺序不能反
         swapIcons();
         decorateMediaIcons();
+        decorateWindowMarks();
 
         if (window.MutationObserver) {
             new MutationObserver(function () {
@@ -623,6 +624,8 @@
                 scheduleIconSwap();
                 // 媒体库的列表/播放器都是脚本渲染出来的,得跟着补图标
                 scheduleMediaIcons();
+                // 侧栏窗口会被拖拽重排,补过的印记跟着走;重排后这里只做兜底
+                scheduleWindowMarks();
             }).observe(document.body, {
                 childList: true,
                 subtree: true
@@ -736,6 +739,70 @@
             if (n.parentNode) n.parentNode.removeChild(n);
         }
         mediaIconNodes = [];
+    }
+
+    /* -----------------------------------------------------------------
+       5c. 右侧小窗口的图标底纹
+
+       控制面板里每个侧栏窗口都配了一枚 48px 图标(images/icons/<名字>.png),
+       这里把同一枚图标再放进窗口本体里一份,当作压在纸上的"印记"用,
+       外观全交给 CSS(见 modern-sticker.css 的 svg.xxt-win-mark)。
+
+       ⚠️ 图标文件名与窗口 id **不是一一对应**:窗口叫 progress,
+          图标文件却叫 process.png。表里写的是"图标文件名",别按 id 想当然。
+       ⚠️ 顺序上必须挂在**窗口最后**(不是第一个子节点):
+          index.js 的拖拽/显隐虽然只认 data-sidebar-id,但把节点塞到
+          .window-titlebar 前面会打乱"标题在内容之前"的既有阅读顺序。
+          画在文字下面靠的是 CSS 的 z-index:-1,与 DOM 顺序无关。
+       ----------------------------------------------------------------- */
+    var WINDOW_MARK_ICONS = {
+        'function': 'function.png',
+        'news': 'news.png',
+        'contact': 'contact.png',
+        'progress': 'process.png',
+        'wmp': 'wmp.png'
+    };
+    var windowMarkNodes = [];
+    var windowMarkPending = false;
+
+    function decorateWindowMarks() {
+        if (!iconState.on || !window.XXT_ICON_MAP) return;
+
+        var wins = document.querySelectorAll('.sidebar .window[data-sidebar-id]');
+        for (var i = 0; i < wins.length; i++) {
+            var win = wins[i];
+            if (win.querySelector('.xxt-win-mark')) continue;   // 已经补过
+
+            var png = WINDOW_MARK_ICONS[win.getAttribute('data-sidebar-id')];
+            if (!png) continue;
+            var id = window.XXT_ICON_MAP[png];
+            if (!id) continue;
+            /* 精灵表里没有这枚符号的话,别造一个引用不到的空 <svg> */
+            if (window.XXT_ICON_SPRITE &&
+                window.XXT_ICON_SPRITE.indexOf('<symbol id="' + id + '"') < 0) continue;
+
+            var mark = makeIconUse(id, 'xxt-win-mark');
+            mark.setAttribute('data-icon', id.replace(/^i-/, ''));
+            win.appendChild(mark);
+            windowMarkNodes.push(mark);
+        }
+    }
+
+    function scheduleWindowMarks() {
+        if (!iconState.on || windowMarkPending) return;
+        windowMarkPending = true;
+        requestAnimationFrame(function () {
+            windowMarkPending = false;
+            decorateWindowMarks();
+        });
+    }
+
+    function restoreWindowMarks() {
+        for (var i = 0; i < windowMarkNodes.length; i++) {
+            var n = windowMarkNodes[i];
+            if (n.parentNode) n.parentNode.removeChild(n);
+        }
+        windowMarkNodes = [];
     }
 
     /* -----------------------------------------------------------------
@@ -1092,6 +1159,7 @@
                     iconState.on = true;
                     swapIcons();
                     decorateMediaIcons();
+                    decorateWindowMarks();
                 }
             } else {
                 if (articleState.cards) {
@@ -1100,6 +1168,7 @@
                 }
                 if (iconState.on) restoreIcons();
                 restoreMediaIcons();
+                restoreWindowMarks();
                 if (discReset) discReset();
                 removeInfobar();
                 removeDeco();

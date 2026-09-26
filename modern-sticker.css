@@ -48,6 +48,15 @@
     --warn: #E0A030;
     --danger: #E06A6A;
 
+    /* 主按钮的底纹:一枚圆角五角星平铺(形状与 .xxt-deco-star-round 同一枚)。
+       颜色烤进 data URI —— 它永远压在实心薄荷底上,不需要跟着 currentColor 走。
+       ⚠️ 用 <g opacity> 包一层而不是分别给 fill/stroke 上透明度:
+          描边压在填充上会叠出更实的边,星星就会变成"实心浅 + 描边深"的双色。
+       定义在这里,uac 那枚「继续」按钮(js/uac.js 注入的样式)也读这个变量。 */
+    --xxt-star-tile: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cg opacity='.42'%3E%3Cpath d='M12 2.6l2.7 5.9 6.4.7-4.8 4.3 1.3 6.3L12 16.6 6.4 19.8l1.3-6.3L2.9 9.2l6.4-.7z' fill='%23FFFFFF' stroke='%23FFFFFF' stroke-width='2.6' stroke-linejoin='round' stroke-linecap='round'/%3E%3C/g%3E%3C/svg%3E");
+    --xxt-star-size: 21px 21px;
+    --xxt-star-pos: 3px 2px;
+
     /* 圆角 */
     --r-xs: 3px;
     --r-sm: 5px;
@@ -445,6 +454,11 @@ body.customizing .content {
    --------------------------------------------------------------- */
 .window {
     position: relative;
+    /* ⚠️ 显式撑出层叠上下文。右侧小窗口里的"图标底纹"(.xxt-win-mark)用
+       z-index:-1 待在文字下面,而负 z-index 只有在**祖先建立了层叠上下文**时
+       才停在"卡片背景之上、正文之下"——否则它会一路沉到纸色背景后面,整枚消失。
+       (will-change:transform 也附带这个效果,但那是副产物,不能当依据。) */
+    isolation: isolate;
     margin-bottom: 18px;
     background: var(--paper);
     border: 1px solid var(--rule);
@@ -548,6 +562,36 @@ body.customizing .content {
 .sidebar .window:nth-child(3) .window-titlebar::before { background: var(--coral); }
 .sidebar .window:nth-child(4) .window-titlebar::before { background: var(--sky); }
 .sidebar .window:nth-child(5) .window-titlebar::before { background: var(--lilac); }
+
+/* 小窗口的图标底纹:控制面板里那枚图标,再压一份进卡片当"印记"
+   (元素由 js/modern-sticker.js 第 5c 节注入,不是 HTML 里写死的)。
+
+   它必须待在正文**下面**,所以用 z-index:-1 —— 这依赖 .window 建立了层叠上下文
+   (见上面 .window 里的 isolation:isolate)。**两个条件缺一不可**:
+   只留 z-index 不留 isolation,整枚印记会沉到纸色背景后面,页面上什么都看不到,
+   而且没有任何报错。
+
+   尺寸/位置都留了余量:旋转会让方框的包围盒涨大约 9%(76px 转 7° ≈ 多 8.7px,
+   四周各 4.4px),所以 inset 不能小于旋转后的外扩量,否则印记的角会探出卡片外。 */
+svg.xxt-win-mark {
+    position: absolute;
+    top: 9px;
+    right: 11px;
+    width: 76px;
+    height: 76px;
+    z-index: -1;
+    opacity: .18;
+    color: var(--ink-3);
+    fill: currentColor;
+    pointer-events: none;
+    transform: rotate(-7deg);
+}
+
+/* 每张卡片的印记换一个角度和落点,和胶带、标签一样"刻意的不整齐" */
+.sidebar .window:nth-child(2) .xxt-win-mark { top: 11px; right: 9px;  transform: rotate(6deg); }
+.sidebar .window:nth-child(3) .xxt-win-mark { top: 8px;  right: 14px; transform: rotate(-4deg); }
+.sidebar .window:nth-child(4) .xxt-win-mark { top: 12px; right: 10px; transform: rotate(8deg); }
+.sidebar .window:nth-child(5) .xxt-win-mark { top: 10px; right: 12px; transform: rotate(-9.5deg); }
 
 .window-content {
     padding: 13px 16px 15px;
@@ -796,7 +840,10 @@ body.customizing .footer {
 #resetSettings:hover,
 #clearCache:hover,
 .guestbookDialog button:hover {
-    background: #FFFDF8;
+    /* ⚠️ 只写 background-color。原来这里是 background 简写,会把 background-image
+       一起重置成 none —— 而这条 hover 的特异性 (0,2,0) 压得过
+       `.vista-btn-primary` 的 (0,1,0),主按钮一悬停底纹就整片消失。 */
+    background-color: #FFFDF8;
     transform: translateY(-1px);
     box-shadow: 0 3px 8px -2px rgba(61, 58, 56, .22);
 }
@@ -2093,12 +2140,18 @@ svg#play-img use.xxt-play-icon {
 
 .vista-btn-primary {
     background: var(--mint);
+    /* ⚠️ 底纹必须写在 background 简写**之后** —— 简写会把 background-image 重置成 none */
+    background-image: var(--xxt-star-tile);
+    background-repeat: repeat;
+    background-size: var(--xxt-star-size);
+    background-position: var(--xxt-star-pos);
     border-color: #5FAFAA;
     font-weight: 500;
 }
 
 .vista-btn-primary:hover {
-    background: #8FD4D0;
+    /* ⚠️ 这里也只写 background-color:用 background 简写会把上面那层底纹抹掉 */
+    background-color: #8FD4D0;
 }
 
 /* 控制面板的复选框 → 手绘方框 */

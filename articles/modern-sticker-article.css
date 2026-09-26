@@ -48,6 +48,17 @@
     --lilac: #B08BE8;
     --cream: #FFDD7A;
 
+    /* 主按钮的底纹:一枚圆角五角星平铺(形状与 .xxt-deco-star-round 同一枚)。
+       颜色烤进 data URI —— 它永远压在实心薄荷底上,不需要跟着 currentColor 走。
+       ⚠️ 用 <g opacity> 包一层而不是分别给 fill/stroke 上透明度:
+          描边压在填充上会叠出更实的边,星星就会变成"实心浅 + 描边深"的双色。
+       ⚠️ 这份必须与 modern-sticker.css 的 :root 逐字符一致(uac 那枚「继续」按钮
+          在两个页面读的是同一个变量名,两处一散就只有一个页面有底纹)。
+          test-round12.js 会比对两份。 */
+    --xxt-star-tile: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cg opacity='.42'%3E%3Cpath d='M12 2.6l2.7 5.9 6.4.7-4.8 4.3 1.3 6.3L12 16.6 6.4 19.8l1.3-6.3L2.9 9.2l6.4-.7z' fill='%23FFFFFF' stroke='%23FFFFFF' stroke-width='2.6' stroke-linejoin='round' stroke-linecap='round'/%3E%3C/g%3E%3C/svg%3E");
+    --xxt-star-size: 21px 21px;
+    --xxt-star-pos: 3px 2px;
+
     /* 圆角 */
     --r-xs: 3px;
     --r-sm: 5px;
