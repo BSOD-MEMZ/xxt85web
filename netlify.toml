@@ -3,8 +3,22 @@
   publish = "."
 
 # 为 Giscus 自定义主题 CSS 添加 CORS 头
+#
+# ⚠️ giscus 是在 **giscus.app 那个 iframe 里** fetch 这份 CSS 的 —— 跨域。
+#    少一条 Access-Control-Allow-Origin,取值就失败,评论区**退回默认黑框**,
+#    而且父页面这边零报错(报错发生在 iframe 里,控制台都看不到)。
+#    第十轮加 css/giscus-sticker-theme.css 时就漏了这条,症状正是"新样式炸了"。
+#
+#    **每加一份 giscus 主题 CSS,这里必须跟着加一条。**
+#    .workbuddy/tmp/test-round15.js 会把 js/giscus-loader.js 里出现的每个
+#    主题地址跟这几条逐一对齐,漏一条就报红。
 [[headers]]
   for = "/css/giscus-theme.css"
+  [headers.values]
+    Access-Control-Allow-Origin = "https://giscus.app"
+
+[[headers]]
+  for = "/css/giscus-sticker-theme.css"
   [headers.values]
     Access-Control-Allow-Origin = "https://giscus.app"
 

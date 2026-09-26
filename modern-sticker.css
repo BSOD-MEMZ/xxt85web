@@ -3731,6 +3731,255 @@ body {
 }
 
 /* ---------------------------------------------------------------
+   14j. Live2D 看板娘:便签 + 胶带 + 贴纸按钮
+
+   看板娘的 DOM 是 live2d-widget 自己造的(#waifu / #waifu-tips /
+   #waifu-tool / #waifu-toggle),样式在 live2d-widget/dist/waifu.css
+   —— 上游那份一个字没动。
+
+   ⚠️ 那份 CSS 是 autoload.js **运行时才 append 进 <head>** 的,文档顺序
+      排在主题之后;两边特异性相同时**它赢**(CSS 层叠看文档顺序,不看加载先后)。
+      所以这里每一条都抬了特异性:
+        · #waifu 里面的东西  → 前缀 `#waifu`(2 个 id 压过 1 个 id)
+        · #waifu-toggle 是 #waifu 的兄弟 → 前缀 `html`
+      同一个坑前面已经踩过两次(第十四轮 giscus 的 chip、第十二轮 media/style.css)。
+      test-round15.js 会真算层叠,逐条判定"这处覆盖到底谁赢"。
+
+   ⚠️ waifu.css 给 #waifu-tips 挂了 background-image: url(tips.png),
+      必须显式清掉,否则那张 Vista 贴图会盖在纸色上。
+
+   ⚠️ 聊天框 / 搜索框的输入框和按钮是 **行内 style**(waifu-tips.js 与
+      js/index.js 拼出来的字符串),行内样式压得过任何普通 CSS
+      → 那几条只能用 !important。这是全站唯一必须用 !important 的地方,
+      因为对面压根不是选择器。
+   --------------------------------------------------------------- */
+
+/* 对话气泡 = 贴在角色旁边的一张便签 */
+#waifu #waifu-tips {
+    width: 254px;
+    min-height: 0;
+    margin: -32px 26px 4px 20px;
+    padding: 13px 15px 15px;
+    font-family: var(--font-hand);
+    font-size: 14px;
+    line-height: 1.72;
+    color: var(--ink-2);
+    text-align: left;
+    border: 1px solid var(--rule-2);
+    border-radius: var(--r-lg);
+    background-color: var(--paper-2);
+    /* 角上那枚星:形状与主按钮的 --xxt-star-tile **同一枚**(逐字的 path d),
+       只有颜色不同 —— 主按钮那枚是白星(压在实心薄荷/青底上),
+       便签上要的是珊瑚色淡星:白星压在奶油纸上几乎看不见,等于白画。 */
+    background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cg opacity='.45'%3E%3Cpath d='M12 2.6l2.7 5.9 6.4.7-4.8 4.3 1.3 6.3L12 16.6 6.4 19.8l1.3-6.3L2.9 9.2l6.4-.7z' fill='%23FF7A8A' stroke='%23FF7A8A' stroke-width='2.6' stroke-linejoin='round' stroke-linecap='round'/%3E%3C/g%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 7px bottom 7px;
+    background-size: 18px 18px;
+    box-shadow: var(--sh-3);
+    /* 上游是 hidden,会把伸出去的胶带和尾巴一起裁掉 */
+    overflow: visible;
+    /* 入场:轻轻抬起来(上游只切 opacity,静默地闪一下) */
+    opacity: 0;
+    transform: translateY(7px) scale(.985);
+    transform-origin: 0 100%;
+    transition: opacity var(--t-fast) ease, transform var(--t-mid) var(--ease-pop);
+}
+
+#waifu #waifu-tips.waifu-tips-active {
+    opacity: 1;
+    transform: none;
+}
+
+/* 没在说话的时候:便签是透明的,但它**还在那儿** —— 254px 宽,横跨到工具图标
+   那一条的边上,会吃掉最上面一枚按钮的一小条点击区。收掉指针事件。 */
+#waifu #waifu-tips:not(.waifu-tips-active) {
+    pointer-events: none;
+}
+
+/* 胶带:斜压在便签左上角。半透明白掠光 + 胶带黄,和 .window / .xxt-photo 同一套画法 */
+#waifu #waifu-tips::before {
+    content: "";
+    position: absolute;
+    top: -11px;
+    left: 19px;
+    width: 52px;
+    height: 17px;
+    background:
+        linear-gradient(180deg, rgba(255, 255, 255, .45), rgba(255, 255, 255, 0) 60%),
+        var(--tape);
+    box-shadow: 0 1px 3px rgba(61, 58, 56, .16);
+    transform: rotate(-3.5deg);
+    pointer-events: none;
+}
+
+/* 小尾巴:朝左下指着角色。旋转 45° 的方块,只留两条边当轮廓 */
+#waifu #waifu-tips::after {
+    content: "";
+    position: absolute;
+    left: 27px;
+    bottom: -7px;
+    width: 13px;
+    height: 13px;
+    background: var(--paper-2);
+    border-right: 1px solid var(--rule-2);
+    border-bottom: 1px solid var(--rule-2);
+    border-radius: 0 0 3px 0;
+    transform: rotate(45deg);
+    pointer-events: none;
+}
+
+/* 台词里的名字 / 关键词:上游是 #003399 的 Vista 蓝 */
+#waifu #waifu-tips span {
+    color: var(--coral);
+    font-weight: 600;
+}
+
+/* 工具图标 = 竖排一串圆形贴纸按钮(#waifu-tool 里每个 span 一枚) */
+#waifu #waifu-tool {
+    gap: 7px;
+    right: -2px;
+    top: 4px;
+    transition: opacity var(--t-mid) ease;
+}
+
+#waifu #waifu-tool > span {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex: none;
+    width: 31px;
+    height: 31px;
+    background: var(--paper);
+    border: 1px solid var(--rule-2);
+    border-radius: 50%;
+    box-shadow: var(--sh-1);
+    cursor: pointer;
+    transition: background-color var(--t-fast) ease,
+                box-shadow var(--t-mid) ease,
+                rotate var(--t-mid) var(--ease-pop);
+}
+
+/* 手账感:相邻两枚朝相反方向歪一点(和胶带、窗口印记一样"刻意的不整齐") */
+#waifu #waifu-tool > span:nth-child(odd) { rotate: -4deg; }
+#waifu #waifu-tool > span:nth-child(even) { rotate: 3deg; }
+
+#waifu #waifu-tool > span:hover {
+    rotate: 0deg;
+    background: #FFFFFF;
+    box-shadow: var(--sh-2);
+    /* 收起键那枚是站内统一的"红点"(i-close-dot)。它自己会读 --xxt-dot-x
+       画那个 ×,平时是透明的 —— 悬停时浮出来,一眼看出是"关掉"。
+       这一条对所有按钮都成立,但只有 close-dot 那枚符号会读这两个变量。 */
+    --xxt-dot-x: rgba(0, 0, 0, .62);
+}
+
+/* 图标本体:14a/5b 注入的 <svg class="xxt-ic">。
+   上游 `#waifu-tool svg` 是 (1,0,2),这里靠多一个 id 压过去 */
+#waifu #waifu-tool > span svg {
+    width: 18px;
+    height: 18px;
+    fill: var(--ink-3);
+    display: block;
+    transition: fill var(--t-fast) ease;
+}
+
+#waifu #waifu-tool > span:hover svg {
+    fill: var(--coral);
+}
+
+/* 收起来之后贴在屏幕左缘的那枚"书签"(#waifu-toggle)
+   上游几何:宽 60、margin-left -100 = 完全藏到屏幕外;
+   挂上 .waifu-toggle-active 才滑出来一点,悬停再滑出来多一点 */
+html #waifu-toggle {
+    width: 60px;
+    padding: 6px;
+    background: var(--tape);
+    border: 1px solid #E8C96B;
+    border-left: 0;
+    border-radius: 0 var(--r-md) var(--r-md) 0;
+    box-shadow: 0 2px 7px -1px rgba(61, 58, 56, .32);
+    transition: margin-left var(--t-slow) var(--ease-soft);
+}
+
+html #waifu-toggle.waifu-toggle-active {
+    margin-left: -38px;      /* 露出 22px:整枚书签箭头都看得见 */
+}
+
+html #waifu-toggle.waifu-toggle-active:hover {
+    margin-left: -20px;
+}
+
+html #waifu-toggle svg {
+    width: 17px;
+    height: 17px;
+    fill: var(--ink-2);
+}
+
+/* 聊天框 / 搜索框的外层行:行内写了 padding:10px 8px,和气泡自己的内边距叠一起就太胖 */
+#waifu #waifu-tips > div[style] {
+    padding: 0 !important;
+    gap: 7px !important;
+}
+
+/* 输入框(聊天框与看板娘搜索框都是 <input type="text">,行内样式) */
+#waifu #waifu-tips input[type="text"] {
+    padding: 6px 9px !important;
+    min-width: 0 !important;
+    font-family: var(--font) !important;
+    font-size: 13px !important;
+    color: var(--ink) !important;
+    background: #FFFFFF !important;
+    border: 1px solid var(--rule-2) !important;
+    border-radius: var(--r-sm) !important;
+}
+
+#waifu #waifu-tips input[type="text"]:focus {
+    outline: none !important;
+    border-color: var(--mint) !important;
+    box-shadow: 0 0 0 3px rgba(63, 199, 190, .22) !important;
+}
+
+/* 按钮:清掉 Vista 玻璃渐变,换成纸片 */
+#waifu #waifu-tips button {
+    padding: 6px 12px !important;
+    font-family: var(--font) !important;
+    font-size: 12px !important;
+    color: var(--ink) !important;
+    background-color: var(--paper) !important;
+    background-image: none !important;
+    border: 1px solid var(--rule-2) !important;
+    border-radius: var(--r-sm) !important;
+    box-shadow: var(--sh-1) !important;
+    cursor: pointer !important;
+    transition: background-color var(--t-fast) ease, box-shadow var(--t-fast) ease;
+}
+
+#waifu #waifu-tips button:hover {
+    background-color: #FFFFFF !important;
+    box-shadow: var(--sh-2) !important;
+}
+
+/* 主操作(发送 / 搜索)= 珊瑚底白字,右下角压一枚星 —— 与站内主按钮同款 */
+#waifu #waifu-tips #waifuChatSend,
+#waifu #waifu-tips #waifuSearchGo {
+    color: #FFFFFF !important;
+    background-color: var(--coral) !important;
+    background-image: var(--xxt-star-tile) !important;
+    background-repeat: no-repeat !important;
+    background-position: right 2px bottom 2px !important;
+    background-size: 13px 13px !important;
+    border-color: #F0616F !important;
+    padding: 6px 14px !important;
+    box-shadow: 0 2px 6px -2px rgba(255, 122, 138, .6) !important;
+}
+
+#waifu #waifu-tips #waifuChatSend:hover,
+#waifu #waifu-tips #waifuSearchGo:hover {
+    background-color: #F0616F !important;
+    box-shadow: 0 4px 12px -3px rgba(255, 122, 138, .6) !important;
+}
+
+/* ---------------------------------------------------------------
    15. 响应式(桌面优先,基础降级)
    --------------------------------------------------------------- */
 /* 断点:1240(顶栏回到上下两行,见 14c)→ 1000(收敛成单栏)→ 620 → 480(手机竖屏) */

@@ -677,6 +677,27 @@ DOMContentLoaded
   `content-box` 下 `width:100%` + 2px 边框 = 横向溢出 2px；`border-box` 又会把底部内容切掉 2px。
   用 `box-shadow: 0 0 0 1px var(--rule)` 那圈**不出现在布局里**的环。
 
+#### ⚠️ 每加一份 giscus 主题 CSS，`netlify.toml` 必须跟着加一条 CORS 头
+
+```
+[[headers]]
+  for = "/css/giscus-sticker-theme.css"
+  [headers.values]
+    Access-Control-Allow-Origin = "https://giscus.app"
+```
+
+**缺这条的症状就是「新主题炸了，评论区退回默认黑框」**，而且父页面这边**零报错** ——
+报错发生在 giscus.app 那个 iframe 里，父页面的控制台看不到，Network 里也只看到
+主题 CSS 请求被 CORS 挡下。第十九轮就是这个：`css/giscus-sticker-theme.css`
+写好了、也部署了（`curl -I` 返回 200），单独看一切正常，
+**唯独少了这一条响应头**，于是 iframe 里 fetch 失败、整份主题白写。
+
+> 判据不是「文件能不能打开」，而是「iframe 能不能读到」。`test-round15.js` 会把
+> `js/giscus-loader.js` 里出现的每个主题地址跟 `netlify.toml` 的 blocks 逐条对齐，
+> 少一条就报红（实测：抽掉那条 header → 立刻红 2 条）。
+
+---
+
 > 顺带记一下手账主题现在的**纸色层级**（写新组件时按这个排队，别越级）：
 >
 > ```
@@ -689,6 +710,35 @@ DOMContentLoaded
 >
 > `--paper-leaf` 刻意夹在 `--paper-2` 与 `--paper-3` 中间：正文那一层要比页面深
 > （不然看不出层级，拍立得的白框也糊在纸里），但又不能深到和 code 撞车。
+
+### 24. Live2D 看板娘：上游那份 CSS 是**运行时**注入的
+
+看板娘的 DOM 由 `live2d-widget` 自己造（`#waifu` / `#waifu-tips` / `#waifu-tool` /
+`#waifu-toggle`），样式在 `live2d-widget/dist/waifu.css`（**上游文件一个字没动**）。
+手账那套覆盖在 `modern-sticker.css` 第 `14j` 节。
+
+- **那份 CSS 是 `autoload.js` 运行时 append 进 `<head>` 的** → 文档顺序排在主题之后，
+  同特异性时上游赢。所以 14j 里每一条都抬了特异性：
+  `#waifu` 里面的东西前缀 `#waifu`（2 个 id 压 1 个），`#waifu-toggle` 是兄弟节点 → 前缀 `html`。
+  **和坑 18（页面自带 `<style>`）是同一个坑的第三个变种。**
+- **聊天 / 搜索框的输入框和按钮是行内 `style`**（`waifu-tips.js` 与 `js/index.js`
+  拼字符串拼出来的），行内样式压得过任何普通 CSS → **那几条只能用 `!important`**。
+  这是全站唯一必须用 `!important` 的地方（对面压根不是选择器）。
+- **工具图标不走主映射表**：它们是 `<img src="live2d-widget/dist/assets/xxx.png">`，
+  而主表是按**文件名**查的 —— `chat.png` / `model.png` / `info.png` / `close.png`
+  这些名字太普通，并进去以后哪天别处放进一张同名图片就会被静默换掉。
+  所以单独一张 `LIVE2D_ICON_MAP`，且**只有 src 落在 `live2d-widget/dist/assets/` 下才查它**。
+  点击事件绑在外层 `<span>` 上（`registerTools`），换成 `<svg>` 不会丢事件，**不用打 `data-xxt-keep`**。
+- 便签要 `overflow: visible`：上游是 `hidden`，会把伸出去的胶带和尾巴一起裁掉。
+- **角上那枚星与主按钮同形不同色**：同一段 path `d`，但主按钮那枚是**白**星（压在实心薄荷/青底上），
+  便签上必须换成珊瑚色 —— 白星压在奶油纸上等于没画（`test-round15.js` 逐字比 path `d`）。
+- `#waifu-tool > span svg` 的尺寸要压过上游的 `#waifu-tool svg{height:25px}`（1,0,2）。
+- 收起后那枚书签的几何在上游：`宽 60 + margin-left -100` = 完全藏到屏幕外，
+  挂上 `.waifu-toggle-active` 才滑出来。改宽度/边距要**一起算露出多少**，别只看单个值。
+- `i-close-dot` 会读 `--xxt-dot-x` 画那个 ×（平时透明）→ 悬停时给它一个颜色，红点才像"关掉"。
+
+> 验证看 `test-round15.js` 第 4 段：**真跑层叠求解**，逐条判定这 10 处覆盖到底赢没赢，
+> 并且反向确认"上游本来管着这几条"（否则那些断言只是没有对手，等于空转）。
 
 ---
 
@@ -729,6 +779,34 @@ python -m http.server 8765 --bind 127.0.0.1
 ```
 
 然后访问 `http://127.0.0.1:8765/`。
+
+### 想看渲染图？用无头 Edge 截图（第十九轮才摸出来，之前全靠脑补）
+
+沙箱里起不了 `http.server`、`agent-browser` 也不可用，但**机器上装了 Edge**，
+它的 `--headless=new --screenshot` 能直接把一个本地 HTML 渲染成 PNG：
+
+```bash
+EDGE="/c/Program Files (x86)/Microsoft/Edge/Application/msedge.exe"
+"$EDGE" --headless=new --disable-gpu --no-first-run --no-default-browser-check \
+    --user-data-dir="D:\\Dev\\xxt85web\\.workbuddy\\tmp\\_ep" \
+    --allow-file-access-from-files --hide-scrollbars --virtual-time-budget=2500 \
+    --force-device-scale-factor=2 --window-size=460,620 \
+    --screenshot="D:\\Dev\\xxt85web\\.workbuddy\\tmp\\shot.png" \
+    "file:///D:/Dev/xxt85web/.workbuddy/tmp/xxx.html"
+```
+
+- **`--user-data-dir` 必须给**，而且**每个并行的截图用不同的目录**，否则第二次起会拿到空图
+- `--force-device-scale-factor=2` + 小窗口 = 局部放大图，看细节够用
+- 想看**某一小块**：给容器加 `id`，用 `#id` 打开；再配一条
+  `body:has(.x-card:target) .x-card:not(:target){display:none}` 就能"只显示那一张"
+
+**渲染什么**：`node .workbuddy/tmp/make-live2d-preview.js` 会生成
+`.workbuddy/tmp/live2d-preview.html` —— 一份**自包含**的预览页（把两份真 CSS 原文
+按线上同样的文档顺序内嵌、把精灵表也内嵌），所以它证明的就是层叠的真实结果。
+`node .workbuddy/tmp/make-icon-sheet.js` 是精灵表总览（挑图标时先看它，别凭名字猜）。
+
+> 为什么要"自包含"：预览页里的相对路径在 `file://` 与"被某个服务器托管的预览面板"下
+> 解析结果不一样；把 CSS/JS **原文**内嵌进去就与路径无关了，而且远比手抄一份近似样式可信。
 
 调试用的小开关：
 

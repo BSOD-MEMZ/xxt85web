@@ -119,6 +119,10 @@ link.href = rootPath + (localStorage['theme'] || 'style.css');
 | `modern-sticker.js` | 侧栏提示条 | `removeInfobar()` |
 | `modern-sticker.js` | 侧栏删除动画的状态类 | `sync()` 里清掉 `.xxt-removing` / `.xxt-restoring` |
 | `modern-sticker.js` | 唱片封面的行内 `transform`（旋转角） | `discReset()` 摘掉行内 style + 归零角度 |
+| `modern-sticker.js` | 侧栏窗口的图标印记（`<svg class="xxt-win-mark">`） | `restoreWindowMarks()` 移除节点 |
+| `modern-sticker.js` | 导航栏访问键提示「首页(H)」去掉括号 | `restoreNavAccessKeys()` 把原文本逐字写回 |
+| `modern-sticker.js` | 看板娘工具图标（`live2d-widget/dist/assets/*.png` → `<svg>`） | 与图标同一套 `restoreIcons()` |
+| `modern-sticker.js` | 看板娘"本来没图标"处的补图标（媒体库角标 / 播放控件） | `restoreMediaIcons()` 移除节点 |
 
 统一监听 `#themeCss` 的 `href` 变化来判断是否切走：
 
@@ -293,6 +297,26 @@ loadstart(切歌) → angle = 0
 它们是配色装饰点，主题里已 `display: none`。替换成矢量只会多造无用节点，
 而且 `data-icon` 的着色规则会和 chip 自身颜色打架 —— 所以 `ICON_SELECTOR` 里
 用 `:not(.cat-btn *)` 排除。
+
+### 外部样式表排在主题之后 —— 同特异性时**对方赢**
+
+CSS 层叠看的是**文档顺序**，不是加载先后。主题 `<link id="themeCss">` 在 `<head>` 靠前，
+所以凡是"排在它后面"的样式表，**只要特异性一样，就是它盖住主题**。
+目前踩过三处（同一个坑的三个变种）：
+
+| 谁 | 为什么排在后面 | 覆盖时怎么抬特异性 |
+|---|---|---|
+| `media/style.css` | `media/player.html` 在主题 link 之后又引了一份 | `body:has(.video-container) …`（↑ 到 `(0,2,1)`） |
+| 页面自己的 `<style>` | 如 `support/chomowan`：link → script → style，那段 `<style>` 永远在最后 | `#mowanRadarLegend …`（↑ 到 `(1,1,0)`） |
+| `live2d-widget/dist/waifu.css` | 由 `autoload.js` **运行时** append 到 `<head>` 末尾 | `#waifu …` / `html #waifu-toggle`（2 个 id 压 1 个） |
+
+另有 **giscus** 那份（`css/giscus-*.css`）跑在 iframe 里，属于"另一份文档"，见上文。
+
+> **规矩：给这类地方写覆盖，先问一句"它排在我前面还是后面"。**
+> 判"到底谁赢"别靠肉眼 —— `test-round8.js` / `test-round10.js` / `test-round15.js`
+> 都带**真·层叠求解器**（特异性 → 源序 → `!important`），会逐条判胜负。
+> 反面教材：`modern-sticker.css` 14c 里那条 `.aero-radar-legend .chip`
+> 因为特异性与页面一样、又排在前面，**从写下那天起就没生效过**。
 
 ### 无窗口包裹的页面（裸 `.main`）
 

@@ -450,8 +450,35 @@
         // 不走 images/icons/(列表页那边由 medias.js 的 dlIcon() 换算过去),
         // 所以单独补两条。这两个路径全站只有 media/videos.js 的数据在用
         'img[src*="assets/downvideo.png"]:not([data-xxt-keep]), ' +
-        'img[src*="assets/bilibili.png"]:not([data-xxt-keep])';
+        'img[src*="assets/bilibili.png"]:not([data-xxt-keep]), ' +
+        // Live2D 看板娘的工具图标(chat.png / hitokoto.png …)。它们不在
+        // images/icons/ 下,所以上面那些通配符一条都命中不了 —— 单独放行。
+        // 图标本体在下面的 LIVE2D_ICON_MAP 里,不进主映射表(见那张表的说明)。
+        'img[src*="live2d-widget/dist/assets/"]:not([data-xxt-keep])';
     var SVG_NS = 'http://www.w3.org/2000/svg';
+
+    /* Live2D 看板娘那几枚图标单独一张小表,**故意不进 XXT_ICON_MAP**。
+
+       理由:主映射表是按**文件名**查的,而看板娘这几个名字太普通
+       (chat.png / model.png / info.png / close.png …)。一旦并进去,
+       别的页面只要有一张同名图片落进 ICON_SELECTOR(比如以后有人在
+       images/icons/ 下放个 model.png),就会被静默换成看板娘的图标。
+       所以这里按"路径 + 文件名"两头一起认。
+
+       toggle.png 是收起后贴屏幕左缘那枚书签。 */
+    var LIVE2D_ICON_MAP = {
+        'search.png': 'i-magnifying-glass',
+        'hitokoto.png': 'i-note',
+        'game.png': 'i-game-controller',
+        'model.png': 'i-cube',
+        'texture.png': 'i-palette',
+        'chat.png': 'i-chat-circle-dots',
+        'info.png': 'i-info',
+        'photo.png': 'i-image',
+        'close.png': 'i-close-dot',
+        'toggle.png': 'i-caret-right'
+    };
+    var LIVE2D_ASSET_PATH = 'live2d-widget/dist/assets/';
 
     var iconState = {
         on: true,
@@ -538,6 +565,9 @@
             var src = img.getAttribute('src') || '';
             var name = src.split('/').pop().split('?')[0].split('#')[0];
             var id = map[name];
+            // 看板娘的图标不在主映射表里(见 LIVE2D_ICON_MAP 的说明):
+            // 只有 src 确实落在 live2d-widget/dist/assets/ 下,才去查那张小表
+            if (!id && src.indexOf(LIVE2D_ASSET_PATH) > -1) id = LIVE2D_ICON_MAP[name];
             if (!id) continue;
 
             // 播放键特殊处理:一个按钮要在"播放/暂停"两个图标间切换,
@@ -616,6 +646,7 @@
         swapIcons();
         decorateMediaIcons();
         decorateWindowMarks();
+        stripNavAccessKeys();
 
         if (window.MutationObserver) {
             new MutationObserver(function () {
@@ -803,6 +834,45 @@
             if (n.parentNode) n.parentNode.removeChild(n);
         }
         windowMarkNodes = [];
+    }
+
+    /* -----------------------------------------------------------------
+       5d. 导航栏的访问键提示
+
+       "首页(H) / 文章(A) / 下载(D) / 多媒体(M) / 关于(A)":这是 Windows
+       菜单那套访问键的写法,在经典 Vista 主题下是味道的一部分,所以
+       **HTML 里那行字一个字不改** —— 只在手账主题下由脚本把括号去掉。
+
+       为什么不用 CSS 干:括号就是 <a> 里的一段普通文字,没有独立元素,
+       CSS 挑不出来(::first-letter 只能碰第一个字符)。页面上也没有
+       accesskey 属性可删 —— 它就是可见文本。
+
+       原文存进 navKeyPairs,切回默认主题时逐字写回(与图标、窗口印记同一套)。
+       ⚠️ 带元素子节点的链接直接跳过(donate.html 的导航里有 <img> + "Alipay"
+          那种),否则一行 textContent = … 会把里面的 <img> 一起抹掉。
+       ----------------------------------------------------------------- */
+    var NAV_KEY_RE = /^([\s\S]*?)\s*[（(]\s*[A-Za-z0-9]\s*[）)]\s*$/;
+    var navKeyPairs = [];
+
+    function stripNavAccessKeys() {
+        if (navKeyPairs.length) return;
+        var links = document.querySelectorAll('.navbar ul a');
+        for (var i = 0; i < links.length; i++) {
+            var a = links[i];
+            if (a.children.length) continue;          // 里面有 <img> 之类,不动
+            var text = a.textContent;
+            var m = NAV_KEY_RE.exec(text);
+            if (!m) continue;                         // 本来就没写访问键
+            navKeyPairs.push({ el: a, text: text });
+            a.textContent = m[1];
+        }
+    }
+
+    function restoreNavAccessKeys() {
+        for (var i = 0; i < navKeyPairs.length; i++) {
+            navKeyPairs[i].el.textContent = navKeyPairs[i].text;
+        }
+        navKeyPairs = [];
     }
 
     /* -----------------------------------------------------------------
@@ -1161,6 +1231,7 @@
                     decorateMediaIcons();
                     decorateWindowMarks();
                 }
+                stripNavAccessKeys();
             } else {
                 if (articleState.cards) {
                     articleState.cards = false;
@@ -1169,6 +1240,7 @@
                 if (iconState.on) restoreIcons();
                 restoreMediaIcons();
                 restoreWindowMarks();
+                restoreNavAccessKeys();
                 if (discReset) discReset();
                 removeInfobar();
                 removeDeco();
