@@ -219,7 +219,7 @@
 
         var titlebar = document.createElement('div');
         titlebar.className = 'window-titlebar settings-titlebar';
-        titlebar.appendChild(document.createTextNode('选一个你喜欢的风格'));
+        titlebar.appendChild(document.createTextNode('尝试全新样式'));
         var closeImg = document.createElement('img');
         closeImg.src = 'images/Window_CloseButton.png';
         closeImg.className = 'vista-close-btn xxt-picker-close';
@@ -232,7 +232,7 @@
 
         var lead = document.createElement('p');
         lead.className = 'xxt-picker-lead';
-        lead.textContent = '点一下下面任意一张,整个页面会立刻变成那个样子。两种风格以后都能在「个性化」里随时切换。';
+        lead.textContent = '很多用户反馈 Frutiger Aero 风格已经过时，不符合当今主流审美，我个人也认为这种千禧风格与站内现代化的内容格格不入。因此，我准备了一套全新样式，希望你喜欢！当然，你也可以保留原来的风格，请在下方选择吧~';
 
         var grid = document.createElement('div');
         grid.className = 'xxt-picker-grid';
@@ -253,8 +253,8 @@
             return btn;
         }
 
-        var cardVista = makeCard(THEME_VISTA, WIRE_VISTA, '经典 Vista', '沿用现在这套拟物窗口');
-        var cardSticker = makeCard(THEME_STICKER, WIRE_STICKER, '手账贴纸', '卡片网格 · 更宽松的排版');
+        var cardVista = makeCard(THEME_VISTA, WIRE_VISTA, 'Windows Aero', '旧版仿 Vista 拟物化风格');
+        var cardSticker = makeCard(THEME_STICKER, WIRE_STICKER, 'xxtsoft Moe Design', '更现代、更萌、更富有情绪的现代化表达，目前还在测试阶段。');
 
         grid.appendChild(cardVista);
         grid.appendChild(cardSticker);
