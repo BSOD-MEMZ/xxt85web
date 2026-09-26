@@ -48,14 +48,23 @@
     --warn: #E0A030;
     --danger: #E06A6A;
 
-    /* 主按钮的底纹:一枚圆角五角星平铺(形状与 .xxt-deco-star-round 同一枚)。
-       颜色烤进 data URI —— 它永远压在实心薄荷底上,不需要跟着 currentColor 走。
+    /* 主按钮的底纹:一枚圆角五角星(形状与 .xxt-deco-star-round 同一枚),
+       贴在按钮**右下角** —— 不是平铺。一张贴纸角上压一枚星就够了,
+       铺满一层反而闹。颜色烤进 data URI —— 它永远压在实心底上,
+       不需要跟着 currentColor 走。
        ⚠️ 用 <g opacity> 包一层而不是分别给 fill/stroke 上透明度:
           描边压在填充上会叠出更实的边,星星就会变成"实心浅 + 描边深"的双色。
-       定义在这里,uac 那枚「继续」按钮(js/uac.js 注入的样式)也读这个变量。 */
+       定义在这里,uac 那枚「继续」按钮(js/uac.js 注入的样式)也读这几个变量。 */
     --xxt-star-tile: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cg opacity='.42'%3E%3Cpath d='M12 2.6l2.7 5.9 6.4.7-4.8 4.3 1.3 6.3L12 16.6 6.4 19.8l1.3-6.3L2.9 9.2l6.4-.7z' fill='%23FFFFFF' stroke='%23FFFFFF' stroke-width='2.6' stroke-linejoin='round' stroke-linecap='round'/%3E%3C/g%3E%3C/svg%3E");
-    --xxt-star-size: 21px 21px;
-    --xxt-star-pos: 3px 2px;
+    /* 尺寸 / 落点:右下角,故意往外溢出 2~3px —— 看着像被塞进角里的一张贴纸 */
+    --xxt-star-size: 19px 19px;
+    --xxt-star-pos: right -2px bottom -3px;
+
+    /* 半透明薄纱:窗口里的图标底纹要从这些填充背后透出来,
+       所以列表项一律**不用实色**打底。 */
+    --veil-1: rgba(61, 58, 56, .045);       /* 列表 hover:一点点灰 */
+    --veil-2: rgba(61, 58, 56, .07);        /* 凹槽(进度条轨道) */
+    --veil-warm: rgba(255, 221, 122, .38);  /* 正在播放 / 选中:暖黄 */
 
     /* 圆角 */
     --r-xs: 3px;
@@ -572,10 +581,15 @@ body.customizing .content {
    而且没有任何报错。
 
    尺寸/位置都留了余量:旋转会让方框的包围盒涨大约 9%(76px 转 7° ≈ 多 8.7px,
-   四周各 4.4px),所以 inset 不能小于旋转后的外扩量,否则印记的角会探出卡片外。 */
+   四周各 4.4px),所以 inset 不能小于旋转后的外扩量,否则印记的角会探出卡片外。
+
+   ⚠️ 落在**右下角**。那里通常是列表的最后几行 —— 所以窗口里的列表项
+      一律不能用实色打底(会把印记整片盖住),改用 --veil-* 那几层半透明薄纱。
+      这是个跨两条规则的约定,不是靠层级解决的(印记必须在文字下面)。
+      test-round13 会把两边都断言上。 */
 svg.xxt-win-mark {
     position: absolute;
-    top: 9px;
+    bottom: 10px;
     right: 11px;
     width: 76px;
     height: 76px;
@@ -588,10 +602,10 @@ svg.xxt-win-mark {
 }
 
 /* 每张卡片的印记换一个角度和落点,和胶带、标签一样"刻意的不整齐" */
-.sidebar .window:nth-child(2) .xxt-win-mark { top: 11px; right: 9px;  transform: rotate(6deg); }
-.sidebar .window:nth-child(3) .xxt-win-mark { top: 8px;  right: 14px; transform: rotate(-4deg); }
-.sidebar .window:nth-child(4) .xxt-win-mark { top: 12px; right: 10px; transform: rotate(8deg); }
-.sidebar .window:nth-child(5) .xxt-win-mark { top: 10px; right: 12px; transform: rotate(-9.5deg); }
+.sidebar .window:nth-child(2) .xxt-win-mark { bottom: 12px; right: 9px;  transform: rotate(6deg); }
+.sidebar .window:nth-child(3) .xxt-win-mark { bottom: 9px;  right: 14px; transform: rotate(-4deg); }
+.sidebar .window:nth-child(4) .xxt-win-mark { bottom: 13px; right: 10px; transform: rotate(8deg); }
+.sidebar .window:nth-child(5) .xxt-win-mark { bottom: 11px; right: 12px; transform: rotate(-9.5deg); }
 
 .window-content {
     padding: 13px 16px 15px;
@@ -639,8 +653,9 @@ svg.xxt-win-mark {
                 transform var(--t-fast) var(--ease-soft);
 }
 
+/* 侧栏列表 hover:半透明薄纱,不挡窗口右下角那枚底纹 */
 .sidebar .window-content li a:hover {
-    background: var(--paper-2);
+    background: var(--veil-1);
     color: var(--ink);
     border-bottom: 0;
     transform: translateX(3px);
@@ -651,7 +666,10 @@ svg.xxt-win-mark {
     opacity: .9;
 }
 
-/* 新闻列表 */
+/* 新闻列表
+   ⚠️ 这里**不能**用实色打底:新闻窗口右下角压着一枚图标底纹(.xxt-win-mark),
+      条目一旦铺满 --paper-2 就把底纹整片盖住 —— 但它又不能靠抬层级去解决
+      (底纹必须在文字下面)。所以条目本身透明,hover 才上一层半透明薄纱。 */
 .window-content.news li {
     display: flex;
     align-items: flex-start;
@@ -659,8 +677,14 @@ svg.xxt-win-mark {
     padding: 6px 8px;
     border-radius: var(--r-sm);
     color: var(--ink-2);
-    background: var(--paper-2);
+    background: transparent;
+    transition: background-color var(--t-fast) ease, color var(--t-fast) ease;
     margin-bottom: 6px;
+}
+
+.window-content.news li:hover {
+    background: var(--veil-1);
+    color: var(--ink);
 }
 
 .window-content.news li img {
@@ -858,15 +882,21 @@ body.customizing .footer {
     box-shadow: none;
 }
 
-/* 投稿按钮用贴纸色 */
+/* 投稿按钮用贴纸色 —— 首页最大的那枚行动按钮,也压一枚星(比主按钮那颗大一点,
+   因为按钮本身更宽)。⚠️ 简写在前、底纹在后,顺序不能反。 */
 .upload {
     background: var(--tape);
+    background-image: var(--xxt-star-tile);
+    background-repeat: no-repeat;
+    background-size: 24px 24px;
+    background-position: right -3px bottom -4px;
     border-color: #E8C96B;
     font-weight: 500;
 }
 
+/* ⚠️ 只写 background-color:简写会把这枚星一起抹掉 */
 .upload:hover {
-    background: #FFE38F;
+    background-color: #FFE38F;
 }
 
 .upload img {
@@ -1861,7 +1891,7 @@ body:has(.video-container) .download-section .download-link:hover {
 .wmp-progress-container {
     position: relative;
     height: 9px;
-    background: var(--paper-3);
+    background: var(--veil-2);
     border-radius: var(--r-pill);
     margin: 0 3px 15px;
     cursor: pointer;
@@ -2064,12 +2094,12 @@ svg#play-img use.xxt-play-icon {
 }
 
 .wmp-playlist li:hover {
-    background: var(--paper-2);
+    background: var(--veil-1);
     color: var(--ink);
 }
 
 .wmp-playlist li.active {
-    background: var(--cream);
+    background: var(--veil-warm);
     color: var(--ink);
     font-weight: 500;
 }
@@ -2142,7 +2172,7 @@ svg#play-img use.xxt-play-icon {
     background: var(--mint);
     /* ⚠️ 底纹必须写在 background 简写**之后** —— 简写会把 background-image 重置成 none */
     background-image: var(--xxt-star-tile);
-    background-repeat: repeat;
+    background-repeat: no-repeat;
     background-size: var(--xxt-star-size);
     background-position: var(--xxt-star-pos);
     border-color: #5FAFAA;
@@ -3341,7 +3371,9 @@ body {
 .vista-progress-track {
     position: relative;
     height: 15px;
-    background: var(--paper-3);
+    /* 凹槽用半透明墨色,不用实色 —— 项目进度窗口右下角压着图标底纹,
+       实色轨道会把底纹横向切一刀(不抬层级,理由见 .xxt-win-mark) */
+    background: var(--veil-2);
     border-radius: var(--r-pill);
     overflow: hidden;
 }

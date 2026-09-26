@@ -35,10 +35,19 @@
        现在交给这里:本脚本有"精灵加载完 → run()" + MutationObserver 双保险,
        弹层无论发生在加载前还是加载后都能被覆盖。
        (image-viewer.js 自己那套还在,两边幂等,谁先跑都只是跳过已换好的 <svg>。)
-       点击不会丢 —— image-viewer.js 的关闭/翻页走的是 modal 上的事件委托。 */
+       点击不会丢 —— image-viewer.js 的关闭/翻页走的是 modal 上的事件委托。
+
+       ⚠️⚠️ **必须加 [width] 这道闸**(第十四轮):正文里的**截图**很多也是 .png,
+       文件名还会跟图标撞车 —— `articles/assets/warning.png` 是一张 1920×1080 的
+       截图(alt="截图"),名字却正好是图标表里的 `warning.png`。原来只按后缀挑,
+       那张截图会被换成 16px 的警告小图标,**而且页面零报错**。
+       文章里真图标的特征很稳:要么带 width(16 / 20),要么就躺在 images/icons/ 下
+       (`wefuckedsalt` 的 tips 里那枚 knowledges.png 就没写 width)。
+       test-round13 会扫全部文章 HTML 核这个前提,前提变了会报红。 */
     var ICON_SELECTOR =
-        'img[src$=".png"]:not(.uac-close-btn), ' +
-        'img[src$=".gif"]:not(.uac-close-btn)';
+        'img[width][src$=".png"]:not(.uac-close-btn), ' +
+        'img[width][src$=".gif"]:not(.uac-close-btn), ' +
+        'img[src*="images/icons/"]:not(.uac-close-btn)';
 
     /* 给某处按钮换矢量图标并"原样保留"原 <img> 的 class / 尺寸。
        返回新的 <svg>;查不到映射就返回 null,调用方自己决定要不要回退。 */
@@ -91,6 +100,39 @@
 
             img.parentNode.replaceChild(svg, img);
             a.setAttribute('data-xxt-close', '1');
+        }
+    }
+
+    /* ---- 正文图 → 拍立得 + 一条胶带 ----------------------------------
+       ⚠️ 必须**包一层 <span>**:<img> 是替换元素,::before/::after 根本不渲染,
+          胶带没法只靠 CSS 挂在图片上;而背景层又画不到图片内容之上
+          (background 永远在内容下面),胶带会变成"被照片压住"。
+       只包 .article-content 里**没有 width** 的图 —— 正文里的 16/20px 小图标
+       都带 width,给它们套白框会变成一块巨大的白板。
+       每张照片的倾角、胶带角度、胶带横向偏移都错开一点(刻意的不整齐)。 */
+    var PHOTO_TILTS = ['-.7deg', '.5deg', '-.35deg', '.8deg', '-.55deg', '.35deg'];
+    var TAPE_TILTS = ['-3deg', '2.5deg', '-1.5deg', '3.5deg', '-2deg'];
+    var TAPE_SHIFTS = ['-14px', '10px', '-4px', '16px', '-9px'];
+    var photoCount = 0;
+
+    function buildPolaroids() {
+        var imgs = document.querySelectorAll('.article-content img:not([width])');
+        for (var i = 0; i < imgs.length; i++) {
+            var img = imgs[i];
+            var parent = img.parentNode;
+            if (!parent) continue;
+            // 幂等:已经包过就跳过(选择器拿不到父节点的类,所以在这里判)
+            if (parent.className && (' ' + parent.className + ' ').indexOf(' xxt-photo ') > -1) continue;
+
+            var wrap = document.createElement('span');
+            wrap.className = 'xxt-photo';
+            wrap.style.setProperty('--tilt', PHOTO_TILTS[photoCount % PHOTO_TILTS.length]);
+            wrap.style.setProperty('--tape-tilt', TAPE_TILTS[photoCount % TAPE_TILTS.length]);
+            wrap.style.setProperty('--tape-shift', TAPE_SHIFTS[photoCount % TAPE_SHIFTS.length]);
+            photoCount++;
+
+            parent.insertBefore(wrap, img);
+            wrap.appendChild(img);
         }
     }
 
@@ -148,6 +190,7 @@
         injectSprite();
         swapIcons();
         swapToolbarClose();
+        buildPolaroids();
 
         /* 图片查看器由 image-viewer.js 在 DOMContentLoaded 时挂到 body 上,
            两处脚本的加载顺序不固定 —— 所以这里用 MutationObserver 兜住
@@ -155,6 +198,7 @@
         if (window.MutationObserver) {
             new MutationObserver(function () {
                 swapIcons();
+                buildPolaroids();   // 幂等,包过的会跳过
             }).observe(document.body, { childList: true, subtree: true });
         }
     }

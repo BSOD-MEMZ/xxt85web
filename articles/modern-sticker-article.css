@@ -48,16 +48,16 @@
     --lilac: #B08BE8;
     --cream: #FFDD7A;
 
-    /* 主按钮的底纹:一枚圆角五角星平铺(形状与 .xxt-deco-star-round 同一枚)。
-       颜色烤进 data URI —— 它永远压在实心薄荷底上,不需要跟着 currentColor 走。
+    /* 主按钮的底纹:一枚圆角五角星(形状与 .xxt-deco-star-round 同一枚),
+       贴在按钮**右下角** —— 不是平铺。颜色烤进 data URI。
        ⚠️ 用 <g opacity> 包一层而不是分别给 fill/stroke 上透明度:
           描边压在填充上会叠出更实的边,星星就会变成"实心浅 + 描边深"的双色。
        ⚠️ 这份必须与 modern-sticker.css 的 :root 逐字符一致(uac 那枚「继续」按钮
           在两个页面读的是同一个变量名,两处一散就只有一个页面有底纹)。
           test-round12.js 会比对两份。 */
     --xxt-star-tile: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cg opacity='.42'%3E%3Cpath d='M12 2.6l2.7 5.9 6.4.7-4.8 4.3 1.3 6.3L12 16.6 6.4 19.8l1.3-6.3L2.9 9.2l6.4-.7z' fill='%23FFFFFF' stroke='%23FFFFFF' stroke-width='2.6' stroke-linejoin='round' stroke-linecap='round'/%3E%3C/g%3E%3C/svg%3E");
-    --xxt-star-size: 21px 21px;
-    --xxt-star-pos: 3px 2px;
+    --xxt-star-size: 19px 19px;
+    --xxt-star-pos: right -2px bottom -3px;
 
     /* 圆角 */
     --r-xs: 3px;
@@ -651,6 +651,7 @@ html {
 /* 正文里的小图标(提示条的 warning.png 这类)不该有相纸效果 */
 .article-content img[width="16"],
 .article-content img[width="18"],
+.article-content img[width="20"],
 .article-content .tips img {
     background: none;
     border: 0;
@@ -662,9 +663,73 @@ html {
 
 .article-content img[width="16"]:hover,
 .article-content img[width="18"]:hover,
+.article-content img[width="20"]:hover,
 .article-content .tips img:hover {
     transform: none;
     box-shadow: none;
+}
+
+/* ---- 拍立得:白框 + 底部留白 + 一条压在上边缘的胶带 -------------------
+   外框是 JS 包的(modern-sticker-article.js 的 buildPolaroids)——
+   <img> 是替换元素,::before/::after 不渲染,胶带挂不上去。
+
+   ⚠️ 帧自己承担倾倒(`rotate: var(--tilt)`),hover 只加 transform 位移 ——
+      独立的 rotate / translate 属性和 transform 是会叠起来的,所以照片歪着
+      也能照常"抬一下"。用 transform 写死角度就没法和 hover 位移共存了。
+   ⚠️ 内层 <img> 的相纸效果要撤干净(白框、描边、hover 位移都归外框),
+      所以选择器必须写到 (0,2,1) 以上,压过后面的 .article-content img。 */
+.article-content .xxt-photo {
+    position: relative;
+    display: inline-block;
+    max-width: 100%;
+    box-sizing: border-box;
+    padding: 10px 10px 30px;
+    margin: 6px 0 12px;
+    background: #FFFFFF;
+    border-radius: 2px;
+    box-shadow: var(--sh-1);
+    rotate: var(--tilt, 0deg);
+    transition: transform var(--t-mid) var(--ease-soft),
+                box-shadow var(--t-mid) ease;
+}
+
+.article-content .xxt-photo:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--sh-2);
+}
+
+.article-content .xxt-photo > img {
+    display: block;
+    max-width: 100%;
+    height: auto;
+    border: 0;
+    border-radius: 0;
+    background: none;
+}
+
+.article-content .xxt-photo > img:hover {
+    transform: none;
+    box-shadow: none;
+}
+
+/* 胶带:压在白框的上边缘,一半在框外。两道渐变叠出一层薄纸的反光。 */
+.article-content .xxt-photo::before {
+    content: "";
+    position: absolute;
+    top: -9px;
+    left: calc(50% + var(--tape-shift, 0px));
+    width: 64px;
+    height: 19px;
+    margin-left: -32px;
+    background:
+        linear-gradient(180deg,
+            rgba(255, 255, 255, .34) 0 26%,
+            rgba(255, 255, 255, 0) 26% 100%),
+        rgba(255, 210, 31, .62);
+    border-radius: 2px;
+    box-shadow: 0 1px 3px rgba(61, 58, 56, .16);
+    transform: rotate(var(--tape-tilt, -3deg));
+    pointer-events: none;
 }
 
 .article-content figure {
