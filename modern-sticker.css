@@ -1167,7 +1167,8 @@ body.customizing .footer {
 /* 卡片视图 */
 .download-cards {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(215px, 1fr));
+    /* 同 #articleList:屏宽不足一列下限时按容器宽度铺 */
+    grid-template-columns: repeat(auto-fill, minmax(min(215px, 100%), 1fr));
     gap: 14px;
     margin: 14px 0;
 }
@@ -1776,6 +1777,119 @@ svg#play-img use.xxt-play-icon {
 }
 
 /* ---------------------------------------------------------------
+   9b. 对话框:出现 / 离场的动效
+
+   全站的对话框都靠**行内 style.display = 'block' | 'none'** 开关
+   (index.js、theme-picker.js、uac.js、support/notes 全是这个写法),
+   而且切的是 display,不是 class —— 所以不能像文章页的图片查看器那样挂
+   animation:display:none 一写上,元素立刻离开渲染树,动画根本没有播放的机会。
+
+   这里的做法是把两个方向都交给 CSS 补间:
+     · 关闭方向:[style*=…] 选中"关闭态"那一组值(opacity / scale / translate);
+     · transition 里给 display 配 allow-discrete —— 浏览器会先把上面几个属性
+       补间完,最后一步才真的把 display 置成 none;
+     · 打开方向由 @starting-style 提供起始值(元素从 display:none 回到渲染树时,
+       @starting-style 正好生效,它就是为这个场景设计的)。
+   出现和离场因此共用同一组属性,不用 JS 参与,也不存在"延迟隐藏"的时序问题。
+
+   旧浏览器不支持 allow-discrete / @starting-style 时,这几条规则按不生效处理
+   (立刻显示、立刻消失),行为与改动前完全一致 —— 属安全降级。
+   Section 16 的 prefers-reduced-motion 会把时长压到 .01ms,同样安全。
+
+   ⚠️ 这里不能用 transform 做动效:两个站内对话框(#settingsDialog /
+   #guestbookDialog)的居中位移是**行内** transform: translate(-50%,-50%),
+   行内声明压得住本文件里的任何 transform。所以改用独立的 translate / scale
+   属性 —— 它们与行内 transform 是叠加关系,不是覆盖。
+   (副作用只有一个:scale 会连行内那 -50% 的位移一起缩放,入场头一帧卡片中心
+    约偏离终点 5%,300px 宽的框不到 8px,收敛后完全居正 —— 观感上就是
+    "从右下角轻轻弹进来",不是错位。)
+   --------------------------------------------------------------- */
+.vista-dialog,
+#customizePanel,
+#dialogOverlay,
+#noteDialogOverlay {
+    opacity: 1;
+    visibility: visible;
+    translate: 0 0;
+    scale: 1;
+    /* 前两项是 .window 原本的补间,整条覆盖时不能丢。
+       allow-discrete 单独写成 longhand 并且放在 shorthand **之后**:
+       这样不认识它的旧浏览器只会丢掉这一行,前面的 transition 照常生效;
+       若把它塞进 shorthand,整条声明会一起失效,连 .window 的补间都没了。 */
+    transition:
+        transform var(--t-slow) var(--ease-soft),
+        box-shadow var(--t-mid) ease,
+        opacity 180ms ease,
+        translate var(--t-mid) var(--ease-soft),
+        scale var(--t-mid) var(--ease-pop),
+        visibility var(--t-mid),
+        display var(--t-mid);
+    transition-behavior: allow-discrete;
+}
+
+/* 关闭态:行内 display 被置为 none。
+   两种写法都要覆盖 —— HTML 里手写的是 `display:none`,
+   而 JS 用 el.style.display = 'none' 赋值后,浏览器会重新序列化成 `display: none;`。 */
+.vista-dialog[style*="display:none"],
+.vista-dialog[style*="display: none"] {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    translate: 0 8px;
+    scale: .95;
+}
+
+/* 个性化面板是底部抽屉:往上抽走,位移给大一点 */
+#customizePanel[style*="display:none"],
+#customizePanel[style*="display: none"] {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    translate: 0 16px;
+}
+
+/* 遮罩只淡出,不缩放 —— 整屏的层一缩就露出页面四边 */
+#dialogOverlay[style*="display:none"],
+#dialogOverlay[style*="display: none"],
+#noteDialogOverlay[style*="display:none"],
+#noteDialogOverlay[style*="display: none"] {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+}
+
+@starting-style {
+    .vista-dialog {
+        opacity: 0;
+        translate: 0 8px;
+        scale: .95;
+    }
+
+    #customizePanel {
+        opacity: 0;
+        translate: 0 16px;
+    }
+
+    #dialogOverlay,
+    #noteDialogOverlay {
+        opacity: 0;
+    }
+}
+
+/* 首次访问的风格引导(xxt-picker)是**新插入的节点**,不走行内 display,
+   入场同样靠 @starting-style;离场是整块从 DOM 摘掉,无法补间(见 docs)。
+   uac.js 那边自带 uacModalIn,不重复处理。 */
+.xxt-picker-overlay {
+    transition: opacity 220ms ease;
+}
+
+@starting-style {
+    .xxt-picker-overlay {
+        opacity: 0;
+    }
+}
+
+/* ---------------------------------------------------------------
    10. 个性化面板:像翻开的一张贴纸册
    --------------------------------------------------------------- */
 .customize-panel {
@@ -1790,12 +1904,6 @@ svg#play-img use.xxt-play-icon {
     border-radius: var(--r-lg);
     box-shadow: var(--sh-3);
     overflow: hidden;
-    animation: panelUp 320ms var(--ease-soft);
-}
-
-@keyframes panelUp {
-    from { opacity: 0; transform: translateX(-50%) translateY(14px); }
-    to   { opacity: 1; transform: translateX(-50%) translateY(0); }
 }
 
 .customize-panel::before,
@@ -2694,7 +2802,8 @@ body {
    --------------------------------------------------------------- */
 #articleList {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    /* 外面套一层 min() :屏宽不足 300px 时按容器宽度铺,不会横向溢出 */
+    grid-template-columns: repeat(auto-fill, minmax(min(300px, 100%), 1fr));
     gap: 18px;
     margin: 12px 0 6px;
     list-style: none;
@@ -2983,6 +3092,8 @@ body {
 /* ---------------------------------------------------------------
    15. 响应式(桌面优先,基础降级)
    --------------------------------------------------------------- */
+/* 断点:1240(顶栏回到上下两行,见 14c)→ 1000(收敛成单栏)→ 620 → 480(手机竖屏) */
+
 @media screen and (max-width: 1000px) {
     .wrap {
         padding: 0 18px;
@@ -3021,8 +3132,22 @@ body {
         padding: 0 18px;
     }
 
+    /* 搜索框原本绝对定位贴在顶栏右侧。单栏之后导航要换行,
+       top:50% 会把它甩到两三行导航的中间、正好压住链接 ——
+       这里让它回到文档流里独占一行。 */
+    .xxt-nav-search {
+        position: static;
+        transform: none;
+        width: 100%;
+        box-sizing: border-box;
+        margin: 6px 0 10px;
+        padding: 4px 5px 4px 13px;
+    }
+
     .xxt-nav-search input {
-        width: 100px;
+        flex: 1;
+        width: auto;
+        min-width: 0;
     }
 
     .customize-panel {
@@ -3053,6 +3178,42 @@ body {
         font-size: 12px;
     }
 
+    /* 标题与列表头跟着缩,免得占掉半屏 */
+    .main > h2 {
+        font-size: 21px;
+    }
+
+    .list-upload {
+        flex-wrap: wrap;
+        gap: 8px;
+    }
+
+    .tips {
+        padding: 13px 14px 12px;
+    }
+
+    .window-titlebar {
+        padding: 12px 13px 8px;
+    }
+
+    .window-content {
+        padding: 12px 13px 14px;
+    }
+
+    .vista-dialog > .window-content {
+        padding: 13px 14px 14px;
+    }
+
+    /* 底部按钮排一行放不下就换行,不要挤成一团 */
+    .customize-buttons,
+    #settingsDialog .window-content > div:last-of-type {
+        flex-wrap: wrap;
+    }
+
+    .pagination a {
+        padding: 5px 9px;
+    }
+
     .video-item {
         flex-direction: column;
     }
@@ -3081,6 +3242,88 @@ body {
     /* 窄屏少放几个装饰,省一点性能 */
     .xxt-deco:nth-child(n+7) {
         display: none;
+    }
+}
+
+/* 手机竖屏:留白压到最小,对话框按屏宽收起 */
+@media screen and (max-width: 480px) {
+    .wrap {
+        padding: 0 12px;
+    }
+
+    .titlebar h1 {
+        font-size: 19px;
+    }
+
+    .titlebar h1::before {
+        width: 11px;
+        height: 11px;
+        margin-right: 7px;
+    }
+
+    .main > h2 {
+        font-size: 19px;
+    }
+
+    .navbar ul {
+        gap: 4px;
+        padding-top: 7px;
+    }
+
+    /* 1000 断点把导航内边距写成了 0 18px,这里要一起收,
+       否则页眉是 12px、导航还是 18px,左右对不齐 */
+    .navbar .wrap {
+        padding: 0 12px;
+    }
+
+    .navbar a {
+        padding: 6px 9px 7px;
+    }
+
+    .window-titlebar {
+        padding: 11px 12px 7px;
+        font-size: 13px;
+    }
+
+    .window-content {
+        padding: 11px 12px 13px;
+    }
+
+    /* #settingsDialog / #guestbookDialog 的行内宽度写死 300px,
+       max-width 不写在行内,所以这里能直接压住它 */
+    .vista-dialog {
+        max-width: calc(100vw - 24px);
+    }
+
+    .vista-dialog > .window-content {
+        padding: 12px 13px 13px;
+    }
+
+    /* 封面缩一圈,给进度条和列表留出高度 */
+    .wmp-album-art {
+        width: 128px;
+        height: 128px;
+    }
+
+    .wmp-controls {
+        gap: 11px;
+    }
+
+    .tips::before {
+        right: 22px;
+        width: 48px;
+    }
+
+    .customize-icons {
+        padding: 11px;
+    }
+
+    .customize-buttons {
+        padding: 10px 12px 13px;
+    }
+
+    .footer {
+        padding: 18px 0 22px;
     }
 }
 

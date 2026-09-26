@@ -176,6 +176,14 @@ MutationObserver         // 每次回调重打一遍(幂等),覆盖动态弹窗
 由 CSS 按 `.aero-player.is-playing` 决定显示哪一个。
 `player.js` 里 `setPlayingUI()` 负责同步这个 class（旧主题下它仍然照旧换 `<img src>`）。
 
+> ⚠️ **换出来的 `<svg>` 必须自己带上 `id="play-img"`。**
+> 它是 `createElementNS` 新建的元素，不会继承 `<img>` 的 id；而下面四条规则
+> 全部挂在 `svg#play-img use.xxx` 上 —— 少写这一行，四条一条都不命中，
+> 表现就是**播放/暂停两个图标同时画出来叠在一起**。
+> （第七轮的真凶。当时 `test-play-cascade.js` 是"通过"的，因为它把宿主的
+> id 写死在测试里，只验证了 CSS 层叠、没验证 JS 真的产出了那个 id ——
+> 现在测试改成从 `js/modern-sticker.js` 源码里读 id，漏写立刻报红。）
+>
 > ⚠️ **两枚 symbol 必须显式 `display: none` 打底**，再用状态类各放行一个。
 > 隐藏规则要写成 `svg#play-img use.xxx`（特异性 `(0,1,1)`）——
 > 全局 `.xxt-ic { display: inline-block }` 是 `(0,1,0)` 且在文件更靠后，

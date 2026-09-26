@@ -537,6 +537,13 @@
             if (img.id === 'play-img') {
                 var svgBoth = document.createElementNS(SVG_NS, 'svg');
                 svgBoth.setAttribute('class', 'xxt-ic');
+                // ⚠️ id 必须原样带走。CSS 里那四条决定"显示 play 还是 pause"的规则
+                // 全部挂在 `svg#play-img use.xxx` 上,而这个 <svg> 是新建的元素,
+                // 不会自动继承 <img> 的 id —— 少了这一行,四条规则一条都不命中,
+                // 两枚 symbol 会同时画出来,看着就是"播放/暂停图标重叠"。
+                // (player.js 那边靠 getElementById('play-img') 拿播放键,
+                //  并判断 tagName === 'IMG' 才回退成换 src,所以这里的 id 也是它要的。)
+                svgBoth.setAttribute('id', 'play-img');
                 svgBoth.setAttribute('data-icon', 'play');
                 svgBoth.setAttribute('aria-hidden', 'true');
                 svgBoth.setAttribute('focusable', 'false');

@@ -271,14 +271,23 @@ js/modern-sticker.js
 如果某处确实需要脚本自己升级图标（如文章页的 `image-viewer.js`），
 优先用**事件委托**挂在父容器上，与节点是否被替换无关。
 
-### 10. 两个图标塞进一个 `<svg>` 时必须显式打底 `display:none`，且顺序不能反
+### 10. 两个图标塞进一个 `<svg>`：id 要自己带，打底和顺序都不能错
 
 `#play-img` 要切「播放/暂停」，矢量没法换 `src`，所以两枚 `<use>` 一起塞。
-但全局 `.xxt-ic { display: inline-block }` 是 `(0,1,0)` 且在文件更靠后，
-隐藏规则若也只写 `(0,1,0)` 会被它盖掉 —— **两个图标同时画出来叠在一起**。
-隐藏规则要抬到 `(0,1,1)`：`svg#play-img use.xxt-play-icon { display: none }`。
 
-**更隐蔽的坑（第三轮就是栽在这）：** 三条规则的特异性/顺序必须严格是
+**① 换出来的 `<svg>` 必须自己 `setAttribute('id', 'play-img')`。**
+它是 `createElementNS` 新建的节点，不会继承 `<img>` 的 id，而下面四条规则**全部**
+挂在 `svg#play-img use.xxx` 上 —— 少这一行，四条一条都不命中，**两枚图标直接叠一起**。
+（第七轮真凶。当时的 `test-play-cascade.js` 只模拟了 CSS 层叠、把宿主 id 写死在测试里，
+所以一直是绿的；现在它改成从 `modern-sticker.js` 源码里读 id，漏写立刻红。）
+
+**② 打底规则的特异性要抬到 `(0,1,1)`。**
+全局 `.xxt-ic { display: inline-block }` 是 `(0,1,0)` 且在文件更靠后，
+隐藏规则若也只写 `(0,1,0)` 会被它盖掉 —— **两个图标同时画出来叠在一起**。
+所以写 `svg#play-img use.xxt-play-icon { display: none }`。
+
+**③ 三条规则的顺序必须严格是**（第 2 条若被写到第 1 条之前，或之后又冒出一条同特异性的
+play 规则，就会把第 1 条的 `display:none` 掀掉，**两枚图标又叠一起** —— 第三轮栽在这）：
 
 ```
 1. svg#play-img use.xxt-play-icon,
@@ -364,6 +373,52 @@ img.src && !img.src.includes('.png') || img.src.includes('.jpg') || …
 
 改成**允许式**判定更稳：排除已知的装饰图标（`close`/`home`/`printer`/`left`/`right`），
 其余一律当正文图。
+
+### 16. 对话框的出入场动画：只能走 `display` 的离散补间
+
+站点的对话框**全部**靠行内 `style.display = 'block' | 'none'` 开关
+（`index.js`、`theme-picker.js`、`uac.js`、`support/notes`），切的是 `display` 不是 class ——
+所以文章页图片查看器那套「挂 `animation` + `.closing` 类」在这里用不了：
+`display:none` 一写上元素立刻离开渲染树，动画根本没机会播。
+
+`modern-sticker.css` 第 9b 节的解法（纯 CSS，不用 JS 参与，也就没有"延迟隐藏"的时序问题）：
+
+| 方向 | 靠什么 |
+|---|---|
+| 离场 | `[style*="display:none"]`（**两种序列化都要写**，见下）给出关闭态值 + `transition-behavior: allow-discrete` 让 `display` 最后一步才变 `none` |
+| 入场 | `@starting-style` —— 元素从 `display:none` 回到渲染树时它生效 |
+
+三个必须记住的点：
+
+1. **属性选择器要写两遍**：HTML 里手写的是 `display:none`，而
+   `el.style.display = 'none'` 赋值后浏览器会**重新序列化成 `display: none;`**。
+   只写其中一种，JS 关掉的那些对话框就不生效。
+2. **`allow-discrete` 必须写成 longhand、且排在 `transition` 简写之后。**
+   塞进简写里的话，不认这个值的旧浏览器会把**整条 `transition` 声明**丢掉 ——
+   连 `.window` 原有的 `transform` / `box-shadow` 补间都没了。
+   现在这样写，旧浏览器只丢一行，其余照常，动效退化成"立刻显示/立刻消失"= 改动前行为。
+3. **动效只能用独立的 `translate` / `scale` 属性，不能碰 `transform`**：
+   `#settingsDialog` / `#guestbookDialog` 的居中位移是**行内** `transform: translate(-50%,-50%)`，
+   行内声明压得住本文件里的任何 `transform`。独立属性与它是叠加关系，才动得起来。
+
+> 已覆盖：`.vista-dialog`（控制面板 / 留言本 / 风格引导 / 便笺）、`#customizePanel`、
+> `#dialogOverlay`、`#noteDialogOverlay`、`.xxt-picker-overlay`（入场）。
+> UAC 弹窗自带 `uacModalIn`（在 `uac.js` 里），不重复处理。
+> 风格引导与 UAC 的**离场**是整块 `removeChild`，补间不了 —— 属已知限制。
+
+### 17. 响应式断点：1240 / 1000 / 620 / 480
+
+`modern-sticker.css` 第 15 节，**必须从大到小排列**（后写的会盖掉前面的）。
+
+两个容易漏的：
+
+- **网格下限要套 `min()`**：`repeat(auto-fill, minmax(min(300px, 100%), 1fr))`。
+  直接写 `minmax(300px, 1fr)`，屏宽不足 300px 时整块横向溢出。
+- **顶栏搜索框在 1000 断点必须回到文档流**（`position: static; width: 100%`）。
+  它平时绝对定位贴在右侧；单栏后导航要换行，`top:50%` 会把它甩到两三行导航中间压住链接。
+
+对话框宽度的兜底写 `.vista-dialog { max-width: calc(100vw - 24px) }` 即可 ——
+`#settingsDialog` 的 `width:300px` 在**行内**，但 `max-width` 不在，所以能直接压住，不用 `!important`。
 
 ---
 
