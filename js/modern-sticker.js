@@ -465,7 +465,10 @@
        images/icons/ 下放个 model.png),就会被静默换成看板娘的图标。
        所以这里按"路径 + 文件名"两头一起认。
 
-       toggle.png 是收起后贴屏幕左缘那枚书签。 */
+       toggle.png 是收起后贴屏幕左缘那枚书签。
+
+       close.png(「收起看板娘」)用的是普通的叉 `i-x`,**不是**站内那枚
+       macos 红点 `i-close-dot` —— 它在这一列贴纸按钮里显得像另一个体系的东西。 */
     var LIVE2D_ICON_MAP = {
         'search.png': 'i-magnifying-glass',
         'hitokoto.png': 'i-note',
@@ -475,7 +478,7 @@
         'chat.png': 'i-chat-circle-dots',
         'info.png': 'i-info',
         'photo.png': 'i-image',
-        'close.png': 'i-close-dot',
+        'close.png': 'i-x',
         'toggle.png': 'i-caret-right'
     };
     var LIVE2D_ASSET_PATH = 'live2d-widget/dist/assets/';

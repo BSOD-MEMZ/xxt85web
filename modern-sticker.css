@@ -3760,7 +3760,9 @@ body {
     min-height: 0;
     margin: -32px 26px 4px 20px;
     padding: 13px 15px 15px;
-    font-family: var(--font-hand);
+    /* 正文字体与站内其它地方一致(msyh)。
+       试过 --font-hand(楷体),14px 的楷体在奶油纸上笔画太细、读起来费劲 —— 弃。 */
+    font-family: var(--font);
     font-size: 14px;
     line-height: 1.72;
     color: var(--ink-2);
@@ -3867,10 +3869,6 @@ body {
     rotate: 0deg;
     background: #FFFFFF;
     box-shadow: var(--sh-2);
-    /* 收起键那枚是站内统一的"红点"(i-close-dot)。它自己会读 --xxt-dot-x
-       画那个 ×,平时是透明的 —— 悬停时浮出来,一眼看出是"关掉"。
-       这一条对所有按钮都成立,但只有 close-dot 那枚符号会读这两个变量。 */
-    --xxt-dot-x: rgba(0, 0, 0, .62);
 }
 
 /* 图标本体:14a/5b 注入的 <svg class="xxt-ic">。
@@ -3878,14 +3876,36 @@ body {
 #waifu #waifu-tool > span svg {
     width: 18px;
     height: 18px;
-    fill: var(--ink-3);
+    fill: var(--ink-3);          /* 兜底:没单独配色的按钮 */
     display: block;
-    transition: fill var(--t-fast) ease;
+    transition: transform var(--t-mid) var(--ease-pop);
 }
 
+/* 悬停:底纸变白 + 图标轻轻放大。
+   **不动颜色** —— 每枚按钮有自己的色相(见下),一悬停全变珊瑚就白配了。 */
 #waifu #waifu-tool > span:hover svg {
-    fill: var(--coral);
+    transform: scale(1.14);
 }
+
+/* 一枚按钮一个色相,像一排彩色贴纸。
+   ⚠️ 这里必须写足 `#waifu #waifu-tool > #id svg`(2 id + 2 type),
+      才和上面那条兜底规则打平 —— 打平之后靠"排在后面"赢;
+      少一个 #waifu 就会被 (2,0,2) 的兜底反压,颜色全部变灰
+      (test-round15 的层叠求解器会逐条判这个)。
+   颜色都取主题贴纸色,别用 --tape / --cream:那两个太亮,18px 的细笔画在
+   奶油纸上看不清。
+   ⚠️ 色相是**照按钮顺序排的,不是随手配的**:珊瑚(355°)与 danger 红(0°)
+      几乎同色,而"对话"正好挨着"收起",两个红调并排会糊成一片 ——
+      所以把珊瑚挪到第 2 位、琥珀挪到第 4 位,六个色相两两不相邻。 */
+#waifu #waifu-tool > #waifu-tool-search svg         { fill: var(--sky); }    /* 搜索:天蓝 */
+#waifu #waifu-tool > #waifu-tool-hitokoto svg       { fill: var(--coral); }  /* 一言:珊瑚 */
+#waifu #waifu-tool > #waifu-tool-asteroids svg      { fill: var(--lilac); }  /* 小游戏:淡紫 */
+#waifu #waifu-tool > #waifu-tool-switch-model svg   { fill: var(--warn); }   /* 换模型:琥珀 */
+#waifu #waifu-tool > #waifu-tool-chat svg           { fill: var(--mint); }   /* 对话:青 */
+#waifu #waifu-tool > #waifu-tool-switch-texture svg { fill: var(--lilac); }  /* 换贴图(当前没启用) */
+/* 收起:一个普通的叉,软红 —— 不是站内那枚 macos 红点。
+   这一列里红点像另一个体系的东西;叉和其它按钮同一套造型,只是颜色更"警告"一点。 */
+#waifu #waifu-tool > #waifu-tool-quit svg           { fill: var(--danger); }
 
 /* 收起来之后贴在屏幕左缘的那枚"书签"(#waifu-toggle)
    上游几何:宽 60、margin-left -100 = 完全藏到屏幕外;
