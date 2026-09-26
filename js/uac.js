@@ -248,14 +248,17 @@
             'border-color:#E4DCCE',
             '}',
             '.uac-btn:active{transform:translateY(1px);box-shadow:none}',
-            /* 「继续」= 主操作,填青色 + 圆角五角星底纹
+            /* 「继续」= 主操作,填青色 + 右下角一枚圆角五角星
                底纹取自主题 :root 的 --xxt-star-tile(顶层页读 modern-sticker.css,
-               文章页读 articles/modern-sticker-article.css,两份同名同值) */
+               文章页读 articles/modern-sticker-article.css,两份同名同值)。
+               ⚠️ 这里必须是 no-repeat:当年是平铺的,后来改成"角上一枚"时
+                  只改了 CSS 那份、漏了这一处,于是 UAC 里还在铺满星星。
+                  test-round12 现在会扫**所有**用到这枚星的规则,少一个都不行。 */
             '.uac-buttons-right .uac-btn:first-child{',
             'color:#FFFFFF;',
             'background:#0E9E92;',
             'background-image:var(--xxt-star-tile);',
-            'background-repeat:repeat;',
+            'background-repeat:no-repeat;',
             'background-size:var(--xxt-star-size);',
             'background-position:var(--xxt-star-pos);',
             'border-color:#0E9E92;',
