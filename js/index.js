@@ -746,20 +746,43 @@ window.xxtTagConfig = {
     loadSettings();
   }
 
-  function initBackground() {
-    var backgrounds = [
-      'background.webp',
-      'background/background_1.webp',
-      'background/background_2.webp',
-      'background/background_3.webp',
-      'background/background_4.webp'
-    ];
+  /* ---- 背景:两套主题共用同一个 bgIndex ----
+     默认主题(Aero)拿它当壁纸;手账主题自带纸面层(body::before 那块**不透明**的纸色
+     + 三枚色块),会把 body 自己的壁纸整块盖住 —— 所以手账下这张图是**纯白下**
+     (background.webp 22KB,切到后面几张 87~198KB)。
 
+     于是手账下换成一张内联的 1×1 占位图,理由有两条:
+       ① 零请求(内联 data URI 不会发出去);
+       ② 序号跟在 `#` 后面,每次切换值都不同 → body 的 style 属性确实在变 ——
+          modern-sticker.js 的 initBgTone 靠 MutationObserver 监听这次改写来切
+          纸面配色,值不变它就感知不到,手账那边"切换背景"会失灵。
+     判定读 #themeCss 的 href(与 support/chomowan/charts.js 同一套判法):
+     看的是**实际生效**的那份主题,不是 localStorage。 */
+  var BACKGROUNDS = [
+    'background.webp',
+    'background/background_1.webp',
+    'background/background_2.webp',
+    'background/background_3.webp',
+    'background/background_4.webp'
+  ];
+  var PLACEHOLDER_BG =
+    'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';
+
+  function bgMedia(index) {
+    var link = document.getElementById('themeCss');
+    var href = link ? (link.getAttribute('href') || '') : '';
+    if (href.indexOf('modern-sticker') > -1) {
+      return "url('" + PLACEHOLDER_BG + '#' + index + "')";
+    }
+    return "url('" + BACKGROUNDS[index] + "')";
+  }
+
+  function initBackground() {
     var currentBgIndex = localStorage.getItem('bgIndex');
     currentBgIndex = currentBgIndex !== null ? parseInt(currentBgIndex) : 0;
 
     window.applyBackground = function (index) {
-      var bgUrl = "url('" + backgrounds[index] + "')";
+      var bgUrl = bgMedia(index);
       document.body.style.backgroundImage = bgUrl;
       document.body.style.setProperty('--mobile-bg', bgUrl);
     };
@@ -1151,19 +1174,12 @@ window.xxtTagConfig = {
       }
     }
 
-    // 切换背景
+    // 切换背景(手账主题下这是"换纸面色块",不下载壁纸 —— 见 BACKGROUNDS 的说明)
     function cycleBackground() {
-      var backgrounds = [
-        'background.webp',
-        'background/background_1.webp',
-        'background/background_2.webp',
-        'background/background_3.webp',
-        'background/background_4.webp'
-      ];
       var currentBgIndex = localStorage.getItem('bgIndex');
       currentBgIndex = currentBgIndex !== null ? parseInt(currentBgIndex) : 0;
-      currentBgIndex = (currentBgIndex + 1) % backgrounds.length;
-      document.body.style.backgroundImage = "url('" + backgrounds[currentBgIndex] + "')";
+      currentBgIndex = (currentBgIndex + 1) % BACKGROUNDS.length;
+      document.body.style.backgroundImage = bgMedia(currentBgIndex);
       localStorage.setItem('bgIndex', currentBgIndex);
     }
 

@@ -871,6 +871,27 @@ DOMContentLoaded
 
 ---
 
+### 27. 两套主题共用的脚本里，「只有一边需要」的资源要分流
+
+`js/index.js` 的 `initBackground()` 会把壁纸写进 `body` 的**行内** `background-image`。
+手账主题的纸面层（`body::before` 是一块**不透明**纸色 + 色块）会把它整块盖住 ——
+于是 `background.webp`（22KB，切到后面几张 87~198KB）属于**白下载**。
+
+改法：`bgMedia(index)` 按 `#themeCss` 的 href 分流，手账下返回一张内联占位图。
+两个不能省的细节：
+
+- **序号要跟在 `#` 后面**（`url('data:image/gif;base64,…#0')`）：手账的 `initBgTone`
+  靠 `MutationObserver` 监听 body 的 **style 属性变化**来切纸面配色。每次赋同一个值
+  属性就不变、MO 不触发 → 手账下"切换背景"**静默失灵**。带序号既不重复、data URI 也不发请求。
+- **判定读 `#themeCss` 的 href**（看的是**实际生效**的主题），与 `support/chomowan/charts.js` 同一套判法。
+
+> 通用原则：主题共用的脚本里，"只有某个主题才需要"的资源（壁纸/字体/装饰图）必须先判主题
+> 再决定要不要设那个 URL —— **赋值即请求**，事后清掉来不及。
+> 已量过的账：默认主题 CSS（38KB）+ 它引用的图片（≈114KB）在手账下已不加载（坑 25）；
+> 背景壁纸本轮也不下了。剩下的白下项是页面里那些**会被换成矢量的图标 PNG**（首页 ≈36KB）。
+
+---
+
 ## LaTeX 公式
 
 KaTeX 0.16.9 **已本地化**在 `vendor/katex/`（含 20 个 woff2，无 CDN 请求）。
