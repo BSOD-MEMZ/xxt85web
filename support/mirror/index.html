@@ -5,7 +5,19 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>镜像站列表</title>
-    <link rel="stylesheet" href="../../style.css" type="text/css" id="themeCss" />
+    <!-- 主题在 <link> 之前就定下来 —— 否则浏览器会先把默认主题 style.css 连它引用的
+         图片一起下载一遍,再等 js/theme-loader.js 下载完才去改 href,于是打开页面会
+         「无样式 → Aero → 新主题」闪三下。理由与替换方案见 AGENTS.md 坑 25。 -->
+    <script>
+        (function () {
+            var css = 'style.css';
+            try {
+                var t = localStorage.getItem('theme') || '';
+                if (/^[A-Za-z0-9._-]+\.css$/.test(t)) css = t;
+            } catch (err) { /* 隐私模式读不到:按默认主题走 */ }
+            document.write('<link rel="stylesheet" type="text/css" id="themeCss" href="../../' + css + '">');
+        })();
+    </script>
     <script src="../../js/theme-loader.js"></script>
 </head>
 <body>

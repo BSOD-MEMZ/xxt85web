@@ -2,6 +2,12 @@
  * xxtsoft 主题加载器
  * 从 localStorage 读取保存的主题并应用
  * 所有页面引入此脚本即可共享主题
+ *
+ * ⚠️ 首屏那份主题**不靠这里**决定 —— head 里 `<link>` 位置之前有一段内联脚本,
+ *    它在浏览器发出第一个 CSS 请求之前就把 href 定好了(见 AGENTS.md 坑 25)。
+ *    这里负责的是另外两件事:
+ *      ① 兜底 —— 万一某页没带上那段内联脚本,这里仍把 href 改成用户选的主题;
+ *      ② 加载配套脚本(modern-xxx.css → js/modern-xxx.js)与首次访问的风格引导。
  */
 (function () {
     'use strict';
@@ -12,7 +18,15 @@
     var rootPath = document.currentScript.src.replace(/\/js\/theme-loader\.js.*$/, '/');
 
     if (link) {
-        link.href = rootPath + theme;
+        /* 只在**真的不一样**时改写 href。
+           ⚠️ 无条件 `link.href = …` 会把已经正确的那份样式表拆掉重挂一次:
+              浏览器会丢弃旧表、去取"新"表(即使同 URL),中间那一瞬是**无样式**
+              —— 首屏那段内联脚本已经把 href 定对了,这里再拆一次就白闪一下。 */
+        var probe = document.createElement('a');
+        probe.href = rootPath + theme;
+        if (link.href !== probe.href) {
+            link.href = rootPath + theme;
+        }
 
         // 部分主题带有配套脚本(modern-xxx.css → js/modern-xxx.js)。
         // 默认主题 style.css / xpstyle.css 不匹配此规则，行为与改动前完全一致。

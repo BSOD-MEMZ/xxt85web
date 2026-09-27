@@ -8,7 +8,19 @@
     <meta name="description" content="收集各类精彩视频">
     <link rel="icon" href="medias.ico" type="image/x-icon">
     <!-- <script src="https://xxtsoft.top/live2d-widget/dist/autoload.js"></script> -->
-    <link rel="stylesheet" href="style.css" type="text/css" id="themeCss" />
+    <!-- 主题在 <link> 之前就定下来 —— 否则浏览器会先把默认主题 style.css 连它引用的
+         图片一起下载一遍,再等 js/theme-loader.js 下载完才去改 href,于是打开页面会
+         「无样式 → Aero → 新主题」闪三下。理由与替换方案见 AGENTS.md 坑 25。 -->
+    <script>
+        (function () {
+            var css = 'style.css';
+            try {
+                var t = localStorage.getItem('theme') || '';
+                if (/^[A-Za-z0-9._-]+\.css$/.test(t)) css = t;
+            } catch (err) { /* 隐私模式读不到:按默认主题走 */ }
+            document.write('<link rel="stylesheet" type="text/css" id="themeCss" href="' + css + '">');
+        })();
+    </script>
     <script src="js/theme-loader.js"></script>
     <script defer src="js/ripple.js"></script>
 </head>

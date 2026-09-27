@@ -465,6 +465,11 @@
        images/icons/ 下放个 model.png),就会被静默换成看板娘的图标。
        所以这里按"路径 + 文件名"两头一起认。
 
+       ⚠️ 但**文件名撞名是躲不掉的**:close / search / game / info 这四个
+          主表里本来就有,所以 swapIcons() 里查表的**顺序**是关键 ——
+          **先查这张小表**,查不到才回落主表。写反了就会静默走错
+          (close.png 会被主表判成红点 i-close-dot)。
+
        toggle.png 是收起后贴屏幕左缘那枚书签。
 
        close.png(「收起看板娘」)用的是普通的叉 `i-x`,**不是**站内那枚
@@ -567,10 +572,15 @@
             var img = imgs[i];
             var src = img.getAttribute('src') || '';
             var name = src.split('/').pop().split('?')[0].split('#')[0];
-            var id = map[name];
-            // 看板娘的图标不在主映射表里(见 LIVE2D_ICON_MAP 的说明):
-            // 只有 src 确实落在 live2d-widget/dist/assets/ 下,才去查那张小表
-            if (!id && src.indexOf(LIVE2D_ASSET_PATH) > -1) id = LIVE2D_ICON_MAP[name];
+
+            /* 看板娘那几枚文件名有几个和主表**撞名**(close.png / search.png /
+               game.png / info.png),所以必须**先查看板娘那张小表**,查不到才回落主表。
+               ⚠️ 写反了不会报错,只会静默走错:close.png 在**主表**里是 i-close-dot
+                  (macos 红点),于是"收起看板娘"永远是个红点而不是叉 ——
+                  第十九轮就是这么漏的,而且当时所有静态断言都是绿的。 */
+            var id = null;
+            if (src.indexOf(LIVE2D_ASSET_PATH) > -1) id = LIVE2D_ICON_MAP[name];
+            if (!id) id = map[name];
             if (!id) continue;
 
             // 播放键特殊处理:一个按钮要在"播放/暂停"两个图标间切换,

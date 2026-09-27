@@ -5,7 +5,23 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>我的课表不可能这么好看！ClassIslandInjector样式注入器绝赞发布！ ⭐ xxtsoft</title>
-    <link rel="stylesheet" href="style.css">
+    <!-- 主题在 <link> 之前就定下来(同 AGENTS.md 坑 25):默认那套 style.css 与用户
+         实际选的主题往往不是同一份,先把它的请求发出去 = 白下载一遍 + 闪三下。
+         ⚠️ 下面那个映射要和 article-theme-loader.js 的 ARTICLE_THEME_MAP 一起改,
+            加新主题时 test-round16.js 会比对两边。 -->
+    <script>
+        (function () {
+            var css = 'style.css';
+            try {
+                if (localStorage.getItem('theme') === 'modern-sticker.css') {
+                    css = 'modern-sticker-article.css';
+                } else if ((localStorage.getItem('article_css') || 'default') === 'zuowen') {
+                    css = 'zuowen-style.css';
+                }
+            } catch (err) { /* 隐私模式读不到:按默认走 */ }
+            document.write('<link rel="stylesheet" href="' + css + '">');
+        })();
+    </script>
 </head>
 
 <body>

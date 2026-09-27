@@ -738,6 +738,21 @@ DOMContentLoaded
 - **收起键用普通的叉 `i-x`，不是站内那枚 macos 红点 `i-close-dot`**：这一列是六个
   同款圆形贴纸，混进一个红点像另一个体系的东西。`i-x` 曾在第十四轮因为"没人引用"
   被从精灵表删过一次，这轮又加回来（`gen-icons.js` 的 `EXTRA_PHOSPHOR`）—— **别再删**。
+- ⚠️ **查表的顺序**（这个坑最阴）：看板娘那几个文件名里有 **4 个与主表撞名**
+  （`close.png` / `search.png` / `game.png` / `info.png`），所以 `swapIcons()` 里必须
+  **小表优先、主表兜底**：
+
+  ```js
+  var id = null;
+  if (src.indexOf(LIVE2D_ASSET_PATH) > -1) id = LIVE2D_ICON_MAP[name];   // 先看板娘
+  if (!id) id = map[name];                                                // 再主表
+  ```
+
+  写反了（先查主表）**不报错**，只是 `close.png` 被判成红点 `i-close-dot`，
+  「收起看板娘」永远是个红点。上一版就是这么错的，而且**当时所有静态断言都是绿的**：
+  表里的值是对的、预览页也是对的，错的只有运行时那一步。
+  → 所以 `test-round16.js` 把源码里**算 id 的那几行原样 eval 出来跑**，逐个文件核对结果。
+  **"表对了" ≠ "运行时拿到的是表的那个值"。**
 - **一枚按钮一个色相**（`#waifu #waifu-tool > #waifu-tool-<名字> svg { fill: … }`）。
   两个要点：
   ① 选择器必须写足 `#waifu #waifu-tool > #id svg`（2 id + 2 type）才和兜底那条
@@ -752,6 +767,62 @@ DOMContentLoaded
 > 验证看 `test-round15.js` 第 4 / 5 / 5b 段：**真跑层叠求解**，逐条判定这 10 处覆盖
 > 到底赢没赢、六个按钮的色相是不是各自生效，并且反向确认"上游本来管着这几条"
 > （否则那些断言只是没有对手，等于空转）。
+
+---
+
+### 25. 首屏那份主题不能"加载完再改 `href`" —— 会闪三下，还白下载一遍资源
+
+**症状**（本地太快，看不出来；push 上去才明显）：打开页面
+**无样式 → 默认主题（Aero）→ 你选的主题**，三下；而且即使用户选的是新主题，
+默认那份 CSS **连它引用的图片**（`background.jpg`、`bar.png`、`windowbackground.png`…）
+都会先被完整下载一遍。
+
+**根因**：HTML 里写死了 `<link rel="stylesheet" href="style.css" id="themeCss">`，
+浏览器**立刻**开始取默认主题，然后要等 `js/theme-loader.js` **下载完**才去改 `href`。
+而改 `href` 会先把旧样式表丢掉 —— 中间那一瞬页面就是无样式的（这就是"闪三下"的第一下）。
+
+**做法**：把"选哪份主题"提到 `<link>` **之前**，用一段**内联**脚本（零额外请求）
+把 `<link>` 用 `document.write` 吐出来：
+
+```html
+<script>
+    (function () {
+        var css = 'style.css';
+        try {
+            var t = localStorage.getItem('theme') || '';
+            if (/^[A-Za-z0-9._-]+\.css$/.test(t)) css = t;   /* 只认"文件名",别的一律回默认 */
+        } catch (err) { /* 隐私模式读不到:按默认走 */ }
+        document.write('<link rel="stylesheet" type="text/css" id="themeCss" href="PREFIX' + css + '">');
+    })();
+</script>
+```
+
+必须知道的几点：
+
+- **为什么是 `document.write`，不是 `createElement` + `appendChild`**：前者产生的是
+  **解析器插入**的样式表，语义与原来那行静态 `<link>` 完全一致（必然参与渲染阻塞）；
+  后者是脚本插入的，某些时机下不阻塞首绘，还是可能闪。
+- **相对前缀按目录深度算**：`'../'` × 层级（根页 `''`、`media/player.html` `'../'`、
+  `support/x/*.html` `'../../'`）。写错了 CSS 直接 404 → **整页无样式**。
+  `test-round16.js` 按每个文件所在目录**现算**这个前缀来比对，不是抄一份名单。
+- **文章页同理，而且那边原本更糟**：loader 挂在 body 末尾，首绘早就是默认主题了。
+  文章页那段内联脚本还要顺带处理 `article_css === 'zuowen'`；
+  它的主题映射必须和 `ARTICLE_THEME_MAP` 一致 —— 加新主题时两边一起改，
+  测试会逐页扫、比对（漏改一页就报红）。
+  顶层页不受影响：那段脚本只读 `localStorage['theme']` 里的**文件名**，新主题不用改 HTML。
+- **`theme-loader.js` 仍然留着**，但只管两件事：① 兜底（万一某页没带内联脚本）；
+  ② 加载配套脚本 + 首次访问的风格引导。它改写 `href` 之前**必须先比一下**
+  （用个临时 `<a>` 把相对路径解析成绝对再比）：无条件 `link.href = …` 会把已经正确的
+  样式表拆掉重挂一次，又闪一下。
+- 换来的是：**整个首屏只发一次 CSS 请求**，而且第一帧就是用户选的那份。
+
+**文章页里那段内联脚本只此一份、靠脚本批量生成**（47 个文件同一段）。
+改动它就用同样的办法批量改，别手抄。
+
+> 验证：`test-round16.js` 第 2 / 3 段逐页查（22 + 47 页：前缀、顺序、没有第二份静态样式表、
+> 页面自己的 CSS 没被误删）；外加**真浏览器实测** —— 无头 Edge `--dump-dom`：
+> 先往 localStorage 写 `theme=modern-sticker.css`，再打开首页，
+> head 里生成的 `href` 就是 `modern-sticker.css`，文章页是 `modern-sticker-article.css`。
 
 ---
 
@@ -817,6 +888,19 @@ EDGE="/c/Program Files (x86)/Microsoft/Edge/Application/msedge.exe"
 `.workbuddy/tmp/live2d-preview.html` —— 一份**自包含**的预览页（把两份真 CSS 原文
 按线上同样的文档顺序内嵌、把精灵表也内嵌），所以它证明的就是层叠的真实结果。
 `node .workbuddy/tmp/make-icon-sheet.js` 是精灵表总览（挑图标时先看它，别凭名字猜）。
+
+**看"首屏到底取了哪份 CSS"**（别猜）：把 `--screenshot=…` 换成 `--dump-dom`，
+拿到的是脚本跑完后的真实 DOM：
+
+```bash
+"$EDGE" --headless=new --disable-gpu --user-data-dir="<独立目录>" --allow-file-access-from-files \
+    --virtual-time-budget=2500 --dump-dom "file:///D:/Dev/xxt85web/index.html" \
+  | grep -o '<link rel="stylesheet"[^>]*>'
+```
+
+> 想在本地模拟"用户已经选了手账主题"：往同一个 `--user-data-dir` 里先开一个
+> 只跑 `localStorage.setItem('theme','modern-sticker.css')` 的小页面，
+> **再**开目标页即可（同一个 profile 的 `file://` localStorage 是共用的）。
 
 > 为什么要"自包含"：预览页里的相对路径在 `file://` 与"被某个服务器托管的预览面板"下
 > 解析结果不一样；把 CSS/JS **原文**内嵌进去就与路径无关了，而且远比手抄一份近似样式可信。

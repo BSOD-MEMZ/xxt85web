@@ -8,26 +8,50 @@
 
 ## 机制
 
-每个页面都挂了这两样东西，这是全站主题共享的基础：
+顶层页挂的是这一段（**注意 `<link>` 不是写死在 HTML 里的**）：
 
 ```html
-<link rel="stylesheet" href="style.css" type="text/css" id="themeCss" />
+<script>
+    (function () {
+        var css = 'style.css';
+        try {
+            var t = localStorage.getItem('theme') || '';
+            if (/^[A-Za-z0-9._-]+\.css$/.test(t)) css = t;
+        } catch (err) { /* 隐私模式读不到:按默认走 */ }
+        document.write('<link rel="stylesheet" type="text/css" id="themeCss" href="' + css + '">');
+    })();
+</script>
 <script src="js/theme-loader.js"></script>
 ```
 
-`js/theme-loader.js`（所有页面共用）做三件事：
+那段内联脚本决定**首屏用哪一份**，`js/theme-loader.js`（所有页面共用）做另外三件事：
 
 ```js
-// 1. 读主题并按需改写样式表地址
+// 0. 兜底:若页面里那份 <link> 的地址和该用的主题不一致(比如某页漏了上面那段脚本),
+//    才改写 href —— **先比再改**,无条件改会把已经正确的表拆掉重挂,又是一次闪烁
 link.href = rootPath + (localStorage['theme'] || 'style.css');
 
-// 2. 若主题名匹配 modern-*.css，额外加载同名 js/modern-*.js
+// 1. 若主题名匹配 modern-*.css，额外加载同名 js/modern-*.js
 //    （默认主题不匹配，行为与改动前完全一致）
 
-// 3. 首次访问且未选择过时，加载 js/theme-picker.js 弹出风格引导
+// 2. 首次访问且未选择过时，加载 js/theme-picker.js 弹出风格引导
 ```
 
+> **为什么首屏那一次要放在 HTML 里、而不是等脚本改 href**：
+> 写死 `<link href="style.css">` 的话，浏览器会**立刻**去取默认主题（连它引用的
+> `background.jpg` / `bar.png` 一起），再等 loader 下载完才改地址；而改地址会先丢掉
+> 旧表 —— 于是**无样式 → 默认主题 → 用户主题**闪三下，资源还白下载一遍。
+> 完整说明（含"为什么必须用 `document.write`""相对前缀怎么算")见 **AGENTS.md 坑 25**。
+
 样式表地址由脚本推导，兼容 `file://` 与 `http(s)://`——用的是 `document.currentScript.src`，所以 **`theme-loader.js` 的路径不能挪**。
+
+### 文章页那份不一样
+
+文章页有自己的内联脚本（在 `<link>` 位置之前，把 `style.css` 换成
+`modern-<x>-article.css` 或 `zuowen-style.css`），映射与
+`articles/article-theme-loader.js` 的 `ARTICLE_THEME_MAP` **必须一致**。
+顶层页加主题不用改 HTML（脚本只读文件名），**文章页要改那 47 份内联脚本** ——
+`test-round16.js` 会逐页扫、比对，漏改一页就报红。
 
 ---
 
