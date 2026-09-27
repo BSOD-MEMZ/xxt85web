@@ -1847,53 +1847,22 @@ body:has(.video-container) .download-section .download-link:hover {
 }
 
 /* 拍立得相纸 */
-/* 相纸。内部左右分栏:左栏歌词,右栏专辑封面 + 进度条,底部横跨两列的播放控件。
-   (站长要的布局 —— 原来进度条与播放控件在这张相纸**外面**,现在都收进来了。
-    ⚠️ 这需要动 index.html:把 .wmp-progress-container 与 .wmp-controls 移进 .wmp-screen。
-       纯 CSS 做不到"让框外的兄弟进框",除非把整个 .aero-player 变成相纸 ——
-       那样连提示语和播放列表也会被框进去,不是他要的。) */
 .wmp-screen {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-    grid-template-areas:
-        "lyric album"
-        "lyric track"
-        "ctrl  ctrl";
-    align-items: start;
-    column-gap: 10px;
     background: #FFFFFF;
     border: 1px solid var(--rule);
     border-radius: var(--r-sm);
     box-shadow: var(--sh-1);
-    padding: 10px 10px 20px;
+    padding: 9px 9px 26px;
     margin-bottom: 13px;
     text-align: center;
 }
 
-#lyric-wrapper {
-    grid-area: lyric;
-}
-
-.wmp-album-art {
-    grid-area: album;
-}
-
-.wmp-progress-container {
-    grid-area: track;
-}
-
-.wmp-controls {
-    grid-area: ctrl;
-}
-
-/* 封面裁圆:唱片感,播放时整体旋转。
-   宽度跟着栏走(侧栏 320px,两栏各约 135px)—— 别写死 152,那会撑破右栏 */
+/* 封面裁圆:唱片感,播放时整体旋转 */
 .wmp-album-art {
     position: relative;
-    width: 100%;
-    max-width: 132px;
-    aspect-ratio: 1 / 1;
-    margin: 2px auto 8px;
+    width: 152px;
+    height: 152px;
+    margin: 4px auto 10px;
 }
 
 /* 唱片外圈:一圈淡淡的手绘描边 + 中心轴孔 */
@@ -1931,10 +1900,8 @@ body:has(.video-container) .download-section .download-link:hover {
     font-size: 12px;
     color: var(--ink-2);
     min-height: 20px;
-    margin: 1px 0 0;
+    margin-top: 6px;
     line-height: 1.6;
-    /* 栏窄:长英文单词/长句歌词不撑破栏 */
-    overflow-wrap: anywhere;
 }
 
 /* 进度条 = 手绘蜡笔线 */
@@ -1943,7 +1910,7 @@ body:has(.video-container) .download-section .download-link:hover {
     height: 9px;
     background: var(--veil-2);
     border-radius: var(--r-pill);
-    margin: 0 2px 4px;
+    margin: 0 3px 15px;
     cursor: var(--cur-point);
 }
 
@@ -2022,7 +1989,7 @@ img.wmp-dot,
     align-items: center;
     justify-content: center;
     gap: 14px;
-    margin: 2px 0 0;
+    margin-bottom: 14px;
 }
 
 .wmp-controls a {

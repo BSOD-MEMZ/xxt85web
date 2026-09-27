@@ -976,25 +976,19 @@ DOMContentLoaded
 
 ---
 
-### 31. 首页 WMP 的布局改成了"框内左右分栏"
+### 31. （已回滚）首页 WMP 的"框内左右分栏"
 
-结构上把 `.wmp-progress-container` 与 `.wmp-controls` **移进了 `.wmp-screen`**，
-再把 `.wmp-screen` 变成网格：
-
-```
-"lyric album"
-"lyric track"
-"ctrl  ctrl"
-```
+第二十五轮曾把 `.wmp-progress-container` 与 `.wmp-controls` 移进 `.wmp-screen`，
+把相纸变成三行网格（`"lyric album"` / `"lyric track"` / `"ctrl  ctrl"`）。
+**已整体回滚**——结构回 `index.html`，网格回两份 CSS，现在仍是最初的样子：
+进度条与播放控件在相纸**外面**。
 
 - 想纯 CSS 做到"让框外的兄弟进框"是**不行**的：除非把整个 `.aero-player` 变成那张相纸，
-  那样连提示语和播放列表也会被框进去（不是要的效果）。所以这里改了 `index.html`。
-- **两份 CSS 都得有这套网格**：默认主题的 `.wmp-screen` 原本是 `display:flex` +
-  `height:96px; overflow:hidden`（只装封面 + 歌词），四个元素塞进去会被**裁掉**。
-  追加的那条要把 `height:auto; overflow:visible` 一起写上。
-- ⚠️ 追加覆盖会产生**同一选择器的两条规则**。`test-round12.js` 的求解器原来只看一条，
-  于是把 `.wmp-progress-container` 读成 `background: none` → 误判成"实色填充"。
-  已改成**合并同名规则**再查。同类坑：`test-round19.js` 里取 `.wmp-screen` 也要取**最后**一条。
+  那样连提示语和播放列表也会被框进去。
+- 留下的教训不是关于布局，而是**测试脚本**的：追加覆盖会产生**同一选择器的两条规则**。
+  `test-round12.js` 的求解器原来只看一条，于是把 `.wmp-progress-container` 读成
+  `background: none` → 误判成"实色填充"。已改成**合并同名规则**再查。
+  同类坑：`test-round19.js` 里取 `.wmp-screen` 也要取**最后**一条。
 
 ---
 
