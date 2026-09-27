@@ -1,4 +1,13 @@
 window.xxtArticleData = {
+  "haitangxiangyouji.html": {
+        title: "海棠乡游记",
+        author: "cookie",
+        desc: "时隔一年，我终于拿起真正属于我的笔，用眼睛看这个世界。一个被日程表拖住的高中生，讲讲这两年的经历。",
+        img: "",
+        date: "2026年9月26日",
+        tags: ["rant", "school"],
+        url: "articles/haitangxiangyouji.html"
+    },
     "cppsekai.html": {
         title: "专为班级希沃设计的PJSK模拟器——CppSekai",
         author: "xxt8582753",
@@ -563,6 +572,7 @@ window.xxtArticleData = {
 };
 
 window.xxtArticleOrder = [
+    "haitangxiangyouji.html",
     "cppsekai.html",
     "kb5124008.html",
     "taiko.html",
