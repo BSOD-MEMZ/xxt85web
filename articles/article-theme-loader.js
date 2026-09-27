@@ -62,7 +62,7 @@
     /* ---- 1. 主站主题优先 ---- */
     var mapped = ARTICLE_THEME_MAP[readKey('theme')];
     if (mapped) {
-        /* ⚠️ 首屏那份样式表现在由页面 head 里的内联脚本直接给出(见 AGENTS.md 坑 25),
+        /* ⚠️ 首屏那份样式表现在由页面 head 里的内联脚本直接给出,
            所以这里一般都**找不到** style.css 那个 link —— 找不到就跳过,
            别新建,否则同一份样式会被挂两次。 */
         var link = findDefaultLink();

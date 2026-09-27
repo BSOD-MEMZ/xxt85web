@@ -8,7 +8,7 @@
       的 :root 令牌是同一个:
         #F9F0DC = --paper-leaf(内页米黄;也是 iframe 容器的底色)
         #3D3A38 = --ink          #EADFC4 = --rule
-      两边写岔了,圆角处会露出一圈别的颜色。test-round14 会比对。
+      两边写岔了,圆角处会露出一圈别的颜色。
 
    ⚠️ 变量名用 **GitHub Primer 的原名**(--color-canvas-default 那一族)。
       老那份 Vista 主题里写的 --color-bg-primary / --color-text-primary /

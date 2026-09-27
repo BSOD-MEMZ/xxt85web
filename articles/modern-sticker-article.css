@@ -53,8 +53,7 @@
        ⚠️ 用 <g opacity> 包一层而不是分别给 fill/stroke 上透明度:
           描边压在填充上会叠出更实的边,星星就会变成"实心浅 + 描边深"的双色。
        ⚠️ 这份必须与 modern-sticker.css 的 :root 逐字符一致(uac 那枚「继续」按钮
-          在两个页面读的是同一个变量名,两处一散就只有一个页面有底纹)。
-          test-round12.js 会比对两份。 */
+          在两个页面读的是同一个变量名,两处一散就只有一个页面有底纹)。 */
     --xxt-star-tile: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cg opacity='.42'%3E%3Cpath d='M12 2.6l2.7 5.9 6.4.7-4.8 4.3 1.3 6.3L12 16.6 6.4 19.8l1.3-6.3L2.9 9.2l6.4-.7z' fill='%23FFFFFF' stroke='%23FFFFFF' stroke-width='2.6' stroke-linejoin='round' stroke-linecap='round'/%3E%3C/g%3E%3C/svg%3E");
     --xxt-star-size: 19px 19px;
     --xxt-star-pos: right -2px bottom -3px;
@@ -72,7 +71,7 @@
        (文章正文卡、评论区卡)。取值刻意夹在 --paper-2 与 --paper-3 之间 ——
        上面那层留给提示条 / 代码块标题栏(paper-2),下面那层留给 code(paper-3),
        这样米黄、浅纸、深纸三级还都分得清。
-       ⚠️ 必须与 modern-sticker.css 的同名令牌一致(test-round14 会比对);
+       ⚠️ 必须与 modern-sticker.css 的同名令牌一致;
           css/giscus-sticker-theme.css 里也有一份硬编码的同值(iframe 读不到这里的变量)。 */
     --paper-leaf: #F9F0DC;
 
@@ -1625,8 +1624,8 @@ svg.image-viewer-nav use {
    —— 正文里的**截图**大多也是 .png、文件名还会和图标撞车(见那个文件顶部的长注释),
    所以下面这份名单必须**原样带上 [width]**,少一个属性就会把整张截图藏起来。
 
-   ⚠️ 名单要与 articles/modern-sticker-article.js 的 ICON_SELECTOR 逐条一致;
-      test-round17.js 会把两边扯平了比对。
+   ⚠️ 名单要与 articles/modern-sticker-article.js 的 ICON_SELECTOR 逐条一致 ——
+      改一边就得改另一边。
    --------------------------------------------------------------- */
 html.xxt-ic-pending img[width][src$=".png"]:not(.uac-close-btn),
 html.xxt-ic-pending img[width][src$=".gif"]:not(.uac-close-btn),

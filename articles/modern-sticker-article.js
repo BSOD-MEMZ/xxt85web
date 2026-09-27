@@ -37,13 +37,12 @@
        (image-viewer.js 自己那套还在,两边幂等,谁先跑都只是跳过已换好的 <svg>。)
        点击不会丢 —— image-viewer.js 的关闭/翻页走的是 modal 上的事件委托。
 
-       ⚠️⚠️ **必须加 [width] 这道闸**(第十四轮):正文里的**截图**很多也是 .png,
+       ⚠️⚠️ **必须加 [width] 这道闸**:正文里的**截图**很多也是 .png,
        文件名还会跟图标撞车 —— `articles/assets/warning.png` 是一张 1920×1080 的
        截图(alt="截图"),名字却正好是图标表里的 `warning.png`。原来只按后缀挑,
        那张截图会被换成 16px 的警告小图标,**而且页面零报错**。
        文章里真图标的特征很稳:要么带 width(16 / 20),要么就躺在 images/icons/ 下
-       (`wefuckedsalt` 的 tips 里那枚 knowledges.png 就没写 width)。
-       test-round13 会扫全部文章 HTML 核这个前提,前提变了会报红。 */
+       (`wefuckedsalt` 的 tips 里那枚 knowledges.png 就没写 width)。 */
     var ICON_SELECTOR =
         'img[width][src$=".png"]:not(.uac-close-btn), ' +
         'img[width][src$=".gif"]:not(.uac-close-btn), ' +

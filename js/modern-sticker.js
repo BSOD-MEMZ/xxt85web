@@ -496,7 +496,7 @@
 
     /* 给「换掉就会丢事件、且原脚本不会重新绑定」的关闭键打标记。
 
-       ⚠️ 这份名单必须**尽量小**。第十二轮踩过:一口气把
+       ⚠️ 这份名单必须**尽量小**。曾经一口气把
        .vista-close-btn / .sidebar-close-btn 也塞进来,结果它们不再被矢量化,
        直接露出原始 PNG —— 首页小窗关闭键"返祖",若干窗口的圆点整个消失。
 
@@ -514,7 +514,7 @@
         object-position:-9999px 把 PNG 推出视野,再画红点 + hover 浮出 ×)。
        这样事件和外观同时保住。
 
-       第十六轮实测:上一版在这儿写了 ".vista-close-btn::before",但 CSS 侧
+       上一版在这儿写了 ".vista-close-btn::before",但 CSS 侧
        ::before 早被删掉了(它才是吞点击的元凶),注释成了过期信息 —— 已改成 ::after。
        改这块时记得同步 CSS 里的注释,两处本来就容易走散。 */
     function markKeepAlive() {
@@ -576,8 +576,7 @@
             /* 看板娘那几枚文件名有几个和主表**撞名**(close.png / search.png /
                game.png / info.png),所以必须**先查看板娘那张小表**,查不到才回落主表。
                ⚠️ 写反了不会报错,只会静默走错:close.png 在**主表**里是 i-close-dot
-                  (macos 红点),于是"收起看板娘"永远是个红点而不是叉 ——
-                  第十九轮就是这么漏的,而且当时所有静态断言都是绿的。 */
+                  (macos 红点),于是"收起看板娘"永远是个红点而不是叉。 */
             var id = null;
             if (src.indexOf(LIVE2D_ASSET_PATH) > -1) id = LIVE2D_ICON_MAP[name];
             if (!id) id = map[name];

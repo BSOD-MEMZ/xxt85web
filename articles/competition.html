@@ -5,10 +5,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>我！们！进！省！赛！啦！ ⭐ xxtsoft</title>
-    <!-- 主题在 <link> 之前就定下来(同 AGENTS.md 坑 25):默认那套 style.css 与用户
-         实际选的主题往往不是同一份,先把它的请求发出去 = 白下载一遍 + 闪三下。
-         ⚠️ 下面那个映射要和 article-theme-loader.js 的 ARTICLE_THEME_MAP 一起改,
-            加新主题时 test-round16.js 会比对两边。 -->
     <script>
         (function () {
             var css = 'style.css';
@@ -18,12 +14,7 @@
                 } else if ((localStorage.getItem('article_css') || 'default') === 'zuowen') {
                     css = 'zuowen-style.css';
                 }
-            } catch (err) { /* 隐私模式读不到:按默认走 */ }
-            /* 图标交接门(主题 CSS 第 14k 节 + AGENTS.md 坑 26):主题脚本是 defer 的、精灵表
-               还要再下一个请求,在那之前浏览器已经把原始 PNG 画出来了 —— 所以先按主题 CSS 里
-               那份名单把候选图标藏住,脚本换完自己摘掉这个类。
-               顺手预加载精灵表:让它和主题脚本**并行**下载而不是排队等 ——
-               省下的正好是这段"图标看不见"的时间。 */
+            } catch (err) { }
             if (css === 'modern-sticker-article.css') {
                 var de = document.documentElement;
                 de.className = (de.className ? de.className + ' ' : '') + 'xxt-ic-pending';
@@ -32,10 +23,6 @@
                 pre.as = 'script';
                 pre.href = '../js/modern-sticker-icons.js';
                 (document.head || de).appendChild(pre);
-                /* 兜底:主题脚本万一下载失败 / 卡住,图标不能永远藏着。
-                   给 2s 是权衡:主题脚本 52KB + 精灵表 43KB(已预加载,并行),慢网可能要 1s 以上 ——
-                   提前放行就等于白做(图标先以 PNG 出现、再被换成矢量,还是闪一下);
-                   但也不能太久,万一脚本真挂了,图标得尽快回来。 */
                 setTimeout(function () {
                     de.className = de.className.split('xxt-ic-pending').join(' ')
                         .replace(/\s{2,}/g, ' ').replace(/^\s+|\s+$/g, '');
