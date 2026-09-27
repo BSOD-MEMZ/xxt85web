@@ -28,9 +28,29 @@
   [headers.values]
     Cache-Control = "public, max-age=31536000, immutable"
 
-# Live2D 看板娘模型及脚本长期缓存（.moc / 贴图 / motions / JS / CSS 等几乎不变）
+# 看板娘 —— 拆开配,不能整目录一把锁。
+# 原来这条是 `/live2d-widget/*` + 一年:模型、贴图、运行时确实是"拿到就永远一样",
+# 但 **dist/ 下的 waifu.css / waifu-tips.js / autoload.js 是会改的** ——
+# 一把锁一年 = 改完看板娘,老用户一年内**根本看不到新版**(而站长自己看不出来:
+# 本地调试、隐身窗口拿到的都是新文件)。所以只给真正不变的那几类上长缓存,
+# dist/ 下的 JS/CSS 与 waifu-tips.json 交回默认的 max-age=0 + ETag。
 [[headers]]
-  for = "/live2d-widget/*"
+  for = "/live2d-widget/model/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000"
+
+[[headers]]
+  for = "/live2d-widget/dist/assets/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000"
+
+[[headers]]
+  for = "/live2d-widget/dist/live2d.min.js"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000"
+
+[[headers]]
+  for = "/live2d-widget/dist/live2dcubismcore.min.js"
   [headers.values]
     Cache-Control = "public, max-age=31536000"
 
@@ -38,3 +58,47 @@
   for = "/background/*"
   [headers.values]
     Cache-Control = "public, max-age=31536000, immutable"
+# ---------------------------------------------------------------
+# 补几条漏掉的缓存
+#
+# 背景:站长原先配了 /images/*、/live2d-widget/*、/background/* 三条 —— 它们**是生效的**
+#       (线上 curl 能验到 Cache-Control)。觉得"没工作"多半是因为:
+#       **壁纸在根目录**(/background.webp),而那条规则管的是 /background/ **目录**,
+#       差一个斜杠就漏了。下面把这类"扫不到"的补上。
+#
+# 另外说清 Netlify 的默认:HTML / CSS / JS 一律 `max-age=0, must-revalidate` + ETag
+#       —— 不是没配,是它故意这样(文件名不带内容指纹,长缓存就没法更新)。
+#       代价只是每次一个 304(几十字节的头部),**不是**重新下载整个文件。
+#       CSS/JS 这里**故意不设长缓存**:它们改得频繁,而长缓存会让"改完看不到变化"
+#       变成日常困惑,调试代价远大于省下的那点请求。
+#
+# ⚠️ 只给**确实没有 HTML** 的目录加长缓存。support/sekai、media/(有 id*.html)、
+#    images/(有 symbol.html)都混着页面,交给默认策略更安全。
+# ---------------------------------------------------------------
+
+# 根目录这张壁纸:它在根上,不在 /background/ 规则管辖范围里
+[[headers]]
+  for = "/background.webp"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000"
+
+[[headers]]
+  for = "/favicon.ico"
+  [headers.values]
+    Cache-Control = "public, max-age=604800"
+
+# 文章配图(48MB,含截图/字体/压缩包)、播放器资源、KaTeX —— 全部不含 HTML
+[[headers]]
+  for = "/articles/assets/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000"
+
+[[headers]]
+  for = "/media/assets/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000"
+
+[[headers]]
+  for = "/vendor/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000"

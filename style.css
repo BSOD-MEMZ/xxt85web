@@ -1646,3 +1646,24 @@ body.uac-active { overflow: hidden; }
         height: auto;
     }
 }
+/* ---------------------------------------------------------------------------
+   看板娘对话框的两个必要修正
+   (手账主题那份在 modern-sticker.css 第 14j 节,两处要一起改)
+   --------------------------------------------------------------------------- */
+
+/* ① 必须盖在模型上面。
+      canvas(#live2d)的属性尺寸是 800×800、CSS 缩到 300×300,而 waifu.css 里
+      #waifu-tips 与 #waifu-canvas **都没有 z-index** —— 同一层级时按 DOM 顺序,
+      排在后面的 canvas 压住对话框,于是"发送 / 搜索"按钮点不动(点击被 canvas 吃掉)。
+      抬到 (1,1,0) 是为了压过 waifu.css 的 #waifu-tips (1,0,0):
+      那份 CSS 是 autoload.js 运行时 append 到 head 末尾的,同特异性时它赢。 */
+#waifu #waifu-tips {
+    z-index: 3;
+}
+
+/* ② 没在说话的时候不吃点击。
+      waifu.css 里对话框是 opacity:0(不是 display:none),它**还在那儿**占着
+      250px 宽,会挡住点模型、点工具图标。 */
+#waifu #waifu-tips:not(.waifu-tips-active) {
+    pointer-events: none;
+}

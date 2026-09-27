@@ -3756,6 +3756,13 @@ body {
 
 /* 对话气泡 = 贴在角色旁边的一张便签 */
 #waifu #waifu-tips {
+    /* ⚠️ 必须盖在模型上面。看板娘的 canvas 属性尺寸是 800×800(CSS 缩到 300×300),
+       而 waifu.css 里 #waifu-tips 与 #waifu-canvas **都没有 z-index** ——
+       同一层级时按 DOM 顺序,排在后面的 canvas 压住对话框,
+       于是"发送 / 搜索"按钮点不动(点击全被 canvas 吃掉)。
+       这个 z-index 只在 #waifu 内部比较(#waifu 自己是 z-index:1,已建层叠上下文),
+       不会顶到页面其它元素上面。 */
+    z-index: 3;
     width: 254px;
     min-height: 0;
     margin: -32px 26px 4px 20px;

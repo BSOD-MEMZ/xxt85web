@@ -1016,6 +1016,10 @@ window.xxtTagConfig = {
             '搜索</button></div>';
           tips.classList.add('waifu-tips-active');
           sessionStorage.setItem('waifu-message-priority', '11');
+          /* 输入框弹出 → 钉住(清掉残留的隐藏定时器 + 挡掉后续消息),
+             否则"划过模型""轮播"那些排着的定时器一到点就把输入框收走。
+             实现与理由见 live2d-widget/dist/waifu-tips.js 里的 xxtWaifuPinTips。 */
+          if (window.xxtWaifuPinTips) window.xxtWaifuPinTips(true);
           var input = document.getElementById('waifuSearchInput');
           if (input) {
             input.focus();
@@ -1024,6 +1028,7 @@ window.xxtTagConfig = {
             });
             input.addEventListener('keydown', function (ev) {
               if (ev.key === 'Escape') {
+                if (window.xxtWaifuPinTips) window.xxtWaifuPinTips(false);
                 sessionStorage.removeItem('waifu-message-priority');
                 tips.classList.remove('waifu-tips-active');
               }
@@ -1042,6 +1047,7 @@ window.xxtTagConfig = {
             if (term) {
               window.location.href = 'search.html?s=' + encodeURIComponent(term);
             } else {
+              if (window.xxtWaifuPinTips) window.xxtWaifuPinTips(false);
               sessionStorage.removeItem('waifu-message-priority');
               tips.classList.remove('waifu-tips-active');
             }

@@ -21,7 +21,33 @@ function s(e, t) {
   });
 }
 let o = null;
+
+/* ---------------------------------------------------------------------------
+   xxtsoft 改动:带输入框的对话框要"钉住"
+
+   `o` 是那个"过 s 毫秒就把对话框收起来"的定时器。聊天/搜索的输入框**复用了同一个
+   变量**,打开时却没有清掉正在跑的定时器 —— 于是之前那条消息(鼠标划过模型、
+   hoverbody、轮播……)排着的定时器一到点,就把输入框一起收走了。表现就是
+   "输入框冒出来几秒又没了"。
+
+   修法:输入框弹出时钉住(pin)= 清掉定时器 + 让后续所有 i() 直接返回。
+   全站的消息都走 i()(mouseover / click / hoverbody / copy / 轮播…都在里面),
+   所以拦这一处就够。输入框收起 / 按下发送时解开(unpin)。
+
+   注意这里用下划线前缀的独立变量名:这个文件是压缩过的,里面好几处局部 `o` / `i`
+   与模块级的同名(阴影),名字起得随意就会改错作用域。
+   --------------------------------------------------------------------------- */
+let __xxtTipsPinned = !1;
+window.xxtWaifuPinTips = function (on) {
+  __xxtTipsPinned = !!on;
+  if (__xxtTipsPinned && o) { clearTimeout(o); o = null; }
+  const el = document.getElementById('waifu-tips');
+  if (el) el.classList.toggle('xxt-tips-pinned', __xxtTipsPinned);
+};
+
 function i(t, s, i, n = !0) {
+  /* 钉住期间不接收任何新消息 —— 否则输入框会被下一条消息顶掉 */
+  if (__xxtTipsPinned) return;
   let l = parseInt(sessionStorage.getItem('waifu-message-priority'), 10);
   if ((isNaN(l) && (l = 0), !t || (n && l > i) || (!n && l >= i))) return;
   (o && (clearTimeout(o), (o = null)),
@@ -31,7 +57,9 @@ function i(t, s, i, n = !0) {
   ((a.innerHTML = t),
     a.classList.add('waifu-tips-active'),
     (o = setTimeout(() => {
-      (sessionStorage.removeItem('waifu-message-priority'),
+      /* 双保险:定时器万一在"钉住的那一刻"已经排到,也别收 */
+      __xxtTipsPinned ||
+        (sessionStorage.removeItem('waifu-message-priority'),
         a.classList.remove('waifu-tips-active'));
     }, s)));
 }
@@ -323,10 +351,13 @@ class d {
               '</div>';
             tips.classList.add('waifu-tips-active');
             sessionStorage.setItem('waifu-message-priority', '11');
+            /* 输入框弹出 → 钉住:清掉残留的隐藏定时器,并挡掉后续消息 */
+            window.xxtWaifuPinTips(!0);
             const input = document.getElementById('waifuChatInput');
             if (input) {
               input.focus();
               const closeChat = () => {
+                window.xxtWaifuPinTips(!1);
                 sessionStorage.removeItem('waifu-message-priority');
                 tips.classList.remove('waifu-tips-active');
               };
@@ -362,6 +393,8 @@ class d {
                 setTimeout(() => { tips.innerHTML = ''; cb(); }, 600 + Math.random() * 900);
               };
               const send = () => {
+                /* 一按发送输入框就没了 → 解开钉子,让回答(打字机/转人工)能正常显示 */
+                window.xxtWaifuPinTips(!1);
                 const q = input.value.trim();
                 if (!q) { closeChat(); return; }
                 const t = q.toLowerCase();
