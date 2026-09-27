@@ -59,6 +59,15 @@
     --xxt-star-size: 19px 19px;
     --xxt-star-pos: right -2px bottom -3px;
 
+    /* 鼠标指针:两枚本地 SVG(箭头 / 手形),颜色已经烤进文件里。
+       ⚠️ 光标是浏览器**独立绘制**的,不继承文档样式 —— 所以这里只能用变量少写几遍
+          路径和 hotspot,**不能**靠它"跟着主题色变"。
+       ⚠️ 两份主题 CSS(顶层 / 文章页)**必须各定义一份**:自定义属性里的 url()
+          是相对**声明它的那份样式表**解析的,路径前缀也不一样。
+       hotspot:箭头取笔尖(2 2),手形取指尖(8 2)。 */
+    --cur-arrow: url("../images/moe_cursor.svg") 2 2, auto;
+    --cur-point: url("../images/moe_link.svg") 8 2, pointer;
+
     /* 内页那一层米黄:比 --paper 深一档,专门用来把"内容区"从页面背景里分出来
        (文章正文卡、评论区卡)。取值刻意夹在 --paper-2 与 --paper-3 之间 ——
        上面那层留给提示条 / 代码块标题栏(paper-2),下面那层留给 code(paper-3),
@@ -117,7 +126,7 @@ body {
     color: var(--ink);
     background-color: var(--paper);
     background-image: none;
-    cursor: default;
+    cursor: var(--cur-arrow);
     -webkit-font-smoothing: antialiased;
 }
 
@@ -208,10 +217,12 @@ html {
     z-index: 1;
     pointer-events: none;
     background-image:
-        /* 斜纹:45° 的细条纹,间隔 9px,极淡 */
+        /* 斜纹:45°,条纹**加宽**(3px 线 / 20px 周期)并改成**浅色**(白)——
+           原来那条深灰细线(1px / 9px、黑 5%)压在照片上几乎看不出来,
+           现在是一层"斜纹玻璃":盖在照片上显亮,退到标题后面就是柔和底纹。 */
         repeating-linear-gradient(45deg,
-            rgba(61, 58, 56, .05) 0 1px,
-            transparent 1px 9px),
+            rgba(255, 255, 255, .42) 0 3px,
+            transparent 3px 20px),
         /* 纸色纱罩:整体压去照片的锐度 */
         linear-gradient(rgba(255, 252, 243, .30), rgba(255, 252, 243, .30));
 }
@@ -667,7 +678,7 @@ html {
     border: 0;
     border-radius: 0;
     box-shadow: none;
-    cursor: default;
+    cursor: var(--cur-arrow);
     transform: none;
 }
 
@@ -981,7 +992,7 @@ html {
     right: 6px;
     width: 26px;
     height: 24px;
-    cursor: pointer;
+    cursor: var(--cur-point);
     background: none;
     border: 0;
     border-radius: var(--r-sm);
@@ -1255,7 +1266,7 @@ html {
     border: 1px solid var(--rule-2);
     border-radius: 50%;
     box-shadow: var(--sh-1);
-    cursor: pointer;
+    cursor: var(--cur-point);
     user-select: none;
     transition: background-color var(--t-fast) ease, transform var(--t-fast) var(--ease-soft);
 }
@@ -1621,4 +1632,10 @@ html.xxt-ic-pending img[width][src$=".png"]:not(.uac-close-btn),
 html.xxt-ic-pending img[width][src$=".gif"]:not(.uac-close-btn),
 html.xxt-ic-pending img[src*="images/icons/"]:not(.uac-close-btn) {
     visibility: hidden;
+}
+
+/* 正文里的链接:浏览器对 a[href] 有内置的 pointer 光标,
+   不显式写就还是系统手形(而顶层那份 CSS 在手账主题下不加载)。 */
+a {
+    cursor: var(--cur-point);
 }

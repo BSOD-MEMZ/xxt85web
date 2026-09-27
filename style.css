@@ -1667,3 +1667,45 @@ body.uac-active { overflow: hidden; }
 #waifu #waifu-tips:not(.waifu-tips-active) {
     pointer-events: none;
 }
+
+/* ---------------------------------------------------------------------------
+   WMP 的新布局(与 index.html 的结构改动配套,手账那份在 modern-sticker.css)
+   ---------------------------------------------------------------------------
+   进度条与播放控件已经移进 .wmp-screen **内部** —— 而这里原本是 flex 横向排列
+   (封面 64px + 歌词),还写死了 `height:96px; overflow:hidden`。
+   四个元素塞进去会被裁掉。改成同一套网格:左栏歌词、右栏封面 + 进度条、
+   底部横跨的播放控件。 */
+.wmp-screen {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    grid-template-areas:
+        "lyric album"
+        "lyric track"
+        "ctrl  ctrl";
+    align-items: start;
+    column-gap: 10px;
+    height: auto;
+    overflow: visible;
+}
+
+#lyric-wrapper {
+    grid-area: lyric;
+    text-align: center;
+}
+
+.wmp-album-art {
+    grid-area: album;
+    width: 100%;
+    max-width: 96px;
+    height: auto;
+    aspect-ratio: 1 / 1;
+    margin: 0 auto 6px;
+}
+
+.wmp-progress-container {
+    grid-area: track;
+}
+
+.wmp-controls {
+    grid-area: ctrl;
+}

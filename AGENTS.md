@@ -947,6 +947,57 @@ DOMContentLoaded
 
 ---
 
+### 30. 主题的自定义鼠标指针
+
+两枚本地 SVG（`images/moe_cursor.svg` 箭头 / `images/moe_link.svg` 手形），
+在**两份**主题 CSS 的 `:root` 里各定义一对变量：
+
+```css
+--cur-arrow: url("images/moe_cursor.svg") 2 2, auto;    /* 文章页那份写 ../images/ */
+--cur-point: url("images/moe_link.svg") 8 2, pointer;
+```
+
+- **颜色是烤进 SVG 文件的**：光标由浏览器独立绘制，**不继承文档样式**，
+  所以 `currentColor` / CSS 变量都失效 —— "跟着主题色变"做不到，只能改文件。
+- **两份 CSS 各定义一份**：自定义属性里的 `url()` 是相对**声明它的那份样式表**解析的，
+  前缀不一样。少一份就有一个场景（文章页或顶层页）回落成系统光标。
+- **`a` 必须显式写**：浏览器对 `a[href]` 有内置的 pointer 光标，
+  不写 `cursor: var(--cur-point)` 的话链接还是系统手形。文章页那份原本没有 `a` 规则。
+- hotspot：箭头取笔尖 `2 2`，手形取指尖 `8 2`。
+- **SVG 要有显式 `width` / `height`**，否则光标声明会被整条丢弃、静默回落成 `auto`。
+
+> ⚠️ **这一轮真栽的坑：CSS 块注释少写一个收尾符，后面整段声明被吞进注释里。**
+> 我插那两个变量时忘了闭合注释，于是 `--cur-arrow` / `--cur-point` 全在注释内——
+> **括号平衡检查通过、抽取式静态断言通过，只有真去读运行时值才发现是空的**
+> （`getComputedStyle(el).getPropertyValue('--cur-arrow')` 返回空串）。
+> 所以 `test-round19.js` 第 1 段是"**先剥掉注释再找定义**"。
+> （写完这条教训的注释时我又把收尾符写了进去，于是注释提前闭合、整份测试文件语法错误 ——
+> 同一个坑一天踩两遍。）
+
+---
+
+### 31. 首页 WMP 的布局改成了"框内左右分栏"
+
+结构上把 `.wmp-progress-container` 与 `.wmp-controls` **移进了 `.wmp-screen`**，
+再把 `.wmp-screen` 变成网格：
+
+```
+"lyric album"
+"lyric track"
+"ctrl  ctrl"
+```
+
+- 想纯 CSS 做到"让框外的兄弟进框"是**不行**的：除非把整个 `.aero-player` 变成那张相纸，
+  那样连提示语和播放列表也会被框进去（不是要的效果）。所以这里改了 `index.html`。
+- **两份 CSS 都得有这套网格**：默认主题的 `.wmp-screen` 原本是 `display:flex` +
+  `height:96px; overflow:hidden`（只装封面 + 歌词），四个元素塞进去会被**裁掉**。
+  追加的那条要把 `height:auto; overflow:visible` 一起写上。
+- ⚠️ 追加覆盖会产生**同一选择器的两条规则**。`test-round12.js` 的求解器原来只看一条，
+  于是把 `.wmp-progress-container` 读成 `background: none` → 误判成"实色填充"。
+  已改成**合并同名规则**再查。同类坑：`test-round19.js` 里取 `.wmp-screen` 也要取**最后**一条。
+
+---
+
 ## LaTeX 公式
 
 KaTeX 0.16.9 **已本地化**在 `vendor/katex/`（含 20 个 woff2，无 CDN 请求）。

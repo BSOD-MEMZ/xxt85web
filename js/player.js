@@ -270,7 +270,7 @@
       audio.src = songs[index].url + "?v=" + Math.random();
       var albumImg = document.getElementById('album-img');
       if (albumImg) {
-        albumImg.src = songs[index].cover || 'images/default_album.png';
+        albumImg.src = songs[index].cover || 'images/default_album.svg';
       }
       if (wmpInfo) {
         wmpInfo.innerHTML = "<strong>" + songs[index].title + "</strong> - " + (songs[index].author || "未知作者");
