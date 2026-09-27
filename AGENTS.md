@@ -992,6 +992,27 @@ DOMContentLoaded
 
 ---
 
+### 32. 默认专辑封面是"两张图",由**主题**决定用哪张
+
+`#album-img` 的初始 src 是 Aero 版 `images/default_album.png`(白纸 + 蓝三角);
+手账下由 `js/modern-sticker.js` 的 `syncAlbumCover(true)` 换成
+`images/default_album.svg`(唱片,形状取自精灵表 i-disc)。两张都留在仓库里。
+
+- 判据读 **`#themeCss` 的 href**(实际生效的主题),与 `support/chomowan/charts.js`、
+  `js/player.js` 的 `defaultAlbumSrc()` 是同一套 —— 三处别写岔。
+- **播放器兜底也得分流**:`player.js` 里写 `songs[i].cover || defaultAlbumSrc()`。
+  写死一张的话,另一个主题下点歌就没封面了。
+- ⚠️ `syncAlbumCover()` **只动 src 仍指向 `default_album.*` 的情况** ——
+  点过歌之后 src 已经是真实封面了,切主题**不能**覆盖它。
+- ⚠️ **别用 CSS 门消那次首屏"png→svg"**(比如
+  `.wmp-album-art img[src*="default_album.png"]{visibility:hidden}`):
+  从 Aero **第一次**切到手账时,`modern-sticker.js` 压根还没加载
+  (它由 `theme-loader.js` 按主题加载,而 `cycleTheme()` 只改 href、不加载配套脚本),
+  门会把封面**永久**藏住。正确做法是把 `syncAlbumCover(true)` 放在 `boot()` **开头**,
+  **别**排在 `loadSprite()` 的回调里 —— 那儿要等一次 `icons.js` 的网络往返。
+
+---
+
 ## LaTeX 公式
 
 KaTeX 0.16.9 **已本地化**在 `vendor/katex/`（含 20 个 woff2，无 CDN 请求）。

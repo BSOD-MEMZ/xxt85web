@@ -265,12 +265,25 @@
       }
     }
 
+    /* 默认专辑封面随主题走:
+       Aero(默认主题)用 WMP 经典的空封面 images/default_album.png(白纸 + 蓝三角);
+       手账用 images/default_album.svg(唱片,形状取自精灵表 i-disc)。
+       判据读 #themeCss **实际生效**的 href —— 与 modern-sticker.js 的
+       syncAlbumCover() 是同一套,两边别写岔了。 */
+    function defaultAlbumSrc() {
+      var link = document.getElementById('themeCss');
+      var href = link ? (link.getAttribute('href') || '') : '';
+      return href.indexOf('modern-sticker') > -1
+        ? 'images/default_album.svg'
+        : 'images/default_album.png';
+    }
+
     function playSong(index) {
       currentIndex = index;
       audio.src = songs[index].url + "?v=" + Math.random();
       var albumImg = document.getElementById('album-img');
       if (albumImg) {
-        albumImg.src = songs[index].cover || 'images/default_album.svg';
+        albumImg.src = songs[index].cover || defaultAlbumSrc();
       }
       if (wmpInfo) {
         wmpInfo.innerHTML = "<strong>" + songs[index].title + "</strong> - " + (songs[index].author || "未知作者");

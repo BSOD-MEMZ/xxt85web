@@ -1236,6 +1236,28 @@
     }
 
     /* -----------------------------------------------------------------
+       默认专辑封面:两张图,按**实际生效**的主题切 src
+       -----------------------------------------------------------------
+       Aero(默认主题)用 WMP 经典空封面 images/default_album.png(白纸 + 蓝三角),
+       手账用 images/default_album.svg(唱片)。两张都留在仓库里,谁也不删。
+
+       ⚠️ 只动"src 仍指向 default_album.*"的情况:用户点过歌之后 src 就是
+          **真实封面**了,那时切主题**绝不能**覆盖它。
+       ⚠️ 判据读 #themeCss 的 href(实际生效的那个主题),与 charts.js、
+          player.js 的 defaultAlbumSrc() 是同一套。
+       ----------------------------------------------------------------- */
+    function syncAlbumCover(modern) {
+        var img = document.getElementById('album-img');
+        if (!img) return;
+
+        var cur = img.getAttribute('src') || '';
+        if (cur.indexOf('images/default_album.') !== 0) return;   /* 真实封面,不碰 */
+
+        var want = modern ? 'images/default_album.svg' : 'images/default_album.png';
+        if (cur !== want) img.setAttribute('src', want);
+    }
+
+    /* -----------------------------------------------------------------
        主题切换同步:切回旧主题时把 DOM 原样还原
        ----------------------------------------------------------------- */
     function initThemeSync() {
@@ -1248,6 +1270,8 @@
 
         function sync() {
             var modern = isModernTheme();
+
+            syncAlbumCover(modern);
 
             if (searchBox) {
                 searchBox.style.display = modern ? '' : 'none';
@@ -1302,6 +1326,12 @@
        ----------------------------------------------------------------- */
     function boot() {
         showSkeleton();
+
+        /* ⚠️ 封面**不依赖 sprite**,所以别排在 loadSprite 的回调里 ——
+           这个脚本本身只在手账主题下才被 theme-loader 加载,走到这儿就是手账。
+           早一步换掉 src,首屏就少一次"白纸三角 → 唱片"。 */
+        syncAlbumCover(true);
+
         initStickerLift();
         initStamp();
         initDisc();
