@@ -251,9 +251,8 @@
             /* 「继续」= 主操作,填青色 + 右下角一枚圆角五角星
                底纹取自主题 :root 的 --xxt-star-tile(顶层页读 modern-sticker.css,
                文章页读 articles/modern-sticker-article.css,两份同名同值)。
-               ⚠️ 这里必须是 no-repeat:当年是平铺的,后来改成"角上一枚"时
-                  只改了 CSS 那份、漏了这一处,于是 UAC 里还在铺满星星 ——
-                  两处都得是 no-repeat。 */
+               ⚠️ 这里必须是 no-repeat:改成"角上一枚"之后,两处都得是 no-repeat ——
+                  只改 CSS 那份的话,UAC 里还会铺满星星。 */
             '.uac-buttons-right .uac-btn:first-child{',
             'color:#FFFFFF;',
             'background:#0E9E92;',

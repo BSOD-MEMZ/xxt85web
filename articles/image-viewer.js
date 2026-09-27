@@ -31,12 +31,12 @@
 
         // 判定"这是一张正文图"。
         //
-        // ⚠️ 这里曾经写过 `img.src && !img.src.includes('.png') || img.src.includes('.jpg') || ...`,
-        // 因为 `&&` 比 `||` 结合得紧,实际等价于
+        // ⚠️ 别用 `img.src && !img.src.includes('.png') || img.src.includes('.jpg') || ...`
+        // 这种写法:`&&` 比 `||` 结合得紧,实际等价于
         //     (src && 不是png) || 是jpg || 是jpeg || ...
-        // 于是**所有纯 .png 的正文图被整条排除**(png 不可能又同时是 jpg),
-        // 表现就是"点图片打不开预览"。bmp / webp / gif 等也从没被正确接纳过。
-        // 现在改成:排除已知的装饰图标,其余一律当作正文图。
+        // 于是**所有纯 .png 的正文图会被整条排除**(png 不可能又同时是 jpg),
+        // 表现就是"点图片打不开预览"。bmp / webp / gif 等也会被漏掉。
+        // 这里改成:排除已知的装饰图标,其余一律当作正文图。
         images = Array.from(contentImages).filter(img => {
             const src = img.getAttribute('src') || img.src || '';
             if (!src) return false;

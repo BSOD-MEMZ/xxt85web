@@ -24,9 +24,8 @@
     var BASE = (function () {
         // 由本脚本自身的 src 推路径。
         // 本脚本在 articles/ 下,而 KaTeX 落在站点根的 vendor/katex/ ——
-        // 所以从自己的 URL 里砍掉 "articles/katex-loader.js",
-        // 得到站点根,再拼 vendor/katex/。(曾经这里直接返回 articles/,
-        // 结果去取 articles/katex.min.js 404,公式一直渲染不出来。)
+        // 所以从自己的 URL 里砍掉 "articles/katex-loader.js",得到站点根,再拼 vendor/katex/。
+        // (返回 articles/ 会去取 articles/katex.min.js,404,公式一直渲染不出来。)
         var ss = document.getElementsByTagName('script');
         for (var i = ss.length - 1; i >= 0; i--) {
             if (ss[i].src && ss[i].src.indexOf('katex-loader.js') !== -1) {

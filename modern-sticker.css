@@ -2156,7 +2156,7 @@ svg#play-img use.xxt-play-icon {
    颜色走 --xxt-dot / --xxt-dot-x —— 与侧栏 .sidebar-close-btn 是同一套。
    所以这里**只写颜色变量和位置,不要自己画圆**:
      · 写 background 会和符号叠成两个圆;
-     · 在 <img> 上用 ::before 画底圆,那个伪元素会参与命中测试、把点击吞掉(踩过)。
+     · 在 <img> 上用 ::before 画底圆,那个伪元素会参与命中测试、把点击吞掉。
 
    ⚠️ 点击靠的是**容器上的事件委托**,不是绑在元素本体的监听。
    元素被换成 <svg> 之后,index.js 里那条
@@ -3735,7 +3735,6 @@ body {
       所以这里每一条都抬了特异性:
         · #waifu 里面的东西  → 前缀 `#waifu`(2 个 id 压过 1 个 id)
         · #waifu-toggle 是 #waifu 的兄弟 → 前缀 `html`
-      同一个坑前面已经踩过两次(giscus 的 chip、media/style.css)。
 
    ⚠️ waifu.css 给 #waifu-tips 挂了 background-image: url(tips.png),
       必须显式清掉,否则那张 Vista 贴图会盖在纸色上。

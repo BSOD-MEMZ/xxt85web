@@ -422,8 +422,7 @@
 
        `addEventListener` 绑在**元素实例**上。把带监听的 <img> 换成 <svg>,
        旧节点被替换出文档,监听跟着一起消失 —— 表现是"按钮点不动"。
-       已经踩过四次:UAC 关闭键、图片查看器三个按钮、以及本轮各 dialog 的
-       右上角关闭键。
+       (已经栽过四次:UAC 关闭键、图片查看器三个按钮、各 dialog 的右上角关闭键。)
 
        所以替换前必须先问一句:**这个 <img> 身上有没有事件?**
        判断不了(JS 的 addEventListener 不留下任何可查询的痕迹),
@@ -496,9 +495,9 @@
 
     /* 给「换掉就会丢事件、且原脚本不会重新绑定」的关闭键打标记。
 
-       ⚠️ 这份名单必须**尽量小**。曾经一口气把
-       .vista-close-btn / .sidebar-close-btn 也塞进来,结果它们不再被矢量化,
-       直接露出原始 PNG —— 首页小窗关闭键"返祖",若干窗口的圆点整个消失。
+       ⚠️ 这份名单必须**尽量小**:把 .vista-close-btn / .sidebar-close-btn 也塞进来,
+       它们就不再被矢量化,直接露出原始 PNG —— 首页小窗关闭键变回原始图、
+       若干窗口的圆点整个消失。
 
        判断标准:这个元素被换成 <svg> 之后,点击还有效吗?
          · 事件委托(c 挂在父容器).sidebar-close-btn —— 换掉没事 → 不标
@@ -514,9 +513,8 @@
         object-position:-9999px 把 PNG 推出视野,再画红点 + hover 浮出 ×)。
        这样事件和外观同时保住。
 
-       上一版在这儿写了 ".vista-close-btn::before",但 CSS 侧
-       ::before 早被删掉了(它才是吞点击的元凶),注释成了过期信息 —— 已改成 ::after。
-       改这块时记得同步 CSS 里的注释,两处本来就容易走散。 */
+       ⚠️ 这里写的是 ::after,别改回 ::before —— CSS 那边的 ::before 才是吞点击的元凶。
+       改这块时记得同步 CSS 里的注释,两处容易走散。 */
     function markKeepAlive() {
         var btns = document.querySelectorAll(
             '.uac-close-btn, .image-viewer-close, .image-viewer-nav, ' +

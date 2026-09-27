@@ -463,7 +463,7 @@ window.xxtArticleData = {
         url: "support/QQListener/index.html"
     },
 
-    // --- 曾经的文章（olds/） ---
+    // --- 旧文章存档（olds/） ---
     "ACDSaw.html": {
         title: "ACDSaw",
         author: "xxt8582753",
