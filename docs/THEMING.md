@@ -45,6 +45,17 @@ link.href = rootPath + (localStorage['theme'] || 'style.css');
 
 样式表地址由脚本推导，兼容 `file://` 与 `http(s)://`——用的是 `document.currentScript.src`，所以 **`theme-loader.js` 的路径不能挪**。
 
+### 图标为什么也有一道"门"
+
+样式不闪了，图标还会：先以原始 PNG 出现，几十到几百毫秒后才被换成矢量 —— 同一个根因，
+主题脚本是 `defer` 的、精灵表还要再发一次请求，而 `<img>` 早就画出来了。
+
+所以 head 那段内联脚本在手账主题下还会给 `<html>` 挂一个 `xxt-ic-pending`，
+主题 CSS 里有一份"候选图标先 `visibility: hidden`"的名单（`modern-sticker.css` 第 14k 节、
+`articles/modern-sticker-article.css` 末节），脚本换完 / 精灵表确实失败时摘掉它。
+名单必须与 `ICON_SELECTOR` **逐条等价**，改一边就得改另一边。
+详见 **AGENTS.md 坑 26**。
+
 ### 文章页那份不一样
 
 文章页有自己的内联脚本（在 `<link>` 位置之前，把 `style.css` 换成

@@ -4000,6 +4000,44 @@ html #waifu-toggle svg {
 }
 
 /* ---------------------------------------------------------------
+   14k. 图标交接门:首屏不再闪一下
+   ---------------------------------------------------------------
+   坑 25 解决的是"样式闪三下",这里是同一个问题的另一半:**图标闪一下**。
+   主题脚本是 defer 的,精灵表还要再下一个请求,而浏览器早把原始 PNG 画出来了
+   —— 直接看就是"原始图标一闪、再变成矢量"。
+
+   做法:页面 head 里那段内联脚本在手账主题下给 <html> 挂 `xxt-ic-pending`,
+   下面这份名单把**准备被换掉的**图标先藏起来,脚本换完摘掉那个类,一起出现。
+   · 用 visibility 而不是 opacity:保留布局(替换前后不跳动),而且藏起来的元素
+     不接收点击 —— 不会出现"图标已经没了但还能点到"的窗口。
+   · 内联脚本里还挂了一个 ~0.9s 的兜底定时器:主题脚本万一下载失败,
+     图标不能永远消失。
+
+   ⚠️ **这份名单必须与 js/modern-sticker.js 的 ICON_SELECTOR 逐条一致**
+      (文章页那份在 articles/modern-sticker-article.css,对应
+       articles/modern-sticker-article.js 的选择器)。
+      藏得比它宽 → 多藏一会儿(不会永久消失,门是全局开关);
+      藏得比它窄 → 那几条还是会闪。
+      test-round17.js 把两边扯平了逐条比对,改任何一边都要同步另一边。
+   --------------------------------------------------------------- */
+html.xxt-ic-pending img[src*="images/icons/"]:not(.cat-btn *):not([data-xxt-keep]),
+html.xxt-ic-pending img[src$="/hot.png"]:not(.cat-btn *):not([data-xxt-keep]),
+html.xxt-ic-pending img[src$="/online.png"]:not(.cat-btn *):not([data-xxt-keep]),
+html.xxt-ic-pending img[src$="/busy.png"]:not([data-xxt-keep]),
+html.xxt-ic-pending img[src$="/Window_CloseButton.png"]:not([data-xxt-keep]),
+html.xxt-ic-pending img[src*="media/assets/prev.png"]:not([data-xxt-keep]),
+html.xxt-ic-pending img[src*="media/assets/next.png"]:not([data-xxt-keep]),
+html.xxt-ic-pending img[src*="media/assets/play.png"]:not([data-xxt-keep]),
+html.xxt-ic-pending img[src*="media/assets/pause.png"]:not([data-xxt-keep]),
+html.xxt-ic-pending img[src*="images/left.png"]:not([data-xxt-keep]),
+html.xxt-ic-pending img[src*="images/right.png"]:not([data-xxt-keep]),
+html.xxt-ic-pending img[src*="assets/downvideo.png"]:not([data-xxt-keep]),
+html.xxt-ic-pending img[src*="assets/bilibili.png"]:not([data-xxt-keep]),
+html.xxt-ic-pending img[src*="live2d-widget/dist/assets/"]:not([data-xxt-keep]) {
+    visibility: hidden;
+}
+
+/* ---------------------------------------------------------------
    15. 响应式(桌面优先,基础降级)
    --------------------------------------------------------------- */
 /* 断点:1240(顶栏回到上下两行,见 14c)→ 1000(收敛成单栏)→ 620 → 480(手机竖屏) */

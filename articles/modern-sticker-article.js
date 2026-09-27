@@ -186,11 +186,22 @@
         }
     }
 
+    /* 图标交接门(与 js/modern-sticker.js 的同名函数、以及主题 CSS 第 14k 节配套):
+       head 那段内联脚本在手账主题下给 <html> 挂了 xxt-ic-pending,把候选图标先藏住,
+       免得"原始 PNG 一闪再变成矢量"。这里换完就摘掉 —— 不管换没换成,
+       图标都得显示出来(`loadSprite` 的 onerror 也走 done,所以失败路径一样会到)。 */
+    function releaseIconGate() {
+        var de = document.documentElement;
+        de.className = de.className.split('xxt-ic-pending').join(' ')
+            .replace(/\s{2,}/g, ' ').replace(/^\s+|\s+$/g, '');
+    }
+
     function run() {
         injectSprite();
         swapIcons();
         swapToolbarClose();
         buildPolaroids();
+        releaseIconGate();
 
         /* 图片查看器由 image-viewer.js 在 DOMContentLoaded 时挂到 body 上,
            两处脚本的加载顺序不固定 —— 所以这里用 MutationObserver 兜住

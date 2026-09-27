@@ -1606,3 +1606,19 @@ svg.image-viewer-nav use {
     background: var(--rule-2);
     border-radius: 4px;
 }
+
+/* ---------------------------------------------------------------
+   图标交接门:首屏不再闪一下(与现代化主题 CSS 第 14k 节同一件事)
+   ---------------------------------------------------------------
+   文章页的图标替换在 articles/modern-sticker-article.js 里,选择器带 `[width]` 闸门
+   —— 正文里的**截图**大多也是 .png、文件名还会和图标撞车(见那个文件顶部的长注释),
+   所以下面这份名单必须**原样带上 [width]**,少一个属性就会把整张截图藏起来。
+
+   ⚠️ 名单要与 articles/modern-sticker-article.js 的 ICON_SELECTOR 逐条一致;
+      test-round17.js 会把两边扯平了比对。
+   --------------------------------------------------------------- */
+html.xxt-ic-pending img[width][src$=".png"]:not(.uac-close-btn),
+html.xxt-ic-pending img[width][src$=".gif"]:not(.uac-close-btn),
+html.xxt-ic-pending img[src*="images/icons/"]:not(.uac-close-btn) {
+    visibility: hidden;
+}

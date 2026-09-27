@@ -653,10 +653,30 @@
         });
     }
 
+    /* 图标交接门:摘掉 <html> 上的 xxt-ic-pending,主题 CSS 第 14k 节那份"候选图标先藏起来"
+       的规则随之失效,图标一起出现。
+
+       为什么需要它:本脚本是 defer 的、精灵表还要再下一个请求,而浏览器早把 PNG 画出来了
+       —— 不藏的话就是"原始图标一闪、再变成矢量"。
+       调用点只有一个:**initIcons() 结尾**。那时精灵要么已就位、要么明确失败了
+       (`loadSprite` 的 onerror 也走 done),两种情况下图标都必须显示出来,
+       所以这里不看换没换成,一律放行。幂等,重复调用无害。 */
+    function releaseIconGate() {
+        var de = document.documentElement;
+        de.className = de.className.split('xxt-ic-pending').join(' ')
+            .replace(/\s{2,}/g, ' ').replace(/^\s+|\s+$/g, '');
+    }
+
     function initIcons() {
         ensureSpriteHolder();
         markKeepAlive();   // 先打保护标记,再开始换 —— 顺序不能反
         swapIcons();
+
+        /* ⚠️ 紧跟 swapIcons 就开门,别挪到函数末尾:后面两个 decorate* 万一抛错,
+           门就永远开不了 —— 而"图标一直看不见"比"印记晚几毫秒出现"严重得多。
+           (它们注入的是本来没有图标的地方,不存在闪的问题。) */
+        releaseIconGate();
+
         decorateMediaIcons();
         decorateWindowMarks();
         stripNavAccessKeys();
