@@ -768,6 +768,16 @@ window.xxtTagConfig = {
   var PLACEHOLDER_BG =
     'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';
 
+  /* 当前生效的是不是手账主题(读 #themeCss 的 href,与别处同一套判法)。
+     用途:预览图在手账下不给 src —— 那张图只出现在 hover 浮窗里,而手账的卡片
+     压根没有浮窗(modern-sticker.js 会把 .preview-box 整个移除),预先下好 = 白下。
+     Aero 保持原样:提前下好,hover 时无缝。 */
+  function stickerThemeOn() {
+    var link = document.getElementById('themeCss');
+    var href = link ? (link.getAttribute('href') || '') : '';
+    return href.indexOf('modern-sticker') > -1;
+  }
+
   function bgMedia(index) {
     var link = document.getElementById('themeCss');
     var href = link ? (link.getAttribute('href') || '') : '';
@@ -938,7 +948,8 @@ window.xxtTagConfig = {
 
       var imgTag = '';
       if (data.img && data.img !== "") {
-        imgTag = '<img alt="" src="' + data.img + '" loading="lazy" onerror="this.style.display=\'none\';">';
+        imgTag = '<img alt="" ' + (stickerThemeOn() ? 'data-src' : 'src') + '="' + data.img +
+          '" loading="lazy" onerror="this.style.display=\'none\';">';
       }
       var descTag = data.desc ? '<p>' + data.desc + '</p>' : '';
       var actionsHtml = '<div class="preview-actions" onclick="event.preventDefault(); event.stopPropagation(); return false;">' +
@@ -1727,7 +1738,8 @@ window.xxtTagConfig = {
 
       var imgTag = '';
       if (data.img && data.img !== "") {
-        imgTag = '<img alt="" src="' + data.img + '" loading="lazy" onerror="this.style.display=\'none\';">';
+        imgTag = '<img alt="" ' + (stickerThemeOn() ? 'data-src' : 'src') + '="' + data.img +
+          '" loading="lazy" onerror="this.style.display=\'none\';">';
       }
       var descTag = data.desc ? '<p>' + data.desc + '</p>' : '';
       var actionsHtml = '<div class="preview-actions" onclick="event.preventDefault(); event.stopPropagation(); return false;">' +

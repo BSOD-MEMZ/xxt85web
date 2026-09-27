@@ -401,6 +401,13 @@
             item.li.innerHTML = item.html;
         }
         articleState.saved = [];
+
+        /* 手账期间这些预览图挂的是 data-src(一个都没下过),回到普通主题就得补上 ——
+           那边要的是"提前下好、hover 时无缝"。 */
+        var lazy = document.querySelectorAll('#articleList img[data-src]');
+        for (var j = 0; j < lazy.length; j++) {
+            lazy[j].setAttribute('src', lazy[j].getAttribute('data-src'));
+        }
     }
 
     // 卡片上的标签可以直接当筛选器用
