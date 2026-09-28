@@ -103,6 +103,16 @@
     --t-fast: 140ms;
     --t-mid: 260ms;
     --t-slow: 420ms;
+
+    /* 版面尺度 —— 见「坑 33」。
+       1440 宽的屏幕上正文栏一度铺满整屏(两侧一点留白都不剩),根因有两层:
+       ① max-width 只写 1440px,视口正好 1440 时 auto 边距就归零了;
+       ② 正文容器本身是 `<div class="content wrap">`,后出现的 .content 简写
+          把 .wrap 的横向内边距整条抹掉,于是连那 28px 都没了。
+       现在:上限仍是 1440,但窄于它时两侧必留 --page-edge。 */
+    --page-max: 1440px;
+    --page-edge: clamp(18px, 2.2vw, 32px);
+    --page-pad: 28px;
 }
 
 /* ---------------------------------------------------------------
@@ -295,9 +305,12 @@ html {
    --------------------------------------------------------------- */
 .wrap {
     width: auto;
-    max-width: 1440px;
+    /* ⚠️ 不能只写 `max-width: 1440px`:视口正好 1440 时 auto 边距直接归零,
+       正文铺满整屏。带上 --page-edge 之后,1440 屏两侧各留 32px,
+       更宽的屏(>1504)才吃满 1440 的上限。 */
+    max-width: min(var(--page-max), 100% - var(--page-edge) * 2);
     margin: 0 auto;
-    padding: 0 28px;
+    padding: 0 var(--page-pad);
 }
 
 .clear {
@@ -431,18 +444,20 @@ html {
 /* 内容区:浮动双栏 → Grid */
 .content {
     display: grid;
-    grid-template-columns: minmax(0, 1fr) 320px;
-    gap: 26px;
+    /* 侧栏与栏间距跟着视口收放:宽屏维持 320/26(30db1eb 的宽屏适配),
+       视口掉到 1300 上下时收到 272/18,免得正文列被侧栏挤扁。 */
+    grid-template-columns: minmax(0, 1fr) clamp(272px, 22vw, 320px);
+    gap: clamp(18px, 1.8vw, 26px);
     align-items: start;
-    padding: 24px 0 36px;
+    /* ⚠️ 横向必须原样带上 --page-pad。正文容器就是 `<div class="content wrap">`,
+       而 .content 排在 .wrap 之后 —— 只写 `padding: 24px 0 36px` 的话,
+       横向会被这条简写整条抹成 0,正文列直接贴死屏幕左右边(坑 33)。
+       纵向照旧 24/36。 */
+    padding: 24px var(--page-pad) 36px;
 }
 
 .content::after {
     display: none;
-}
-
-body.customizing .content {
-    grid-template-columns: minmax(0, 1fr) 320px;
 }
 
 .main {
@@ -4041,6 +4056,11 @@ html.xxt-ic-pending img[src*="live2d-widget/dist/assets/"]:not([data-xxt-keep]) 
 
 @media screen and (max-width: 1000px) {
     .wrap {
+        /* 窄屏不再另留外圈:整屏宽 + 18px 内边距就够了(与改动前一致) */
+        --page-edge: 0px;
+        /* ⚠️ 这条简写会连纵向一起重置成 0 —— 即 .content 的 padding-top/bottom
+           在窄屏上不生效。现状就是如此(手机上手账正文区没有上下留白),
+           不是 bug,别顺手改成 padding-left/right 又没配套调间距。 */
         padding: 0 18px;
     }
 

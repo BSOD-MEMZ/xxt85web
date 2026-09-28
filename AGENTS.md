@@ -1011,6 +1011,35 @@ DOMContentLoaded
   门会把封面**永久**藏住。正确做法是把 `syncAlbumCover(true)` 放在 `boot()` **开头**,
   **别**排在 `loadSprite()` 的回调里 —— 那儿要等一次 `icons.js` 的网络往返。
 
+### 33. 正文容器**就是** `.wrap` —— `.content` 的 padding 简写会把它两侧边距整条抹掉
+
+`<div class="content wrap">` 同时挂着两个类，而 `.content` 排在 `.wrap` 之后：
+
+```css
+.wrap    { padding: 0 28px; }        /* 作者想给的两侧留白 */
+.content { padding: 24px 0 36px; }   /* 简写 —— 左右被覆盖成 0，上面那 28px 白给 */
+```
+
+同特异性 + 后出现 = 后者整条赢。于是正文列**贴死屏幕左右边**（量出来 `main.left === 0`）。
+窄屏反而看不出来：`@media (max-width:1000px)` 里那条 `.wrap { padding: 0 18px }` 用的是
+`.wrap` 自己的类，把 18px 又补了回去 —— 所以只有 ≥1000 的桌面会中招。
+
+还有第二层：`max-width` 只写 `1440px`。视口**正好** 1440 时 `margin: 0 auto` 的两侧边距归零。
+两个根因叠起来，就是「1440×900 上一点边距都不剩」。
+
+现在收口成三个变量（CSS 第 1 节）：`--page-max` / `--page-edge` / `--page-pad`，
+`.wrap` 的上限写成 `min(var(--page-max), 100% - var(--page-edge) * 2)`，
+`.content` 只补纵向（`padding: 24px var(--page-pad) 36px`）。
+
+- **规矩**：`.wrap` 上任何"只想改上下"的地方，一律用 longhand，
+  或者原样带上横向 —— 否则 `.content` 会把横向一起吃掉。
+- 改完量一把：`.workbuddy/tmp/probe.js` 在 1440×900 下应报
+  `main=60..1038 sidebar=1064..1380`、`hScroll=0`。
+- ≤1000 那条 `.wrap { padding: 0 18px }` 简写**会连纵向一起清零**，也就是手机上手账正文区
+  没有上下留白。现状如此，不是 bug，别顺手改。
+- 侧栏/栏间距同时改成了 `clamp(272px, 22vw, 320px)` / `clamp(18px, 1.8vw, 26px)`：
+  宽屏维持 30db1eb 的 320/26，视口掉到 1300 上下时自动收窄，免得正文列被侧栏挤扁。
+
 ---
 
 ## LaTeX 公式
@@ -1091,6 +1120,25 @@ EDGE="/c/Program Files (x86)/Microsoft/Edge/Application/msedge.exe"
 
 > 为什么要"自包含"：预览页里的相对路径在 `file://` 与"被某个服务器托管的预览面板"下
 > 解析结果不一样；把 CSS/JS **原文**内嵌进去就与路径无关了，而且远比手抄一份近似样式可信。
+
+### 想知道"到底占了多少像素"？用 `probe.js` 量，别靠眼睛看截图
+
+截图只能看出"好像贴边了"，量不出 `main.left` 是 0 还是 60。`.workbuddy/tmp/probe.js`
+走 CDP：起一个无头 Edge，`Emulation.setDeviceMetricsOverride` 把视口钉死，
+写 `localStorage.theme`、跳转、等渲染完，再 `Runtime.evaluate` 取
+`.wrap / .content / .main / .sidebar` 的 `getBoundingClientRect`，顺带截图。
+
+```bash
+python -m http.server 8123 --bind 127.0.0.1 &          # 得有个 http 源(localStorage 要同源)
+node .workbuddy/tmp/probe.js modern-sticker.css 1440 900 /tmp/after.png
+# → [1440x900] hScroll=0 wrap=32..1408 main=60..1038 sidebar=1064..1380 pad=28px
+```
+
+- **`hScroll` 必须为 0**，否则有横向滚动条：布局改坏了第一眼就该看它
+- 想看四个盒子的完整明细，加 `VERBOSE=1`
+- 视口换成 `1920 1080` / `1366 768` / `900 700` 多跑几遍，一次改动的连锁影响就全出来了
+- 用的是 **`http://` 而不是 `file://`**：`file://` 下每个页面的 localStorage 不通用，
+  还得靠上面那个"小页面"绕；走 http 就能在同一个源里直接写
 
 调试用的小开关：
 
