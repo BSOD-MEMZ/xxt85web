@@ -29,6 +29,19 @@
         // 它们和正文图放一起会被当成可预览的图。
         const DECOR_ICONS = /(^|\/)(close|home|printer|left|right|imageclose)\.png$/i;
 
+        // tips 块里那些行内小图标(16 / 20px)同样不是正文图。
+        //
+        // 它们**带 width 属性**,而正文里的真实截图一律不写 width —— 要么什么都不写,
+        // 要么写 inline style(`style="width:300px;height:auto"`)。
+        // 全站 511 张 <img> 统计下来,width 属性只出现过 16 和 20 两个值,全是图标。
+        // 另有 6 张 `../images/icons/knowledges.png` 连 width 都没写,
+        // 所以再按目录兜一道(站点图标都在 images/icons/ 下,正文图不在那儿)。
+        //
+        // 不排除会怎样:正文第一张照片在序列里的下标变成 1 →"上一张"永远不灰;
+        // 而且一路往前翻,会翻到那张 16px 图标被放大铺满整屏。
+        const ICON_MAX = 24;                            // px:宽度属性比它小 = 图标
+        const ICON_DIR = /(^|\/)images\/icons\//i;
+
         // 判定"这是一张正文图"。
         //
         // ⚠️ 别用 `img.src && !img.src.includes('.png') || img.src.includes('.jpg') || ...`
@@ -36,11 +49,18 @@
         //     (src && 不是png) || 是jpg || 是jpeg || ...
         // 于是**所有纯 .png 的正文图会被整条排除**(png 不可能又同时是 jpg),
         // 表现就是"点图片打不开预览"。bmp / webp / gif 等也会被漏掉。
-        // 这里改成:排除已知的装饰图标,其余一律当作正文图。
+        // 这里改成:排除已知的装饰图标与行内小图标,其余一律当作正文图。
         images = Array.from(contentImages).filter(img => {
             const src = img.getAttribute('src') || img.src || '';
             if (!src) return false;
-            if (DECOR_ICONS.test(src.split('?')[0].split('#')[0])) return false;
+
+            const path = src.split('?')[0].split('#')[0];
+            if (DECOR_ICONS.test(path)) return false;
+            if (ICON_DIR.test(path)) return false;
+
+            const w = parseInt(img.getAttribute('width') || '', 10);
+            if (!isNaN(w) && w <= ICON_MAX) return false;
+
             return true;
         });
 

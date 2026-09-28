@@ -380,6 +380,21 @@ img.src && !img.src.includes('.png') || img.src.includes('.jpg') || …
 改成**允许式**判定更稳：排除已知的装饰图标（`close`/`home`/`printer`/`left`/`right`），
 其余一律当正文图。
 
+> ⚠️ **那份"已知装饰图标"名单还得覆盖 tips 块里的行内小图标（第二轮补）。**
+> `<img src="../images/icons/warning.png" width="16">` 这种全站 50 篇都有，
+> 名单里没有它们 → 被当成正文图 → **正文第一张照片在序列里的下标变成 1**
+> （"上一张"永远不灰），而且一路往前翻会翻到那张 16px 图标被放大铺满整屏。
+>
+> 现在两道闸（都在 `image-viewer.js` 的 `images` 过滤里）：
+>
+> | 判据 | 依据 |
+> |---|---|
+> | `src` 落在 `images/icons/` 下 | 站点图标都在那儿，正文图不在（`knowledges.png` 连 `width` 都没写，只能靠目录认） |
+> | `width` 属性 ≤ 24px | 全站 511 张 `<img>` 统计下来，`width` 只出现过 **16 和 20** 两个值，全是图标；正文里的真实截图一律不写 `width`，要限宽就写 inline `style="width:300px;height:auto"` |
+>
+> 断言：点 tips 图标不该弹预览；点第一张照片 → 弹层里就是它、`prev` 带 `.is-disabled`；
+> 一路 next 到底 → `next` 变灰，步数 = 照片数 − 1。
+
 ### 16. 对话框的出入场动画：只能走 `display` 的离散补间
 
 站点的对话框**全部**靠行内 `style.display = 'block' | 'none'` 开关
