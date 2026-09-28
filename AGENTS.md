@@ -578,6 +578,33 @@ DOMContentLoaded
 现在三个键交给文章页脚本（它有"精灵加载完 → `run()`"+"MutationObserver"双保险，
 弹层无论早于还是晚于精灵出现都能覆盖），`image-viewer.js` 那套保留作幂等兜底。
 
+> ⚠️ **第二轮才真的修好（第一轮只改了注释，没改选择器）。** 当时的 `ICON_SELECTOR` 是
+>
+> ```js
+> 'img[width][src$=".png"]:not(.uac-close-btn), ' +
+> 'img[width][src$=".gif"]:not(.uac-close-btn), ' +
+> 'img[src*="images/icons/"]:not(.uac-close-btn)'
+> ```
+>
+> 而查看器那三个键由 `image-viewer.js` 在运行时创建，`src` 是裸文件名
+> （`imageclose.png` / `left.png` / `right.png`，相对 `articles/` 解析），
+> **而且没有 `width` 属性** —— 既进不了 `img[width]`，src 里也没有 `images/icons/`。
+> 于是"交给文章页脚本"这句话一天也没成立过，三个键始终是 PNG。
+>
+> **修法：给这一个分支点名。** 类名只存在于那个弹层里，不会误伤正文图，
+> 所以并没有给 `[width]` 那道"挡截图"的门开洞：
+>
+> ```js
+> var ICON_SELECTOR =
+>     '.image-viewer-close, .image-viewer-nav, ' +   // ← 运行时才出现的三个键
+>     'img[width][src$=".png"]:not(.uac-close-btn), ' + …
+> ```
+>
+> 断言方式（别再靠肉眼看截图）：无头 Edge 开一篇有图的文章 → 点第一张图 →
+> 读 `.image-viewer-{close,prev,next}` 的 `tagName`，应当是 `svg`，
+> `data-icon` 分别是 `close-dot` / `caret-left` / `caret-right`；
+> 再 dispatch 一轮 click，确认翻页与关闭照常（走的是 `modal` 上的委托）。
+
 **症状 B：UAC 的盾牌图标在白底上看不见。**
 
 `js/uac.js` 里手账覆盖块只改了 `.uac-banner` 的 `background`、**没声明 `color`**，

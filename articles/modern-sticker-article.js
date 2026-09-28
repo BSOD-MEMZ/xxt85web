@@ -27,23 +27,28 @@
          · .uac-close-btn   UAC 对话框关闭键,uac.js 把监听直接绑在本体上
                             (它自己换完 <svg> 会重新绑,所以这里不能抢)
 
-       ⚠️ 图片查看器的三个键(.image-viewer-close / -prev / -next)**必须留在这里** ——
-       它们以前被 :not() 排除掉了,理由是"image-viewer.js 自己会换",
-       但那个替换只在**精灵表已经加载好**时才生效:image-viewer.js 在
-       DOMContentLoaded 里建弹层并当场升级,而精灵是本脚本那一刻才开始加载的
-       → window.XXT_ICON_MAP 还不存在 → 升级被静默跳过,三个键一直是原始 PNG。
-       现在交给这里:本脚本有"精灵加载完 → run()" + MutationObserver 双保险,
-       弹层无论发生在加载前还是加载后都能被覆盖。
-       (image-viewer.js 自己那套还在,两边幂等,谁先跑都只是跳过已换好的 <svg>。)
-       点击不会丢 —— image-viewer.js 的关闭/翻页走的是 modal 上的事件委托。
-
        ⚠️⚠️ **必须加 [width] 这道闸**:正文里的**截图**很多也是 .png,
        文件名还会跟图标撞车 —— `articles/assets/warning.png` 是一张 1920×1080 的
        截图(alt="截图"),名字却正好是图标表里的 `warning.png`。只按后缀挑的话,
        那张截图会被换成 16px 的警告小图标,**而且页面零报错**。
        文章里真图标的特征很稳:要么带 width(16 / 20),要么就躺在 images/icons/ 下
-       (`wefuckedsalt` 的 tips 里那枚 knowledges.png 就没写 width)。 */
+       (`wefuckedsalt` 的 tips 里那枚 knowledges.png 就没写 width)。
+
+       ⚠️ 图片查看器的三个键(.image-viewer-close / -prev / -next)是**单独一支**,
+       上面那两条闸一个都拦不到它,所以必须点名写进来 —— 这三个 <img> 由
+       image-viewer.js 在 DOMContentLoaded 时才创建,src 是裸文件名
+       (`imageclose.png` / `left.png` / `right.png`,相对 articles/ 解析),
+       **而且没有 width 属性** → 既进不了 `img[width]`,src 里也没有 images/icons/
+       → 三个键一直是原始 PNG。(以前只有 image-viewer.js 自己换,而它跑在
+       精灵表加载完成之前,window.XXT_ICON_MAP 还不存在,升级被静默跳过。)
+
+       用类名点头是安全的:这三个类名只存在于那个弹层里,不会误伤任何正文图,
+       所以并没有给上面那道挡截图的门开洞。
+
+       换完点击不会丢 —— image-viewer.js 的关闭/翻页走的是 modal 上的事件委托。
+       (它自己那套 upgradeThemeIcons 还在,两边幂等,谁先跑都只是跳过已换好的 <svg>。) */
     var ICON_SELECTOR =
+        '.image-viewer-close, .image-viewer-nav, ' +
         'img[width][src$=".png"]:not(.uac-close-btn), ' +
         'img[width][src$=".gif"]:not(.uac-close-btn), ' +
         'img[src*="images/icons/"]:not(.uac-close-btn)';
