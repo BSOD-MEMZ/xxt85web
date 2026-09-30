@@ -949,54 +949,76 @@ body.customizing .footer {
 
 /* 标签筛选 chips
    注意:index.js 会在运行时往 <head> 注入一段 .cat-btn 的 Vista 渐变样式,
-   它出现在本文件之后,因此这里用容器 id 前缀提高特异性来盖过它 */
+   它出现在本文件之后,因此这里用容器 id 前缀提高特异性来盖过它。
+
+   六色由下面的 nth-child 规则写进变量,本体 / hover / 选中各只写一次。
+   ⚠️ 文字色不能用 --c-*:那六个是给图标和色块用的,当 12px 正文字色时
+   对比度全部不够(琥珀只有 2.64:1)。改用同色相压暗的 --chip-ink,
+   字/底与白字/选中底都在 4.5:1 以上。
+   过渡只保留颜色与描边 —— 位移和缩放已去掉,低性能设备上不跟手。 */
 .cat-btn,
 #tagFilters .cat-btn,
 #categoryFilters .cat-btn {
     font-family: var(--font);
     font-size: 12px;
-    color: var(--c-blue);
-    background: #EFF6FA;
-    border: 1px solid #C6DDEA;
+    color: var(--chip-ink, #1370B8);
+    background: var(--chip-bg, #F6FBFE);
+    border: 1px solid var(--chip-edge, #E3F1FA);
     border-radius: var(--r-pill);
     padding: 3px 13px;
     cursor: var(--cur-point);
-    transition: transform var(--t-fast) var(--ease-pop),
-                background-color var(--t-fast) ease,
-                color var(--t-fast) ease,
-                border-color var(--t-fast) ease,
-                box-shadow var(--t-fast) ease;
+    transition: background-color var(--t-fast) ease,
+                border-color var(--t-fast) ease;
 }
 
 /* 逐枚换色,像一排彩色印章 */
 #tagFilters .cat-btn:nth-child(6n+1),
-#categoryFilters .cat-btn:nth-child(6n+1) { color: var(--c-blue);   background: #EFF6FA; border-color: #C6DDEA; }
+#categoryFilters .cat-btn:nth-child(6n+1) {
+    --chip-ink: #1370B8; --chip-bg: #F6FBFE; --chip-hov: #EBF5FC;
+    --chip-edge: #E3F1FA; --chip-edge-on: #10609E;
+}
 #tagFilters .cat-btn:nth-child(6n+2),
-#categoryFilters .cat-btn:nth-child(6n+2) { color: var(--c-teal);   background: #EAF7F5; border-color: #BEE4E0; }
+#categoryFilters .cat-btn:nth-child(6n+2) {
+    --chip-ink: #0B7A71; --chip-bg: #EFFDFB; --chip-hov: #DBF9F7;
+    --chip-edge: #CDF7F4; --chip-edge-on: #096961;
+}
 #tagFilters .cat-btn:nth-child(6n+3),
-#categoryFilters .cat-btn:nth-child(6n+3) { color: var(--c-amber);  background: #FDF5E3; border-color: #EBD9A8; }
+#categoryFilters .cat-btn:nth-child(6n+3) {
+    --chip-ink: #946200; --chip-bg: #FEFAF2; --chip-hov: #FCF2DF;
+    --chip-edge: #FAEED4; --chip-edge-on: #7F5400;
+}
 #tagFilters .cat-btn:nth-child(6n+4),
-#categoryFilters .cat-btn:nth-child(6n+4) { color: var(--c-rose);   background: #FDF0F3; border-color: #F2CBD5; }
+#categoryFilters .cat-btn:nth-child(6n+4) {
+    --chip-ink: #C23860; --chip-bg: #FDF9FA; --chip-hov: #FBF1F3;
+    --chip-edge: #FAECEF; --chip-edge-on: #A73053;
+}
 #tagFilters .cat-btn:nth-child(6n+5),
-#categoryFilters .cat-btn:nth-child(6n+5) { color: var(--c-violet); background: #F4F1FB; border-color: #D9CFEE; }
+#categoryFilters .cat-btn:nth-child(6n+5) {
+    --chip-ink: #7A45D6; --chip-bg: #FBFAFD; --chip-hov: #F5F2FB;
+    --chip-edge: #F1EDFA; --chip-edge-on: #693BB8;
+}
 #tagFilters .cat-btn:nth-child(6n+6),
-#categoryFilters .cat-btn:nth-child(6n+6) { color: var(--c-green);  background: #F0F7EC; border-color: #CCE2C0; }
+#categoryFilters .cat-btn:nth-child(6n+6) {
+    --chip-ink: #257C32; --chip-bg: #F4FCF6; --chip-hov: #E5F8E7;
+    --chip-edge: #DDF5E0; --chip-edge-on: #206B2B;
+}
 
+/* 悬停只把底色压深一档、描边转成该色本身,不做位移 */
 .cat-btn:hover,
 #tagFilters .cat-btn:hover,
 #categoryFilters .cat-btn:hover {
-    color: var(--ink);
-    transform: translateY(-1px);
-    box-shadow: 0 3px 8px -3px rgba(61, 58, 56, .3);
+    color: var(--chip-ink, #1370B8);
+    background: var(--chip-hov, #EBF5FC);
+    border-color: var(--chip-ink, #1370B8);
 }
 
-/* 选中态放最后,确保盖过上面的逐枚换色 */
+/* 选中态放最后,确保盖过上面的逐枚换色;填色跟随该枚自己的色 */
 .cat-btn.active,
 #tagFilters .cat-btn.active,
 #categoryFilters .cat-btn.active {
     color: #FFFFFF;
-    background: var(--c-teal);
-    border-color: #23726C;
+    background: var(--chip-ink, #1370B8);
+    border-color: var(--chip-edge-on, #10609E);
 }
 
 /* chips 里的图标:两件事都要管
@@ -1011,18 +1033,6 @@ body.customizing .footer {
 .cat-btn .xxt-ic,
 .cat-btn svg {
     display: none !important;
-}
-
-/* 盖章动效(由 modern.js 在点击时挂上 .stamping)
-   幅度收小:原来 1.16 / .94 加 3° 旋转太跳了,现在只做轻微一压一弹 */
-.cat-btn.stamping {
-    animation: stamp 260ms var(--ease-pop);
-}
-
-@keyframes stamp {
-    0%   { transform: scale(1); }
-    45%  { transform: scale(1.07); }
-    100% { transform: scale(1); }
 }
 
 /* 文章列表 */
@@ -1049,7 +1059,6 @@ body.customizing .footer {
     color: var(--ink);
     border-radius: var(--r-sm);
     transition: background-color var(--t-fast) ease,
-                transform var(--t-fast) var(--ease-soft),
                 color var(--t-fast) ease;
 }
 
@@ -1057,7 +1066,6 @@ body.customizing .footer {
     background: var(--paper-2);
     border-bottom: 0;
     color: var(--ink);
-    transform: translateX(3px);
 }
 
 /* 掀起的纸角 */
@@ -3520,17 +3528,13 @@ body {
     box-shadow: none;
     overflow: hidden;
     text-decoration: none;
-    transition: transform var(--t-slow) var(--ease-soft),
-                box-shadow var(--t-mid) ease,
-                border-color var(--t-fast) ease;
+    transition: border-color var(--t-fast) ease;
 }
 
 #articleList li.xxt-card .xxt-card-link:hover {
     background: #FFFFFF;
     color: inherit;
     border-color: var(--mint);
-    transform: translateY(-3px);
-    box-shadow: 0 4px 12px -6px rgba(61, 58, 56, .3);
 }
 
 /* 卡片不用纸角 */

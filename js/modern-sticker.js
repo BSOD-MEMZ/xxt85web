@@ -90,27 +90,7 @@
     }
 
     /* -----------------------------------------------------------------
-       2. 标签盖章
-       ----------------------------------------------------------------- */
-    function initStamp() {
-        if (reduceMotion) return;
-
-        document.addEventListener('click', function (e) {
-            var btn = e.target && e.target.closest ? e.target.closest('.cat-btn') : null;
-            if (!btn) return;
-
-            btn.classList.remove('stamping');
-            void btn.offsetWidth;
-            btn.classList.add('stamping');
-
-            window.setTimeout(function () {
-                btn.classList.remove('stamping');
-            }, 380);
-        });
-    }
-
-    /* -----------------------------------------------------------------
-       3. 播放器:播放时封面旋转,暂停时**停在当前角度**(不回正)
+       2. 播放器:播放时封面旋转,暂停时**停在当前角度**(不回正)
 
        旧实现靠 CSS animation(.playing 上加 spinDisc),一暂停 animation 被
        摘掉,transform 立刻掉回 0deg —— 视觉上就是"啪"地弹回正位。
@@ -1353,7 +1333,6 @@
         syncAlbumCover(true);
 
         initStickerLift();
-        initStamp();
         initDisc();
         initBadges();
         initSidebarClose();
