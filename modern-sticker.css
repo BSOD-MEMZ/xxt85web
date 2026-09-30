@@ -573,12 +573,6 @@ html {
     transform: rotate(-3deg);
 }
 
-/* 贴纸抬起(由 modern.js 按指针位置写入 --tilt / --lift) */
-.window.sticker-lift {
-    transform: translate3d(0, var(--lift, -2px), 0);
-    box-shadow: var(--sh-2);
-}
-
 /* 卡片头:不再有拟物标题栏,改成一枚小标签 + 虚线 */
 .window-titlebar {
     display: flex;
@@ -687,8 +681,7 @@ svg.xxt-win-mark {
     color: var(--ink-2);
     border-bottom: 0;
     transition: background-color var(--t-fast) ease,
-                color var(--t-fast) ease,
-                transform var(--t-fast) var(--ease-soft);
+                color var(--t-fast) ease;
 }
 
 /* 侧栏列表 hover:半透明薄纱,不挡窗口右下角那枚底纹 */
@@ -696,7 +689,6 @@ svg.xxt-win-mark {
     background: var(--veil-1);
     color: var(--ink);
     border-bottom: 0;
-    transform: translateX(3px);
 }
 
 .sidebar .window-content li img {
@@ -4231,7 +4223,6 @@ html.xxt-ic-pending img[src*="live2d-widget/dist/assets/"]:not([data-xxt-keep]) 
     }
 
     /* 窄屏没有 hover:改用按下反馈 */
-    .window.sticker-lift,
     .download-card.sticker-lift,
     .video-item.sticker-lift {
         transform: none;

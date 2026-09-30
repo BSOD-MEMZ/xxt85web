@@ -38,7 +38,9 @@
         if (!window.matchMedia('(hover: hover) and (pointer: fine)').matches) return;
         if (reduceMotion) return;
 
-        var SELECTOR = '.window, .download-card, .video-item';
+        /* ⚠️ 不含 .window:窗口的 hover 反馈只走 CSS 的描边与底色变化,
+           不再跟着指针浮起来(低性能设备上位移掉帧比变色明显得多)。 */
+        var SELECTOR = '.download-card, .video-item';
         var BASE_LIFT = -1.5;   // 只保留很轻微的上浮,不做旋转
         var EXTRA_LIFT = 1.5;
 

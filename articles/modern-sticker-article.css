@@ -820,6 +820,126 @@ html {
 }
 
 /* ---------------------------------------------------------------
+   6b. 折叠块(details / summary)
+   ---------------------------------------------------------------
+   一张可开合的小纸片:左侧一道薄荷色书签条,不四边全包成盒子。
+
+   ⚠️ summary 里可能嵌 h2(ninjawasinvincible 那篇的中文翻译区),
+      h2 自带的 margin / 下划线 / 荧光笔都得在这里压平,
+      否则那行会被撑成两头空的巨块。 */
+.article-content details {
+    margin: 20px 0;
+    padding: 0 16px;
+    background: #FFFDF8;
+    border: 1px solid var(--rule);
+    border-left: 4px solid var(--mint);
+    border-radius: var(--r-md);
+    overflow: hidden;
+}
+
+.article-content summary {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    /* 抵消父级左右内边距,让标题行铺满整张纸片 */
+    margin: 0 -16px;
+    padding: 12px 14px;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 1.6;
+    color: var(--ink);
+    cursor: var(--cur-point);
+    list-style: none;
+    user-select: none;
+    -webkit-user-select: none;
+    transition: background-color var(--t-fast) ease;
+}
+
+/* 去掉浏览器默认的那枚三角 */
+.article-content summary::-webkit-details-marker { display: none; }
+.article-content summary::marker { content: none; }
+
+/* 行首的小方块 —— 手账标题栏的"色块标记"语言 */
+.article-content summary::before {
+    content: "";
+    flex: none;
+    width: 9px;
+    height: 9px;
+    border-radius: 2.5px;
+    background: var(--mint);
+}
+
+/* 行尾的展开箭头(mask 裁形,颜色跟着 currentColor 之外单独给) */
+.article-content summary::after {
+    content: "";
+    flex: none;
+    margin-left: auto;
+    width: 12px;
+    height: 12px;
+    background: var(--ink-2);
+    -webkit-mask: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2.8' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M9 5l7 7-7 7'/%3E%3C/svg%3E") center / contain no-repeat;
+    mask: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2.8' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M9 5l7 7-7 7'/%3E%3C/svg%3E") center / contain no-repeat;
+    transition: transform var(--t-fast) ease;
+}
+
+.article-content summary:hover {
+    background: rgba(63, 199, 190, .12);
+}
+
+.article-content details[open] > summary {
+    border-bottom: 1px dashed var(--rule-dash);
+}
+
+.article-content details[open] > summary::after {
+    transform: rotate(90deg);
+}
+
+/* summary 里嵌的标题:压成行内,去掉下划线与荧光笔,
+   以及标题自带的"行首竖条"—— 那一枚会和 summary 自己的方块撞在一起 */
+.article-content summary h1,
+.article-content summary h2,
+.article-content summary h3,
+.article-content summary h4 {
+    display: inline;
+    margin: 0;
+    padding: 0;
+    font-size: 14px;
+    font-weight: 500;
+    color: inherit;
+    border-bottom: 0;
+}
+
+.article-content summary h1::before,
+.article-content summary h1::after,
+.article-content summary h2::before,
+.article-content summary h2::after,
+.article-content summary h3::before,
+.article-content summary h3::after,
+.article-content summary h4::before,
+.article-content summary h4::after {
+    display: none;
+}
+
+/* 展开后的内容 */
+.article-content details > summary + * {
+    margin-top: 12px;
+}
+
+.article-content details > *:last-child {
+    margin-bottom: 14px;
+}
+
+.article-content details img {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* 提示条里的折叠块:收起首尾外边距,别把 --cream 底撑出一圈空 */
+.tips details:first-child { margin-top: 0; }
+.tips details:last-child { margin-bottom: 0; }
+
+/* ---------------------------------------------------------------
    7. 提示条(投稿声明 / 内容过时警告)
    --------------------------------------------------------------- */
 .tips {
