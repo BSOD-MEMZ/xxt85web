@@ -17,6 +17,13 @@
     'use strict';
 
     var SVG_NS = 'http://www.w3.org/2000/svg';
+    var XLINK_NS = 'http://www.w3.org/1999/xlink';
+
+    /* <use> 的链接属性写两份:现代浏览器认 SVG2 的 href,旧 Edge 只认 xlink:href */
+    function setUseHref(node, target) {
+        node.setAttribute('href', target);
+        node.setAttributeNS(XLINK_NS, 'xlink:href', target);
+    }
     var SPRITE_URL = '../js/modern-sticker-icons.js';
 
     /* 需要替换的图标。用文件名查映射表,查不到就跳过原样保留 PNG。
@@ -70,7 +77,7 @@
         svg.setAttribute('focusable', 'false');
 
         var use = document.createElementNS(SVG_NS, 'use');
-        use.setAttribute('href', '#' + id);
+        setUseHref(use, '#' + id);
         svg.appendChild(use);
         return svg;
     }
@@ -99,7 +106,7 @@
             svg.setAttribute('focusable', 'false');
 
             var use = document.createElementNS(SVG_NS, 'use');
-            use.setAttribute('href', '#i-close-dot');
+            setUseHref(use, '#i-close-dot');
             svg.appendChild(use);
 
             img.parentNode.replaceChild(svg, img);
@@ -176,7 +183,7 @@
             }
 
             var use = document.createElementNS(SVG_NS, 'use');
-            use.setAttribute('href', '#' + id);
+            setUseHref(use, '#' + id);
             svg.appendChild(use);
 
             /* title 原样带走(image-viewer.js 里那套替换也这么做)。

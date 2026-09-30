@@ -151,7 +151,10 @@ body {
 body::before {
     content: "";
     position: fixed;
-    inset: 0;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;   /* 不用 inset 简写:旧 Edge 不认,会退成 0 尺寸 */
     z-index: -1;
     pointer-events: none;
     background-color: var(--paper);
@@ -308,6 +311,7 @@ html {
     /* ⚠️ 不能只写 `max-width: 1440px`:视口正好 1440 时 auto 边距直接归零,
        正文铺满整屏。带上 --page-edge 之后,1440 屏两侧各留 32px,
        更宽的屏(>1504)才吃满 1440 的上限。 */
+    max-width: var(--page-max);   /* 不支持 min() 的旧浏览器走这条 */
     max-width: min(var(--page-max), 100% - var(--page-edge) * 2);
     margin: 0 auto;
     padding: 0 var(--page-pad);
@@ -446,7 +450,9 @@ html {
     display: grid;
     /* 侧栏与栏间距跟着视口收放:宽屏维持 320/26(30db1eb 的宽屏适配),
        视口掉到 1300 上下时收到 272/18,免得正文列被侧栏挤扁。 */
+    grid-template-columns: minmax(0, 1fr) 300px;
     grid-template-columns: minmax(0, 1fr) clamp(272px, 22vw, 320px);
+    gap: 22px;
     gap: clamp(18px, 1.8vw, 26px);
     align-items: start;
     /* ⚠️ 横向必须原样带上 --page-pad。正文容器就是 `<div class="content wrap">`,
@@ -943,9 +949,10 @@ body.customizing .footer {
 
 /* 标签筛选 chips
    注意:index.js 会在运行时往 <head> 注入一段 .cat-btn 的 Vista 渐变样式,
-   它出现在本文件之后,因此这里用 #tagFilters 前缀提高特异性来盖过它 */
+   它出现在本文件之后,因此这里用容器 id 前缀提高特异性来盖过它 */
 .cat-btn,
-:is(#tagFilters, #categoryFilters) .cat-btn {
+#tagFilters .cat-btn,
+#categoryFilters .cat-btn {
     font-family: var(--font);
     font-size: 12px;
     color: var(--c-blue);
@@ -962,15 +969,22 @@ body.customizing .footer {
 }
 
 /* 逐枚换色,像一排彩色印章 */
-:is(#tagFilters, #categoryFilters) .cat-btn:nth-child(6n+1) { color: var(--c-blue);   background: #EFF6FA; border-color: #C6DDEA; }
-:is(#tagFilters, #categoryFilters) .cat-btn:nth-child(6n+2) { color: var(--c-teal);   background: #EAF7F5; border-color: #BEE4E0; }
-:is(#tagFilters, #categoryFilters) .cat-btn:nth-child(6n+3) { color: var(--c-amber);  background: #FDF5E3; border-color: #EBD9A8; }
-:is(#tagFilters, #categoryFilters) .cat-btn:nth-child(6n+4) { color: var(--c-rose);   background: #FDF0F3; border-color: #F2CBD5; }
-:is(#tagFilters, #categoryFilters) .cat-btn:nth-child(6n+5) { color: var(--c-violet); background: #F4F1FB; border-color: #D9CFEE; }
-:is(#tagFilters, #categoryFilters) .cat-btn:nth-child(6n+6) { color: var(--c-green);  background: #F0F7EC; border-color: #CCE2C0; }
+#tagFilters .cat-btn:nth-child(6n+1),
+#categoryFilters .cat-btn:nth-child(6n+1) { color: var(--c-blue);   background: #EFF6FA; border-color: #C6DDEA; }
+#tagFilters .cat-btn:nth-child(6n+2),
+#categoryFilters .cat-btn:nth-child(6n+2) { color: var(--c-teal);   background: #EAF7F5; border-color: #BEE4E0; }
+#tagFilters .cat-btn:nth-child(6n+3),
+#categoryFilters .cat-btn:nth-child(6n+3) { color: var(--c-amber);  background: #FDF5E3; border-color: #EBD9A8; }
+#tagFilters .cat-btn:nth-child(6n+4),
+#categoryFilters .cat-btn:nth-child(6n+4) { color: var(--c-rose);   background: #FDF0F3; border-color: #F2CBD5; }
+#tagFilters .cat-btn:nth-child(6n+5),
+#categoryFilters .cat-btn:nth-child(6n+5) { color: var(--c-violet); background: #F4F1FB; border-color: #D9CFEE; }
+#tagFilters .cat-btn:nth-child(6n+6),
+#categoryFilters .cat-btn:nth-child(6n+6) { color: var(--c-green);  background: #F0F7EC; border-color: #CCE2C0; }
 
 .cat-btn:hover,
-:is(#tagFilters, #categoryFilters) .cat-btn:hover {
+#tagFilters .cat-btn:hover,
+#categoryFilters .cat-btn:hover {
     color: var(--ink);
     transform: translateY(-1px);
     box-shadow: 0 3px 8px -3px rgba(61, 58, 56, .3);
@@ -978,7 +992,8 @@ body.customizing .footer {
 
 /* 选中态放最后,确保盖过上面的逐枚换色 */
 .cat-btn.active,
-:is(#tagFilters, #categoryFilters) .cat-btn.active {
+#tagFilters .cat-btn.active,
+#categoryFilters .cat-btn.active {
     color: #FFFFFF;
     background: var(--c-teal);
     border-color: #23726C;
@@ -1277,6 +1292,7 @@ body.customizing .footer {
 .download-cards {
     display: grid;
     /* 同 #articleList:屏宽不足一列下限时按容器宽度铺 */
+    grid-template-columns: repeat(auto-fill, minmax(215px, 1fr));
     grid-template-columns: repeat(auto-fill, minmax(min(215px, 100%), 1fr));
     gap: 14px;
     margin: 14px 0;
@@ -1884,7 +1900,10 @@ body:has(.video-container) .download-section .download-link:hover {
 .wmp-album-art::after {
     content: "";
     position: absolute;
-    inset: 0;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
     border-radius: 50%;
     box-shadow:
         inset 0 0 0 1px rgba(61, 58, 56, .18),
@@ -2513,7 +2532,10 @@ svg#play-img use.xxt-play-icon {
 /* 个性化模式下的网格提示层 */
 .customize-grid-overlay {
     position: fixed;
-    inset: 0;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
     z-index: 10000;
     display: none;
     pointer-events: none;
@@ -3461,6 +3483,7 @@ body {
 #articleList {
     display: grid;
     /* 外面套一层 min() :屏宽不足 300px 时按容器宽度铺,不会横向溢出 */
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
     grid-template-columns: repeat(auto-fill, minmax(min(300px, 100%), 1fr));
     gap: 18px;
     margin: 12px 0 6px;
@@ -3643,7 +3666,10 @@ body {
    --------------------------------------------------------------- */
 #xxt-bg-deco {
     position: fixed;
-    inset: 0;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
     z-index: -1;
     overflow: hidden;
     pointer-events: none;
@@ -4032,9 +4058,9 @@ html #waifu-toggle svg {
       藏得比它宽 → 多藏一会儿(不会永久消失,门是全局开关);
       藏得比它窄 → 那几条还是会闪。
    --------------------------------------------------------------- */
-html.xxt-ic-pending img[src*="images/icons/"]:not(.cat-btn *):not([data-xxt-keep]),
-html.xxt-ic-pending img[src$="/hot.png"]:not(.cat-btn *):not([data-xxt-keep]),
-html.xxt-ic-pending img[src$="/online.png"]:not(.cat-btn *):not([data-xxt-keep]),
+html.xxt-ic-pending img[src*="images/icons/"]:not([data-xxt-keep]),
+html.xxt-ic-pending img[src$="/hot.png"]:not([data-xxt-keep]),
+html.xxt-ic-pending img[src$="/online.png"]:not([data-xxt-keep]),
 html.xxt-ic-pending img[src$="/busy.png"]:not([data-xxt-keep]),
 html.xxt-ic-pending img[src$="/Window_CloseButton.png"]:not([data-xxt-keep]),
 html.xxt-ic-pending img[src*="media/assets/prev.png"]:not([data-xxt-keep]),

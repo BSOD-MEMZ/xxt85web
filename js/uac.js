@@ -341,6 +341,7 @@
             svg.setAttribute('focusable', 'false');
             var use = document.createElementNS('http://www.w3.org/2000/svg', 'use');
             use.setAttribute('href', '#i-close-dot');
+            use.setAttributeNS('http://www.w3.org/1999/xlink', 'xlink:href', '#i-close-dot');
             svg.appendChild(use);
 
             closeBtnUpgraded = true;

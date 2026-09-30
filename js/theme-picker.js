@@ -144,10 +144,11 @@
        内部样式(与主题无关,两套主题下都正常)
        ----------------------------------------------------------------- */
     var CSS = [
-        '.xxt-picker-overlay{position:fixed;inset:0;z-index:20000;display:flex;',
+        // 不用 inset:0 —— 旧 Edge 不认,弹窗会退回文档流(页脚下方)里看不见
+        '.xxt-picker-overlay{position:fixed;top:0;left:0;right:0;bottom:0;z-index:20000;display:flex;',
         'align-items:center;justify-content:center;padding:20px;background:rgba(0,0,0,.45);',
         'font-family:"Microsoft YaHei UI","Microsoft YaHei",sans-serif;}',
-        '.xxt-picker{width:min(720px,100%);max-height:88vh;overflow:auto;position:relative;}',
+        '.xxt-picker{width:100%;max-width:720px;max-height:88vh;overflow:auto;position:relative;}',
         '.window.vista-dialog.xxt-picker > .window-content{padding:16px 18px 18px;}',
         '.xxt-picker-lead{margin:0 0 15px;font-size:13px;line-height:1.8;color:#3D3A38;}',
         '.xxt-picker-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:18px;}',

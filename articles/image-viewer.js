@@ -183,6 +183,7 @@
 
             var use = document.createElementNS('http://www.w3.org/2000/svg', 'use');
             use.setAttribute('href', '#' + id);
+            use.setAttributeNS('http://www.w3.org/1999/xlink', 'xlink:href', '#' + id);
             svg.appendChild(use);
 
             // 保留原 <img> 上的 title(无障碍 / 悬停提示)

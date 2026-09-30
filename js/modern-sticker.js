@@ -439,9 +439,12 @@
        配套约定:新加"可点击图标"时,记得打 `data-xxt-keep`,
        或让该脚本自己做矢量化(像 uac.js / image-viewer.js 那样)。
        ----------------------------------------------------------------- */
-    var ICON_SELECTOR = 'img[src*="images/icons/"]:not(.cat-btn *):not([data-xxt-keep]), ' +
-        'img[src$="/hot.png"]:not(.cat-btn *):not([data-xxt-keep]), ' +
-        'img[src$="/online.png"]:not(.cat-btn *):not([data-xxt-keep]), ' +
+    /* ⚠️ 排除 .cat-btn 里的小图标**不能**写成 `:not(.cat-btn *)`:那是选择器 Level 4 的
+       语法,旧 Edge 判定整个选择器非法,querySelectorAll 会直接抛错,连带后面几个初始化
+       一起停摆。改由 markKeepAlive() 给这些图标打 data-xxt-keep 来排除。 */
+    var ICON_SELECTOR = 'img[src*="images/icons/"]:not([data-xxt-keep]), ' +
+        'img[src$="/hot.png"]:not([data-xxt-keep]), ' +
+        'img[src$="/online.png"]:not([data-xxt-keep]), ' +
         'img[src$="/busy.png"]:not([data-xxt-keep]), ' +
         'img[src$="/Window_CloseButton.png"]:not([data-xxt-keep]), ' +
         'img[src*="media/assets/prev.png"]:not([data-xxt-keep]), ' +
@@ -462,6 +465,13 @@
         // 图标本体在下面的 LIVE2D_ICON_MAP 里,不进主映射表(见那张表的说明)。
         'img[src*="live2d-widget/dist/assets/"]:not([data-xxt-keep])';
     var SVG_NS = 'http://www.w3.org/2000/svg';
+    var XLINK_NS = 'http://www.w3.org/1999/xlink';
+
+    /* <use> 的链接属性写两份:现代浏览器认 SVG2 的 href,旧 Edge 只认 xlink:href */
+    function setUseHref(node, target) {
+        node.setAttribute('href', target);
+        node.setAttributeNS(XLINK_NS, 'xlink:href', target);
+    }
 
     /* Live2D 看板娘那几枚图标单独一张小表,**故意不进 XXT_ICON_MAP**。
 
@@ -531,6 +541,12 @@
             if (btns[i].tagName === 'IMG') {
                 btns[i].setAttribute('data-xxt-keep', '1');
             }
+        }
+
+        // .cat-btn(标签 chips)里的小图标保持原 PNG,同样打标记跳过矢量化
+        var catIcons = document.querySelectorAll('.cat-btn img');
+        for (var k = 0; k < catIcons.length; k++) {
+            catIcons[k].setAttribute('data-xxt-keep', '1');
         }
 
         // 从名单里移除过的类名,要把残留的标记清掉 ——
@@ -605,11 +621,11 @@
                 svgBoth.setAttribute('focusable', 'false');
 
                 var playUse = document.createElementNS(SVG_NS, 'use');
-                playUse.setAttribute('href', '#i-play');
+                setUseHref(playUse, '#i-play');
                 playUse.setAttribute('class', 'xxt-play-icon');
 
                 var pauseUse = document.createElementNS(SVG_NS, 'use');
-                pauseUse.setAttribute('href', '#i-pause');
+                setUseHref(pauseUse, '#i-pause');
                 pauseUse.setAttribute('class', 'xxt-pause-icon');
 
                 svgBoth.appendChild(playUse);
@@ -638,7 +654,7 @@
             }
 
             var use = document.createElementNS(SVG_NS, 'use');
-            use.setAttribute('href', '#' + id);
+            setUseHref(use, '#' + id);
             svg.appendChild(use);
 
             if (img.parentNode) {
@@ -754,7 +770,7 @@
         svg.setAttribute('aria-hidden', 'true');
         svg.setAttribute('focusable', 'false');
         var use = document.createElementNS(SVG_NS, 'use');
-        use.setAttribute('href', '#' + iconId);
+        setUseHref(use, '#' + iconId);
         svg.appendChild(use);
         return svg;
     }
@@ -924,7 +940,7 @@
             '<input type="text" placeholder="站内搜索" aria-label="站内搜索" />' +
             '<button type="button" aria-label="搜索">' +
             '<svg class="xxt-ic" aria-hidden="true" focusable="false">' +
-            '<use href="#i-magnifying-glass"></use></svg>' +
+            '<use href="#i-magnifying-glass" xlink:href="#i-magnifying-glass"></use></svg>' +
             '</button>';
         return box;
     }
@@ -1050,7 +1066,7 @@
         close.className = 'xxt-infobar-close';
         close.setAttribute('aria-label', '关闭');
         close.innerHTML = '<svg class="xxt-ic" aria-hidden="true">' +
-            '<use href="#i-close-dot"></use></svg>';
+            '<use href="#i-close-dot" xlink:href="#i-close-dot"></use></svg>';
         close.addEventListener('click', removeInfobar);
         bar.appendChild(close);
 
