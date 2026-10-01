@@ -1,17 +1,26 @@
 window.xxtArticleData = {
-  "scanning.html": {
+    "scanning.html": {
         title: "人是怎么看网页的",
         author: "xxt8582753",
-        desc: "为了改自己的网站，我翻了几天眼动研究，结果发现好几条被到处转发的设计常识，要么被说反了，要么根本没有数据支持。",
+        desc: "为了改自己的网站，我翻了很多资料，和大家分享一些关于人眼阅读模式的趣谈",
         img: "",
         date: "2026年10月1日",
-        tags: ["rant", "coding"],
+        tags: ["rant", "coding", "tutorial"],
         url: "articles/scanning.html"
     },
-  "haitangxiangyouji.html": {
+    "fucklibmgr.html": {
+        title: "info比warning更温暖",
+        author: "xxt8582753",
+        desc: "站长去趟学校图书馆，偶遇雷霆管理员，拼尽全力无法战胜",
+        img: "",
+        date: "2026年9月30日",
+        tags: ["rant", "school"],
+        url: "articles/fucklibmgr.html"
+    },
+    "haitangxiangyouji.html": {
         title: "海棠乡游记",
         author: "cookie",
-        desc: "时隔一年，我终于拿起真正属于我的笔，用眼睛看这个世界。一个被日程表拖住的高中生，讲讲这两年的经历。",
+        desc: "时隔一年，我终于拿起真正属于我的笔，用眼睛看这个世界。一个被日程表拖住的高中生，讲讲这两年的经历",
         img: "",
         date: "2026年9月26日",
         tags: ["rant", "school"],
@@ -86,9 +95,9 @@ window.xxtArticleData = {
     "unsleepnight.html": {
         title: "不眠之夜",
         author: "xxt8582753",
-        desc: "《我和AbCd白嫖了一台12代i5电脑》续作",
+        desc: "《我和AbCd白嫖了一台12代i5电脑》续作，和年级组组长斗智斗勇，欸不是老弟你有啥实力啊",
         img: "",
-        date: "2026年7月3日 - 正在编辑",
+        date: "2026年7月3日",
         disturbing: true,
         tags: ["school", "rant"],
         uac: true,
@@ -582,6 +591,7 @@ window.xxtArticleData = {
 
 window.xxtArticleOrder = [
     "scanning.html",
+    "fucklibmgr.html",
     "haitangxiangyouji.html",
     "cppsekai.html",
     "kb5124008.html",
@@ -766,18 +776,6 @@ window.xxtTagConfig = {
     loadSettings();
   }
 
-  /* ---- 背景:两套主题共用同一个 bgIndex ----
-     默认主题(Aero)拿它当壁纸;手账主题自带纸面层(body::before 那块**不透明**的纸色
-     + 三枚色块),会把 body 自己的壁纸整块盖住 —— 所以手账下这张图是**纯白下**
-     (background.webp 22KB,切到后面几张 87~198KB)。
-
-     于是手账下换成一张内联的 1×1 占位图,理由有两条:
-       ① 零请求(内联 data URI 不会发出去);
-       ② 序号跟在 `#` 后面,每次切换值都不同 → body 的 style 属性确实在变 ——
-          modern-sticker.js 的 initBgTone 靠 MutationObserver 监听这次改写来切
-          纸面配色,值不变它就感知不到,手账那边"切换背景"会失灵。
-     判定读 #themeCss 的 href(与 support/chomowan/charts.js 同一套判法):
-     看的是**实际生效**的那份主题,不是 localStorage。 */
   var BACKGROUNDS = [
     'background.webp',
     'background/background_1.webp',
@@ -787,11 +785,6 @@ window.xxtTagConfig = {
   ];
   var PLACEHOLDER_BG =
     'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';
-
-  /* 当前生效的是不是手账主题(读 #themeCss 的 href,与别处同一套判法)。
-     用途:预览图在手账下不给 src —— 那张图只出现在 hover 浮窗里,而手账的卡片
-     压根没有浮窗(modern-sticker.js 会把 .preview-box 整个移除),预先下好 = 白下。
-     Aero 保持原样:提前下好,hover 时无缝。 */
   function stickerThemeOn() {
     var link = document.getElementById('themeCss');
     var href = link ? (link.getAttribute('href') || '') : '';

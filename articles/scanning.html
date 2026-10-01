@@ -32,19 +32,41 @@
         })();
     </script>
     <style>
-        .article-content figure.wfig { margin: 26px 0; }
-        .article-content .wfig-scroll { overflow-x: auto; padding-bottom: 4px; }
-        .article-content .wfig-scroll svg { display: block; width: 100%; min-width: 520px; height: auto; }
-        .article-content figcaption { margin-top: 10px; font-size: 13px; line-height: 1.7; text-align: center; opacity: .7; }
+        .article-content figure.wfig {
+            margin: 26px 0;
+        }
+
+        .article-content .wfig-scroll {
+            overflow-x: auto;
+            padding-bottom: 4px;
+        }
+
+        .article-content .wfig-scroll svg {
+            display: block;
+            width: 100%;
+            min-width: 520px;
+            height: auto;
+        }
+
+        .article-content figcaption {
+            margin-top: 10px;
+            font-size: 13px;
+            line-height: 1.7;
+            text-align: center;
+            opacity: .7;
+        }
+
         @media (max-width: 560px) {
-            .article-content .wfig-scroll svg { min-width: 460px; }
+            .article-content .wfig-scroll svg {
+                min-width: 460px;
+            }
         }
     </style>
 </head>
 
 <body>
     <div class="header-image">
-        <img src="vista.jpg" alt="标题图片">
+        <img src="assets/wishtree.jpg" alt="标题图片">
         <div class="title-overlay">
             <h1>人是怎么看网页的</h1>
         </div>
@@ -66,463 +88,388 @@
         </div>
 
         <div class="article-content">
-
-
-            <p>我为了改自己的网站，翻了几天眼动研究。结果发现好几条被到处转发的"设计常识"，要么被说反了，要么根本没有数据支持。</p>
-
-            <p>事情是从一个很小的问题开始的。</p>
-
-            <p>我在改自己网站的首页。那里有十几张文章卡片，长得几乎一模一样，我想让"最新的一篇"看起来更重要一点，于是开始调颜色、调大小、调间距。</p>
-
-            <p>改到一半我停下来了，问自己一个问题：我到底知不知道，人打开一个网页的时候，眼睛会先往哪儿看？</p>
-
-            <p>不知道。</p>
-
-            <p>那就去查。以下是我这几天看到的东西里，我觉得最值得记录的部分。</p>
-
-            <h2>一、F 型不是你要追求的东西</h2>
-
-            <p>如果你搜过"网页布局"，大概率见过这么一张图：页面上有一团橙色的、像字母 F 的亮斑，配文写着"用户的视线呈 F 型分布，重要内容要放在左上角"。</p>
-
-            <p>我看了好多年，一直以为这是设计准则。</p>
-
-            <p>直到翻到 Nielsen Norman Group 自己的回访文章——距离他们 2006 年提出这个结论，已经过去 11 年——标题里就写着"被误解了，但仍然相关"。</p>
-
-            <p>文章里有两句话我读了两遍：</p>
+            <p>哈喽小伙伴们，国庆节快乐呀🎉</p>
+            <p>相信各位已经发现网站正在测试的 xxtsoft Moe Design 主题了，它将替代掉原有杂乱且审美过时的仿 Windows Vista 主题（当然我知道有一部分人喜欢旧版主题，目前仍然保留旧版样式切换）在进行视觉体验改造的过程中，我发现一些很有趣的事情，所以想和大家分享一下。</p>
+            <h2>F 型布局被误解了</h2>
+            <p>你大概率见过这么一张图：页面上有一团像字母F的亮斑，配文写着"用户的视线呈 F 型分布，重要内容要放在左上角"。</p>
+            <img src="assets/fxing.jpg">
+            <p>我一直以为这是设计准则,直到翻到 Nielsen Norman Group 自己的回访文章——距离他们 2006 年提出这个结论，已经过去 11 年。标题里就写着"被误解了，但仍然相关"。</p>
 
             <div class="tips">
-            <p lang="en">The F-pattern is negative for users and businesses.</p>
-            <p lang="en">Good design can prevent F-shape scanning.</p>
-            <p>— <a href="https://www.nngroup.com/articles/f-shaped-pattern-reading-web-content/">F-Shaped Pattern of Reading on the Web: Misunderstood, But Still Relevant</a>，Nielsen Norman Group，2017</p>
+                <p lang="en">The F-pattern is negative for users and businesses.</p>
+                <p lang="en">Good design can prevent F-shape scanning.</p>
+                <p>— <a href="https://www.nngroup.com/articles/f-shaped-pattern-reading-web-content/">F-Shaped Pattern
+                        of Reading on the Web: Misunderstood, But Still Relevant</a>，Nielsen Norman Group，2017</p>
             </div>
-
             <p>翻译过来就是：F 型对用户和商家都不利，而且<strong>好的设计能防止它出现</strong>。</p>
-
-            <p>我第一反应是：这不是你自己提出来的吗。</p>
-
-            <p>但接着往下看就懂了。<strong>F 型不是一个可以追求的形状，它是一种症状。</strong>它只在"文字堆成一大片、没有小标题、没有视觉分组"的页面上出现——因为页面上一个抓手都没有，眼睛只能退回最省力的策略：横扫一下上面，再横扫一下，然后沿着左边快速滑下去，走人。</p>
-
-            <p>换句话说，你看到 F 型，不是用户"喜欢 F 型"，而是<em>你的页面没给他别的东西可看</em>。</p>
-
-            <p>一个被全行业抄了十几年的"规律"，作者本人说它是失败信号。这个反转挺有意思的。</p>
-
-            <h2>二、人其实不在"读"</h2>
-
-            <p>关于"扫读"这件事，数据比我想的早得多。1997 年那项研究记录的数字是：<strong>79% 的测试用户会扫读每一个新打开的页面，只有 16% 会逐字读。</strong></p>
-
-            <p>而那句被引用得最多的话是这么写的：</p>
-
+            <p>但这tm不是你们自己提出来的吗？</p>
+            <p>接着往下看这个新报告就懂了。<b>F
+                    型不是一个值得追求的形状，而是一种症状。</b>它只在文字堆成一大片、没有小标题、没有视觉分组的页面上出现。因为页面上一个抓手都没有，眼睛只能退回最省力的策略：横扫一下上面，再横扫一下下一行，然后沿着左边快速滑下去。
+            </p>
+            <p>所以说，你看到的 F 型，不是用户"喜欢 F 型"，而是你的页面没给用户别的东西看。</p>
+            <p>我之前还在担心首页顶部区域给了欢迎标语和公告栏，会不会导致用户不把注意力集中在我的产品和文章列表上，但根据这些信息，如果布局合理，用户还是能找到关键内容的。</p>
+            <p>一个被人们口耳相传十几年的规律，作者本人说它是失败信号。这个反转挺有意思的。</p>
+            <h2>人其实不在"读"</h2>
             <div class="tips">
-            <p lang="en">People rarely read Web pages word by word; instead, they scan the page, picking out individual words and sentences.</p>
-            <p>— <a href="https://www.nngroup.com/articles/how-users-read-on-the-web/">How Users Read on the Web</a>，Jakob Nielsen，1997</p>
+                <p lang="en">People rarely read Web pages word by word; instead, they scan the page, picking out
+                    individual words and sentences.</p>
+                <p>— <a href="https://www.nngroup.com/articles/how-users-read-on-the-web/">How Users Read on the
+                        Web</a>，Jakob Nielsen，1997</p>
             </div>
-
-            <p>二十多年过去，这个判断没怎么变。NN/g 在后来的报告里说，它之所以 23 年仍然成立，是因为它由人的基本行为决定，而不是由技术决定。</p>
-
-            <p>这个认知会改掉很多习惯。比如我以前写东西，总想着"这段要写得完整"；现在会先想"这行第一个词能不能让人停下"。</p>
-
+            <p>79% 的测试用户会扫读每一个新打开的页面，只有 16% 会逐字读。这由人的基本行为决定，而不是由技术决定。</p>
+            <p>因此比起总想着"这段要写得完整"，我们要多想"这行第一个词能不能让人停下"。</p>
             <figure class="wfig">
-            <div class="wfig-scroll">
-            <svg viewBox="0 0 680 364" role="img" xmlns="http://www.w3.org/2000/svg">
-            <title>四种扫读模式的热区分布</title>
-            <desc>F 型出现在没有小标题的纯文本页；分层蛋糕只看标题；斑点模式找特定词；割草机用于卡片或图片为主的页面。</desc>
+                <div class="wfig-scroll">
+                    <svg viewBox="0 0 680 364" role="img" xmlns="http://www.w3.org/2000/svg">
+                        <rect x="40" y="20" width="280" height="130" rx="10" fill="#F5F4F1" />
+                        <text x="56" y="46" font-size="14" font-weight="500" fill="#2E2C28">F 型</text>
+                        <rect x="56" y="54" width="248" height="80" rx="6" fill="#FFFFFF" />
+                        <rect x="68" y="64" width="190" height="7" rx="3" fill="#E4E0D8" />
+                        <rect x="68" y="76" width="190" height="7" rx="3" fill="#E4E0D8" />
+                        <rect x="68" y="88" width="190" height="7" rx="3" fill="#E4E0D8" />
+                        <rect x="68" y="100" width="190" height="7" rx="3" fill="#E4E0D8" />
+                        <rect x="68" y="112" width="190" height="7" rx="3" fill="#E4E0D8" />
+                        <rect x="68" y="62" width="190" height="18" fill="#FFB020" fill-opacity="0.32" />
+                        <rect x="68" y="86" width="110" height="18" fill="#FFB020" fill-opacity="0.26" />
+                        <rect x="68" y="62" width="18" height="62" fill="#FFB020" fill-opacity="0.20" />
+                        <text x="56" y="176" font-size="12" fill="#6B655C">没有小标题时，眼睛的兜底策略</text>
 
-            <rect x="40" y="20" width="280" height="130" rx="10" fill="#F5F4F1"/>
-            <text x="56" y="46" font-size="14" font-weight="500" fill="#2E2C28">F 型</text>
-            <rect x="56" y="54" width="248" height="80" rx="6" fill="#FFFFFF"/>
-            <rect x="68" y="64" width="190" height="7" rx="3" fill="#E4E0D8"/>
-            <rect x="68" y="76" width="190" height="7" rx="3" fill="#E4E0D8"/>
-            <rect x="68" y="88" width="190" height="7" rx="3" fill="#E4E0D8"/>
-            <rect x="68" y="100" width="190" height="7" rx="3" fill="#E4E0D8"/>
-            <rect x="68" y="112" width="190" height="7" rx="3" fill="#E4E0D8"/>
-            <rect x="68" y="62" width="190" height="18" fill="#FFB020" fill-opacity="0.32"/>
-            <rect x="68" y="86" width="110" height="18" fill="#FFB020" fill-opacity="0.26"/>
-            <rect x="68" y="62" width="18" height="62" fill="#FFB020" fill-opacity="0.20"/>
-            <text x="56" y="176" font-size="12" fill="#6B655C">没有小标题时，眼睛的兜底策略</text>
+                        <rect x="360" y="20" width="280" height="130" rx="10" fill="#F5F4F1" />
+                        <text x="376" y="46" font-size="14" font-weight="500" fill="#2E2C28">分层蛋糕</text>
+                        <rect x="376" y="54" width="248" height="80" rx="6" fill="#FFFFFF" />
+                        <rect x="388" y="64" width="190" height="7" rx="3" fill="#E4E0D8" />
+                        <rect x="388" y="76" width="190" height="7" rx="3" fill="#E4E0D8" />
+                        <rect x="388" y="88" width="190" height="7" rx="3" fill="#E4E0D8" />
+                        <rect x="388" y="100" width="190" height="7" rx="3" fill="#E4E0D8" />
+                        <rect x="388" y="112" width="190" height="7" rx="3" fill="#E4E0D8" />
+                        <rect x="388" y="62" width="168" height="14" fill="#FFB020" fill-opacity="0.34" />
+                        <rect x="388" y="86" width="140" height="14" fill="#FFB020" fill-opacity="0.30" />
+                        <rect x="388" y="110" width="176" height="14" fill="#FFB020" fill-opacity="0.26" />
+                        <text x="376" y="176" font-size="12" fill="#6B655C">只看小标题，正文整段跳过</text>
 
-            <rect x="360" y="20" width="280" height="130" rx="10" fill="#F5F4F1"/>
-            <text x="376" y="46" font-size="14" font-weight="500" fill="#2E2C28">分层蛋糕</text>
-            <rect x="376" y="54" width="248" height="80" rx="6" fill="#FFFFFF"/>
-            <rect x="388" y="64" width="190" height="7" rx="3" fill="#E4E0D8"/>
-            <rect x="388" y="76" width="190" height="7" rx="3" fill="#E4E0D8"/>
-            <rect x="388" y="88" width="190" height="7" rx="3" fill="#E4E0D8"/>
-            <rect x="388" y="100" width="190" height="7" rx="3" fill="#E4E0D8"/>
-            <rect x="388" y="112" width="190" height="7" rx="3" fill="#E4E0D8"/>
-            <rect x="388" y="62" width="168" height="14" fill="#FFB020" fill-opacity="0.34"/>
-            <rect x="388" y="86" width="140" height="14" fill="#FFB020" fill-opacity="0.30"/>
-            <rect x="388" y="110" width="176" height="14" fill="#FFB020" fill-opacity="0.26"/>
-            <text x="376" y="176" font-size="12" fill="#6B655C">只看小标题，正文整段跳过</text>
+                        <g transform="translate(0,20)">
+                            <rect x="40" y="170" width="280" height="130" rx="10" fill="#F5F4F1" />
+                            <text x="56" y="196" font-size="14" font-weight="500" fill="#2E2C28">斑点</text>
+                            <rect x="56" y="204" width="248" height="80" rx="6" fill="#FFFFFF" />
+                            <rect x="68" y="214" width="190" height="7" rx="3" fill="#E4E0D8" />
+                            <rect x="68" y="226" width="190" height="7" rx="3" fill="#E4E0D8" />
+                            <rect x="68" y="238" width="190" height="7" rx="3" fill="#E4E0D8" />
+                            <rect x="68" y="250" width="190" height="7" rx="3" fill="#E4E0D8" />
+                            <rect x="68" y="262" width="190" height="7" rx="3" fill="#E4E0D8" />
+                            <rect x="112" y="213" width="34" height="9" rx="4" fill="#FFB020" fill-opacity="0.55" />
+                            <rect x="196" y="237" width="28" height="9" rx="4" fill="#FFB020" fill-opacity="0.55" />
+                            <rect x="86" y="261" width="38" height="9" rx="4" fill="#FFB020" fill-opacity="0.55" />
+                            <rect x="228" y="225" width="22" height="9" rx="4" fill="#FFB020" fill-opacity="0.45" />
+                            <text x="56" y="326" font-size="12" fill="#6B655C">只在找某个特定的词或数字</text>
 
-            <g transform="translate(0,20)">
-            <rect x="40" y="170" width="280" height="130" rx="10" fill="#F5F4F1"/>
-            <text x="56" y="196" font-size="14" font-weight="500" fill="#2E2C28">斑点</text>
-            <rect x="56" y="204" width="248" height="80" rx="6" fill="#FFFFFF"/>
-            <rect x="68" y="214" width="190" height="7" rx="3" fill="#E4E0D8"/>
-            <rect x="68" y="226" width="190" height="7" rx="3" fill="#E4E0D8"/>
-            <rect x="68" y="238" width="190" height="7" rx="3" fill="#E4E0D8"/>
-            <rect x="68" y="250" width="190" height="7" rx="3" fill="#E4E0D8"/>
-            <rect x="68" y="262" width="190" height="7" rx="3" fill="#E4E0D8"/>
-            <rect x="112" y="213" width="34" height="9" rx="4" fill="#FFB020" fill-opacity="0.55"/>
-            <rect x="196" y="237" width="28" height="9" rx="4" fill="#FFB020" fill-opacity="0.55"/>
-            <rect x="86" y="261" width="38" height="9" rx="4" fill="#FFB020" fill-opacity="0.55"/>
-            <rect x="228" y="225" width="22" height="9" rx="4" fill="#FFB020" fill-opacity="0.45"/>
-            <text x="56" y="326" font-size="12" fill="#6B655C">只在找某个特定的词或数字</text>
-
-            <rect x="360" y="170" width="280" height="130" rx="10" fill="#F5F4F1"/>
-            <text x="376" y="196" font-size="14" font-weight="500" fill="#2E2C28">割草机</text>
-            <rect x="376" y="204" width="248" height="80" rx="6" fill="#FFFFFF"/>
-            <rect x="388" y="214" width="70" height="30" rx="4" fill="#E4E0D8"/>
-            <rect x="466" y="214" width="70" height="30" rx="4" fill="#E4E0D8"/>
-            <rect x="544" y="214" width="68" height="30" rx="4" fill="#E4E0D8"/>
-            <rect x="388" y="252" width="70" height="30" rx="4" fill="#E4E0D8"/>
-            <rect x="466" y="252" width="70" height="30" rx="4" fill="#E4E0D8"/>
-            <rect x="544" y="252" width="68" height="30" rx="4" fill="#E4E0D8"/>
-            <polyline points="406,229 484,229 484,267 562,267 562,229 630,229" fill="none" stroke="#FFB020" stroke-opacity="0.55" stroke-width="7" stroke-linejoin="round" stroke-linecap="round"/>
-            <text x="376" y="326" font-size="12" fill="#6B655C">格子、卡片、图文交替的页面</text>
-            </g>
-            </svg>
-            </div>
-            <figcaption>图 1 · 同样多的内容，排版方式不同，眼睛走的路完全不一样</figcaption>
+                            <rect x="360" y="170" width="280" height="130" rx="10" fill="#F5F4F1" />
+                            <text x="376" y="196" font-size="14" font-weight="500" fill="#2E2C28">割草机</text>
+                            <rect x="376" y="204" width="248" height="80" rx="6" fill="#FFFFFF" />
+                            <rect x="388" y="214" width="70" height="30" rx="4" fill="#E4E0D8" />
+                            <rect x="466" y="214" width="70" height="30" rx="4" fill="#E4E0D8" />
+                            <rect x="544" y="214" width="68" height="30" rx="4" fill="#E4E0D8" />
+                            <rect x="388" y="252" width="70" height="30" rx="4" fill="#E4E0D8" />
+                            <rect x="466" y="252" width="70" height="30" rx="4" fill="#E4E0D8" />
+                            <rect x="544" y="252" width="68" height="30" rx="4" fill="#E4E0D8" />
+                            <polyline points="406,229 484,229 484,267 562,267 562,229 630,229" fill="none"
+                                stroke="#FFB020" stroke-opacity="0.55" stroke-width="7" stroke-linejoin="round"
+                                stroke-linecap="round" />
+                            <text x="376" y="326" font-size="12" fill="#6B655C">格子、卡片、图文交替的页面</text>
+                        </g>
+                    </svg>
+                </div>
             </figure>
-
-            <h2>三、我首页原来是"割草机"</h2>
-
-            <p>NN/g 在 2019 年做了第二次大规模研究：跨 13 年、五个研究、500 多名参与者、750 多个小时的眼动记录。这次他们<strong>在中国北京也做了</strong>——虽然只有 12 个人，美国那边是一百多。</p>
-
+            <h2>"割草机"模式</h2>
+            <p>NN/g 在 2019 年做了第二次大规模研究。这次他们在北京也做了，证明了结果对于中文用户的普遍适用性。</p>
             <p>在这次研究里，他们给一个模式正式命名了：<strong>lawn-mower（割草机）</strong>。原文是这么定义的：</p>
-
             <div class="tips">
-            <p lang="en">On pages with distinct cells of content, people often process those cells in a lawn-mower pattern: they begin in the top left cell, move to right until the end of the row, then drop down to the next row, move to the left until the end of the row, drop down the next row, and so on.</p>
-            <p>— <a href="https://www.nngroup.com/articles/how-people-read-online/">How People Read Online: New and Old Findings</a>，Kate Moran，NN/g，2019</p>
+                <p lang="en">On pages with distinct cells of content, people often process those cells in a lawn-mower
+                    pattern: they begin in the top left cell, move to right until the end of the row, then drop down to
+                    the next row, move to the left until the end of the row, drop down the next row, and so on.</p>
+                <p>— <a href="https://www.nngroup.com/articles/how-people-read-online/">How People Read Online: New and
+                        Old Findings</a>，Kate Moran，NN/g，2019</p>
             </div>
-
-            <p>就像割草机在草坪上来回折返。</p>
-
-            <p>我读到这儿愣了一下。这不就是我首页吗。</p>
-
+            <p>它就像割草机在草坪上来回折返（如下图）</p>
             <figure class="wfig">
-            <div class="wfig-scroll">
-            <svg viewBox="0 0 680 280" role="img" xmlns="http://www.w3.org/2000/svg">
-            <title>割草机扫读模式</title>
-            <desc>卡片或格子型内容上，视线从左上格开始向右扫完一行，下移一行后反向再扫，像割草机来回折返。</desc>
+                <div class="wfig-scroll">
+                    <svg viewBox="0 0 680 280" role="img" xmlns="http://www.w3.org/2000/svg">
+                        <rect x="40" y="38" width="600" height="200" rx="12" fill="#F5F4F1" />
 
-            <text x="40" y="24" font-size="14" font-weight="500" fill="#2E2C28">lawn-mower（割草机）：格子型内容的扫读路径</text>
-            <rect x="40" y="38" width="600" height="200" rx="12" fill="#F5F4F1"/>
+                        <rect x="95" y="76" width="150" height="40" rx="7" fill="#E9E7E1" />
+                        <rect x="265" y="76" width="150" height="40" rx="7" fill="#E9E7E1" />
+                        <rect x="435" y="76" width="150" height="40" rx="7" fill="#E9E7E1" />
+                        <rect x="95" y="136" width="150" height="40" rx="7" fill="#E9E7E1" />
+                        <rect x="265" y="136" width="150" height="40" rx="7" fill="#E9E7E1" />
+                        <rect x="435" y="136" width="150" height="40" rx="7" fill="#E9E7E1" />
+                        <rect x="95" y="196" width="150" height="40" rx="7" fill="#E9E7E1" />
+                        <rect x="265" y="196" width="150" height="40" rx="7" fill="#E9E7E1" />
+                        <rect x="435" y="196" width="150" height="40" rx="7" fill="#E9E7E1" />
 
-            <rect x="95" y="76" width="150" height="40" rx="7" fill="#E9E7E1"/>
-            <rect x="265" y="76" width="150" height="40" rx="7" fill="#E9E7E1"/>
-            <rect x="435" y="76" width="150" height="40" rx="7" fill="#E9E7E1"/>
-            <rect x="95" y="136" width="150" height="40" rx="7" fill="#E9E7E1"/>
-            <rect x="265" y="136" width="150" height="40" rx="7" fill="#E9E7E1"/>
-            <rect x="435" y="136" width="150" height="40" rx="7" fill="#E9E7E1"/>
-            <rect x="95" y="196" width="150" height="40" rx="7" fill="#E9E7E1"/>
-            <rect x="265" y="196" width="150" height="40" rx="7" fill="#E9E7E1"/>
-            <rect x="435" y="196" width="150" height="40" rx="7" fill="#E9E7E1"/>
+                        <polyline points="110,96 585,96 585,156 110,156 110,216 585,216" fill="none" stroke="#FFB020"
+                            stroke-opacity="0.55" stroke-width="6" stroke-linejoin="round" stroke-linecap="round" />
 
-            <polyline points="110,96 585,96 585,156 110,156 110,216 585,216" fill="none" stroke="#FFB020" stroke-opacity="0.55" stroke-width="6" stroke-linejoin="round" stroke-linecap="round"/>
-
-            <circle cx="118" cy="96" r="12" fill="#E08A00"/>
-            <text x="118" y="96" text-anchor="middle" dominant-baseline="central" font-size="12" fill="#FFFFFF">1</text>
-            <circle cx="577" cy="156" r="12" fill="#E08A00"/>
-            <text x="577" y="156" text-anchor="middle" dominant-baseline="central" font-size="12" fill="#FFFFFF">2</text>
-            <circle cx="118" cy="216" r="12" fill="#E08A00"/>
-            <text x="118" y="216" text-anchor="middle" dominant-baseline="central" font-size="12" fill="#FFFFFF">3</text>
-
-            <text x="40" y="262" font-size="12" fill="#6B655C">一行扫完 → 下移 → 反向再扫一行，来回折返</text>
-            </svg>
-            </div>
-            <figcaption>图 2 · 折返发生在行的两端，所以每行的两头比中间更容易被看到</figcaption>
+                        <circle cx="118" cy="96" r="12" fill="#E08A00" />
+                        <text x="118" y="96" text-anchor="middle" dominant-baseline="central" font-size="12"
+                            fill="#FFFFFF">1</text>
+                        <circle cx="577" cy="156" r="12" fill="#E08A00" />
+                        <text x="577" y="156" text-anchor="middle" dominant-baseline="central" font-size="12"
+                            fill="#FFFFFF">2</text>
+                        <circle cx="118" cy="216" r="12" fill="#E08A00" />
+                        <text x="118" y="216" text-anchor="middle" dominant-baseline="central" font-size="12"
+                            fill="#FFFFFF">3</text>
+                    </svg>
+                </div>
             </figure>
-
-            <p>十几张卡片排成网格，每张都是独立的格子，正好是"distinct cells of content"。而且他们还专门说明，图文交替的 zigzag 布局，读者也是用这个方式扫的。</p>
-
-            <p>所以对我来说，那套"左上角最重要"的常识得修正一下：</p>
-
+            <p>细心的小伙伴可能已经发现了：<b>这就是使用新主题的网站首页文章布局！</b></p>
+            <p>所以“左上角最重要”的直觉应该变为</p>
             <ul>
-            <li><strong>前几行的权重最高</strong>，尤其是第一行；</li>
-            <li><strong>每一行的两端比中间更容易被看到</strong>——因为折返发生在两端；</li>
-            <li>行中间那几张，最容易被直接跳过。</li>
+                <li><strong>前几行的权重最高</strong>，尤其是第一行</li>
+                <li><strong>每一行的两端比中间更容易被看到</strong>因为折返发生在两端</li>
+                <li>行中间那几张，最容易被直接跳过。</li>
             </ul>
-
-            <p>嗯，这就是为什么我把"最新一篇"放在列表第一个位置，而不是放在中间加个高亮。</p>
-
-            <h2>四、顺便说说那个"用户差异"的说法</h2>
-
+            <p>这就是为什么把"最新一篇"放在列表第一个位置，而不是放在中间加个高亮，这也符合我们“按时间排序”的直觉。</p>
+            <h2>用户差异？</h2>
             <p>我一开始以为 F 型和 Z 型是"两种不同的人"。其实不是。有篇文章把它说得很清楚：</p>
-
             <div class="tips">
-            <p lang="en">They describe different layouts, not different users.</p>
-            <p>— <a href="https://www.metricuno.com/f-pattern-reading">F-Pattern Reading</a>，Metricuno（行业博客，非研究结论）</p>
+                <p lang="en">They describe different layouts, not different users.</p>
+                <p>— <a href="https://www.metricuno.com/f-pattern-reading">F-Pattern Reading</a>，Metricuno（行业博客，非研究结论）
+                </p>
             </div>
 
             <p>同一个读者，读一篇长文时是 F 型（或者说，是被迫 F 型），翻一个卡片站时是割草机，看一个产品页时是 Z 型。形状是页面结构决定的，不是性格决定的。</p>
-
-            <p>顺便，还有一组反驳数据值得记一下：有家公司分析了 99 个网站、46 名参与者、一共 <strong>157,498 个扫视固定点</strong>。他们的原话是：</p>
-
-            <div class="tips">
-            <p lang="en">Out of those 99 websites, we didn't find any individual heat maps that closely resembled an F.</p>
-            <p>— <a href="https://www.eyequant.com/resources/eye-tracking-studies-does-the-famous-f-shape-pattern-really-exist">Eye Tracking Studies: Does the Famous F-shape Pattern Really Exist?</a>，EyeQuant</p>
-            </div>
-
-            <p>他们观测到的实际分布是"中间偏左的一坨"，不是什么字母。他们的建议是别把 F 型当金科玉律——我觉得更准确的说法是：<strong>F 型是"没有设计"时的默认值，不是设计目标。</strong></p>
-
-            <h2>五、眼睛先分组，再认字</h2>
-
-            <p>这是我觉得最有用、但最少被提到的一层。</p>
-
-            <p>格式塔心理学（Gestalt，1920 年代由三位德国心理学家提出）里有一条原则。设计教材里的原话是：</p>
+            <p>还有一组反驳数据：有家公司分析了 99 个网站、46 名参与者、一共 157,498 个扫视固定点。他们的原话是：</p>
 
             <div class="tips">
-            <p lang="en">Proximity is powerful enough to override similarity of color, shape, etc.</p>
-            <p>— <a href="https://www.educative.io/answers/what-are-gestalt-principles">What are Gestalt principles?</a>，Educative（教材性资料；原则本身出自 Wertheimer 1923 一脉，见文末文献）</p>
+                <p lang="en">Out of those 99 websites, we didn't find any individual heat maps that closely resembled an
+                    F.</p>
+                <p>— <a
+                        href="https://www.eyequant.com/resources/eye-tracking-studies-does-the-famous-f-shape-pattern-really-exist">Eye
+                        Tracking Studies: Does the Famous F-shape Pattern Really Exist?</a>，EyeQuant</p>
             </div>
 
-            <p>翻成人话：<em>两个东西放得近，人就会认为它们是一组，哪怕它们颜色形状完全不同；反过来，两个长得一模一样的东西，只要间距拉开，人就不认为它们有关系。</em></p>
+            <p>他们观测到的实际分布是"中间偏左的一坨"，不是什么字母。他们的建议是别把 F 型当金科玉律。我觉得更准确的说法是：<strong>F 型是"没有设计"时的默认值，不是设计目标。</strong></p>
 
-            <p>这意味着"分组"这件事，你不需要画任何线。</p>
+            <h2>留白也是排版手段</h2>
+            <p>格式塔心理学（Gestalt，1920 年代由三位德国心理学家提出）里有一条原则。</p>
 
+            <div class="tips">
+                <p lang="en">Proximity is powerful enough to override similarity of color, shape, etc.</p>
+                <p>— <a href="https://www.educative.io/answers/what-are-gestalt-principles">What are Gestalt
+                        principles?</a>，Educative</p>
+            </div>
+
+            <p>两个东西放得近，人就会认为它们是一组，哪怕它们颜色形状完全不同；反过来，两个长得一模一样的东西，只要间距拉开，人就不认为它们有关系。</p>
             <figure class="wfig">
-            <div class="wfig-scroll">
-            <svg viewBox="0 0 680 196" role="img" xmlns="http://www.w3.org/2000/svg">
-            <title>三种分组手段：均匀间距、间距分组、边框分组</title>
-            <desc>元素完全相同，只改变间距和边框，读者对分组的理解完全不同。</desc>
+                <div class="wfig-scroll">
+                    <svg viewBox="0 0 680 196" role="img" xmlns="http://www.w3.org/2000/svg">
+                        <text x="40" y="44" font-size="14" font-weight="500" fill="#2E2C28">间距均匀</text>
+                        <text x="250" y="44" font-size="14" font-weight="500" fill="#2E2C28">间距分组</text>
+                        <text x="460" y="44" font-size="14" font-weight="500" fill="#2E2C28">边框分组</text>
 
-            <text x="40" y="44" font-size="14" font-weight="500" fill="#2E2C28">间距均匀</text>
-            <text x="250" y="44" font-size="14" font-weight="500" fill="#2E2C28">间距分组</text>
-            <text x="460" y="44" font-size="14" font-weight="500" fill="#2E2C28">边框分组</text>
+                        <rect x="40" y="56" width="180" height="74" rx="10" fill="#F5F4F1" />
+                        <rect x="60" y="84" width="18" height="18" rx="4" fill="#C8CDD6" />
+                        <rect x="92" y="84" width="18" height="18" rx="4" fill="#C8CDD6" />
+                        <rect x="124" y="84" width="18" height="18" rx="4" fill="#C8CDD6" />
+                        <rect x="156" y="84" width="18" height="18" rx="4" fill="#C8CDD6" />
 
-            <rect x="40" y="56" width="180" height="74" rx="10" fill="#F5F4F1"/>
-            <rect x="60" y="84" width="18" height="18" rx="4" fill="#C8CDD6"/>
-            <rect x="92" y="84" width="18" height="18" rx="4" fill="#C8CDD6"/>
-            <rect x="124" y="84" width="18" height="18" rx="4" fill="#C8CDD6"/>
-            <rect x="156" y="84" width="18" height="18" rx="4" fill="#C8CDD6"/>
+                        <rect x="250" y="56" width="180" height="74" rx="10" fill="#F5F4F1" />
+                        <rect x="260" y="84" width="18" height="18" rx="4" fill="#C8CDD6" />
+                        <rect x="284" y="84" width="18" height="18" rx="4" fill="#C8CDD6" />
+                        <rect x="336" y="84" width="18" height="18" rx="4" fill="#C8CDD6" />
+                        <rect x="360" y="84" width="18" height="18" rx="4" fill="#C8CDD6" />
 
-            <rect x="250" y="56" width="180" height="74" rx="10" fill="#F5F4F1"/>
-            <rect x="260" y="84" width="18" height="18" rx="4" fill="#C8CDD6"/>
-            <rect x="284" y="84" width="18" height="18" rx="4" fill="#C8CDD6"/>
-            <rect x="336" y="84" width="18" height="18" rx="4" fill="#C8CDD6"/>
-            <rect x="360" y="84" width="18" height="18" rx="4" fill="#C8CDD6"/>
-
-            <rect x="460" y="56" width="180" height="74" rx="10" fill="#F5F4F1"/>
-            <rect x="471" y="74" width="60" height="38" rx="7" fill="none" stroke="#9AA3B0" stroke-width="1"/>
-            <rect x="481" y="84" width="18" height="18" rx="4" fill="#C8CDD6"/>
-            <rect x="505" y="84" width="18" height="18" rx="4" fill="#C8CDD6"/>
-            <rect x="547" y="74" width="60" height="38" rx="7" fill="none" stroke="#9AA3B0" stroke-width="1"/>
-            <rect x="557" y="84" width="18" height="18" rx="4" fill="#C8CDD6"/>
-            <rect x="581" y="84" width="18" height="18" rx="4" fill="#C8CDD6"/>
-
-            <text x="40" y="152" font-size="12" fill="#6B655C">看不出谁和谁一组</text>
-            <text x="250" y="152" font-size="12" fill="#6B655C">一眼看出两组，零额外元素</text>
-            <text x="460" y="152" font-size="12" fill="#6B655C">也能分组，但多了四道线</text>
-            <text x="40" y="174" font-size="12" fill="#6B655C">元素本身完全一样，只有间距不同</text>
-            <text x="250" y="174" font-size="12" fill="#6B655C">这就是留白为什么比加边框有效</text>
-            <text x="460" y="174" font-size="12" fill="#6B655C">同样内容，视觉重量更大</text>
-            </svg>
-            </div>
-            <figcaption>图 3 · 三行的方块完全一样，只有间距和边框不同</figcaption>
+                        <rect x="460" y="56" width="180" height="74" rx="10" fill="#F5F4F1" />
+                        <rect x="471" y="74" width="60" height="38" rx="7" fill="none" stroke="#9AA3B0"
+                            stroke-width="1" />
+                        <rect x="481" y="84" width="18" height="18" rx="4" fill="#C8CDD6" />
+                        <rect x="505" y="84" width="18" height="18" rx="4" fill="#C8CDD6" />
+                        <rect x="547" y="74" width="60" height="38" rx="7" fill="none" stroke="#9AA3B0"
+                            stroke-width="1" />
+                        <rect x="557" y="84" width="18" height="18" rx="4" fill="#C8CDD6" />
+                        <rect x="581" y="84" width="18" height="18" rx="4" fill="#C8CDD6" />
+                    </svg>
+                </div>
             </figure>
 
             <table>
-            <tr><th>做法</th><th>效果</th><th>代价</th></tr>
-            <tr><td>把所有元素等距排开</td><td>读者看不出谁和谁一组</td><td>—</td></tr>
-            <tr><td>拉开组间距、收紧组内间距</td><td>一眼看出分组</td><td>零额外元素</td></tr>
-            <tr><td>用边框把每组框起来</td><td>也能分组</td><td>多了好几道线，视觉更重</td></tr>
+                <tr>
+                    <th>做法</th>
+                    <th>分组效果</th>
+                    <th>代价</th>
+                </tr>
+                <tr>
+                    <td>把所有元素等距排开</td>
+                    <td>看不出谁和谁一组</td>
+                    <td>-</td>
+                </tr>
+                <tr>
+                    <td>拉开组间距、收紧组内间距</td>
+                    <td>一眼看出分组</td>
+                    <td>-</td>
+                </tr>
+                <tr>
+                    <td>用边框把每组框起来</td>
+                    <td>直接贴脸开大啊</td>
+                    <td>视觉更重</td>
+                </tr>
             </table>
-
-            <p>三行的元素完全一样，只有间距和边框不同，读者的理解就完全不一样了。所以<strong>"留白"根本不是"空着"，它是一种排版手段</strong>，而且是成本最低的那种。</p>
-
-            <p>这里还有个坑：留白不够会制造<em>错误的关联</em>。两个本来无关的元素挨得太近，读者会以为它们属于一起。如果你觉得页面上"这个标签怎么像是属于上一篇的"，大概率不是样式问题，是间距问题。</p>
-
-            <h2>六、"显眼"是有配额的</h2>
-
-            <p>另一个经常被用反的原则是孤立效应（Von Restorff effect）。它是 1933 年一篇德文论文提出的，标题是 <em lang="en">Über die Wirkung von Bereichsbildungen im Spurenfeld</em>，直译大概是"论痕迹场中区域形成的作用"。</p>
+            <p>三行的元素完全一样，只有间距和边框不同，用户的理解就完全不一样了。所以留白也是一种低成本排版手段（真的低吗，margin 有时加不好就乱了）</p>
+            <h2>显眼是有配额的</h2>
+            <p>我们生物老师特别喜欢跟我们说一句话：“你们这些人都‘好图好色’，所以我往PPT加了很多图片……”当时班上都在笑，都知道他是故意的。不过这句话本身没问题，鲜艳的颜色能防止我们上课睡着，图片能激发听课的兴趣。最重要的是，它能让我们抓到PPT的重点。</p>
+            <p>但是，如果配色弄不好会出大问题，比如这个：</p>
+            <img src="assets/iknowdesignfully.png">
+            <p>抑或是这个：</p>
+            <img src="assets/uyuyu.jpg">
+            <p><i>（其实这张图是故意的，出自<a href="https://www.bilibili.com/video/BV1LZ421T7o1/">ぅゅゅ(´；ω；｀) / なみぐる feat.可不（KAFU）</a>）</i></p>
+            <p>也许你会说，这不废话嘛，这么高饱和度看得下去才怪，稍微有点审美的都知道，但我想讲一讲另一个经常被用错的原则：孤立效应（Von Restorff effect）。</p>
+            <p>它是 1933 年一篇德文论文提出的，标题是 <em lang="en">Über die Wirkung von
+                    Bereichsbildungen im Spurenfeld</em>，直译大概是"论痕迹场中区域形成的作用"。</p>
 
             <p>它说的道理很简单：<strong>一堆相似的东西里，唯一不同的那个最容易被记住。</strong></p>
 
             <figure class="wfig">
-            <div class="wfig-scroll">
-            <svg viewBox="0 0 680 190" role="img" xmlns="http://www.w3.org/2000/svg">
-            <title>孤立效应与它的前提</title>
-            <desc>一排相似的方块中放一个不同色的会被记住；六个方块全是不同颜色时，眼睛反而没有落点。</desc>
+                <div class="wfig-scroll">
+                    <svg viewBox="0 0 680 190" role="img" xmlns="http://www.w3.org/2000/svg">
 
-            <rect x="180" y="40" width="40" height="40" rx="10" fill="#D8CFBA"/>
-            <rect x="236" y="40" width="40" height="40" rx="10" fill="#D8CFBA"/>
-            <rect x="292" y="40" width="40" height="40" rx="10" fill="#D8CFBA"/>
-            <rect x="348" y="40" width="40" height="40" rx="10" fill="#FF5C93"/>
-            <rect x="404" y="40" width="40" height="40" rx="10" fill="#D8CFBA"/>
-            <rect x="460" y="40" width="40" height="40" rx="10" fill="#D8CFBA"/>
-            <text x="40" y="66" font-size="12" fill="#6B655C">五个一样 + 一个不同</text>
-            <text x="640" y="66" font-size="12" fill="#6B655C" text-anchor="end">眼睛直奔那个彩的</text>
+                        <rect x="180" y="40" width="40" height="40" rx="10" fill="#D8CFBA" />
+                        <rect x="236" y="40" width="40" height="40" rx="10" fill="#D8CFBA" />
+                        <rect x="292" y="40" width="40" height="40" rx="10" fill="#D8CFBA" />
+                        <rect x="348" y="40" width="40" height="40" rx="10" fill="#FF5C93" />
+                        <rect x="404" y="40" width="40" height="40" rx="10" fill="#D8CFBA" />
+                        <rect x="460" y="40" width="40" height="40" rx="10" fill="#D8CFBA" />
+                        <text x="40" y="66" font-size="12" fill="#6B655C">五个一样，一个不同</text>
+                        <text x="640" y="66" font-size="12" fill="#6B655C" text-anchor="end">眼睛直奔那个彩的</text>
 
-            <rect x="180" y="110" width="40" height="40" rx="10" fill="#FEC433"/>
-            <rect x="236" y="110" width="40" height="40" rx="10" fill="#FF5C93"/>
-            <rect x="292" y="110" width="40" height="40" rx="10" fill="#3B8FF0"/>
-            <rect x="348" y="110" width="40" height="40" rx="10" fill="#21B8AE"/>
-            <rect x="404" y="110" width="40" height="40" rx="10" fill="#8B5CF6"/>
-            <rect x="460" y="110" width="40" height="40" rx="10" fill="#4CAF50"/>
-            <text x="40" y="136" font-size="12" fill="#6B655C">六个全都不一样</text>
-            <text x="640" y="136" font-size="12" fill="#6B655C" text-anchor="end">眼睛没有落点</text>
-            </svg>
-            </div>
-            <figcaption>图 4 · 孤立效应只在"其余部分统一"时才生效</figcaption>
+                        <rect x="180" y="110" width="40" height="40" rx="10" fill="#FEC433" />
+                        <rect x="236" y="110" width="40" height="40" rx="10" fill="#FF5C93" />
+                        <rect x="292" y="110" width="40" height="40" rx="10" fill="#3B8FF0" />
+                        <rect x="348" y="110" width="40" height="40" rx="10" fill="#21B8AE" />
+                        <rect x="404" y="110" width="40" height="40" rx="10" fill="#8B5CF6" />
+                        <rect x="460" y="110" width="40" height="40" rx="10" fill="#4CAF50" />
+                        <text x="40" y="136" font-size="12" fill="#6B655C">六个全都不一样</text>
+                        <text x="640" y="136" font-size="12" fill="#6B655C" text-anchor="end">眼睛没有落点</text>
+                    </svg>
+                </div>
             </figure>
 
-            <p>但它有个前提，而且这个前提经常被忽略——<strong>必须"其余的足够统一"</strong>。</p>
+            <p>所以真正的问题是全做成高亮，等于什么都没高亮。因此对于非必要元素，颜色可以黯淡些。</p>
 
-            <p>所以真正的问题不是"怎么让它更显眼"，而是"怎么让其他东西不显眼"。如果你把导航、公告条、侧栏按钮、页脚全做成高亮，等于什么都没高亮。</p>
+            <h2>没人看顶部区域吗？</h2>
 
-            <p>UX 圈里那句被引用最多的话是：</p>
-
-            <div class="tips">
-            <p lang="en">If everything is highlighted, nothing is highlighted.</p>
-            <p>出处比较分散，属于 UX 领域的通行表述，我没能追溯到某一项具体研究——当经验法则用可以，别当实验结论</p>
-            </div>
-
-            <p>这条也顺便回答了我另一个困惑：为什么"每个元素都用最鲜的颜色"反而不好看。因为颜色一旦被拿去区分"这是什么"（分类），它就同时失去了标记"这个更重要"（层级）的能力。<strong>一支笔不能同时干两件事。</strong></p>
-
-            <h2>七、最显眼的位置，其实没人看</h2>
-
-            <p>这是我查到的最反直觉的一条。2007 年，NN/g 又做了一轮眼动测试，这次专门看广告，得出的结论让人不太舒服：<strong>用户几乎从不去看任何"看起来像广告"的东西。</strong></p>
+            <p>2007 年，NN/g 又做了一轮眼动测试（他们从哪里搞来的这么多人）这次专门看广告，得出的结论让人不太舒服：<strong>用户几乎从不去看任何"看起来像广告"的东西。</strong></p>
 
             <div class="tips">
-            <p lang="en">Users almost never look at anything that looks like an advertisement, whether or not it's actually an ad.</p>
-            <p>— <a href="https://www.nngroup.com/articles/banner-blindness-original-eyetracking/">Banner Blindness: The Original Eyetracking Research</a>，Jakob Nielsen，NN/g，2007</p>
+                <p lang="en">Users almost never look at anything that looks like an advertisement, whether or not it's
+                    actually an ad.</p>
+                <p>— <a href="https://www.nngroup.com/articles/banner-blindness-original-eyetracking/">Banner Blindness:
+                        The Original Eyetracking Research</a>，Jakob Nielsen，NN/g，2007</p>
             </div>
 
-            <p>注意后半句：<em>whether or not it's actually an ad</em>。无论它是不是真的广告。也就是说，被跳过的不是"广告"，是<strong>"长得像广告的那个形状"</strong>。</p>
+            <p>注意后半句：<em>whether or not it's actually an
+                    ad</em>。无论它是不是真的广告。也就是说，被跳过的不是"广告"，是<strong>"长得像广告的那个形状"</strong>。</p>
 
-            <p>这件事还有个很具体的后果。2006 年佛罗里达州的一次投票，电子屏第二页把众议员候选人的选项排在页面最顶端的一条窄条里。结果：<strong>13% 的选民整页跳过去了，没投众议员那一票</strong>。</p>
+            <p>这件事还有个很具体的后果。2006 年佛罗里达州的一次投票，电子屏第二页把众议员候选人的选项排在页面最顶端的一条窄条里。结果：<strong>13% 的选民整页跳过去了，没投众议员那一票</strong>。
+            </p>
 
             <p>投票的人不是看不懂流程，是那个位置太像广告了。NN/g 在那篇文章里的原话是：</p>
 
             <div class="tips">
-            <p lang="en">People have a tendency to never look at a slim rectangular area that's above the page's main headline.</p>
-            <p>— <a href="https://www.nngroup.com/articles/banner-blindness-in-ballot-design">Banner Blindness in Ballot Design</a>，Jakob Nielsen，NN/g，2007</p>
+                <p lang="en">People have a tendency to never look at a slim rectangular area that's above the page's
+                    main headline.</p>
+                <p>— <a href="https://www.nngroup.com/articles/banner-blindness-in-ballot-design">Banner Blindness in
+                        Ballot Design</a>，Jakob Nielsen，NN/g，2007</p>
             </div>
 
-            <p>翻译一下：<strong>人们有一种倾向，从不去看位于页面主标题上方的那条窄矩形区域。</strong></p>
+            <p>翻译一下：人们有一种倾向，从不去看位于页面主标题上方的那条窄矩形区域。</p>
 
             <figure class="wfig">
-            <div class="wfig-scroll">
-            <svg viewBox="0 0 680 250" role="img" xmlns="http://www.w3.org/2000/svg">
-            <title>顶部盲区的注视分布</title>
-            <desc>页面顶部一条细长的区域几乎没有任何注视点，视线全部集中在下方的主体内容区，越往下越少。</desc>
+                <div class="wfig-scroll">
+                    <svg viewBox="0 0 680 250" role="img" xmlns="http://www.w3.org/2000/svg">
+                        <text x="40" y="26" font-size="14" font-weight="500" fill="#2E2C28">同一个页面，视线落在哪里</text>
 
-            <text x="40" y="26" font-size="14" font-weight="500" fill="#2E2C28">同一个页面，视线落在哪里</text>
+                        <rect x="40" y="44" width="330" height="182" rx="10" fill="#FFFFFF" stroke="#E4E0D8" />
+                        <path d="M40,54 a10,10 0 0 1 10,-10 h310 a10,10 0 0 1 10,10 v26 h-330 z" fill="#CFCFC9" />
 
-            <rect x="40" y="44" width="330" height="182" rx="10" fill="#FFFFFF" stroke="#E4E0D8"/>
-            <path d="M40,54 a10,10 0 0 1 10,-10 h310 a10,10 0 0 1 10,10 v26 h-330 z" fill="#CFCFC9"/>
+                        <rect x="64" y="98" width="282" height="8" rx="4" fill="#E4E0D8" />
+                        <rect x="64" y="114" width="282" height="8" rx="4" fill="#E4E0D8" />
+                        <rect x="64" y="130" width="282" height="8" rx="4" fill="#E4E0D8" />
+                        <rect x="64" y="146" width="282" height="8" rx="4" fill="#E4E0D8" />
+                        <rect x="64" y="162" width="282" height="8" rx="4" fill="#E4E0D8" />
+                        <rect x="64" y="178" width="282" height="8" rx="4" fill="#E4E0D8" />
+                        <rect x="64" y="194" width="200" height="8" rx="4" fill="#E4E0D8" />
 
-            <rect x="64" y="98" width="282" height="8" rx="4" fill="#E4E0D8"/>
-            <rect x="64" y="114" width="282" height="8" rx="4" fill="#E4E0D8"/>
-            <rect x="64" y="130" width="282" height="8" rx="4" fill="#E4E0D8"/>
-            <rect x="64" y="146" width="282" height="8" rx="4" fill="#E4E0D8"/>
-            <rect x="64" y="162" width="282" height="8" rx="4" fill="#E4E0D8"/>
-            <rect x="64" y="178" width="282" height="8" rx="4" fill="#E4E0D8"/>
-            <rect x="64" y="194" width="200" height="8" rx="4" fill="#E4E0D8"/>
+                        <rect x="56" y="88" width="298" height="46" rx="8" fill="#E8542A" fill-opacity="0.38" />
+                        <rect x="56" y="138" width="298" height="38" rx="8" fill="#EF9A2A" fill-opacity="0.30" />
+                        <rect x="56" y="180" width="298" height="34" rx="8" fill="#3B7DD8" fill-opacity="0.18" />
 
-            <rect x="56" y="88" width="298" height="46" rx="8" fill="#E8542A" fill-opacity="0.38"/>
-            <rect x="56" y="138" width="298" height="38" rx="8" fill="#EF9A2A" fill-opacity="0.30"/>
-            <rect x="56" y="180" width="298" height="34" rx="8" fill="#3B7DD8" fill-opacity="0.18"/>
+                        <rect x="404" y="52" width="14" height="14" rx="3" fill="#CFCFC9" />
+                        <text x="428" y="64" font-size="13" fill="#2E2C28">顶部细长条</text>
+                        <text x="428" y="82" font-size="12" fill="#6B655C">整段被跳过</text>
 
-            <rect x="404" y="52" width="14" height="14" rx="3" fill="#CFCFC9"/>
-            <text x="428" y="64" font-size="13" fill="#2E2C28">顶部细长条</text>
-            <text x="428" y="82" font-size="12" fill="#6B655C">整段被跳过，几乎零注视</text>
+                        <line x1="404" y1="100" x2="604" y2="100" stroke="#E4E0D8" stroke-width="1" />
 
-            <line x1="404" y1="100" x2="604" y2="100" stroke="#E4E0D8" stroke-width="1"/>
+                        <rect x="404" y="118" width="14" height="14" rx="3" fill="#E8542A" fill-opacity="0.55" />
+                        <text x="428" y="130" font-size="13" fill="#2E2C28">主体内容区</text>
+                        <text x="428" y="148" font-size="12" fill="#6B655C">视线从这里开始</text>
 
-            <rect x="404" y="118" width="14" height="14" rx="3" fill="#E8542A" fill-opacity="0.55"/>
-            <text x="428" y="130" font-size="13" fill="#2E2C28">主体内容区</text>
-            <text x="428" y="148" font-size="12" fill="#6B655C">视线几乎全从这里开始</text>
-
-            <rect x="404" y="172" width="14" height="14" rx="3" fill="#3B7DD8" fill-opacity="0.45"/>
-            <text x="428" y="184" font-size="13" fill="#2E2C28">越往下越少</text>
-            <text x="428" y="202" font-size="12" fill="#6B655C">没滚下去的部分等于不存在</text>
-            </svg>
-            </div>
-            <figcaption>图 5 · 顶部那条不是"没那么重要"，是根本没被看到</figcaption>
+                        <rect x="404" y="172" width="14" height="14" rx="3" fill="#3B7DD8" fill-opacity="0.45" />
+                        <text x="428" y="184" font-size="13" fill="#2E2C28">越往下越少</text>
+                        <text x="428" y="202" font-size="12" fill="#6B655C">没滚下去的部分等于不存在</text>
+                    </svg>
+                </div>
             </figure>
-
-            <p>这条对我自己的站意味着什么，就很清楚了：<strong>顶栏正好落在那块盲区里。</strong></p>
-
-            <p>我的页面最上面是标题栏加导航栏，位置就是"主内容上方"。所以我的做法是——<strong>导航放那儿没问题，但别指望它吸引注意</strong>。用户要找导航时会主动去找；但如果你把"最新文章""重要公告"塞在顶上，等于白放。</p>
-
-            <p>最后我还是把"最新一篇"放进正文列表的第一格，而不是在页顶加一条横条。位置本身就是注意力，而且它比颜色便宜得多。</p>
-
-            <h2>八、顺带想明白的两件事</h2>
-
-            <p><strong>第一个是配色。</strong>我原本以为"想让页面更有活力"就是提高饱和度。结果算了一下，我那套强调色的饱和度已经是 68%~100% 了，根本提不上去。</p>
-
-            <p>真正卡住我的是一条物理规律：<em>同一个色相，亮度和饱和度是对立的。</em>想要鲜艳，就得压亮度，压了亮度就没法铺满整页；想要能当背景，就得提亮度降饱和，一降就变成灰扑扑的"旧纸"。</p>
-
-            <p>顺便算出来一个挺反直觉的数：某个明黄色配白字的对比度只有 <strong>1.6:1</strong>（正文标准是 4.5:1），而配深色字有 <strong>8.2:1</strong>。也就是说，那种活泼的黄从来就不是配白字用的。我以前从来没注意过这件事。</p>
-
-            <p><strong>第二个是动画。</strong>我一度以为位移动画比淡入淡出"更费性能"，所以想全换成颜色过渡。查完发现反了——<code>transform</code> 和 <code>opacity</code> 恰恰是仅有的两个能只走合成器、不触发重排重绘的属性，性能上是最便宜的。</p>
-
-            <p>真正的原因是<strong>感知</strong>：人的视觉系统有专门的运动通路，对连续运动的时间不连续极其敏感。同样掉五帧，位移会跳一下，一眼就看出卡；亮度变化只是"过渡不太均匀"，几乎没人会注意。</p>
-
-            <p>所以位移动画确实该少用，但理由不是它更慢，而是<strong>它更容易露馅</strong>。</p>
-
+            <p>我的页面最上面是标题栏加导航栏，位置就是"主内容上方"。他们的意思是导航放那没问题，但不能把"最新文章""重要公告"塞在顶上。
+            </p>
+            <p>但我个人还是持保留态度，虽说用户几乎从不去看任何"看起来像广告"的东西，但我平时上网都开着 AdGuard，而且在简中现代互联网，我已经很少见到顶部区域的广告了，因此很难有这种直觉。但假如你设计手机 APP，肯定不能把重要信息放在开屏上，因为我们总觉得开屏就是广告。</p>
             <h2>最后</h2>
-
-            <p>写到这里我发现，这几天查到的东西其实可以收成一句话：</p>
-
-            <p><strong>人不是在看你的页面，人是在扫你的页面，而且扫的时候一直在做一件更基础的事——找结构。</strong></p>
-
-            <p>他要先知道"哪几块是一组的"、"哪个是重点"、"从哪儿开始"。这些东西他不想推理，他想一眼看出来。</p>
-
-            <p>所以那些看起来"玄学"的设计原则，底下其实都有很朴素的原因。它们不是审美偏好，是人的硬件决定的。</p>
-
-            <p>要是你也在改自己的网站，我建议别急着找配色——先盯着截图看三秒，问自己一句：这三秒里，我的眼睛落在哪儿了？</p>
-
-            <p>如果答案是"不知道该看哪"，那顺序问题还没解决，颜色救不了。</p>
-
+            <p>写到这里我发现，这几天查到的东西其实可以收成一句话：用户不是在看你的页面，而是在扫你的页面。用户要先知道"哪几块是一组的"、"哪个是重点"、"从哪儿开始"。这些东西肯定不能让他们推理，而是要一眼看出来。</p>
+            <p>说实话，如果按照这些数据，我的新主题就要大改了：一开始我的设计思路就是考虑到我网站受众年龄跟我相仿，可能更喜欢活泼、鲜艳的配色（代替旧版单一蓝色系的 Aero 视觉风格）但是主页的颜色密度确实有点杂，哪怕这些颜色都是我点名道姓说我喜欢的。包括现在网站部分组件也缺乏明确的边界，只能通过 box-shadow 硬生生抬高层级。</p>
+            <p>但是，个人网站不就是用来体现个性的吗？我用自己的审美觉得好看就行，管那些实验测出来的数据干什么？而且做网站于我而言是一项娱乐活动，开心就好。</p>
             <hr>
 
-            <p>以下是文中数据的出处，按可靠性分三档。<strong>凡是没能查到稳定 DOI 或官方页面的，我只给一个检索链接，不硬凑一个看起来像链接的东西。</strong></p>
-
-            <p><strong>一、同行评议研究</strong>（有期刊、卷期、DOI）</p>
-
+            <h2>参考文献</h2>
             <ul>
-            <li>von Restorff, H. (1933). <em lang="en">Über die Wirkung von Bereichsbildungen im Spurenfeld</em>. Psychologische Forschung, 18(1), 299–342. <a href="https://doi.org/10.1007/BF02409636">doi:10.1007/BF02409636</a><br>孤立效应的原始论文。</li>
-            <li>Wertheimer, M. (1923). <em lang="en">Untersuchungen zur Lehre von der Gestalt II</em>. Psychologische Forschung, 4, 301–350. <a href="https://scholar.google.com/scholar?q=Wertheimer+Untersuchungen+zur+Lehre+von+der+Gestalt+II">[检索]</a><br>格式塔分组原则的源头。年代太早，没查到稳定 DOI。</li>
-            <li>Liversedge, S. P., Drieghe, D., Li, X., Yan, G., Bai, X., &amp; Hyönä, J. (2016). <em lang="en">Universality in eye movements and reading: a trilingual investigation</em>. Cognition, 147, 1–20. <a href="https://doi.org/10.1016/j.cognition.2015.10.013">doi:10.1016/j.cognition.2015.10.013</a><br>中 / 英 / 芬兰<strong>三语</strong>同材料对比（245 ms vs 207 ms 出自这篇）。</li>
-            <li>Inhoff, A. W., &amp; Liu, W. (1998). <em lang="en">The perceptual span and oculomotor activity during the reading of Chinese sentences</em>. JEP: Human Perception and Performance, 24(1), 20–34. <a href="https://doi.org/10.1037/0096-1523.24.1.20">doi:10.1037/0096-1523.24.1.20</a><br>中文"左 1 字符 / 右 3 字符"知觉广度的原始数据。</li>
-            <li>Sun, F., Morita, M., &amp; Stark, L. W. (1985). <em lang="en">Comparative patterns of reading eye movement in Chinese and English</em>. Perception &amp; Psychophysics, 37(6), 502–506. <a href="https://doi.org/10.3758/BF03204913">doi:10.3758/BF03204913</a><br>中文横排 / 竖排 / 英文三方对比；"1.5 个字符约等于一个词"的换算也出自这里。</li>
-            <li>Rayner, K. (1998). <em lang="en">Eye movements in reading and information processing: 20 years of research</em>. Psychological Bulletin, 124(3), 372–422. <a href="https://doi.org/10.1037/0033-2909.124.3.372">doi:10.1037/0033-2909.124.3.372</a><br>英文知觉广度"左 3-4 / 右 14-15 个字母"的来源。</li>
-            <li>Li, X., Bicknell, K., Liu, P., Wei, W., &amp; Rayner, K. (2014). <em lang="en">Reading is fundamentally similar across disparate writing systems</em>. JEP: General, 143, 895–913. <a href="https://doi.org/10.1037/a0033580">doi:10.1037/a0033580</a><br>笔画数影响注视时长与跳读率（那条中文独有的显著性通道）。</li>
-            <li>Chen, H.-C., Song, H., Lau, W. Y., Wong, K. F. E., &amp; Tang, S. L. (2003). <em lang="en">Developmental characteristics of eye movements in reading Chinese</em>. <a href="https://scholar.google.com/scholar?q=Chen+Song+Lau+Wong+Tang+Developmental+characteristics+of+eye+movements+in+reading+Chinese">[检索]</a><br>中文扫视约 2.6 字符、回视率约 15%。没查到稳定 DOI。</li>
-            <li>Shrestha, S., &amp; Lenz, K. (2007). <em lang="en">Eye gaze patterns while searching vs. browsing a website</em>. Usability News, 9(1). <a href="https://scholar.google.com/scholar?q=Shrestha+Lenz+Eye+gaze+patterns+while+searching+vs+browsing+a+website">[检索]</a><br>F 型不适用于图片为主的页面。</li>
-            <li>Djamasbi, S., Siegel, M., &amp; Tullis, T. (2011). <em lang="en">Generation Y, web design, and eye tracking</em>. <a href="https://scholar.google.com/scholar?q=Djamasbi+Siegel+Tullis+Generation+Y+web+design+and+eye+tracking">[检索]</a><br>F 型出现率与视觉复杂度负相关。<strong>这篇我只读到转引、没读原文，引用前请自行核对。</strong></li>
-            <li>Hunt, R. R. (1995). <em lang="en">The subtlety of distinctiveness: What von Restorff really did</em>. Psychonomic Bulletin &amp; Review, 2(1), 105–112. <a href="https://doi.org/10.3758/BF03214414">doi:10.3758/BF03214414</a><br>想深挖孤立效应的看这篇综述比看二手转述靠谱。</li>
+                <li>von Restorff, H. (1933). <em lang="en">Über die Wirkung von Bereichsbildungen im Spurenfeld</em>.
+                    Psychologische Forschung, 18(1), 299–342. <a
+                        href="https://doi.org/10.1007/BF02409636">doi:10.1007/BF02409636</a><br>孤立效应的原始论文。</li>
+                <li>Wertheimer, M. (1923). <em lang="en">Untersuchungen zur Lehre von der Gestalt II</em>.
+                    Psychologische Forschung, 4, 301–350. <a
+                        href="https://scholar.google.com/scholar?q=Wertheimer+Untersuchungen+zur+Lehre+von+der+Gestalt+II">[检索]</a></li>
+                <li>Shrestha, S., &amp; Lenz, K. (2007). <em lang="en">Eye gaze patterns while searching vs. browsing a
+                        website</em>. Usability News, 9(1). <a
+                        href="https://scholar.google.com/scholar?q=Shrestha+Lenz+Eye+gaze+patterns+while+searching+vs+browsing+a+website">[检索]</a><br>F
+                    型不适用于图片为主的页面。</li>
+                <li>Djamasbi, S., Siegel, M., &amp; Tullis, T. (2011). <em lang="en">Generation Y, web design, and eye
+                        tracking</em>. <a
+                        href="https://scholar.google.com/scholar?q=Djamasbi+Siegel+Tullis+Generation+Y+web+design+and+eye+tracking">[检索]</a><br>F
+                    型出现率与视觉复杂度负相关。</li>
+                <li>Nielsen, J. (1997). <em lang="en">How Users Read on the Web</em>. NN/g. <a
+                        href="https://www.nngroup.com/articles/how-users-read-on-the-web/">原文</a><br>79% 扫读 / 16% 逐字读。
+                </li>
+                <li>Nielsen, J. (2006). <em lang="en">F-Shaped Pattern For Reading Web Content</em>. NN/g. <a
+                        href="https://www.nngroup.com/articles/f-shaped-pattern-reading-web-content-discovered/">原文</a></li>
+                <li>Pernice, K. (2017). <em lang="en">F-Shaped Pattern of Reading on the Web: Misunderstood, But Still
+                        Relevant</em>. NN/g. <a
+                        href="https://www.nngroup.com/articles/f-shaped-pattern-reading-web-content/">原文</a><br>11
+                    年后的回访，"F-pattern is negative for users and businesses" 出自这篇。</li>
+                <li>Moran, K. (2019). <em lang="en">How People Read Online: New and Old Findings</em>. NN/g. <a
+                        href="https://www.nngroup.com/articles/how-people-read-online/">原文</a><br>割草机模式的出处。
+                </li>
+                <li>NN/g. <em lang="en">Text Scanning Patterns: Eyetracking Evidence</em>. <a
+                        href="https://www.nngroup.com/articles/text-scanning-patterns-eyetracking/">原文</a><br>分层蛋糕、斑点等模式的完整定义。</li>
+                <li>EyeQuant. <em lang="en">Eye Tracking Studies: Does the Famous F-shape Pattern Really Exist?</em> <a
+                        href="https://www.eyequant.com/resources/eye-tracking-studies-does-the-famous-f-shape-pattern-really-exist">原文</a></li>
             </ul>
 
-            <p><strong>二、行业眼动研究</strong>（有明确方法与样本量，但非同行评议）</p>
-
-            <ul>
-            <li>Nielsen, J. (1997). <em lang="en">How Users Read on the Web</em>. NN/g. <a href="https://www.nngroup.com/articles/how-users-read-on-the-web/">原文</a><br>79% 扫读 / 16% 逐字读。</li>
-            <li>Nielsen, J. (2006). <em lang="en">F-Shaped Pattern For Reading Web Content</em>. NN/g. <a href="https://www.nngroup.com/articles/f-shaped-pattern-reading-web-content-discovered/">原文</a><br>232 名用户、约 30,000 个页面会话。</li>
-            <li>Pernice, K. (2017). <em lang="en">F-Shaped Pattern of Reading on the Web: Misunderstood, But Still Relevant</em>. NN/g. <a href="https://www.nngroup.com/articles/f-shaped-pattern-reading-web-content/">原文</a><br>11 年后的回访，"F-pattern is negative for users and businesses" 出自这篇。</li>
-            <li>Moran, K. (2019). <em lang="en">How People Read Online: New and Old Findings</em>. NN/g. <a href="https://www.nngroup.com/articles/how-people-read-online/">原文</a><br>割草机模式的出处，含北京样本（12 人）。</li>
-            <li>NN/g. <em lang="en">Text Scanning Patterns: Eyetracking Evidence</em>. <a href="https://www.nngroup.com/articles/text-scanning-patterns-eyetracking/">原文</a><br>分层蛋糕 / 斑点等模式的完整定义。</li>
-            <li>EyeQuant. <em lang="en">Eye Tracking Studies: Does the Famous F-shape Pattern Really Exist?</em> <a href="https://www.eyequant.com/resources/eye-tracking-studies-does-the-famous-f-shape-pattern-really-exist">原文</a><br>99 个网站 / 46 人 / 157,498 个固定点的反证。行业公司的商业研究，看数据也看立场。</li>
-            </ul>
-
-            <p><strong>三、设计实践</strong>（有共识，但缺公开实验数据，引用时别当"研究结论"）</p>
-
-            <ul>
-            <li>Saffer, D. (2013). <em lang="en">Microinteractions: Designing with Details</em>. O'Reilly. <a href="https://scholar.google.com/scholar?q=Saffer+Microinteractions+Designing+with+Details">[检索]</a></li>
-            <li><strong>"暖色前进、冷色后退"</strong>这条我没找到对应的同行评议实验，目前能查到的都是设计博客级来源——当经验法则用可以，别说成"研究表明"。</li>
-            <li><strong>"If everything is highlighted, nothing is highlighted"</strong> 同样出处分散，属 UX 领域通行表述，我没能追溯到某一项具体研究。</li>
-            </ul>
+            <p>最后，我不得不承认一点，我借助 AI 工具来查找、翻译、解读相关文献（平时都在上学哪来这么多时间啃洋文）并绘制部分矢量示意图，所以怎么说都是有点“学术不端”的，大家看个乐呵就行。</p>
 
 
         </div>
     </div>
     <script src="image-viewer.js"></script>
 
-<div class="giscus"></div>
-<script src="../js/giscus-loader.js"></script>
+    <div class="giscus"></div>
+    <script src="../js/giscus-loader.js"></script>
 
     <script src="article-theme-loader.js"></script>
 </body>
