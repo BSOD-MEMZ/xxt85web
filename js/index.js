@@ -1,4 +1,13 @@
 window.xxtArticleData = {
+  "scanning.html": {
+        title: "人是怎么看网页的",
+        author: "xxt8582753",
+        desc: "为了改自己的网站，我翻了几天眼动研究，结果发现好几条被到处转发的设计常识，要么被说反了，要么根本没有数据支持。",
+        img: "",
+        date: "2026年10月1日",
+        tags: ["rant", "coding"],
+        url: "articles/scanning.html"
+    },
   "haitangxiangyouji.html": {
         title: "海棠乡游记",
         author: "cookie",
@@ -572,6 +581,7 @@ window.xxtArticleData = {
 };
 
 window.xxtArticleOrder = [
+    "scanning.html",
     "haitangxiangyouji.html",
     "cppsekai.html",
     "kb5124008.html",
