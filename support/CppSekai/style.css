@@ -41,6 +41,8 @@
 
     --sans: "Segoe UI Variable Text", "Segoe UI Variable", "Segoe UI", "PingFang SC",
         "Hiragino Sans GB", "Microsoft YaHei", system-ui, -apple-system, sans-serif;
+    --serif: "Songti SC", "STSong", "SimSun", "Noto Serif SC", Georgia, "Times New Roman", serif;
+    --rainbow: linear-gradient(96deg, #7cc96a, #e6c14f 20%, #e2649c 44%, #8f7ae0 68%, #4fc0c8 100%);
     --brush: "Gabriola", "Ink Free", "Segoe Script", "Lucida Handwriting", Georgia,
         "Times New Roman", "Songti SC", serif;
     --mono: ui-monospace, "Cascadia Mono", Consolas, "SF Mono", Menlo, monospace;
@@ -312,146 +314,161 @@ code {
     position: fixed;
     inset: 0;
     z-index: 300;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    background: #fdfdfe;
+    display: grid;
+    place-items: center;
+    background: #fff;
     overflow: hidden;
-    transition: opacity .5s var(--ease);
+    transition: opacity .55s var(--ease);
 }
 
 html.intro-done .intro {
     opacity: 0;
     visibility: hidden;
     pointer-events: none;
-    transition: opacity .5s var(--ease), visibility 0s .5s;
+    transition: opacity .55s var(--ease), visibility 0s .55s;
 }
 
-.intro-wash {
+/* 从底部发散的彩色弧线 */
+.intro-arcs {
     position: absolute;
-    inset: -18%;
-    background:
-        radial-gradient(38% 32% at 28% 34%, rgba(167, 205, 255, .55), transparent 68%),
-        radial-gradient(34% 30% at 70% 30%, rgba(206, 190, 255, .5), transparent 68%),
-        radial-gradient(32% 30% at 62% 70%, rgba(178, 240, 228, .5), transparent 68%),
-        radial-gradient(34% 30% at 34% 72%, rgba(255, 200, 224, .45), transparent 68%);
-    filter: blur(12px);
+    left: 50%;
+    bottom: 0;
+    transform: translateX(-50%);
+    width: min(1080px, 118%);
+    height: 76%;
+    overflow: visible;
+}
+
+.arc {
+    fill: none;
+    stroke-width: 2.2;
+    stroke-linecap: round;
+    stroke-dasharray: 900;
+    stroke-dashoffset: 900;
     opacity: 0;
-    animation: wash-in 1.6s var(--ease) .1s forwards;
+    animation: arc-draw 1.5s var(--ease) forwards;
 }
 
-@keyframes wash-in {
-    from {
-        opacity: 0;
-        transform: scale(.7);
-    }
+.a1 { stroke: rgba(228, 140, 192, .5); animation-delay: 1.30s; }
+.a2 { stroke: rgba(198, 152, 226, .46); animation-delay: 1.44s; }
+.a3 { stroke: rgba(152, 172, 232, .46); animation-delay: 1.36s; }
+.a4 { stroke: rgba(132, 205, 222, .46); animation-delay: 1.52s; }
+.a5 { stroke: rgba(152, 220, 200, .42); animation-delay: 1.60s; }
+.a6 { stroke: rgba(212, 182, 236, .38); animation-delay: 1.68s; }
 
-    to {
-        opacity: 1;
-        transform: scale(1);
-    }
+@keyframes arc-draw {
+    0% { opacity: 0; stroke-dashoffset: 900; }
+    18% { opacity: 1; }
+    100% { opacity: 1; stroke-dashoffset: 0; }
 }
 
-.intro-mark {
+/* 标语：先逐字写出来，再整体下移，最后染成彩色 */
+.intro-word {
     position: relative;
-    width: 12px;
-    height: 12px;
-    border-radius: 50%;
-    background: var(--c-a);
-    animation: mark-in .9s var(--ease) forwards, mark-pulse 2s ease-out .7s infinite;
+    z-index: 1;
+    margin: 0;
+    font-family: var(--serif);
+    font-size: clamp(19px, 3.4vw, 38px);
+    letter-spacing: .18em;
+    text-indent: .18em;
+    line-height: 1.45;
+    text-align: center;
+    white-space: nowrap;
+    transform: translateY(-42px);
+    animation: word-drop 1.5s cubic-bezier(.32, 0, .2, 1) 1.15s forwards;
 }
 
-@keyframes mark-in {
-    from {
-        opacity: 0;
-        transform: scale(0);
-    }
-
-    to {
-        opacity: 1;
-        transform: scale(1);
-    }
+@keyframes word-drop {
+    to { transform: translateY(0); }
 }
 
-@keyframes mark-pulse {
-    0% {
-        box-shadow: 0 0 0 0 rgba(91, 110, 225, .35);
-    }
-
-    70% {
-        box-shadow: 0 0 0 26px rgba(91, 110, 225, 0);
-    }
-
-    100% {
-        box-shadow: 0 0 0 0 rgba(91, 110, 225, 0);
-    }
-}
-
-.intro-line {
-    margin: 34px 0 0;
-    font-size: clamp(19px, 3.4vw, 27px);
-    font-weight: 600;
-    letter-spacing: .12em;
-    color: var(--ink-1);
-    opacity: 0;
-    transform: translateY(12px);
-    animation: line-in .9s var(--ease) .9s forwards;
-}
-
-@keyframes line-in {
-    to {
-        opacity: 1;
-        transform: none;
-    }
-}
-
-.intro-rule {
+.intro-word-base,
+.intro-word-color {
     display: block;
-    width: 0;
-    height: 2px;
-    margin-top: 22px;
-    border-radius: 1px;
-    background: linear-gradient(90deg, var(--c-a), var(--c-c));
-    animation: rule-in .8s var(--ease) 1.35s forwards;
 }
 
-@keyframes rule-in {
-    to {
-        width: 92px;
-    }
+.intro-word-base {
+    color: #4b5070;
+    clip-path: inset(0 100% 0 0);
+    animation: word-wipe 1.05s cubic-bezier(.4, 0, .2, 1) .2s forwards;
 }
 
+.intro-word-color {
+    position: absolute;
+    inset: 0;
+    background-image: var(--rainbow);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    clip-path: inset(0 100% 0 0);
+    opacity: 0;
+    animation: word-wipe 1.05s cubic-bezier(.4, 0, .2, 1) .2s forwards,
+        word-tint .9s ease 1.5s forwards;
+}
+
+@keyframes word-wipe {
+    to { clip-path: inset(0 0 0 0); }
+}
+
+@keyframes word-tint {
+    to { opacity: 1; }
+}
+
+/* 金色音符从底部升起 */
+.intro-note {
+    position: absolute;
+    left: 50%;
+    bottom: 7%;
+    z-index: 1;
+    width: 44px;
+    transform: translate(-50%, 34px) scale(.5);
+    opacity: 0;
+    animation: note-rise 1.8s cubic-bezier(.2, .8, .3, 1) 2.45s forwards;
+}
+
+.intro-note img {
+    display: block;
+    width: 100%;
+}
+
+@keyframes note-rise {
+    0% { opacity: 0; transform: translate(-50%, 34px) scale(.5); }
+    28% { opacity: 1; }
+    100% { opacity: 0; transform: translate(-50%, -96px) scale(1.1); }
+}
+
+/* SKIP */
 .intro-skip {
     position: absolute;
-    right: 34px;
-    bottom: 30px;
+    right: 46px;
+    bottom: 40px;
+    z-index: 2;
     display: inline-flex;
     align-items: center;
-    gap: 6px;
-    padding: 8px 18px;
+    gap: 20px;
+    padding: 12px 24px;
     border-radius: var(--r-pill);
-    border: 1px solid var(--stroke);
-    background: rgba(255, 255, 255, .8);
-    color: var(--ink-2);
-    font-size: 13px;
-    letter-spacing: .1em;
+    border: 1px solid rgba(120, 128, 160, .26);
+    background: #fff;
+    color: #4b5070;
+    font-family: inherit;
+    font-size: 12.5px;
+    font-weight: 600;
+    letter-spacing: .2em;
     cursor: pointer;
     opacity: 0;
-    animation: skip-in .6s ease 1.2s forwards;
-    transition: color .18s, border-color .18s, background .18s;
+    animation: skip-in .6s ease 1.7s forwards;
+    transition: color .18s, border-color .18s, box-shadow .18s;
 }
 
 .intro-skip:hover {
     color: var(--ink-1);
-    border-color: var(--stroke-strong);
-    background: #fff;
+    border-color: rgba(120, 128, 160, .5);
+    box-shadow: var(--sh-2);
 }
 
 @keyframes skip-in {
-    to {
-        opacity: 1;
-    }
+    to { opacity: 1; }
 }
 
 /* ==========================================================================
@@ -1121,10 +1138,12 @@ html.intro-done .intro {
         transition: none;
     }
 
-    .intro-wash,
-    .intro-mark,
-    .intro-line,
-    .intro-rule,
+    .intro-arcs,
+    .arc,
+    .intro-word,
+    .intro-word-base,
+    .intro-word-color,
+    .intro-note,
     .intro-skip,
     .shot {
         animation: none !important;

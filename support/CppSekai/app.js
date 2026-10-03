@@ -25,8 +25,8 @@
         var skip = document.getElementById('introSkip');
         if (skip) skip.addEventListener('click', finish);
 
-        // 动画本身约 2.2s，留一点余量；跳过与自然结束走同一个出口
-        setTimeout(finish, 2600);
+        // 动画本身约 4.2s，留一点余量；跳过与自然结束走同一个出口
+        setTimeout(finish, 4300);
         document.addEventListener('keydown', function (e) {
             if (e.key === 'Escape' || e.keyCode === 27) finish();
         });

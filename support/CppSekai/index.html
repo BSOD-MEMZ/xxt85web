@@ -34,11 +34,26 @@
     <span class="side side-r" aria-hidden="true"></span>
 
     <div class="intro" id="intro">
-        <span class="intro-wash" aria-hidden="true"></span>
-        <span class="intro-mark" aria-hidden="true"></span>
-        <p class="intro-line">课间十分钟，教室变机厅</p>
-        <span class="intro-rule" aria-hidden="true"></span>
-        <button class="intro-skip" id="introSkip" type="button">跳过</button>
+        <svg class="intro-arcs" viewBox="0 0 1000 720" preserveAspectRatio="xMidYMax meet" aria-hidden="true">
+            <path class="arc a1" d="M500 720 C 386 512 366 292 424 74" />
+            <path class="arc a2" d="M500 720 C 416 516 412 288 482 54" />
+            <path class="arc a3" d="M500 720 C 450 526 464 294 546 46" />
+            <path class="arc a4" d="M500 720 C 486 538 518 302 610 62" />
+            <path class="arc a5" d="M500 720 C 526 548 578 316 678 88" />
+            <path class="arc a6" d="M500 720 C 562 558 638 346 740 126" />
+        </svg>
+        <p class="intro-word">
+            <span class="intro-word-base">课间十分钟，教室变机厅</span>
+            <span class="intro-word-color" aria-hidden="true">课间十分钟，教室变机厅</span>
+        </p>
+        <span class="intro-note" aria-hidden="true"><img src="assets/deco/note-4.png" alt=""></span>
+        <button class="intro-skip" id="introSkip" type="button">
+            <span>SKIP</span>
+            <svg viewBox="0 0 14 12" width="14" height="12" aria-hidden="true">
+                <path d="M1 1.5 L7 6 L1 10.5 Z" fill="currentColor" />
+                <rect x="9" y="1.5" width="2" height="9" fill="currentColor" />
+            </svg>
+        </button>
     </div>
 
     <header class="nav" id="nav">
