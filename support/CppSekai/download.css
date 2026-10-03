@@ -1,0 +1,548 @@
+/* ==========================================================================
+   下载页 —— 复用 style.css 的令牌与 .card / .btn
+   ========================================================================== */
+
+.page-dl {
+    background: var(--base);
+}
+
+.page-dl::before {
+    content: "";
+    position: fixed;
+    inset: 0 0 auto 0;
+    height: 460px;
+    pointer-events: none;
+    z-index: 0;
+    background:
+        radial-gradient(46% 60% at 22% 0%, rgba(180, 208, 255, .5), transparent 70%),
+        radial-gradient(40% 54% at 78% 4%, rgba(212, 196, 255, .45), transparent 70%);
+}
+
+.dl-main {
+    position: relative;
+    z-index: 1;
+    padding: calc(var(--nav-h) + 58px) 0 96px;
+}
+
+/* 页头 -------------------------------------------------------------------- */
+
+.dl-head {
+    margin-bottom: 34px;
+}
+
+.dl-head h1 {
+    margin: 0;
+    font-size: clamp(38px, 6vw, 62px);
+    font-weight: 800;
+    letter-spacing: -.03em;
+    line-height: 1.05;
+}
+
+.dl-head h1 span {
+    font-family: var(--brush);
+    font-style: italic;
+    font-weight: 400;
+    color: var(--c-a);
+    letter-spacing: 0;
+}
+
+.dl-sub {
+    max-width: 40em;
+    margin: 14px 0 0;
+    color: var(--ink-2);
+    font-size: 15.5px;
+}
+
+/* 版本卡 ------------------------------------------------------------------ */
+
+.ver-card {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 8px 26px;
+    padding: 22px 28px;
+    margin-bottom: 22px;
+}
+
+.ver-main {
+    display: flex;
+    align-items: baseline;
+    gap: 13px;
+}
+
+.ver-label {
+    padding: 3px 11px;
+    border-radius: var(--r-pill);
+    background: var(--accent-soft);
+    color: var(--accent);
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: .1em;
+}
+
+.ver-main strong {
+    font-size: 33px;
+    font-weight: 800;
+    letter-spacing: -.02em;
+    font-variant-numeric: tabular-nums;
+    line-height: 1.15;
+}
+
+.ver-meta {
+    margin: 0;
+    color: var(--ink-3);
+    font-size: 13.5px;
+    font-variant-numeric: tabular-nums;
+}
+
+/* 平台卡 ------------------------------------------------------------------ */
+
+.plat {
+    padding: 28px 30px 26px;
+}
+
+.plat-head {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 18px;
+}
+
+.plat-icon {
+    flex: none;
+    display: grid;
+    place-items: center;
+    width: 50px;
+    height: 50px;
+    border-radius: var(--r);
+    background: var(--accent-soft);
+    color: var(--accent);
+}
+
+.plat-name h2 {
+    margin: 0;
+    font-size: 20px;
+    font-weight: 700;
+    letter-spacing: -.01em;
+}
+
+.plat-name p {
+    margin: 3px 0 0;
+    color: var(--ink-3);
+    font-size: 13.5px;
+}
+
+.plat-desc {
+    max-width: 46em;
+    margin: 0 0 22px;
+    color: var(--ink-2);
+    font-size: 14.5px;
+}
+
+.dl-file {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 18px 22px;
+    border-radius: var(--r-lg);
+    background: var(--accent);
+    color: #fff;
+    box-shadow: var(--sh-2);
+    transition: background .15s var(--ease), box-shadow .15s, transform .15s;
+}
+
+.dl-file:hover {
+    background: var(--accent-hover);
+    box-shadow: var(--sh-3);
+    transform: translateY(-2px);
+}
+
+.dl-file:active {
+    background: var(--accent-press);
+    transform: translateY(0);
+}
+
+.dl-file-icon {
+    flex: none;
+    display: grid;
+    place-items: center;
+    width: 44px;
+    height: 44px;
+    border-radius: var(--r);
+    background: rgba(255, 255, 255, .18);
+}
+
+.dl-file-text {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+}
+
+.dl-file-text strong {
+    font-size: 17px;
+    font-weight: 700;
+    letter-spacing: .01em;
+}
+
+.dl-file-text small {
+    font-size: 12.5px;
+    opacity: .84;
+    font-variant-numeric: tabular-nums;
+}
+
+.dl-file-go {
+    margin-left: auto;
+    font-size: 20px;
+    font-weight: 700;
+    opacity: .7;
+}
+
+.plat-alt {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 9px 24px;
+    margin-top: 16px;
+}
+
+.plat-alt a,
+.plat-alt button {
+    appearance: none;
+    padding: 0;
+    border: 0;
+    background: none;
+    font-family: inherit;
+    font-size: 14px;
+    color: var(--ink-2);
+    cursor: pointer;
+    border-bottom: 1px dashed var(--stroke-strong);
+    transition: color .16s, border-color .16s;
+}
+
+.plat-alt a:hover,
+.plat-alt button:hover {
+    color: var(--accent);
+    border-bottom-color: var(--accent);
+}
+
+/* 小节 -------------------------------------------------------------------- */
+
+.sec {
+    margin-top: 58px;
+}
+
+.sec-title {
+    margin: 0 0 8px;
+    font-size: clamp(20px, 2.5vw, 25px);
+    font-weight: 700;
+    letter-spacing: -.015em;
+}
+
+.sec-note {
+    max-width: 54em;
+    margin: 0 0 22px;
+    color: var(--ink-2);
+    font-size: 14.5px;
+}
+
+/* 镜像 -------------------------------------------------------------------- */
+
+.mirror-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(212px, 1fr));
+    gap: 12px;
+}
+
+.mirror-loading {
+    margin: 0;
+    color: var(--ink-3);
+    font-size: 14px;
+}
+
+.mirror {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 18px;
+    background: var(--layer);
+    border: 1px solid var(--stroke-soft);
+    border-radius: var(--r);
+    box-shadow: var(--sh-1);
+    transition: border-color .18s, box-shadow .18s, transform .18s;
+}
+
+.mirror:hover {
+    border-color: rgba(0, 95, 184, .3);
+    box-shadow: var(--sh-3);
+    transform: translateY(-2px);
+}
+
+.mirror-info {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+}
+
+.mirror-info strong {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--ink-1);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.mirror-info small {
+    color: var(--ink-3);
+    font-size: 11.5px;
+}
+
+.mirror-go {
+    margin-left: auto;
+    color: var(--accent);
+    font-size: 15px;
+    font-weight: 700;
+}
+
+.hash-line {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-top: 16px;
+    padding: 11px 16px;
+    background: var(--layer);
+    border: 1px solid var(--stroke-soft);
+    border-radius: var(--r);
+    overflow: hidden;
+}
+
+.hash-label {
+    flex: none;
+    color: var(--ink-3);
+    font-size: 11.5px;
+    font-weight: 800;
+    letter-spacing: .12em;
+}
+
+.hash-line code {
+    flex: 1;
+    min-width: 0;
+    padding: 0;
+    border: 0;
+    background: none;
+    color: var(--ink-2);
+    font-size: 12px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.hash-copy {
+    flex: none;
+    padding: 5px 13px;
+    border-radius: var(--r-sm);
+    border: 1px solid var(--stroke);
+    background: var(--layer-2);
+    color: var(--ink-2);
+    font-size: 12.5px;
+    cursor: pointer;
+    transition: color .16s, border-color .16s, background .16s;
+}
+
+.hash-copy:hover {
+    color: var(--accent);
+    border-color: rgba(0, 95, 184, .35);
+    background: var(--accent-soft);
+}
+
+/* 信息卡 ------------------------------------------------------------------ */
+
+.info-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+.info-card {
+    padding: 24px 26px;
+}
+
+.info-card h3 {
+    margin: 0 0 14px;
+    font-size: 16px;
+    font-weight: 700;
+}
+
+.info-card ul {
+    margin: 0;
+    padding-left: 19px;
+    color: var(--ink-2);
+    font-size: 14.3px;
+}
+
+.info-card li {
+    margin-bottom: 6px;
+}
+
+.info-card li::marker {
+    color: var(--accent);
+}
+
+/* 步骤 -------------------------------------------------------------------- */
+
+.steps {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 18px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.steps li {
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
+    padding: 20px 22px;
+    background: var(--layer);
+    border: 1px solid var(--stroke-soft);
+    border-radius: var(--r);
+    box-shadow: var(--sh-1);
+}
+
+.step-n {
+    flex: none;
+    display: grid;
+    place-items: center;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: var(--accent-soft);
+    color: var(--accent);
+    font-size: 13px;
+    font-weight: 800;
+}
+
+.steps strong {
+    display: block;
+    font-size: 15px;
+    font-weight: 700;
+    margin-bottom: 3px;
+}
+
+.steps p {
+    margin: 0;
+    color: var(--ink-3);
+    font-size: 13.5px;
+}
+
+/* FAQ --------------------------------------------------------------------- */
+
+.faq-list {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+}
+
+.faq-list details {
+    padding: 0 20px;
+    background: var(--layer);
+    border: 1px solid var(--stroke-soft);
+    border-radius: var(--r);
+    box-shadow: var(--sh-1);
+    transition: border-color .18s, box-shadow .18s;
+}
+
+.faq-list details[open] {
+    border-color: rgba(0, 95, 184, .22);
+    box-shadow: var(--sh-2);
+}
+
+.faq-list summary {
+    display: flex;
+    align-items: center;
+    gap: 11px;
+    padding: 16px 0;
+    font-size: 14.8px;
+    font-weight: 600;
+    cursor: pointer;
+    list-style: none;
+}
+
+.faq-list summary::-webkit-details-marker {
+    display: none;
+}
+
+.faq-list summary::before {
+    content: "";
+    flex: none;
+    width: 7px;
+    height: 7px;
+    border-right: 2px solid var(--accent);
+    border-bottom: 2px solid var(--accent);
+    transform: rotate(-45deg) translateY(-2px);
+    transition: transform .2s var(--ease);
+}
+
+.faq-list details[open] summary::before {
+    transform: rotate(45deg) translateY(-2px);
+}
+
+.faq-list details p {
+    margin: 0 0 18px;
+    padding-left: 18px;
+    color: var(--ink-2);
+    font-size: 14.2px;
+    line-height: 1.72;
+}
+
+.faq-list details a {
+    color: var(--accent);
+    border-bottom: 1px solid rgba(0, 95, 184, .3);
+}
+
+/* 响应式 ------------------------------------------------------------------ */
+
+@media (max-width: 1040px) {
+    .info-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .steps {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 760px) {
+    .dl-main {
+        padding-top: calc(var(--nav-h) + 38px);
+    }
+
+    .ver-card {
+        padding: 18px 20px;
+    }
+
+    .ver-main strong {
+        font-size: 27px;
+    }
+
+    .plat {
+        padding: 22px 20px;
+    }
+
+    .dl-file {
+        padding: 15px 17px;
+        gap: 13px;
+    }
+
+    .dl-file-text strong {
+        font-size: 15.5px;
+    }
+
+    .faq-list {
+        grid-template-columns: 1fr;
+    }
+
+    .mirror-list {
+        grid-template-columns: 1fr;
+    }
+}

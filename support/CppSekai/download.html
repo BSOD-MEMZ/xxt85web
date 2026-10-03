@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>下载 CppSekai — 专为班级大屏设计的 PJSK 模拟器</title>
+    <meta name="description" content="下载 CppSekai：免安装便携版，整包 6.9 MB，Windows 7 SP1 及以上可跑。仓库不带谱面，进来先用附带的 chartdl.exe 下歌。">
+    <meta name="theme-color" content="#f3f3f3">
+    <link rel="icon" href="assets/favicon.png">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="download.css">
+</head>
+
+<body class="page-dl">
+
+    <header class="nav solid" id="nav">
+        <div class="nav-in">
+            <a class="brand" href="index.html">
+                <img src="assets/logo.png" alt="" width="28" height="28">
+                <span>CppSekai</span>
+            </a>
+            <nav class="nav-menu">
+                <a href="index.html#classroom">班级大屏</a>
+                <a href="index.html#party">拼机</a>
+                <a href="index.html#fidelity">对齐官方</a>
+                <a href="index.html#gallery">截图</a>
+            </nav>
+            <a class="btn btn-ghost" href="index.html">回首页</a>
+        </div>
+    </header>
+
+    <main class="dl-main">
+        <div class="shell">
+
+            <div class="dl-head">
+                <p class="tag">下载</p>
+                <h1>下载 <span>CppSekai</span></h1>
+                <p class="dl-sub">先确认你的电脑，再挑一个包 —— 其实只有一个包，解压就能玩。</p>
+            </div>
+
+            <section class="ver-card card" aria-live="polite">
+                <div class="ver-main">
+                    <span class="ver-label">稳定版</span>
+                    <strong data-rel-ver>读取中…</strong>
+                </div>
+                <p class="ver-meta" data-rel-facts>正在向 GitHub 查询最新发行版…</p>
+            </section>
+
+            <section class="plat-wrap">
+                <article class="plat card">
+                    <div class="plat-head">
+                        <span class="plat-icon" aria-hidden="true">
+                            <svg viewBox="0 0 24 24" width="26" height="26">
+                                <path d="M3 5.6l7.4-1v7.2H3V5.6zm8.6-1.2L21 3v8.8h-9.4V4.4zM3 12.8h7.4V20L3 18.4v-5.6zm8.6 0H21V21l-9.4-1.3v-6.9z"
+                                    fill="currentColor" />
+                            </svg>
+                        </span>
+                        <div class="plat-name">
+                            <h2>Windows</h2>
+                            <p>Windows 7 SP1 及以上</p>
+                        </div>
+                    </div>
+
+                    <p class="plat-desc">
+                        免安装便携版，解压到任意目录就能跑。Win10 / 11 开箱即用；Win7 需要自己装一次
+                        UCRT / VC++ 2015-2022 运行库。
+                    </p>
+
+                    <a class="dl-file" id="dlPrimary" href="https://github.com/BSOD-MEMZ/CppSekai/releases/latest"
+                        rel="noopener">
+                        <span class="dl-file-icon" aria-hidden="true">
+                            <svg viewBox="0 0 24 24" width="22" height="22">
+                                <path d="M12 3v11m0 0 4.2-4.2M12 14l-4.2-4.2M4.5 17.5v1.7c0 1 .8 1.8 1.8 1.8h11.4c1 0 1.8-.8 1.8-1.8v-1.7"
+                                    fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"
+                                    stroke-linejoin="round" />
+                            </svg>
+                        </span>
+                        <span class="dl-file-text">
+                            <strong>下载便携版</strong>
+                            <small id="dlPrimarySub">Windows 7 SP1+ · 免安装 · 正在读取体积…</small>
+                        </span>
+                        <span class="dl-file-go" aria-hidden="true">↓</span>
+                    </a>
+
+                    <div class="plat-alt">
+                        <a href="https://github.com/BSOD-MEMZ/CppSekai/releases" target="_blank" rel="noopener">全部历史版本</a>
+                        <a href="https://github.com/BSOD-MEMZ/CppSekai" target="_blank" rel="noopener">源码仓库</a>
+                        <button type="button" id="dlCopy" hidden>复制直链</button>
+                    </div>
+                </article>
+            </section>
+
+            <section class="sec">
+                <h2 class="sec-title">下载不动？换条线路</h2>
+                <p class="sec-note">
+                    同一份文件，第三方中转。加速服务由社区或高校镜像站提供，长期可用性不由本项目保证 ——
+                    直连跑得动就直接用上面的按钮。
+                </p>
+                <div class="mirror-list" id="mirrorList">
+                    <p class="mirror-loading">正在读取线路…</p>
+                </div>
+                <div class="hash-line" id="hashLine" hidden>
+                    <span class="hash-label">SHA256</span>
+                    <code id="hashValue"></code>
+                    <button type="button" class="hash-copy" id="hashCopy">复制</button>
+                </div>
+            </section>
+
+            <section class="sec">
+                <h2 class="sec-title">跑起来需要什么</h2>
+                <div class="info-grid">
+                    <div class="card info-card">
+                        <h3>系统要求</h3>
+                        <ul>
+                            <li>Windows 7 SP1 或更高版本</li>
+                            <li>Win10+ 开箱即用；Win7 需自装一次 UCRT / VC++ 2015-2022 运行库</li>
+                            <li>不要独显，几年前的赛扬也不卡</li>
+                            <li>本地多人模式下，想几个人就开几个窗口</li>
+                        </ul>
+                    </div>
+                    <div class="card info-card">
+                        <h3>关于谱面</h3>
+                        <ul>
+                            <li>仓库不自带谱面与音频，解压后列表是空的属于正常</li>
+                            <li>用 <code>chartdl.exe</code> 下载，或自己往 <code>charts/</code> 里放</li>
+                            <li>手动放的话文件名要形如 <code>0011_master.sus</code></li>
+                            <li>放完在选曲界面按 <code>F5</code> 重扫</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <section class="sec">
+                <h2 class="sec-title">三步开打</h2>
+                <ol class="steps">
+                    <li>
+                        <span class="step-n">1</span>
+                        <div>
+                            <strong>解压到任意目录</strong>
+                            <p>别把 <code>SDL2.dll</code> 单独挪走，它得和 exe 待在一起。</p>
+                        </div>
+                    </li>
+                    <li>
+                        <span class="step-n">2</span>
+                        <div>
+                            <strong>用 chartdl 下谱面</strong>
+                            <p>双击 <code>chartdl.exe</code>，国服日服随便挑。</p>
+                        </div>
+                    </li>
+                    <li>
+                        <span class="step-n">3</span>
+                        <div>
+                            <strong>双击开打</strong>
+                            <p>选歌 → 选难度 → 开打。课间十分钟够来三局。</p>
+                        </div>
+                    </li>
+                </ol>
+            </section>
+
+            <section class="sec">
+                <h2 class="sec-title">常见问题</h2>
+                <div class="faq-list">
+                    <details>
+                        <summary>为什么打开之后一首歌都没有？</summary>
+                        <p>仓库出于版权原因不自带谱面与音频。打开附带的 <code>chartdl.exe</code> 把喜欢的曲子下下来，列表就有了。</p>
+                    </details>
+                    <details>
+                        <summary>手柄能打歌吗？</summary>
+                        <p>不能，手柄只负责菜单：方向键或左摇杆选歌换难度，<code>A</code> / <code>START</code> / <code>Y</code> 进入、开设置、重扫，<code>B</code> / <code>BACK</code> 退回。12 轨的东西手柄确实打不了，这是有意的。</p>
+                    </details>
+                    <details>
+                        <summary>键盘打不出左右 flick？</summary>
+                        <p>一个键没有方向，键盘只能发向上 flick；左右方向必须用鼠标或触摸甩出来。触屏上垂直滑动不好触发的话，可以在 <b>设置 → 判定</b> 里打开「Flick 视作 Tap」。</p>
+                    </details>
+                    <details>
+                        <summary>长条什么时候会断？</summary>
+                        <p>尾判是松手判定：结束前在容错窗口内松手，按距离给 Perfect / Great / Good；一直按到底同样是 Perfect。只有明显提前松手才算断连，窗口大小在 <b>设置 → 判定 → 长条容错</b> 里调。</p>
+                    </details>
+                    <details>
+                        <summary>双击没反应 / 提示缺 DLL？</summary>
+                        <p><code>SDL2.dll</code> 必须和 <code>cppsekai.exe</code> 放在同一个目录。日志写在当前工作目录的 <code>cppsekai.log</code>，出问题先看它最后几行。</p>
+                    </details>
+                    <details>
+                        <summary>怎么和同学一起打？</summary>
+                        <p><b>设置 → 系统 → 多人游玩</b>。勾上之后重启，再双击 exe 就会出现新窗口 —— 有几个人开几个，同机自动连上，不用配网络。</p>
+                    </details>
+                    <details>
+                        <summary>能跑在 Linux / macOS / 手机上吗？</summary>
+                        <p>只做 Windows 原生 —— 平台层用到了 Win32 的媒体会话、任务栏进度和命名共享内存。想看网页版可以去上游 <a href="https://github.com/watagashi-uni/sekai-mmw-preview-web" target="_blank" rel="noopener">sekai-mmw-preview-web</a>。</p>
+                    </details>
+                    <details>
+                        <summary>它会联网吗？会上传什么东西吗？</summary>
+                        <p>游戏本体<b>没有任何网络代码</b>。只有 <code>chartdl.exe</code> 下载谱面时会联网，也不上传任何东西。</p>
+                    </details>
+                </div>
+            </section>
+
+        </div>
+    </main>
+
+    <footer class="foot">
+        <div class="shell foot-in">
+            <div>
+                <div class="foot-brand">
+                    <img src="assets/logo.png" alt="" width="26" height="26">
+                    <span>CppSekai</span>
+                </div>
+                <p class="foot-note">
+                    免费、开源、非营利。代码遵循 <b>AGPL-3.0-only</b>；谱面核心与渲染布局来自上游
+                    <a href="https://github.com/watagashi-uni/sekai-mmw-preview-web" target="_blank"
+                        rel="noopener">sekai-mmw-preview-web</a>，再上游为 MikuMikuWorld。
+                </p>
+                <p class="foot-note dim">
+                    本项目与 SEGA、Colorful Palette 及《初音未来：缤纷舞台》官方没有任何关系；相关素材版权归官方所有，仅限本地学习与练习使用。如有侵权请联系移除。
+                </p>
+            </div>
+            <div class="foot-links">
+                <a href="index.html">首页</a>
+                <a href="https://github.com/BSOD-MEMZ/CppSekai" target="_blank" rel="noopener">GitHub 仓库</a>
+                <a href="https://github.com/BSOD-MEMZ/CppSekai/releases" target="_blank" rel="noopener">所有发行版</a>
+                <a href="https://github.com/BSOD-MEMZ/CppSekai/blob/main/CREDITS.md" target="_blank"
+                    rel="noopener">致谢</a>
+            </div>
+        </div>
+        <div class="foot-bottom">
+            <span>© 2026 CppSekai · BSOD-MEMZ</span>
+            <span>世界计划第三方模拟器 · 仅供学习交流</span>
+        </div>
+    </footer>
+
+    <script src="common.js"></script>
+    <script src="download.js"></script>
+</body>
+
+</html>
