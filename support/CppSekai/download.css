@@ -38,12 +38,13 @@
     line-height: 1.05;
 }
 
-.dl-head h1 span {
-    font-family: var(--brush);
-    font-style: italic;
-    font-weight: 400;
-    color: var(--c-a);
-    letter-spacing: 0;
+/* 跟首页同一张字样图，靠 vertical-align 跟「下载」两个字对齐 */
+.dl-logo {
+    display: inline-block;
+    width: clamp(150px, 24vw, 250px);
+    height: auto;
+    vertical-align: -0.16em;
+    margin-left: .08em;
 }
 
 .dl-sub {
@@ -147,37 +148,37 @@
     font-size: 14.5px;
 }
 
+/* 同 pushbutton：胶囊 + 柔和辉光，交互靠 :active 反色 */
 .dl-file {
     display: flex;
     align-items: center;
-    gap: 16px;
-    padding: 18px 22px;
-    border-radius: var(--r-lg);
-    background: var(--accent);
-    color: #fff;
-    box-shadow: var(--sh-2);
-    transition: background .15s var(--ease), box-shadow .15s, transform .15s;
+    gap: 15px;
+    padding: 13px 26px 13px 15px;
+    border-radius: var(--r-pill);
+    background: var(--pb-cyan);
+    color: var(--pb-ink);
+    box-shadow: var(--pb-glow-hi);
+    transition: background .16s var(--ease), color .16s var(--ease), box-shadow .16s var(--ease);
 }
 
 .dl-file:hover {
-    background: var(--accent-hover);
-    box-shadow: var(--sh-3);
-    transform: translateY(-2px);
+    box-shadow: 0 0 18px rgba(68, 68, 102, .6);
 }
 
 .dl-file:active {
-    background: var(--accent-press);
-    transform: translateY(0);
+    background: var(--pb-cyan-press);
+    color: var(--pb-cyan);
+    box-shadow: var(--pb-glow);
 }
 
 .dl-file-icon {
     flex: none;
     display: grid;
     place-items: center;
-    width: 44px;
-    height: 44px;
-    border-radius: var(--r);
-    background: rgba(255, 255, 255, .18);
+    width: 46px;
+    height: 46px;
+    border-radius: 50%;
+    background: rgba(68, 68, 102, .1);
 }
 
 .dl-file-text {
@@ -194,7 +195,7 @@
 
 .dl-file-text small {
     font-size: 12.5px;
-    opacity: .84;
+    opacity: .7;
     font-variant-numeric: tabular-nums;
 }
 

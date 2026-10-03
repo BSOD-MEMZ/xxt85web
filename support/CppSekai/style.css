@@ -17,6 +17,15 @@
     --ink-3: #8b8f98;
 
     --accent: #00b0b0;
+
+    /* pushbutton 令牌：取自 sekai-stories.pages.dev 的 .btn-* */
+    --pb-cyan: #77eedd;
+    --pb-cyan-deep: #a1f4ec;
+    --pb-cyan-press: #e3fcf8;
+    --pb-pink: #ff5599;
+    --pb-ink: #444466;
+    --pb-glow: 0 0 8px rgba(68, 68, 102, .5);
+    --pb-glow-hi: 0 0 14px rgba(68, 68, 102, .58);
     --accent-hover: #009a9a;
     --accent-press: #00807f;
     --accent-soft: rgba(0, 176, 176, .1);
@@ -141,23 +150,24 @@ main,
     display: inline-flex;
     align-items: center;
     gap: 9px;
-    padding: 13px 26px;
+    min-height: 56px;
+    padding: 0 30px;
     border-radius: var(--r-pill);
-    background: rgba(255, 255, 255, .94);
-    border: 1.5px solid var(--accent);
-    color: var(--accent);
-    font-size: 15px;
+    background: var(--pb-cyan);
+    color: var(--pb-ink);
+    font-size: 15.5px;
     font-weight: 700;
     letter-spacing: .06em;
-    box-shadow: 0 6px 20px rgba(0, 176, 176, .16);
-    transition: transform .22s var(--ease), box-shadow .22s, background .22s, color .22s;
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
+    box-shadow: var(--pb-glow-hi);
+    transition: background .16s var(--ease), color .16s var(--ease), box-shadow .16s var(--ease);
 }
 
-.go-dl:hover {
-    background: var(--accent);
-    color: #fff;
-    transform: translateY(-2px);
-    box-shadow: 0 12px 28px rgba(0, 176, 176, .3);
+.go-dl:active {
+    background: var(--pb-cyan-press);
+    color: var(--pb-cyan);
+    box-shadow: var(--pb-glow);
 }
 
 .go-dl svg {
@@ -274,57 +284,71 @@ code {
     color: var(--c-e);
 }
 
+/* 按钮照 sekai-stories.pages.dev 的 pushbutton 做：
+   胶囊形 + 柔和辉光阴影，交互靠 :active 反色（不是 hover 位移）。 */
 .btn {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    gap: 8px;
-    padding: 9px 20px;
-    border-radius: var(--r);
-    border: 1px solid transparent;
-    font-size: 14.5px;
-    font-weight: 600;
+    gap: 9px;
+    min-height: 52px;
+    padding: 0 36px;
+    border: none;
+    border-radius: var(--r-pill);
+    background: var(--layer);
+    color: var(--pb-ink);
+    font-family: inherit;
+    font-size: 15px;
+    font-weight: 700;
+    letter-spacing: .02em;
+    line-height: 1;
     cursor: pointer;
     white-space: nowrap;
-    transition: background .15s var(--ease), border-color .15s, box-shadow .15s,
-        transform .15s, color .15s;
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
+    box-shadow: var(--pb-glow);
+    transition: background .16s var(--ease), color .16s var(--ease), box-shadow .16s var(--ease);
+}
+
+.btn:disabled {
+    opacity: .5;
+    cursor: not-allowed;
 }
 
 .btn-lg {
-    padding: 13px 28px;
-    font-size: 15.5px;
-    border-radius: var(--r-lg);
+    min-height: 58px;
+    padding: 0 46px;
+    font-size: 16.5px;
 }
 
 .btn-accent {
-    background: var(--accent);
-    color: #fff;
-    box-shadow: var(--sh-1);
+    background: var(--pb-cyan);
+    color: var(--pb-ink);
 }
 
 .btn-accent:hover {
-    background: var(--accent-hover);
-    box-shadow: var(--sh-3);
-    transform: translateY(-1px);
+    box-shadow: var(--pb-glow-hi);
 }
 
 .btn-accent:active {
-    background: var(--accent-press);
-    transform: translateY(0);
+    background: var(--pb-cyan-press);
+    color: var(--pb-cyan);
+    box-shadow: var(--pb-glow);
 }
 
 .btn-ghost {
     background: var(--layer);
-    color: var(--ink-1);
-    border-color: var(--stroke);
-    box-shadow: var(--sh-1);
+    color: var(--pb-ink);
 }
 
 .btn-ghost:hover {
-    background: var(--layer-2);
-    border-color: var(--stroke-strong);
-    box-shadow: var(--sh-2);
-    transform: translateY(-1px);
+    box-shadow: var(--pb-glow-hi);
+}
+
+.btn-ghost:active {
+    background: var(--pb-cyan-deep);
+    color: #fff;
+    box-shadow: var(--pb-glow);
 }
 
 .card {
@@ -496,15 +520,14 @@ body.--loaded .hero-layer-char {
     }
 }
 
+/* 人物层只做渐显，不做位移 */
 @keyframes kv-char-in {
     from {
         opacity: 0;
-        transform: translateX(-50%) translateY(26px);
     }
 
     to {
         opacity: 1;
-        transform: translateX(-50%) translateY(0);
     }
 }
 
@@ -535,16 +558,18 @@ body.--loaded .hero-layer-char {
 
 .hero h1 {
     margin: 0;
-    font-family: var(--brush);
-    font-style: italic;
-    font-weight: 400;
-    font-size: clamp(66px, 13vw, 178px);
-    line-height: .94;
-    color: #2f3ec2;
-    text-shadow:
-        0 0 44px rgba(255, 255, 255, .98),
-        0 0 18px rgba(255, 255, 255, .95),
-        0 0 6px rgba(255, 255, 255, .9);
+    line-height: 1;
+}
+
+/* 字样是张图（assets/logo-word.png）：照官方 logo_project-sekai_5th_pc 的手法生成 ——
+   深蓝本体 + 青/粉/黄三份错位副本露出细边；字体是站长机子上的阿里妈妈数黑体 Bold。
+   官方 logo 本身就是位图，走图比引字体省事，也不用操心字体授权。 */
+.hero-logo {
+    display: block;
+    width: clamp(250px, 50vw, 720px);
+    height: auto;
+    margin: 0 auto;
+    filter: drop-shadow(0 0 30px rgba(255, 255, 255, .95)) drop-shadow(0 2px 8px rgba(255, 255, 255, .85));
 }
 
 .hero-sub {
