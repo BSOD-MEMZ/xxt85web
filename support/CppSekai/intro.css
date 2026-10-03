@@ -211,6 +211,16 @@
     color: transparent;
 }
 
+/* 树形填充改成内联 SVG + 渐变，彻底不用 CSS mask：
+   mask 引用外部图片时，file:// 下会被当作跨域、加载失败就是空遮罩 → 整棵树直接消失；
+   换回 data-uri 的 SVG 又会被按 luminance 解释 → 图形是黑的就等于全透明。 */
+.c-loading__tree .c-in-mature .mature-art {
+    display: block;
+    width: 100%;
+    height: auto;
+    animation: none;
+}
+
 /* 系统开了「减少动态效果」就不播 */
 @media (prefers-reduced-motion: reduce) {
     .c-loading {
