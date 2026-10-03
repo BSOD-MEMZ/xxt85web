@@ -34,19 +34,92 @@
     <span class="side side-r" aria-hidden="true"></span>
 
     <div class="intro" id="intro">
-        <svg class="intro-arcs" viewBox="0 0 1000 720" preserveAspectRatio="xMidYMax meet" aria-hidden="true">
-            <path class="arc a1" d="M500 720 C 386 512 366 292 424 74" />
-            <path class="arc a2" d="M500 720 C 416 516 412 288 482 54" />
-            <path class="arc a3" d="M500 720 C 450 526 464 294 546 46" />
-            <path class="arc a4" d="M500 720 C 486 538 518 302 610 62" />
-            <path class="arc a5" d="M500 720 C 526 548 578 316 678 88" />
-            <path class="arc a6" d="M500 720 C 562 558 638 346 740 126" />
+        <span class="intro-rainbow" aria-hidden="true"></span>
+        <svg class="intro-tree" viewBox="105 220 385 510" aria-hidden="true">
+            <defs>
+                <linearGradient id="treeGrad" x1="0.18" y1="1" x2="0.78" y2="0">
+                    <stop offset="0" stop-color="#7fc7f0" />
+                    <stop offset="0.3" stop-color="#7cc96a" />
+                    <stop offset="0.58" stop-color="#e6c14f" />
+                    <stop offset="0.82" stop-color="#e2649c" />
+                    <stop offset="1" stop-color="#8f7ae0" />
+                </linearGradient>
+            </defs>
+            <g class="tree">
+                <path class="tl" style="--d:0.00s" pathLength="1" d="M300 716 Q298 660 300 610" />
+                <path class="tl" style="--d:0.26s" pathLength="1" d="M300 610 Q288 551 298 455" />
+                <path class="tl" style="--d:0.63s" pathLength="1" d="M298 455 Q272 422 224 375" />
+                <path class="tl" style="--d:1.04s" pathLength="1" d="M224 375 Q200 368 162 349" />
+                <path class="tl" style="--d:1.42s" pathLength="1" d="M162 349 Q142 342 113 340" />
+                <path class="tl" style="--d:1.79s" pathLength="1" d="M113 340 Q105 335 83 342" />
+                <path class="tl" style="--d:1.82s" pathLength="1" d="M113 340 Q97 340 89 333" />
+                <path class="tl" style="--d:1.36s" pathLength="1" d="M162 349 Q142 342 133 327" />
+                <path class="tl" style="--d:1.69s" pathLength="1" d="M133 327 Q113 328 103 319" />
+                <path class="tl" style="--d:1.72s" pathLength="1" d="M133 327 Q119 325 106 310" />
+                <path class="tl" style="--d:1.06s" pathLength="1" d="M224 375 Q213 359 187 326" />
+                <path class="tl" style="--d:1.47s" pathLength="1" d="M187 326 Q173 317 160 296" />
+                <path class="tl" style="--d:1.80s" pathLength="1" d="M160 296 Q138 283 132 281" />
+                <path class="tl" style="--d:1.83s" pathLength="1" d="M160 296 Q145 286 145 273" />
+                <path class="tl" style="--d:1.43s" pathLength="1" d="M187 326 Q192 314 172 291" />
+                <path class="tl" style="--d:1.79s" pathLength="1" d="M172 291 Q178 287 158 269" />
+                <path class="tl" style="--d:1.82s" pathLength="1" d="M172 291 Q167 277 175 267" />
+                <path class="tl" style="--d:1.06s" pathLength="1" d="M224 375 Q231 345 214 316" />
+                <path class="tl" style="--d:1.39s" pathLength="1" d="M214 316 Q196 300 199 284" />
+                <path class="tl" style="--d:1.82s" pathLength="1" d="M199 284 Q183 273 188 266" />
+                <path class="tl" style="--d:1.80s" pathLength="1" d="M199 284 Q211 282 201 264" />
+                <path class="tl" style="--d:1.43s" pathLength="1" d="M214 316 Q220 301 219 280" />
+                <path class="tl" style="--d:1.87s" pathLength="1" d="M219 280 Q204 265 216 256" />
+                <path class="tl" style="--d:1.80s" pathLength="1" d="M219 280 Q226 268 231 257" />
+                <path class="tl" style="--d:0.66s" pathLength="1" d="M298 455 Q299 414 300 344" />
+                <path class="tl" style="--d:1.09s" pathLength="1" d="M300 344 Q295 313 266 275" />
+                <path class="tl" style="--d:1.48s" pathLength="1" d="M266 275 Q261 259 237 239" />
+                <path class="tl" style="--d:1.85s" pathLength="1" d="M237 239 Q220 228 203 224" />
+                <path class="tl" style="--d:1.79s" pathLength="1" d="M237 239 Q221 228 223 212" />
+                <path class="tl" style="--d:1.53s" pathLength="1" d="M266 275 Q266 260 251 230" />
+                <path class="tl" style="--d:1.87s" pathLength="1" d="M251 230 Q231 215 234 201" />
+                <path class="tl" style="--d:1.84s" pathLength="1" d="M251 230 Q253 221 260 198" />
+                <path class="tl" style="--d:1.04s" pathLength="1" d="M300 344 Q300 317 301 273" />
+                <path class="tl" style="--d:1.47s" pathLength="1" d="M301 273 Q306 252 285 229" />
+                <path class="tl" style="--d:1.90s" pathLength="1" d="M285 229 Q267 225 256 202" />
+                <path class="tl" style="--d:1.89s" pathLength="1" d="M285 229 Q293 218 274 198" />
+                <path class="tl" style="--d:1.46s" pathLength="1" d="M301 273 Q312 251 309 226" />
+                <path class="tl" style="--d:1.80s" pathLength="1" d="M309 226 Q320 215 314 194" />
+                <path class="tl" style="--d:1.77s" pathLength="1" d="M309 226 Q325 214 334 197" />
+                <path class="tl" style="--d:1.01s" pathLength="1" d="M300 344 Q330 311 351 278" />
+                <path class="tl" style="--d:1.34s" pathLength="1" d="M351 278 Q360 256 360 235" />
+                <path class="tl" style="--d:1.77s" pathLength="1" d="M360 235 Q363 219 362 205" />
+                <path class="tl" style="--d:1.69s" pathLength="1" d="M360 235 Q366 229 377 211" />
+                <path class="tl" style="--d:1.40s" pathLength="1" d="M351 278 Q364 269 398 247" />
+                <path class="tl" style="--d:1.83s" pathLength="1" d="M398 247 Q416 237 416 221" />
+                <path class="tl" style="--d:1.74s" pathLength="1" d="M398 247 Q408 234 428 230" />
+                <path class="tl" style="--d:0.68s" pathLength="1" d="M298 455 Q311 422 361 379" />
+                <path class="tl" style="--d:1.03s" pathLength="1" d="M361 379 Q368 351 365 324" />
+                <path class="tl" style="--d:1.46s" pathLength="1" d="M365 324 Q368 305 356 290" />
+                <path class="tl" style="--d:1.83s" pathLength="1" d="M356 290 Q340 286 339 272" />
+                <path class="tl" style="--d:1.80s" pathLength="1" d="M356 290 Q351 280 360 269" />
+                <path class="tl" style="--d:1.37s" pathLength="1" d="M365 324 Q364 316 376 291" />
+                <path class="tl" style="--d:1.70s" pathLength="1" d="M376 291 Q381 281 374 271" />
+                <path class="tl" style="--d:1.76s" pathLength="1" d="M376 291 Q375 280 384 271" />
+                <path class="tl" style="--d:1.03s" pathLength="1" d="M361 379 Q372 355 402 328" />
+                <path class="tl" style="--d:1.41s" pathLength="1" d="M402 328 Q406 316 414 296" />
+                <path class="tl" style="--d:1.76s" pathLength="1" d="M414 296 Q419 284 416 275" />
+                <path class="tl" style="--d:1.79s" pathLength="1" d="M414 296 Q414 293 433 280" />
+                <path class="tl" style="--d:1.42s" pathLength="1" d="M402 328 Q425 310 433 299" />
+                <path class="tl" style="--d:1.73s" pathLength="1" d="M433 299 Q434 288 451 274" />
+                <path class="tl" style="--d:1.83s" pathLength="1" d="M433 299 Q446 291 461 287" />
+                <path class="tl" style="--d:1.12s" pathLength="1" d="M361 379 Q382 364 429 354" />
+                <path class="tl" style="--d:1.50s" pathLength="1" d="M429 354 Q450 344 465 330" />
+                <path class="tl" style="--d:1.83s" pathLength="1" d="M465 330 Q472 327 483 314" />
+                <path class="tl" style="--d:1.90s" pathLength="1" d="M465 330 Q465 327 494 320" />
+                <path class="tl" style="--d:1.45s" pathLength="1" d="M429 354 Q454 356 479 348" />
+                <path class="tl" style="--d:1.80s" pathLength="1" d="M479 348 Q489 343 504 338" />
+                <path class="tl" style="--d:1.87s" pathLength="1" d="M479 348 Q496 346 507 349" />
+            </g>
         </svg>
         <p class="intro-word">
             <span class="intro-word-base">课间十分钟，教室变机厅</span>
             <span class="intro-word-color" aria-hidden="true">课间十分钟，教室变机厅</span>
         </p>
-        <span class="intro-note" aria-hidden="true"><img src="assets/deco/note-4.png" alt=""></span>
         <button class="intro-skip" id="introSkip" type="button">
             <span>SKIP</span>
             <svg viewBox="0 0 14 12" width="14" height="12" aria-hidden="true">

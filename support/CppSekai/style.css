@@ -307,7 +307,9 @@ code {
 }
 
 /* ==========================================================================
-   开屏
+   开屏 —— 仿 1.5 周年那页的进站演出
+   0.9s 彩虹底淡入 / 2.2s 标语逐字写出 / 3.5s 染彩 / 4.5s 标语淡出 /
+   5.0s 树一条条描边长出来 / 5.6s 树上色点亮 / 8.6s 收尾
    ========================================================================== */
 
 .intro {
@@ -318,54 +320,70 @@ code {
     place-items: center;
     background: #fff;
     overflow: hidden;
-    transition: opacity .55s var(--ease);
+    transition: opacity .6s var(--ease);
 }
 
 html.intro-done .intro {
     opacity: 0;
     visibility: hidden;
     pointer-events: none;
-    transition: opacity .55s var(--ease), visibility 0s .55s;
+    transition: opacity .6s var(--ease), visibility 0s .6s;
 }
 
-/* 从底部发散的彩色弧线 */
-.intro-arcs {
+/* 柔和彩虹底 */
+.intro-rainbow {
+    position: absolute;
+    inset: 0;
+    background: url("assets/deco/rainbow.jpg") center/cover no-repeat;
+    opacity: 0;
+    animation: rainbow-in 2.6s ease .9s forwards;
+}
+
+@keyframes rainbow-in {
+    to { opacity: .32; }
+}
+
+/* 树 */
+.intro-tree {
     position: absolute;
     left: 50%;
-    bottom: 0;
+    bottom: 5%;
     transform: translateX(-50%);
-    width: min(1080px, 118%);
-    height: 76%;
+    width: min(540px, 64%);
+    height: auto;
     overflow: visible;
 }
 
-.arc {
+.tl {
     fill: none;
-    stroke-width: 2.2;
+    stroke: url(#treeGrad);
+    stroke-width: 2.6;
     stroke-linecap: round;
-    stroke-dasharray: 900;
-    stroke-dashoffset: 900;
-    opacity: 0;
-    animation: arc-draw 1.5s var(--ease) forwards;
+    stroke-opacity: .38;
+    stroke-dasharray: 1;
+    stroke-dashoffset: 1;
+    animation: tree-draw 1.2s cubic-bezier(.34, .06, .28, 1) calc(var(--d) + 4.6s) forwards,
+        tree-bloom 2s ease 7.3s forwards;
 }
 
-.a1 { stroke: rgba(228, 140, 192, .5); animation-delay: 1.30s; }
-.a2 { stroke: rgba(198, 152, 226, .46); animation-delay: 1.44s; }
-.a3 { stroke: rgba(152, 172, 232, .46); animation-delay: 1.36s; }
-.a4 { stroke: rgba(132, 205, 222, .46); animation-delay: 1.52s; }
-.a5 { stroke: rgba(152, 220, 200, .42); animation-delay: 1.60s; }
-.a6 { stroke: rgba(212, 182, 236, .38); animation-delay: 1.68s; }
-
-@keyframes arc-draw {
-    0% { opacity: 0; stroke-dashoffset: 900; }
-    18% { opacity: 1; }
-    100% { opacity: 1; stroke-dashoffset: 0; }
+@keyframes tree-draw {
+    to { stroke-dashoffset: 0; }
 }
 
-/* 标语：先逐字写出来，再整体下移，最后染成彩色 */
+@keyframes tree-bloom {
+    to {
+        stroke-opacity: 1;
+        filter: drop-shadow(0 0 5px rgba(198, 232, 255, .95));
+    }
+}
+
+/* 标语 */
 .intro-word {
-    position: relative;
-    z-index: 1;
+    position: absolute;
+    top: 31%;
+    left: 0;
+    right: 0;
+    z-index: 2;
     margin: 0;
     font-family: var(--serif);
     font-size: clamp(19px, 3.4vw, 38px);
@@ -374,12 +392,11 @@ html.intro-done .intro {
     line-height: 1.45;
     text-align: center;
     white-space: nowrap;
-    transform: translateY(-42px);
-    animation: word-drop 1.5s cubic-bezier(.32, 0, .2, 1) 1.15s forwards;
+    animation: word-out .9s ease 4.5s forwards;
 }
 
-@keyframes word-drop {
-    to { transform: translateY(0); }
+@keyframes word-out {
+    to { opacity: 0; }
 }
 
 .intro-word-base,
@@ -390,7 +407,7 @@ html.intro-done .intro {
 .intro-word-base {
     color: #4b5070;
     clip-path: inset(0 100% 0 0);
-    animation: word-wipe 1.05s cubic-bezier(.4, 0, .2, 1) .2s forwards;
+    animation: word-wipe 1.05s cubic-bezier(.4, 0, .2, 1) 2.2s forwards;
 }
 
 .intro-word-color {
@@ -402,8 +419,8 @@ html.intro-done .intro {
     color: transparent;
     clip-path: inset(0 100% 0 0);
     opacity: 0;
-    animation: word-wipe 1.05s cubic-bezier(.4, 0, .2, 1) .2s forwards,
-        word-tint .9s ease 1.5s forwards;
+    animation: word-wipe 1.05s cubic-bezier(.4, 0, .2, 1) 2.2s forwards,
+        word-tint 1s ease 3.5s forwards;
 }
 
 @keyframes word-wipe {
@@ -414,35 +431,12 @@ html.intro-done .intro {
     to { opacity: 1; }
 }
 
-/* 金色音符从底部升起 */
-.intro-note {
-    position: absolute;
-    left: 50%;
-    bottom: 7%;
-    z-index: 1;
-    width: 44px;
-    transform: translate(-50%, 34px) scale(.5);
-    opacity: 0;
-    animation: note-rise 1.8s cubic-bezier(.2, .8, .3, 1) 2.45s forwards;
-}
-
-.intro-note img {
-    display: block;
-    width: 100%;
-}
-
-@keyframes note-rise {
-    0% { opacity: 0; transform: translate(-50%, 34px) scale(.5); }
-    28% { opacity: 1; }
-    100% { opacity: 0; transform: translate(-50%, -96px) scale(1.1); }
-}
-
 /* SKIP */
 .intro-skip {
     position: absolute;
     right: 46px;
     bottom: 40px;
-    z-index: 2;
+    z-index: 3;
     display: inline-flex;
     align-items: center;
     gap: 20px;
@@ -457,7 +451,7 @@ html.intro-done .intro {
     letter-spacing: .2em;
     cursor: pointer;
     opacity: 0;
-    animation: skip-in .6s ease 1.7s forwards;
+    animation: skip-in .6s ease 2.6s forwards;
     transition: color .18s, border-color .18s, box-shadow .18s;
 }
 
@@ -1138,13 +1132,12 @@ html.intro-done .intro {
         transition: none;
     }
 
-    .intro-arcs,
-    .arc,
+    .intro-rainbow,
     .intro-word,
     .intro-word-base,
     .intro-word-color,
-    .intro-note,
     .intro-skip,
+    .tl,
     .shot {
         animation: none !important;
     }

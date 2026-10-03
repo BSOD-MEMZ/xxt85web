@@ -25,8 +25,8 @@
         var skip = document.getElementById('introSkip');
         if (skip) skip.addEventListener('click', finish);
 
-        // 动画本身约 4.2s，留一点余量；跳过与自然结束走同一个出口
-        setTimeout(finish, 4300);
+        // 整段演出约 9.3s（彩虹底 → 标语 → 树生长 → 上色点亮），留一点余量
+        setTimeout(finish, 9600);
         document.addEventListener('keydown', function (e) {
             if (e.key === 'Escape' || e.keyCode === 27) finish();
         });
