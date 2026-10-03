@@ -1,8 +1,6 @@
 (function () {
     'use strict';
 
-    var INTRO_KEY = 'cppsekai_intro';
-
     // 进站开屏 —— 结构、时间轴、收尾方式全部照搬 pjsk 1.5 周年页：
     // 时长不写死在这里，而是读 .c-loading 在 intro.css 里的 animation-duration / -delay，
     // 这样以后调 CSS 里的节奏，JS 不用跟着改。
@@ -33,15 +31,13 @@
             var reduce = window.matchMedia &&
                 window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-            // 系统限制动效，或本次会话已经放过 —— 直接收场
-            if (reduce || document.documentElement.classList.contains('intro-seen')) {
+            // 只有系统开了「减少动态效果」才跳过 —— 平时每次都播
+            if (reduce) {
                 if (skip) skip.style.display = 'none';
                 document.body.classList.add('--loaded');
                 finish();
                 return;
             }
-
-            try { sessionStorage.setItem(INTRO_KEY, 'seen'); } catch (e) { }
 
             var cs = window.getComputedStyle(root);
             var dur = (parseFloat(cs.animationDuration) || 2.1) * 1000;
@@ -76,6 +72,41 @@
         else window.addEventListener('load', start);
     }
 
+
+    // 首页那句「「教室」变___」：团体的 SEKAI 一个接一个滑上来。
+    // 末尾补一份首项，滑到克隆项后再瞬移回开头，看不出接缝。
+    function setupSekaiRoll() {
+        var track = document.getElementById('sekaiTrack');
+        if (!track || !track.children.length) return;
+
+        if (window.matchMedia &&
+            window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+        var items = track.children;
+        var total = items.length;
+        if (total < 2) return;
+
+        track.appendChild(items[0].cloneNode(true));
+
+        var i = 0;
+        setInterval(function () {
+            var h = items[0].offsetHeight;
+            if (!h) return;
+            i += 1;
+            track.style.transform = 'translateY(' + (-i * h) + 'px)';
+
+            if (i === total) {
+                setTimeout(function () {
+                    track.style.transition = 'none';
+                    track.style.transform = 'translateY(0)';
+                    i = 0;
+                    void track.offsetHeight;
+                    setTimeout(function () { track.style.transition = ''; }, 60);
+                }, 660);
+            }
+        }, 2400);
+    }
+
     function set(sel, text) {
         var els = document.querySelectorAll(sel);
         for (var i = 0; i < els.length; i++) els[i].textContent = text;
@@ -103,6 +134,7 @@
     }
 
     setupIntro();
+    setupSekaiRoll();
 
     if (window.CppSekai) {
         window.CppSekai.setupNav();

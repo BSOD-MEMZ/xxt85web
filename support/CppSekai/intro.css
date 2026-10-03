@@ -62,7 +62,7 @@
 .c-loading__circle .c-in-circle.--vividbadsquad{background-color:var(--c-vividbadsquad);animation-delay:2.4s}
 .c-loading__circle .c-in-circle.--wonderlandsshowtime{background-color:var(--c-wonderlandsshowtime);animation-delay:3.6s}
 .c-loading__circle .c-in-circle.--25nightcode{background-color:var(--c-25nightcode);animation-delay:4.8s}
-.c-loading__text{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%) translate3d(0,0,0);width:75%;aspect-ratio:539/43;-webkit-mask:url(assets/intro/txt_loading_catch.png) no-repeat center/100% 100%;mask:url(assets/intro/txt_loading_catch.png) no-repeat center/100% 100%;animation:fadeinClip 1.2s .3s cubic-bezier(.05,.95,.17,1) both,fadeoutBlur .6s 2.5s linear forwards}
+.c-loading__text{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%) translate3d(0,0,0);width:75%;aspect-ratio:539/43;-webkit-mask:none;mask:none;animation:fadeinClip 1.2s .3s cubic-bezier(.05,.95,.17,1) both,fadeoutBlur .6s 2.5s linear forwards}
 @media print,screen and (min-width:1025px){
 .c-loading__text{width:calc(539 * var(--vw-scale))}
 }
@@ -174,9 +174,41 @@
 
 /* ---------- 站点适配 ---------- */
 
-/* 本次会话已经放过：直接不渲染，免去二次访问闪一下 */
-html.intro-seen .c-loading {
-    display: none;
+/* 开屏那行字不再用官方那张手写体图（内容是 PJSK 的标语），换成站点自己的话。
+   clip 展开、纯色层 + 彩虹层这套结构原样保留，文字靠 attr(data-text)
+   同时喂给 ::before（深色）与 ::after（彩虹 + background-clip）。 */
+.c-loading__text {
+    width: auto;
+    aspect-ratio: auto;
+    -webkit-mask: none;
+    mask: none;
+    font-family: var(--serif);
+    font-weight: 600;
+    font-size: clamp(17px, 3vw, 33px);
+    letter-spacing: .18em;
+    text-indent: .18em;
+    line-height: 1.45;
+    white-space: nowrap;
+    text-align: center;
+    color: transparent;
+}
+
+.c-loading__text::after,
+.c-loading__text::before {
+    content: attr(data-text);
+    white-space: nowrap;
+}
+
+.c-loading__text::before {
+    background: none;
+    color: #44506e;
+}
+
+.c-loading__text::after {
+    background: var(--c-rainbow);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
 }
 
 /* 系统开了「减少动态效果」就不播 */

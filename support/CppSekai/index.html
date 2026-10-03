@@ -7,15 +7,6 @@
     <title>CppSekai — 专为班级大屏设计的 PJSK 模拟器</title>
     <meta name="description" content="CppSekai 是《世界计划 缤纷舞台》的第三方模拟器：纯 C++ 手写，原生 Windows 触摸，12 轨全键位，同机多人拼机，判定与结算照着官方逐项对齐。免安装，整包 6.9 MB。">
     <meta name="theme-color" content="#f3f3f3">
-    <script>
-        (function () {
-            try {
-                if (sessionStorage.getItem('cppsekai_intro') === 'seen') {
-                    document.documentElement.classList.add('intro-seen');
-                }
-            } catch (e) { }
-        })();
-    </script>
     <link rel="icon" href="assets/favicon.png">
     <link rel="preload" as="image" href="assets/play.webp">
     <link rel="stylesheet" href="intro.css">
@@ -77,7 +68,7 @@
     <div class="c-loading js-loading" id="intro">
         <button class="c-loading__skip-button js-skip-button" type="button">SKIP</button>
         <div class="c-loading__inner">
-            <div class="c-loading__text"></div>
+            <div class="c-loading__text" data-text="课间十分钟，教室变机厅">课间十分钟，教室变机厅</div>
             <div class="c-loading__tree">
                 <div class="c-in-effects">
                                 <span class="rotate"><span class="triangle"></span></span>
@@ -152,7 +143,19 @@
             <div class="shell hero-in">
                 <p class="tag">课间十分钟</p>
                 <h1>CppSekai</h1>
-                <p class="hero-sub">教室变机厅。</p>
+                <p class="hero-sub">
+                    <span class="sekai-fixed">
+                        <img src="assets/group/leoneed.svg" alt="Leo/need" width="32" height="32">「教室」变
+                    </span>
+                    <span class="sekai-roll">
+                        <span class="sekai-track" id="sekaiTrack">
+                    <span class="sekai-item" style="--gc:#88DD44"><img src="assets/group/moremorejump.svg" alt="MORE MORE JUMP!" width="32" height="32">「舞台」</span>
+                    <span class="sekai-item" style="--gc:#FF9900"><img src="assets/group/ws.svg" alt="Wonderlands×Showtime" width="32" height="32">「游乐园」</span>
+                    <span class="sekai-item" style="--gc:#EE1166"><img src="assets/group/vbs.svg" alt="Vivid BAD SQUAD" width="32" height="32">「广场」</span>
+                    <span class="sekai-item" style="--gc:#33CCBB"><img src="assets/group/vsinger.svg" alt="虚拟歌手" width="32" height="32">「SEKAI」</span>
+                        </span>
+                    </span>
+                </p>
                 <p class="hero-lede">
                     一台希沃、一个压缩包、一个课间 —— 同桌就是你的对手。
                     《世界计划 缤纷舞台》的第三方模拟器，原生吃 Windows 触摸，12 轨全键位，

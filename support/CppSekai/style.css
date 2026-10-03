@@ -372,11 +372,58 @@ code {
 }
 
 .hero-sub {
-    margin: 8px 0 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin: 12px 0 0;
     font-size: clamp(19px, 3vw, 26px);
     font-weight: 700;
     letter-spacing: .04em;
     color: var(--ink-1);
+}
+
+/* 「「教室」变 ___」：左半固定（Leo/need 的教室），右半一圈团体 SEKAI 往上滑 */
+.sekai-fixed {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    white-space: nowrap;
+}
+
+/* 必须是块级 flex：inline-flex 会让几项横着排，滑不动 */
+.sekai-item {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    white-space: nowrap;
+}
+
+.sekai-fixed {
+    color: #4455dd;
+}
+
+.sekai-fixed img,
+.sekai-item img {
+    display: block;
+    width: 1.3em;
+    height: 1.3em;
+}
+
+.sekai-roll {
+    display: inline-block;
+    height: 1.62em;
+    overflow: hidden;
+}
+
+.sekai-track {
+    display: block;
+    transition: transform .62s cubic-bezier(.4, 0, .2, 1);
+}
+
+.sekai-item {
+    height: 1.62em;
+    color: var(--gc);
 }
 
 .hero-lede {
@@ -1230,5 +1277,12 @@ code {
     .staff {
         height: 26px;
         margin-top: 8px;
+    }
+}
+
+@media (max-width: 620px) {
+    .hero-sub {
+        gap: 6px;
+        font-size: 17px;
     }
 }
