@@ -48,6 +48,7 @@
             var t1 = setTimeout(function () {
                 window.scrollTo(0, 0);
                 document.body.classList.add('--f-loaded');
+                document.body.classList.add('--loaded');
             }, Math.max(0, delay - 600));
 
             var t2 = setTimeout(function () {

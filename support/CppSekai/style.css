@@ -322,7 +322,7 @@ code {
     top: calc(var(--nav-h) - 24px);
     left: 50%;
     transform: translateX(-50%);
-    width: min(1240px, 108%);
+    width: 100vw;
     height: 640px;
     overflow: hidden;
     pointer-events: none;
@@ -331,12 +331,51 @@ code {
     mask-image: linear-gradient(180deg, #000 60%, transparent 97%);
 }
 
-.hero-art img {
+/* 分两层：背景世界树先入，人物立绘后入 */
+.hero-layer {
     position: absolute;
     left: 50%;
     top: -6%;
+    display: block;
+    width: min(1640px, 118vw);
     transform: translateX(-50%);
-    width: 116%;
+}
+
+.hero-layer img {
+    display: block;
+    width: 100%;
+}
+
+body.--loaded .hero-layer-tree {
+    animation: kv-tree-in 1.7s .15s ease both;
+}
+
+body.--loaded .hero-layer-char {
+    animation: kv-char-in 1.5s .9s cubic-bezier(.22, .9, .28, 1) both;
+}
+
+@keyframes kv-tree-in {
+    from {
+        opacity: 0;
+        transform: translateX(-50%) scale(1.05);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(-50%) scale(1);
+    }
+}
+
+@keyframes kv-char-in {
+    from {
+        opacity: 0;
+        transform: translateX(-50%) translateY(26px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0);
+    }
 }
 
 .ink {
@@ -1160,7 +1199,9 @@ code {
         transition: none;
     }
 
-    .shot {
+    .shot,
+    .hero-layer-tree,
+    .hero-layer-char {
         animation: none !important;
     }
 }
