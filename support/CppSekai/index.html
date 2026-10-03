@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CppSekai — 专为班级大屏设计的 PJSK 模拟器</title>
+    <meta name="description" content="CppSekai 是《世界计划 缤纷舞台》的第三方模拟器：纯 C++ 手写，原生 Windows 触摸，12 轨全键位，同机多人拼机，判定与结算照着官方逐项对齐。免安装，整包 6.9 MB。">
+    <meta name="theme-color" content="#080a12">
+    <link rel="icon" href="assets/favicon.png">
+    <link rel="preload" as="image" href="assets/play.webp">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <header class="nav" id="nav">
+        <div class="wrap nav-inner">
+            <a class="brand" href="#top">
+                <img src="assets/logo.png" alt="" width="34" height="34">
+                <span>CppSekai</span>
+            </a>
+            <nav class="nav-links">
+                <a href="#classroom">班级大屏</a>
+                <a href="#party">拼机</a>
+                <a href="#fidelity">对齐官方</a>
+                <a href="#gallery">截图</a>
+                <a href="#faq">问答</a>
+            </nav>
+            <a class="btn btn-primary btn-sm" href="#download">下载</a>
+        </div>
+    </header>
+
+    <main id="top">
+
+        <section class="hero">
+            <div class="hero-bg" aria-hidden="true">
+                <span class="orb orb-a"></span>
+                <span class="orb orb-b"></span>
+                <span class="orb orb-c"></span>
+                <span class="grid-lines"></span>
+            </div>
+            <div class="wrap hero-grid">
+                <div class="hero-copy">
+                    <p class="eyebrow"><i class="dot"></i>专为班级大屏设计</p>
+                    <h1>Cpp<span>Sekai</span></h1>
+                    <p class="tagline">课间十分钟<br>教室变机厅。</p>
+                    <p class="lede">
+                        一台希沃、一个压缩包、一个课间 —— 同桌就是你的对手。
+                        CppSekai 是《世界计划 缤纷舞台》的第三方模拟器：原生吃 Windows 触摸，
+                        12 轨全键位，谱面解析与判定照着官方逐项对齐。
+                    </p>
+                    <div class="cta-row">
+                        <a class="btn btn-primary btn-lg" href="#download">
+                            下载最新版
+                            <span class="ver-chip" data-rel-ver></span>
+                        </a>
+                        <a class="btn btn-ghost btn-lg" href="https://github.com/BSOD-MEMZ/CppSekai" target="_blank"
+                            rel="noopener">GitHub 源码</a>
+                    </div>
+                    <ul class="hero-facts">
+                        <li>免安装</li>
+                        <li>整包 6.9 MB</li>
+                        <li>本体零联网</li>
+                        <li>Win7 SP1+</li>
+                    </ul>
+                </div>
+                <div class="hero-visual">
+                    <div class="shot-frame">
+                        <img src="assets/play.webp" alt="CppSekai 游玩界面：三角舞台、音符与 COMBO 计数" width="1282"
+                            height="752" fetchpriority="high">
+                    </div>
+                    <div class="float-tag tag-tl">原生触摸 · 多指判定</div>
+                    <div class="float-tag tag-br">60 FPS · 赛扬可跑</div>
+                </div>
+            </div>
+        </section>
+
+        <section class="strip">
+            <div class="wrap strip-inner">
+                <p>没有 Electron，没有引擎，没有安装器 —— 一个 6.9 MB 的压缩包，解压双击就能在教室里开打。</p>
+            </div>
+        </section>
+
+        <section class="block pillars" id="pillars">
+            <div class="wrap">
+                <header class="sec-head">
+                    <p class="sec-kicker">为什么是它</p>
+                    <h2>三件别处买不到的事</h2>
+                </header>
+
+                <article class="pillar" id="classroom">
+                    <div class="pillar-body">
+                        <span class="pillar-num">01</span>
+                        <h3>为教室里的那块屏而生</h3>
+                        <p class="pillar-lead">
+                            不是把手机音游塞进一个窗口，而是从触摸、分辨率到输入延迟，全部按班级大屏重做了一遍。
+                        </p>
+                        <ul class="ticks">
+                            <li><b>原生 Windows 触摸。</b>希沃那块红外屏直接就能吃，多指同时判定，不用装任何映射软件，也不用老师帮忙切投影模式。</li>
+                            <li><b>12 轨真全键位。</b>键盘 <code>Z S X D C V G B H N J M</code>、鼠标左右键、触屏多指 —— 三种输入共用同一条判定路径，难度不会因为换设备而变。</li>
+                            <li><b>大屏不糊。</b>全屏、高 DPI、4K 缩放下按物理像素重排，不会像某些模拟器那样糊成一团。</li>
+                            <li><b>老机器也扛得住。</b>没有 Electron、没有引擎，整包带资源 6.9 MB，几年前的赛扬一样稳。</li>
+                            <li><b>全屏不弹输入法候选框</b>，任务栏按钮上跑进度条，媒体浮层显示曲名与进度（Win10+）。</li>
+                        </ul>
+                    </div>
+                    <div class="pillar-visual">
+                        <img src="assets/classroom.webp" alt="教室希沃大屏上运行 CppSekai 的实拍" loading="lazy"
+                            width="1400" height="788">
+                    </div>
+                </article>
+
+                <article class="pillar reverse" id="party">
+                    <div class="pillar-body">
+                        <span class="pillar-num">02</span>
+                        <h3>同一台电脑，就是一台街机柜</h3>
+                        <p class="pillar-lead">
+                            不用网络、不用服务器、不用配 IP —— 一台机器多开几个窗口，同学就是你的对手。
+                        </p>
+                        <ul class="ticks">
+                            <li><b>同机多人。</b>设置里勾上「多人游玩」，之后每双击一次 exe 就是一个新座位；有几个人就开几个窗口。</li>
+                            <li><b>共享内存总线。</b>各窗口共用同一条曲目时间轴，实测窗口间偏差<span class="num">中位 3.4 ms / 最差 6.7 ms</span>，听感上就是同一台机。</li>
+                            <li><b>看得见谁在房里。</b>选曲界面左下角有房间胶囊，演奏时右侧实时并排队友分数条，谁掉连一眼就知道。</li>
+                            <li><b>房主一按开始，一屋子同时震。</b>课间十分钟可以开三局，输的人负责擦黑板。</li>
+                        </ul>
+                    </div>
+                    <div class="pillar-visual">
+                        <img src="assets/songselect.webp" alt="选曲界面：谱面列表、难度配色与房间状态" loading="lazy"
+                            width="1366" height="768">
+                    </div>
+                </article>
+
+                <article class="pillar" id="fidelity">
+                    <div class="pillar-body">
+                        <span class="pillar-num">03</span>
+                        <h3>手感是照着官方一比一调的</h3>
+                        <p class="pillar-lead">
+                            谱面解析、判定窗口、结算页、选曲页 —— 不是「像」，是对着原作一项一项对出来的。
+                        </p>
+                        <ul class="ticks">
+                            <li><b>SUS 谱面原生解析</b>，12 轨全部音符类型支持：tap / hold / flick / trace / critical。</li>
+                            <li><b>判定窗口内置三档预设，其中「标准」就是官方那套数值</b>（Perfect 40 / Great 90 / Good 140 ms）；出厂默认的「宽松」是把官方各档放宽 30 ms，手感不够也能自己拖滑杆。</li>
+                            <li><b>长条尾判是「松手判定」。</b>结束前在容错窗口内松手按距离给 Perfect / Great / Good，一直按到底同样算 Perfect，只有明显提前松手才会断连。</li>
+                            <li><b>Flick 严格方向校验。</b>左右方向必须真的甩出来，键盘按键只能产生向上 flick（不想较真可以在设置里把 Flick 视作 Tap）。</li>
+                            <li><b>trace 按「覆盖」判定而不是按「点」</b>：手指按住那条轨道就是 Perfect，没有尾判，头也不用重新点 —— 和官方规则一致。</li>
+                            <li><b>结算与选曲逐项还原：</b>RESULT 字样、等级评价、NEW RECORD、EXP、判定明细；选曲页的卡面、难度配色、谱面等级指示、清 / Full Combo 遮罩。</li>
+                        </ul>
+                    </div>
+                    <div class="pillar-visual">
+                        <img src="assets/result.webp" alt="结算界面：RESULT、得分、等级评价与判定明细" loading="lazy"
+                            width="1366" height="768">
+                    </div>
+                </article>
+            </div>
+        </section>
+
+        <section class="block features" id="features">
+            <div class="wrap">
+                <header class="sec-head">
+                    <p class="sec-kicker">其它细节</p>
+                    <h2>该有的都有</h2>
+                </header>
+                <div class="feat-grid">
+                    <div class="feat">
+                        <h4>自带音乐商店</h4>
+                        <p>附带的 <code>chartdl.exe</code> 是原生 Win32 下载器，国服日服随便下，带难度表、版本数与谱面预览，点几下就能把 <code>charts/</code> 装满。</p>
+                    </div>
+                    <div class="feat">
+                        <h4>别名搜索库</h4>
+                        <p>内置约 1.3 万条社区别名。海底谭你搜「海底捞」，モニタリング 你搜「视奸」，都能精准命中；顺手还支持罗马音搜索。</p>
+                    </div>
+                    <div class="feat">
+                        <h4>三种输入，一条路径</h4>
+                        <p>键盘 12 键、鼠标左右键各算一个指针、触屏多指同时判定。手柄负责菜单选歌换难度，不抢演奏的活。</p>
+                    </div>
+                    <div class="feat">
+                        <h4>系统集成</h4>
+                        <p>Windows 媒体浮层（SMTC）显示曲名与进度、任务栏按钮上跑进度条；在 Win7 上还能开启全局 Aero 毛玻璃。</p>
+                    </div>
+                    <div class="feat">
+                        <h4>权限在你手里</h4>
+                        <p>自定义键位映射、判定窗口与长条容错、Flick 视作 Tap、弱化打击特效、单人房间不提示 —— 全都做成开关。</p>
+                    </div>
+                    <div class="feat">
+                        <h4>游戏本体零网络代码</h4>
+                        <p>只有 <code>chartdl.exe</code> 下载谱面时会联网（地址来自公开资源镜像），不上传任何东西，没有任何遥测。</p>
+                    </div>
+                </div>
+
+                <div class="shot-row">
+                    <figure class="shot">
+                        <img src="assets/store.webp" alt="chartdl 音乐商店界面：曲目列表、难度与别名" loading="lazy"
+                            width="1400" height="788">
+                        <figcaption>音乐商店 <code>chartdl.exe</code></figcaption>
+                    </figure>
+                    <figure class="shot narrow">
+                        <img src="assets/smtc.webp" alt="Windows 媒体浮层显示曲名与进度" loading="lazy" width="693"
+                            height="294">
+                        <figcaption>系统媒体浮层（SMTC）</figcaption>
+                    </figure>
+                </div>
+            </div>
+        </section>
+
+        <section class="block gallery" id="gallery">
+            <div class="wrap">
+                <header class="sec-head">
+                    <p class="sec-kicker">界面</p>
+                    <h2>它长这样</h2>
+                </header>
+                <div class="gal-grid">
+                    <figure class="shot">
+                        <img src="assets/play.webp" alt="游玩界面" loading="lazy" width="1282" height="752">
+                        <figcaption>演奏中 · 12 轨三角舞台</figcaption>
+                    </figure>
+                    <figure class="shot">
+                        <img src="assets/songselect.webp" alt="选曲界面" loading="lazy" width="1366" height="768">
+                        <figcaption>选曲 · 卡面与难度配色</figcaption>
+                    </figure>
+                    <figure class="shot">
+                        <img src="assets/result.webp" alt="结算界面" loading="lazy" width="1366" height="768">
+                        <figcaption>结算 · 等级评价与 EXP</figcaption>
+                    </figure>
+                    <figure class="shot">
+                        <img src="assets/aero.webp" alt="Windows 7 全局 Aero 下的窗口" loading="lazy" width="1400"
+                            height="788">
+                        <figcaption>Win7 · 全局 Aero 毛玻璃</figcaption>
+                    </figure>
+                </div>
+            </div>
+        </section>
+
+        <section class="block download" id="download">
+            <div class="wrap">
+                <header class="sec-head">
+                    <p class="sec-kicker">开始玩</p>
+                    <h2>下载 CppSekai</h2>
+                </header>
+
+                <div class="dl-panel" id="dlPanel">
+                    <div class="dl-head">
+                        <div class="dl-ver">
+                            <span class="dl-label">最新版本</span>
+                            <strong id="dlVersion">读取中…</strong>
+                        </div>
+                        <p class="dl-facts" id="dlFacts">正在向 GitHub 查询最新发行版…</p>
+                    </div>
+
+                    <div class="dl-actions">
+                        <a class="btn btn-primary btn-lg" id="dlPrimary"
+                            href="https://github.com/BSOD-MEMZ/CppSekai/releases/latest" rel="noopener">
+                            前往 Releases 页
+                        </a>
+                        <a class="btn btn-ghost btn-lg" id="dlSource"
+                            href="https://github.com/BSOD-MEMZ/CppSekai/releases/latest" target="_blank"
+                            rel="noopener">历史版本</a>
+                    </div>
+
+                    <div class="mirrors" id="mirrors" hidden>
+                        <p class="mirrors-title">下载不动？换条线路走 —— 同一份文件，第三方加速中转：</p>
+                        <div class="mirror-list" id="mirrorList"></div>
+                        <p class="mirrors-note">
+                            这些加速服务由社区维护，本项目无法保证其长期可用；直连能跑满的话直接用上面的按钮就好。
+                        </p>
+                    </div>
+
+                    <ol class="steps">
+                        <li><span>1</span>下载并解压到任意目录（别丢 <code>SDL2.dll</code>，它得和 exe 待在一起）</li>
+                        <li><span>2</span>双击 <code>chartdl.exe</code> 下载想打的谱面</li>
+                        <li><span>3</span>双击 <code>cppsekai.exe</code>，选歌，开打</li>
+                    </ol>
+                </div>
+
+                <div class="req-grid">
+                    <div class="req">
+                        <h4>系统要求</h4>
+                        <ul>
+                            <li>Windows 7 SP1 或更高</li>
+                            <li>Win10+ 开箱即用；Win7 需自行装一次 UCRT / VC++ 2015-2022 运行库</li>
+                            <li>不要独显，老赛扬也不卡</li>
+                            <li>本地多人模式下，想几个人就开几个窗口</li>
+                        </ul>
+                    </div>
+                    <div class="req">
+                        <h4>关于谱面</h4>
+                        <ul>
+                            <li>仓库不自带谱面与音频，解压后列表是空的属于正常</li>
+                            <li>用 <code>chartdl.exe</code> 下载，或自己往 <code>charts/</code> 里放</li>
+                            <li>手动放的话文件名要形如 <code>0011_master.sus</code></li>
+                            <li>放完在选曲界面按 <code>F5</code> 重扫</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="block faq" id="faq">
+            <div class="wrap">
+                <header class="sec-head">
+                    <p class="sec-kicker">常见问题</p>
+                    <h2>你可能想问</h2>
+                </header>
+                <div class="faq-list">
+                    <details>
+                        <summary>为什么打开之后一首歌都没有？</summary>
+                        <p>仓库出于版权原因不自带谱面与音频。打开附带的 <code>chartdl.exe</code> 把喜欢的曲子下下来，列表就有了。</p>
+                    </details>
+                    <details>
+                        <summary>手柄能打歌吗？</summary>
+                        <p>不能，手柄只负责菜单：方向键或左摇杆选歌换难度，<code>A</code> / <code>START</code> / <code>Y</code> 进入、开设置、重扫，<code>B</code> / <code>BACK</code> 退回。12 轨的东西手柄确实打不了，这是有意的。</p>
+                    </details>
+                    <details>
+                        <summary>键盘打不出左右 flick？</summary>
+                        <p>一个键没有方向，键盘只能发向上 flick；左右方向必须用鼠标或触摸甩出来。触屏上垂直滑动不好触发的话，可以在 <b>设置 → 判定</b> 里打开「Flick 视作 Tap」。</p>
+                    </details>
+                    <details>
+                        <summary>长条什么时候会断？</summary>
+                        <p>尾判是松手判定：结束前在容错窗口内松手，按距离给 Perfect / Great / Good；一直按到底同样是 Perfect。只有明显提前松手才算断连，窗口大小在 <b>设置 → 判定 → 长条容错</b> 里调。</p>
+                    </details>
+                    <details>
+                        <summary>双击没反应 / 提示缺 DLL？</summary>
+                        <p><code>SDL2.dll</code> 必须和 <code>cppsekai.exe</code> 放在同一个目录。日志写在当前工作目录的 <code>cppsekai.log</code>，出问题先看它最后几行。</p>
+                    </details>
+                    <details>
+                        <summary>能跑在 Linux / macOS / 手机上吗？</summary>
+                        <p>只做 Windows 原生 —— 平台层用到了 Win32 的媒体会话、任务栏进度和命名共享内存。想看网页版可以去上游 <a href="https://github.com/watagashi-uni/sekai-mmw-preview-web" target="_blank" rel="noopener">sekai-mmw-preview-web</a>。</p>
+                    </details>
+                    <details>
+                        <summary>它会联网吗？会上传什么东西吗？</summary>
+                        <p>游戏本体<b>没有任何网络代码</b>。只有 <code>chartdl.exe</code> 下载谱面时会联网，也不上传任何东西。</p>
+                    </details>
+                    <details>
+                        <summary>和官方是什么关系？</summary>
+                        <p>本项目与 SEGA / Colorful Palette 及《初音未来：缤纷舞台》官方没有任何关系，是非营利的学习与练习作品。<code>assets/</code> 与 <code>charts/</code> 中的素材版权归官方所有，仅限本地游玩。</p>
+                    </details>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="foot">
+        <div class="wrap foot-inner">
+            <div class="foot-main">
+                <div class="foot-brand">
+                    <img src="assets/logo.png" alt="" width="30" height="30">
+                    <span>CppSekai</span>
+                </div>
+                <p class="foot-note">
+                    免费、开源、非营利。代码遵循 <b>AGPL-3.0-only</b>；谱面核心与渲染布局来自上游
+                    <a href="https://github.com/watagashi-uni/sekai-mmw-preview-web" target="_blank"
+                        rel="noopener">sekai-mmw-preview-web</a>，再上游为 MikuMikuWorld。
+                </p>
+                <p class="foot-note dim">
+                    本项目与 SEGA、Colorful Palette 及《初音未来：缤纷舞台》官方没有任何关系；相关素材版权归官方所有，仅限本地学习与练习使用。如有侵权请联系移除。
+                </p>
+            </div>
+            <div class="foot-links">
+                <a href="https://github.com/BSOD-MEMZ/CppSekai" target="_blank" rel="noopener">GitHub 仓库</a>
+                <a href="https://github.com/BSOD-MEMZ/CppSekai/releases" target="_blank" rel="noopener">所有发行版</a>
+                <a href="https://github.com/BSOD-MEMZ/CppSekai/blob/main/CREDITS.md" target="_blank"
+                    rel="noopener">致谢</a>
+                <a href="https://github.com/BSOD-MEMZ/CppSekai/blob/main/COPYRIGHT.md" target="_blank"
+                    rel="noopener">版权</a>
+            </div>
+        </div>
+        <div class="wrap foot-bottom">
+            <span>© 2026 CppSekai · BSOD-MEMZ</span>
+            <span>世界计划第三方模拟器 · 仅供学习交流</span>
+        </div>
+    </footer>
+
+    <script src="app.js"></script>
+</body>
+
+</html>
