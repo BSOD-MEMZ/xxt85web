@@ -307,165 +307,6 @@ code {
 }
 
 /* ==========================================================================
-   开屏 —— 仿 1.5 周年那页的进站演出
-   0.9s 彩虹底淡入 / 2.2s 标语逐字写出 / 3.5s 染彩 / 4.5s 标语淡出 /
-   5.0s 树一条条描边长出来 / 5.6s 树上色点亮 / 8.6s 收尾
-   ========================================================================== */
-
-.intro {
-    position: fixed;
-    inset: 0;
-    z-index: 300;
-    display: grid;
-    place-items: center;
-    background: #fff;
-    overflow: hidden;
-    transition: opacity .6s var(--ease);
-}
-
-html.intro-done .intro {
-    opacity: 0;
-    visibility: hidden;
-    pointer-events: none;
-    transition: opacity .6s var(--ease), visibility 0s .6s;
-}
-
-/* 柔和彩虹底 */
-.intro-rainbow {
-    position: absolute;
-    inset: 0;
-    background: url("assets/deco/rainbow.jpg") center/cover no-repeat;
-    opacity: 0;
-    animation: rainbow-in 2.6s ease .9s forwards;
-}
-
-@keyframes rainbow-in {
-    to { opacity: .32; }
-}
-
-/* 树 */
-.intro-tree {
-    position: absolute;
-    left: 50%;
-    bottom: 5%;
-    transform: translateX(-50%);
-    width: min(540px, 64%);
-    height: auto;
-    overflow: visible;
-}
-
-.tl {
-    fill: none;
-    stroke: url(#treeGrad);
-    stroke-width: 2.6;
-    stroke-linecap: round;
-    stroke-opacity: .38;
-    stroke-dasharray: 1;
-    stroke-dashoffset: 1;
-    animation: tree-draw 1.2s cubic-bezier(.34, .06, .28, 1) calc(var(--d) + 4.6s) forwards,
-        tree-bloom 2s ease 7.3s forwards;
-}
-
-@keyframes tree-draw {
-    to { stroke-dashoffset: 0; }
-}
-
-@keyframes tree-bloom {
-    to {
-        stroke-opacity: 1;
-        filter: drop-shadow(0 0 5px rgba(198, 232, 255, .95));
-    }
-}
-
-/* 标语 */
-.intro-word {
-    position: absolute;
-    top: 31%;
-    left: 0;
-    right: 0;
-    z-index: 2;
-    margin: 0;
-    font-family: var(--serif);
-    font-size: clamp(19px, 3.4vw, 38px);
-    letter-spacing: .18em;
-    text-indent: .18em;
-    line-height: 1.45;
-    text-align: center;
-    white-space: nowrap;
-    animation: word-out .9s ease 4.5s forwards;
-}
-
-@keyframes word-out {
-    to { opacity: 0; }
-}
-
-.intro-word-base,
-.intro-word-color {
-    display: block;
-}
-
-.intro-word-base {
-    color: #4b5070;
-    clip-path: inset(0 100% 0 0);
-    animation: word-wipe 1.05s cubic-bezier(.4, 0, .2, 1) 2.2s forwards;
-}
-
-.intro-word-color {
-    position: absolute;
-    inset: 0;
-    background-image: var(--rainbow);
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
-    clip-path: inset(0 100% 0 0);
-    opacity: 0;
-    animation: word-wipe 1.05s cubic-bezier(.4, 0, .2, 1) 2.2s forwards,
-        word-tint 1s ease 3.5s forwards;
-}
-
-@keyframes word-wipe {
-    to { clip-path: inset(0 0 0 0); }
-}
-
-@keyframes word-tint {
-    to { opacity: 1; }
-}
-
-/* SKIP */
-.intro-skip {
-    position: absolute;
-    right: 46px;
-    bottom: 40px;
-    z-index: 3;
-    display: inline-flex;
-    align-items: center;
-    gap: 20px;
-    padding: 12px 24px;
-    border-radius: var(--r-pill);
-    border: 1px solid rgba(120, 128, 160, .26);
-    background: #fff;
-    color: #4b5070;
-    font-family: inherit;
-    font-size: 12.5px;
-    font-weight: 600;
-    letter-spacing: .2em;
-    cursor: pointer;
-    opacity: 0;
-    animation: skip-in .6s ease 2.6s forwards;
-    transition: color .18s, border-color .18s, box-shadow .18s;
-}
-
-.intro-skip:hover {
-    color: var(--ink-1);
-    border-color: rgba(120, 128, 160, .5);
-    box-shadow: var(--sh-2);
-}
-
-@keyframes skip-in {
-    to { opacity: 1; }
-}
-
-/* ==========================================================================
    Hero
    ========================================================================== */
 
@@ -1122,22 +963,12 @@ html.intro-done .intro {
         scroll-behavior: auto;
     }
 
-    .intro {
-        display: none;
-    }
-
     .reveal {
         opacity: 1;
         transform: none;
         transition: none;
     }
 
-    .intro-rainbow,
-    .intro-word,
-    .intro-word-base,
-    .intro-word-color,
-    .intro-skip,
-    .tl,
     .shot {
         animation: none !important;
     }
@@ -1234,11 +1065,6 @@ html.intro-done .intro {
 
     .dl-spec dd {
         margin-bottom: 8px;
-    }
-
-    .intro-skip {
-        right: 18px;
-        bottom: 18px;
     }
 
     .foot-bottom {
