@@ -550,10 +550,154 @@ code {
 /* 五线谱装饰线 */
 .staff {
     display: block;
-    height: 68px;
-    margin: 6px 0 -4px;
-    background: url("assets/deco/staff.webp") left center/auto 96% no-repeat;
-    opacity: .9;
+    height: 42px;
+    margin: 4px 0 0;
+    background-image: linear-gradient(90deg, rgba(197, 155, 54, .92), rgba(197, 155, 54, .12));
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    -webkit-mask-repeat: no-repeat;
+    mask-repeat: no-repeat;
+    -webkit-mask-position: left center;
+    mask-position: left center;
+    -webkit-mask-size: 100% 100%;
+    mask-size: 100% 100%;
+}
+
+.staff-a {
+    width: min(430px, 64%);
+    -webkit-mask-image: url("assets/deco/staff-game.webp");
+    mask-image: url("assets/deco/staff-game.webp");
+}
+
+.staff-b {
+    width: min(430px, 64%);
+    -webkit-mask-image: url("assets/deco/staff-music.webp");
+    mask-image: url("assets/deco/staff-music.webp");
+}
+
+.staff-c {
+    width: min(580px, 76%);
+    -webkit-mask-image: url("assets/deco/staff-camp.webp");
+    mask-image: url("assets/deco/staff-camp.webp");
+}
+
+.staff-d {
+    width: min(430px, 100%);
+    -webkit-mask-image: url("assets/deco/staff-camp.webp");
+    mask-image: url("assets/deco/staff-camp.webp");
+}
+
+.staff-e {
+    width: min(430px, 64%);
+    margin-left: auto;
+    margin-right: auto;
+    -webkit-mask-position: center;
+    mask-position: center;
+    -webkit-mask-image: url("assets/deco/staff-game.webp");
+    mask-image: url("assets/deco/staff-game.webp");
+}
+/* 章节光效：官方那几张 kira 原图 */
+.kira {
+    position: absolute;
+    z-index: 0;
+    pointer-events: none;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+    opacity: .72;
+}
+
+.kira-a {
+    right: 4%;
+    top: 4%;
+    width: 240px;
+    height: 340px;
+    background-image: url("assets/deco/kira-game.webp");
+}
+
+.kira-b {
+    left: 3%;
+    top: 8%;
+    width: 130px;
+    height: 270px;
+    background-image: url("assets/deco/kira-music.webp");
+}
+
+.kira-c {
+    right: 5%;
+    top: 10%;
+    width: 250px;
+    height: 360px;
+    background-image: url("assets/deco/kira-camp.webp");
+}
+
+.kira-e {
+    left: 50%;
+    top: 2%;
+    width: 320px;
+    height: 320px;
+    margin-left: -160px;
+    background-image: url("assets/deco/halo.webp");
+    opacity: .5;
+}
+
+/* Hero 的柔和圆光 */
+.halo {
+    position: absolute;
+    left: 50%;
+    top: calc(var(--nav-h) + 90px);
+    width: 560px;
+    height: 560px;
+    margin-left: -280px;
+    z-index: 0;
+    pointer-events: none;
+    background: url("assets/deco/halo.webp") center/contain no-repeat;
+    opacity: .5;
+}
+
+/* 下载区右下的水晶棱面 */
+.crystal-tex {
+    position: absolute;
+    right: 3%;
+    bottom: 6%;
+    width: 210px;
+    height: 210px;
+    pointer-events: none;
+    background: url("assets/deco/crystal-tex.webp") center/contain no-repeat;
+    opacity: .34;
+}
+
+/* Hero 两侧的竖向五线谱 */
+.staff-v {
+    position: absolute;
+    top: 6%;
+    width: 58px;
+    height: 420px;
+    pointer-events: none;
+    z-index: 0;
+    background: url("assets/deco/staff-v.webp") center/contain no-repeat;
+    opacity: .5;
+}
+
+.staff-v-l {
+    left: 1.2%;
+}
+
+.staff-v-r {
+    right: 1.2%;
+    transform: scaleX(-1);
+}
+
+/* 页脚左上角的淡树影 */
+.tree-soft {
+    position: absolute;
+    left: -70px;
+    bottom: -50px;
+    width: 320px;
+    height: 340px;
+    pointer-events: none;
+    background: url("assets/deco/tree-soft.webp") center/contain no-repeat;
+    opacity: .38;
 }
 
 /* 页脚树叶 */
@@ -1069,5 +1213,22 @@ code {
 
     .foot-bottom {
         flex-direction: column;
+    }
+}
+
+
+/* ---------- 窄屏收掉大尺寸装饰件 ---------- */
+@media (max-width: 900px) {
+    .kira,
+    .halo,
+    .crystal-tex,
+    .staff-v,
+    .tree-soft {
+        display: none;
+    }
+
+    .staff {
+        height: 26px;
+        margin-top: 8px;
     }
 }

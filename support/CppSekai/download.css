@@ -555,3 +555,32 @@
         grid-template-columns: 1fr;
     }
 }
+
+
+/* ---------- 官方装饰件 ---------- */
+.dl-main {
+    position: relative;
+    overflow: hidden;
+}
+
+.kira-dl {
+    right: 2%;
+    top: 60px;
+    width: 220px;
+    height: 320px;
+    background-image: url("assets/deco/kira-music.webp");
+}
+
+.crystal-dl {
+    left: 1.5%;
+    bottom: 14%;
+    width: 190px;
+    height: 190px;
+}
+
+@media (max-width: 900px) {
+    .kira-dl,
+    .crystal-dl {
+        display: none;
+    }
+}
