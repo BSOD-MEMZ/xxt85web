@@ -7,12 +7,52 @@
     <title>CppSekai — 专为班级大屏设计的 PJSK 模拟器</title>
     <meta name="description" content="CppSekai 是《世界计划 缤纷舞台》的第三方模拟器：纯 C++ 手写，原生 Windows 触摸，12 轨全键位，同机多人拼机，判定与结算照着官方逐项对齐。免安装，整包 6.9 MB。">
     <meta name="theme-color" content="#080a12">
+    <script>
+        (function () {
+            try {
+                if (localStorage.getItem('cppsekai_intro') === 'seen') {
+                    document.documentElement.classList.add('intro-done');
+                }
+            } catch (e) { }
+        })();
+    </script>
     <link rel="icon" href="assets/favicon.png">
     <link rel="preload" as="image" href="assets/play.webp">
     <link rel="stylesheet" href="style.css">
+    <noscript>
+        <style>
+            .intro {
+                display: none;
+            }
+        </style>
+    </noscript>
 </head>
 
 <body>
+
+    <div class="intro" id="intro">
+        <div class="intro-stage">
+            <span class="intro-halo"></span>
+            <span class="intro-core"></span>
+            <span class="intro-scan"></span>
+            <span class="intro-bit" style="--a:0deg;--d:172px;--t:720ms"></span>
+            <span class="intro-bit" style="--a:45deg;--d:132px;--t:780ms"></span>
+            <span class="intro-bit" style="--a:90deg;--d:186px;--t:700ms"></span>
+            <span class="intro-bit" style="--a:135deg;--d:140px;--t:820ms"></span>
+            <span class="intro-bit" style="--a:180deg;--d:164px;--t:740ms"></span>
+            <span class="intro-bit" style="--a:225deg;--d:126px;--t:800ms"></span>
+            <span class="intro-bit" style="--a:270deg;--d:196px;--t:720ms"></span>
+            <span class="intro-bit" style="--a:315deg;--d:148px;--t:780ms"></span>
+        </div>
+        <p class="intro-title">课间十分钟<br>教室变机厅</p>
+        <span class="intro-rule"></span>
+        <button class="intro-skip" id="introSkip" type="button">
+            跳过
+            <svg viewBox="0 0 12 12" width="12" height="12" aria-hidden="true">
+                <path d="M3 1.5 L9.5 6 L3 10.5 Z" fill="currentColor" />
+            </svg>
+        </button>
+    </div>
 
     <header class="nav" id="nav">
         <div class="wrap nav-inner">
@@ -39,6 +79,8 @@
                 <span class="orb orb-b"></span>
                 <span class="orb orb-c"></span>
                 <span class="grid-lines"></span>
+                <span class="tri tri-a"></span>
+                <span class="tri tri-b"></span>
             </div>
             <div class="wrap hero-grid">
                 <div class="hero-copy">
@@ -246,29 +288,51 @@
                         <p class="dl-facts" id="dlFacts">正在向 GitHub 查询最新发行版…</p>
                     </div>
 
-                    <div class="dl-actions">
-                        <a class="btn btn-primary btn-lg" id="dlPrimary"
-                            href="https://github.com/BSOD-MEMZ/CppSekai/releases/latest" rel="noopener">
-                            前往 Releases 页
-                        </a>
-                        <a class="btn btn-ghost btn-lg" id="dlSource"
-                            href="https://github.com/BSOD-MEMZ/CppSekai/releases/latest" target="_blank"
-                            rel="noopener">历史版本</a>
+                    <p class="dl-note">只有一个包 —— 解压就能玩，不用安装、不用注册、不用管理员权限。</p>
+
+                    <a class="dl-file" id="dlPrimary" href="https://github.com/BSOD-MEMZ/CppSekai/releases/latest"
+                        rel="noopener">
+                        <span class="dl-file-icon" aria-hidden="true">
+                            <svg viewBox="0 0 24 24" width="22" height="22">
+                                <path d="M12 3v11m0 0 4.2-4.2M12 14l-4.2-4.2M4.5 17.5v1.7c0 1 .8 1.8 1.8 1.8h11.4c1 0 1.8-.8 1.8-1.8v-1.7"
+                                    fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"
+                                    stroke-linejoin="round" />
+                            </svg>
+                        </span>
+                        <span class="dl-file-text">
+                            <strong>下载便携版</strong>
+                            <small id="dlPrimarySub">Windows 7 SP1+ · 免安装 · 正在读取体积…</small>
+                        </span>
+                        <span class="dl-file-go" aria-hidden="true">↓</span>
+                    </a>
+
+                    <div class="dl-alt">
+                        <a href="https://github.com/BSOD-MEMZ/CppSekai/releases" target="_blank" rel="noopener">全部历史版本</a>
+                        <a href="https://github.com/BSOD-MEMZ/CppSekai" target="_blank" rel="noopener">源码仓库</a>
+                        <button type="button" id="dlCopy" hidden>复制直链</button>
+                        <a href="#changelog">本次更新</a>
                     </div>
 
                     <div class="mirrors" id="mirrors" hidden>
-                        <p class="mirrors-title">下载不动？换条线路走 —— 同一份文件，第三方加速中转：</p>
+                        <p class="mirrors-title">直连慢？换条线路走 —— 同一份文件，第三方中转</p>
                         <div class="mirror-list" id="mirrorList"></div>
+                        <div class="hash-line" id="hashLine" hidden>
+                            <span class="hash-label">SHA256</span>
+                            <code id="hashValue"></code>
+                            <button type="button" class="hash-copy" id="hashCopy">复制</button>
+                        </div>
                         <p class="mirrors-note">
-                            这些加速服务由社区维护，本项目无法保证其长期可用；直连能跑满的话直接用上面的按钮就好。
+                            加速服务由社区或高校镜像站提供，长期可用性不由本项目保证；直连跑得动就直接用上面的按钮。
+                            校验值取自 GitHub 官方接口，下完可以拿它核对文件有没有损坏。
                         </p>
                     </div>
 
                     <ol class="steps">
-                        <li><span>1</span>下载并解压到任意目录（别丢 <code>SDL2.dll</code>，它得和 exe 待在一起）</li>
-                        <li><span>2</span>双击 <code>chartdl.exe</code> 下载想打的谱面</li>
-                        <li><span>3</span>双击 <code>cppsekai.exe</code>，选歌，开打</li>
+                        <li><span>1</span>解压到任意目录，免安装</li>
+                        <li><span>2</span>用 <code>chartdl.exe</code> 下谱面</li>
+                        <li><span>3</span>双击 <code>cppsekai.exe</code> 开打</li>
                     </ol>
+                    <p class="steps-note">解压后别把 <code>SDL2.dll</code> 单独挪走 —— 它得和 exe 待在一起，不然双击没反应。</p>
                 </div>
 
                 <div class="req-grid">
@@ -290,6 +354,26 @@
                             <li>放完在选曲界面按 <code>F5</code> 重扫</li>
                         </ul>
                     </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="block changelog" id="changelog">
+            <div class="wrap">
+                <header class="sec-head">
+                    <p class="sec-kicker">更新日志</p>
+                    <h2>这次改了什么</h2>
+                </header>
+                <div class="cl-panel">
+                    <div class="cl-head">
+                        <strong id="clVersion">—</strong>
+                        <span id="clDate"></span>
+                    </div>
+                    <div class="cl-body" id="clBody">
+                        <p class="cl-loading">正在读取发行说明…</p>
+                    </div>
+                    <a class="cl-more" href="https://github.com/BSOD-MEMZ/CppSekai/releases" target="_blank"
+                        rel="noopener">在 GitHub 上看全部版本 →</a>
                 </div>
             </div>
         </section>
