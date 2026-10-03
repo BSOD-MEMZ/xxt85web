@@ -95,6 +95,14 @@
     font-variant-numeric: tabular-nums;
 }
 
+/* 取不到版本信息时的降级态：别让「见 Releases」顶着 33px 的字号 */
+.ver-card.is-fallback .ver-main strong {
+    font-size: 19px;
+    font-weight: 700;
+    color: var(--ink-2);
+    letter-spacing: 0;
+}
+
 /* 平台卡 ------------------------------------------------------------------ */
 
 .plat {
@@ -253,6 +261,7 @@
 }
 
 .mirror-loading {
+    grid-column: 1 / -1;
     margin: 0;
     color: var(--ink-3);
     font-size: 14px;
@@ -271,7 +280,7 @@
 }
 
 .mirror:hover {
-    border-color: rgba(0, 95, 184, .3);
+    border-color: rgba(0, 176, 176, .3);
     box-shadow: var(--sh-3);
     transform: translateY(-2px);
 }
@@ -350,7 +359,7 @@
 
 .hash-copy:hover {
     color: var(--accent);
-    border-color: rgba(0, 95, 184, .35);
+    border-color: rgba(0, 176, 176, .35);
     background: var(--accent-soft);
 }
 
@@ -453,7 +462,7 @@
 }
 
 .faq-list details[open] {
-    border-color: rgba(0, 95, 184, .22);
+    border-color: rgba(0, 176, 176, .22);
     box-shadow: var(--sh-2);
 }
 
@@ -497,7 +506,7 @@
 
 .faq-list details a {
     color: var(--accent);
-    border-bottom: 1px solid rgba(0, 95, 184, .3);
+    border-bottom: 1px solid rgba(0, 176, 176, .3);
 }
 
 /* 响应式 ------------------------------------------------------------------ */

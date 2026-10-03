@@ -16,16 +16,16 @@
     --ink-2: #52565e;
     --ink-3: #8b8f98;
 
-    --accent: #005fb8;
-    --accent-hover: #005a9e;
-    --accent-press: #004578;
-    --accent-soft: rgba(0, 95, 184, .09);
+    --accent: #00b0b0;
+    --accent-hover: #009a9a;
+    --accent-press: #00807f;
+    --accent-soft: rgba(0, 176, 176, .1);
 
-    --c-a: #5b6ee1;
-    --c-b: #2ba39a;
-    --c-c: #dd5f95;
+    --c-a: #3848c8;
+    --c-b: #00b0b0;
+    --c-c: #e81868;
     --c-d: #cf8f2c;
-    --c-e: #7a6fdc;
+    --c-e: #7b6ce0;
 
     --r-xs: 3px;
     --r-sm: 4px;
@@ -61,6 +61,11 @@
     box-sizing: border-box;
 }
 
+/* 作者样式里的 display 会盖掉 [hidden] 的 UA 规则，这里补一道 */
+[hidden] {
+    display: none !important;
+}
+
 html {
     scroll-behavior: smooth;
     scroll-padding-top: calc(var(--nav-h) + 16px);
@@ -69,7 +74,9 @@ html {
 
 body {
     margin: 0;
-    background: var(--base);
+    background-color: var(--base);
+    background-image: url("assets/deco/pattern.png");
+    background-size: 420px 420px;
     color: var(--ink-1);
     font-family: var(--sans);
     font-size: 15px;
@@ -453,23 +460,48 @@ html.intro-done .intro {
 
 .hero {
     position: relative;
-    padding: calc(var(--nav-h) + 64px) 0 76px;
+    padding: calc(var(--nav-h) + 540px) 0 76px;
     overflow: hidden;
+}
+
+/* 主视觉（水彩世界树）。容器裁切 + 底部遮罩淡出，跟文字区接上 */
+.hero-art {
+    position: absolute;
+    top: calc(var(--nav-h) - 24px);
+    left: 50%;
+    transform: translateX(-50%);
+    width: min(1240px, 108%);
+    height: 640px;
+    overflow: hidden;
+    pointer-events: none;
+    z-index: 0;
+    -webkit-mask-image: linear-gradient(180deg, #000 60%, transparent 97%);
+    mask-image: linear-gradient(180deg, #000 60%, transparent 97%);
+}
+
+.hero-art img {
+    position: absolute;
+    left: 50%;
+    top: -6%;
+    transform: translateX(-50%);
+    width: 116%;
 }
 
 .ink {
     position: absolute;
     inset: 0;
     pointer-events: none;
+    z-index: 0;
     background:
-        radial-gradient(34% 42% at 18% 10%, rgba(180, 208, 255, .62), transparent 70%),
-        radial-gradient(30% 38% at 84% 6%, rgba(212, 196, 255, .56), transparent 70%),
-        radial-gradient(36% 40% at 76% 54%, rgba(186, 240, 230, .5), transparent 72%),
-        radial-gradient(30% 36% at 10% 64%, rgba(255, 206, 226, .48), transparent 72%);
+        radial-gradient(34% 42% at 18% 10%, rgba(180, 208, 255, .5), transparent 70%),
+        radial-gradient(30% 38% at 84% 6%, rgba(212, 196, 255, .45), transparent 70%),
+        radial-gradient(36% 40% at 76% 60%, rgba(186, 240, 230, .4), transparent 72%),
+        radial-gradient(30% 36% at 10% 70%, rgba(255, 206, 226, .38), transparent 72%);
 }
 
 .hero-in {
     position: relative;
+    z-index: 1;
     text-align: center;
 }
 
@@ -550,6 +582,146 @@ html.intro-done .intro {
 .hero-figure img {
     width: 100%;
     border-radius: var(--r-lg);
+}
+
+/* ==========================================================================
+   装饰件
+   ========================================================================== */
+
+/* 两侧竖装饰条，压得很淡，只当作背景纹理看 */
+.side {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    width: 180px;
+    pointer-events: none;
+    z-index: 0;
+    background-repeat: no-repeat;
+    background-size: 100% auto;
+    opacity: .45;
+}
+
+.side-l {
+    left: 0;
+    background-image: url("assets/deco/side-l.webp");
+    background-position: left top;
+}
+
+.side-r {
+    right: 0;
+    background-image: url("assets/deco/side-r.webp");
+    background-position: right top;
+}
+
+/* 金色音符：撒在各节的标题旁 */
+.note {
+    position: absolute;
+    pointer-events: none;
+    z-index: 0;
+    opacity: .9;
+}
+
+.note img {
+    display: block;
+    width: 100%;
+}
+
+.hero-note-1 {
+    top: calc(var(--nav-h) + 60px);
+    left: 8%;
+    width: 58px;
+}
+
+.hero-note-2 {
+    top: calc(var(--nav-h) + 260px);
+    right: 9%;
+    width: 40px;
+    opacity: .8;
+}
+
+.chapter-note {
+    top: 84px;
+    right: 6%;
+    width: 52px;
+}
+
+.chapter-b .chapter-note {
+    right: auto;
+    left: 5%;
+    top: 120px;
+    width: 44px;
+}
+
+/* 水彩水晶球 */
+.crystal {
+    position: absolute;
+    pointer-events: none;
+    z-index: 0;
+    opacity: .9;
+}
+
+.crystal img {
+    display: block;
+    width: 100%;
+}
+
+.hero-crystal {
+    right: 7%;
+    top: calc(var(--nav-h) + 120px);
+    width: 96px;
+}
+
+/* 棱镜光斑，纯氛围 */
+.prism {
+    position: absolute;
+    pointer-events: none;
+    z-index: 0;
+    background: url("assets/deco/prism.webp") center/contain no-repeat;
+    opacity: .7;
+}
+
+.hero-prism-1 {
+    top: calc(var(--nav-h) + 400px);
+    left: -70px;
+    width: 300px;
+    height: 300px;
+}
+
+.hero-prism-2 {
+    top: calc(var(--nav-h) + 30px);
+    right: -50px;
+    width: 240px;
+    height: 240px;
+    opacity: .55;
+}
+
+/* 五线谱装饰线 */
+.staff {
+    display: block;
+    height: 68px;
+    margin: 6px 0 -4px;
+    background: url("assets/deco/staff.webp") left center/auto 96% no-repeat;
+    opacity: .9;
+}
+
+/* 页脚树叶 */
+.foot {
+    position: relative;
+    overflow: hidden;
+}
+
+.foot-deco {
+    position: absolute;
+    right: -40px;
+    bottom: -30px;
+    width: min(320px, 34%);
+    pointer-events: none;
+    opacity: .5;
+}
+
+.foot-deco img {
+    display: block;
+    width: 100%;
 }
 
 /* ==========================================================================
@@ -779,6 +951,8 @@ html.intro-done .intro {
    ========================================================================== */
 
 .dl-band {
+    position: relative;
+    overflow: hidden;
     padding: 96px 0 104px;
     border-top: 1px solid var(--stroke-soft);
     background: var(--base-tint);
@@ -883,7 +1057,7 @@ html.intro-done .intro {
 
 .foot-note a {
     color: var(--accent);
-    border-bottom: 1px solid rgba(0, 95, 184, .25);
+    border-bottom: 1px solid rgba(0, 176, 176, .25);
 }
 
 .foot-links {

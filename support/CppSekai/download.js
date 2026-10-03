@@ -124,6 +124,9 @@
     }
 
     function fail(err) {
+        var card = document.querySelector('.ver-card');
+        if (card) card.classList.add('is-fallback');
+
         if (elFacts) {
             elFacts.textContent = err && err.rateLimited
                 ? 'GitHub 的接口这会儿对未登录请求限流了（每小时 60 次），过一阵刷新就好。'
