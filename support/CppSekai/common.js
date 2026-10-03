@@ -1,4 +1,4 @@
-/* 两页共用：发行版数据 + 顶栏 + 滚动入场。
+/* 两页共用：发行版数据 + 滚动入场。
    数据缓存写在 localStorage —— 未认证的 GitHub 接口每小时只有 60 次额度。 */
 
 (function () {
@@ -109,17 +109,6 @@
         attempt(1, cb);
     }
 
-    /* ---------- 顶栏 ---------- */
-
-    function setupNav() {
-        var nav = document.getElementById('nav');
-        if (!nav || nav.classList.contains('solid')) return;
-        function onScroll() {
-            nav.classList.toggle('solid', window.scrollY > 10);
-        }
-        window.addEventListener('scroll', onScroll, { passive: true });
-        onScroll();
-    }
 
     /* ---------- 滚动入场 ---------- */
 
@@ -193,7 +182,6 @@
         fmtDate: fmtDate,
         pickAsset: pickAsset,
         copyText: copyText,
-        setupNav: setupNav,
         setupReveal: setupReveal
     };
 })();

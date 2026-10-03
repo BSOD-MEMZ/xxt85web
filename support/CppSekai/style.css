@@ -138,41 +138,7 @@ main,
     z-index: 1;
 }
 
-/* ==========================================================================
-   浮动下载按钮（顶部不再有 navbar）
-   ========================================================================== */
 
-.go-dl {
-    position: fixed;
-    right: 34px;
-    bottom: 34px;
-    z-index: 70;
-    display: inline-flex;
-    align-items: center;
-    gap: 9px;
-    min-height: 56px;
-    padding: 0 30px;
-    border-radius: var(--r-pill);
-    background: var(--pb-cyan);
-    color: var(--pb-ink);
-    font-size: 15.5px;
-    font-weight: 700;
-    letter-spacing: .06em;
-    user-select: none;
-    -webkit-tap-highlight-color: transparent;
-    box-shadow: var(--pb-glow-hi);
-    transition: background .16s var(--ease), color .16s var(--ease), box-shadow .16s var(--ease);
-}
-
-.go-dl:active {
-    background: var(--pb-cyan-press);
-    color: var(--pb-cyan);
-    box-shadow: var(--pb-glow);
-}
-
-.go-dl svg {
-    display: block;
-}
 
 html {
     scroll-behavior: smooth;
@@ -368,64 +334,13 @@ code {
    顶栏
    ========================================================================== */
 
-.nav {
-    position: fixed;
-    inset: 0 0 auto 0;
-    z-index: 60;
-    height: var(--nav-h);
-    display: flex;
-    align-items: center;
-    background: rgba(255, 255, 255, .72);
-    -webkit-backdrop-filter: saturate(180%) blur(20px);
-    backdrop-filter: saturate(180%) blur(20px);
-    border-bottom: 1px solid transparent;
-    transition: border-color .25s, background .25s;
-}
 
-.nav.solid {
-    background: rgba(255, 255, 255, .88);
-    border-bottom-color: var(--stroke-soft);
-}
 
-.nav-in {
-    display: flex;
-    align-items: center;
-    gap: 26px;
-    width: min(var(--shell), calc(100% - 48px));
-    margin-inline: auto;
-}
 
-.brand {
-    display: flex;
-    align-items: center;
-    gap: 9px;
-    font-size: 16px;
-    font-weight: 700;
-    flex: none;
-}
 
-.brand img {
-    border-radius: 7px;
-}
 
-.nav-menu {
-    display: flex;
-    gap: 2px;
-    margin-left: auto;
-}
 
-.nav-menu a {
-    padding: 6px 13px;
-    border-radius: var(--r);
-    font-size: 14px;
-    color: var(--ink-2);
-    transition: background .16s, color .16s;
-}
 
-.nav-menu a:hover {
-    background: rgba(0, 0, 0, .045);
-    color: var(--ink-1);
-}
 
 /* ==========================================================================
    Hero
@@ -1406,13 +1321,8 @@ body.--loaded .hero-layer-char {
         width: calc(100% - 32px);
     }
 
-    .nav-in,
     .foot-bottom {
         width: calc(100% - 32px);
-    }
-
-    .nav-menu {
-        display: none;
     }
 
     .hero {
@@ -1502,11 +1412,3 @@ body.--loaded .hero-layer-char {
     }
 }
 
-@media (max-width: 620px) {
-    .go-dl {
-        right: 18px;
-        bottom: 18px;
-        padding: 11px 20px;
-        font-size: 14px;
-    }
-}

@@ -138,7 +138,6 @@
     setupSekaiRoll();
 
     if (window.CppSekai) {
-        window.CppSekai.setupNav();
         window.CppSekai.setupReveal();
     }
 
