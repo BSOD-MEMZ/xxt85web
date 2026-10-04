@@ -2,8 +2,10 @@
    下载页 —— 复用 style.css 的令牌与 .card / .btn
    ========================================================================== */
 
+/* 注意别用 background 简写 —— 那条会把 style.css 里给 body 铺的底纹一起重置掉，
+   下载页就只剩一块纯色了。只改背景色，底纹留给 body。 */
 .page-dl {
-    background: var(--base);
+    background-color: var(--base);
 }
 
 .page-dl::before {
@@ -200,10 +202,18 @@
 }
 
 .dl-file-go {
+    flex: none;
     margin-left: auto;
-    font-size: 20px;
-    font-weight: 700;
-    opacity: .7;
+    display: grid;
+    place-items: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: rgba(68, 68, 102, .1);
+}
+
+.dl-file-go svg {
+    display: block;
 }
 
 .plat-alt {
@@ -307,10 +317,15 @@
 }
 
 .mirror-go {
+    flex: none;
     margin-left: auto;
+    display: grid;
+    place-items: center;
     color: var(--accent);
-    font-size: 15px;
-    font-weight: 700;
+}
+
+.mirror-go svg {
+    display: block;
 }
 
 .hash-line {
@@ -564,6 +579,43 @@
     overflow: hidden;
 }
 
+/* dl-main 里的装饰都是绝对定位，得把正文抬起来压住它们 */
+.dl-main > .shell {
+    position: relative;
+    z-index: 1;
+}
+
+/* 柔和色晕：铺满整页高度，几处色块分布在不同高度，
+   这样上中下都有层次（固定高度的话下面会发平）。呼应首页 KV 的淡彩。 */
+.dl-ink {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    background:
+        radial-gradient(38% 26% at 13% 3%, rgba(180, 208, 255, .55), transparent 70%),
+        radial-gradient(34% 24% at 88% 1%, rgba(212, 196, 255, .5), transparent 70%),
+        radial-gradient(40% 24% at 74% 15%, rgba(186, 240, 230, .44), transparent 74%),
+        radial-gradient(34% 22% at 5% 17%, rgba(255, 206, 226, .44), transparent 74%),
+        radial-gradient(42% 18% at 22% 46%, rgba(206, 226, 255, .4), transparent 76%),
+        radial-gradient(36% 16% at 88% 58%, rgba(255, 224, 236, .4), transparent 76%),
+        radial-gradient(40% 18% at 62% 82%, rgba(198, 240, 232, .36), transparent 78%),
+        radial-gradient(38% 16% at 8% 92%, rgba(224, 214, 255, .36), transparent 78%);
+}
+
+.note-dl-1 {
+    top: 210px;
+    left: 3.5%;
+    width: 54px;
+}
+
+.note-dl-2 {
+    top: 800px;
+    right: 5%;
+    width: 42px;
+    opacity: .75;
+}
+
 .kira-dl {
     right: 2%;
     top: 60px;
@@ -638,5 +690,12 @@
     .back-home-icon {
         width: 25px;
         height: 25px;
+    }
+}
+
+@media (max-width: 900px) {
+    .note-dl-1,
+    .note-dl-2 {
+        display: none;
     }
 }

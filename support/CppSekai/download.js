@@ -1,6 +1,8 @@
 (function () {
     'use strict';
 
+    var ARROW_SVG = '<svg viewBox="0 0 20 20" width="17" height="17" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><path d="M10 3.4v10.3" /><path d="M5.5 9.4 10 13.9l4.5-4.5" /></svg>';
+
     // 前四个是第三方加速前缀：统一走「前缀 + 源站完整 URL」，发新版本这里不用动。
     // 最后一个是高校镜像站，走「前缀 + tag + 文件名」；等收录申请通过，把 ready 改成 true 就会自动出现。
     var MIRRORS = [
@@ -65,7 +67,8 @@
 
             var go = document.createElement('span');
             go.className = 'mirror-go';
-            go.textContent = '↓';
+            // 箭头也是 SVG，跟 HTML 里那颗保持一致
+            go.innerHTML = ARROW_SVG;
 
             a.appendChild(info);
             a.appendChild(go);
