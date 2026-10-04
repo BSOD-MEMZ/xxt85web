@@ -1,4 +1,12 @@
 window.xxtArticleData = {
+    "cppsekai-web": {
+        title: "CppSekai 官方网站",
+        author: "xxt8582753",
+        desc: "关于 CppSekai 项目的更多信息",
+        date: "2025年10月4日",
+        tags: ["coding", "school"],
+        url: "support/CppSekai/index.html"
+    },
     "scanning.html": {
         title: "人是怎么看网页的",
         author: "xxt8582753",
@@ -590,6 +598,7 @@ window.xxtArticleData = {
 };
 
 window.xxtArticleOrder = [
+    "cppsekai-web", 
     "scanning.html",
     "fucklibmgr.html",
     "haitangxiangyouji.html",
