@@ -155,7 +155,7 @@
     display: flex;
     align-items: center;
     gap: 15px;
-    padding: 13px 26px 13px 15px;
+    padding: 13px 24px 13px 15px;
     border-radius: var(--r-pill);
     background: var(--pb-cyan);
     color: var(--pb-ink);
@@ -199,21 +199,6 @@
     font-size: 12.5px;
     opacity: .7;
     font-variant-numeric: tabular-nums;
-}
-
-.dl-file-go {
-    flex: none;
-    margin-left: auto;
-    display: grid;
-    place-items: center;
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    background: rgba(68, 68, 102, .1);
-}
-
-.dl-file-go svg {
-    display: block;
 }
 
 .plat-alt {

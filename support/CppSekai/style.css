@@ -362,6 +362,65 @@ code {
         linear-gradient(180deg, rgba(255, 255, 255, .16), rgba(255, 255, 255, .04));
 }
 
+/* 全息投影 */
+.hero-holo {
+    position: absolute;
+    right: 2%;
+    top: 26vh;
+    z-index: 1;
+    width: min(650px, 34vw);
+    pointer-events: none;
+    filter: drop-shadow(0 0 30px rgba(96, 226, 255, .55));
+    animation: holo-float 7.5s ease-in-out infinite;
+    /* 左边缘淡出，让投影从画面里"渗"出来，不要一条硬边切在人物身上 */
+    -webkit-mask-image: linear-gradient(90deg, transparent 0%, #000 18%, #000 100%);
+    mask-image: linear-gradient(90deg, transparent 0%, #000 18%, #000 100%);
+}
+
+.hero-holo img {
+    display: block;
+    width: 100%;
+    animation: holo-flicker 6s steps(1, end) infinite;
+}
+
+/* 缓慢上下浮 + 一点点透视倾斜，像悬在空中的投影 */
+@keyframes holo-float {
+    0%,
+    100% {
+        transform: perspective(1500px) rotateY(-13deg) rotateX(3deg) translateY(0);
+    }
+
+    50% {
+        transform: perspective(1500px) rotateY(-13deg) rotateX(3deg) translateY(-18px);
+    }
+}
+
+/* 偶尔闪一下，别太规律 */
+@keyframes holo-flicker {
+
+    0%,
+    91%,
+    100% {
+        opacity: .96;
+    }
+
+    92% {
+        opacity: .78;
+    }
+
+    93% {
+        opacity: .96;
+    }
+
+    96% {
+        opacity: .86;
+    }
+
+    97% {
+        opacity: .96;
+    }
+}
+
 .hero {
     position: relative;
     padding: 20vh 0 76px;
@@ -1280,7 +1339,9 @@ body.--loaded .hero-layer-char {
 
     .shot,
     .hero-layer-tree,
-    .hero-layer-char {
+    .hero-layer-char,
+    .hero-holo,
+    .hero-holo img {
         animation: none !important;
     }
 }
@@ -1412,3 +1473,8 @@ body.--loaded .hero-layer-char {
     }
 }
 
+@media (max-width: 1280px) {
+    .hero-holo {
+        display: none;
+    }
+}
