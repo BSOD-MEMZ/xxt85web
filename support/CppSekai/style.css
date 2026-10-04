@@ -365,21 +365,25 @@ code {
 /* 全息投影 */
 .hero-holo {
     position: absolute;
-    right: 2%;
-    top: 26vh;
-    z-index: 1;
-    width: min(650px, 34vw);
+    right: 1%;
+    top: 40vh;
+    z-index: 2;
+    width: min(640px, 33.4vw);
     pointer-events: none;
-    filter: drop-shadow(0 0 30px rgba(96, 226, 255, .55));
+    /* 天空太亮，纯发光会被冲白 —— 得先用深色投影在底下压出一块暗，青边才读得出来 */
+    filter:
+        drop-shadow(0 20px 44px rgba(16, 54, 98, .5))
+        drop-shadow(0 0 30px rgba(88, 224, 255, .6));
     animation: holo-float 7.5s ease-in-out infinite;
-    /* 左边缘淡出，让投影从画面里"渗"出来，不要一条硬边切在人物身上 */
-    -webkit-mask-image: linear-gradient(90deg, transparent 0%, #000 18%, #000 100%);
-    mask-image: linear-gradient(90deg, transparent 0%, #000 18%, #000 100%);
+    /* 左右边缘淡出，让投影从画面里渗出来，不要一条硬边切在背景上 */
+    -webkit-mask-image: linear-gradient(90deg, transparent 0%, #000 8%, #000 92%, transparent 100%);
+    mask-image: linear-gradient(90deg, transparent 0%, #000 8%, #000 92%, transparent 100%);
 }
 
 .hero-holo img {
     display: block;
     width: 100%;
+    filter: brightness(1.22) saturate(1.1);
     animation: holo-flicker 6s steps(1, end) infinite;
 }
 
@@ -442,11 +446,10 @@ code {
     mask-image: linear-gradient(180deg, #000 44%, rgba(0, 0, 0, .35) 76%, transparent 92%);
 }
 
-/* 分两层：背景世界树先入，人物立绘后入 */
 /* 两个坑：
    ① 原来写 min(1640px, 118vw)，1920 屏上 1640 < 2265 → 只铺到 85% 宽。
       要「至少这么宽」得用 max。
-   ② KV 的人物集中在自己纵向 5%~60%，90% 以下是空的。
+   ② KV 的内容集中在图片纵向上半段，下面大半是空的。
       所以不能垂直居中（那样正好给人看最空的下半部），得顶部对齐。 */
 .hero-layer {
     position: absolute;
@@ -478,10 +481,6 @@ body.--loaded .hero-layer-tree {
     animation: kv-tree-in 1.7s .15s ease both;
 }
 
-body.--loaded .hero-layer-char {
-    animation: kv-char-in 1.5s .9s cubic-bezier(.22, .9, .28, 1) both;
-}
-
 @keyframes kv-tree-in {
     from {
         opacity: 0;
@@ -491,17 +490,6 @@ body.--loaded .hero-layer-char {
     to {
         opacity: 1;
         transform: translateX(-50%) scale(1);
-    }
-}
-
-/* 人物层只做渐显，不做位移 */
-@keyframes kv-char-in {
-    from {
-        opacity: 0;
-    }
-
-    to {
-        opacity: 1;
     }
 }
 
@@ -1339,7 +1327,6 @@ body.--loaded .hero-layer-char {
 
     .shot,
     .hero-layer-tree,
-    .hero-layer-char,
     .hero-holo,
     .hero-holo img {
         animation: none !important;
