@@ -347,7 +347,7 @@ code {
    ========================================================================== */
 
 /* 标题区一层柔和白纱：KV 铺满后在中间最花，字压上去读不清。
-   白纱只压中间，边缘透明，所以角色立绘仍然完整可见。 */
+   白纱只压中间、边缘透明，两侧的装饰才不会被一起压灰。 */
 .hero-veil {
     position: absolute;
     left: 50%;
@@ -362,22 +362,32 @@ code {
         linear-gradient(180deg, rgba(255, 255, 255, .16), rgba(255, 255, 255, .04));
 }
 
-/* 全息投影 */
+/* 全息投影：左右各悬一块，从画面两边"渗"出来 */
 .hero-holo {
     position: absolute;
-    right: 1%;
-    top: 40vh;
+    top: 30vh;
     z-index: 2;
-    width: min(640px, 33.4vw);
+    width: min(560px, 34vw);
     pointer-events: none;
     /* 天空太亮，纯发光会被冲白 —— 得先用深色投影在底下压出一块暗，青边才读得出来 */
     filter:
         drop-shadow(0 20px 44px rgba(16, 54, 98, .5))
         drop-shadow(0 0 30px rgba(88, 224, 255, .6));
     animation: holo-float 7.5s ease-in-out infinite;
-    /* 左右边缘淡出，让投影从画面里渗出来，不要一条硬边切在背景上 */
-    -webkit-mask-image: linear-gradient(90deg, transparent 0%, #000 8%, #000 92%, transparent 100%);
-    mask-image: linear-gradient(90deg, transparent 0%, #000 8%, #000 92%, transparent 100%);
+}
+
+/* 靠屏幕外的那侧留实，朝画面中间的那侧淡出 —— 免得一条硬边切在标题上 */
+.hero-holo-l {
+    left: -5%;
+    animation-delay: -3.2s;
+    -webkit-mask-image: linear-gradient(90deg, #000 0%, #000 76%, transparent 100%);
+    mask-image: linear-gradient(90deg, #000 0%, #000 76%, transparent 100%);
+}
+
+.hero-holo-r {
+    right: -5%;
+    -webkit-mask-image: linear-gradient(90deg, transparent 0%, #000 24%, #000 100%);
+    mask-image: linear-gradient(90deg, transparent 0%, #000 24%, #000 100%);
 }
 
 .hero-holo img {
@@ -385,6 +395,11 @@ code {
     width: 100%;
     filter: brightness(1.22) saturate(1.1);
     animation: holo-flicker 6s steps(1, end) infinite;
+}
+
+/* 两块别同步 —— 一起闪一起浮会像同一张图被切开了 */
+.hero-holo-r img {
+    animation-delay: -2.4s;
 }
 
 /* 缓慢上下浮 + 一点点透视倾斜，像悬在空中的投影 */
