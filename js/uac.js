@@ -4,17 +4,70 @@
     if (localStorage.getItem('uac_enabled') === 'false') return;
     if (window.__uac_shown) return;
     window.__uac_shown = true;
-    var bannerText = window.UAC_BANNER || '';
-    var bodyMessage = window.UAC_MESSAGE || '';
-
     var s = document.currentScript;
-    if (s) {
-        if (s.getAttribute('data-uac-banner')) bannerText = s.getAttribute('data-uac-banner');
-        if (s.getAttribute('data-uac-message')) bodyMessage = s.getAttribute('data-uac-message');
+
+    // ── 文案取值 ──
+    /* 全站文案都能覆盖,取值优先级一律是:**属性 > window.UAC_XXX > 内置默认**。
+
+       挂在 <script> 上的属性(想写什么写什么,不填就用默认):
+         data-uac-title            标题栏文字        默认「用户帐户控制」
+         data-uac-banner           蓝色横幅那句话
+         data-uac-message          正文一段(走 innerHTML,可用 <br> 换行)
+         data-uac-pwd-label        密码框左边那两个字  默认「密码」     ← 仅密码模式
+         data-uac-pwd-placeholder  密码框里的灰字      默认「请输入密码」← 仅密码模式
+         data-uac-pwd-error        密码错时的红字      默认「密码不正确。」← 仅密码模式
+         data-uac-ok              右下主按钮         默认「确定」/「继续(C)」
+         data-uac-cancel          右下次按钮         默认「取消」
+
+       等价写法:`<script> window.UAC_PWD_ERROR = '再想想?'; </script>` 放在 uac.js 之前。
+       ⚠️ 密码框那三条也写了也用不上 —— 仅提醒模式下压根不建密码框。 */
+    function attr(name) { return (s && s.getAttribute(name)) || ''; }
+    function pick(winKey, attrName, fallback) {
+        // ⚠️ 属性排在窗前 —— 页内那条更"近",必须能盖掉全局那份。
+        //    (原来就只有 banner/message 两个,顺序也是属性赢,别调反。)
+        // ⚠️ 属性看的是"写没写",不是"空不空" —— 写了 `data-uac-pwd-error=""`
+        //    就是"这段别显示"(留个空的红字位),不是"没填"。window 那份相反:
+        //    空字符串一律当没设,免得误留一个 `window.UAC_OK = ''` 就把按钮掏空。
+        if (s && s.hasAttribute(attrName)) return s.getAttribute(attrName);
+        var w = window[winKey];
+        if (typeof w === 'string' && w) return w;
+        return fallback;
     }
 
-    if (!bannerText) bannerText = 'Windows 需要您的许可才能继续';
-    if (!bodyMessage) bodyMessage = '如果已启动此操作，请继续。';
+    // ── 模式 ──
+    /* 两种模式:
+         'notice'   仅提醒(默认,就是原来的行为) —— 点「继续」直接放行
+         'password' 需要密码 —— 输错不放行;遮罩同时换成全黑,挡住后面的正文
+
+       改全站模式:改下面 UAC_MODE_DEFAULT 一行。
+       只想给某篇文章单独指定(或想用别的密码),写在它的 <script> 标签上:
+         <script src="../js/uac.js" data-uac-mode="password" data-uac-password="xxx">
+
+       ⚠️ 密码是**明文**的,故意不做任何加密/哈希 —— 看源码的人应该能一眼读到它。
+          这不是安全边界,只是一道「你确定要看?」的门,别拿它当登录。
+       想换密码:改 UAC_PASSWORD_DEFAULT,或给某篇文章挂 data-uac-password。 */
+    var UAC_MODE_DEFAULT = 'notice';
+    var UAC_PASSWORD_DEFAULT = 'xxt8582753';
+
+    var uacMode = UAC_MODE_DEFAULT;
+    if (window.UAC_MODE === 'notice' || window.UAC_MODE === 'password') uacMode = window.UAC_MODE;
+    var attrMode = attr('data-uac-mode').toLowerCase();
+    if (attrMode === 'notice' || attrMode === 'password') uacMode = attrMode;
+    var IS_PASSWORD_MODE = (uacMode === 'password');
+
+    var uacPassword = pick('UAC_PASSWORD', 'data-uac-password', UAC_PASSWORD_DEFAULT);
+
+    // ── 文案 ──(默认值随模式走:密码模式换成"要凭据"那一套)
+    var titleText = pick('UAC_TITLE', 'data-uac-title', '用户帐户控制');
+    var bannerText = pick('UAC_BANNER', 'data-uac-banner',
+        IS_PASSWORD_MODE ? 'Windows 需要你的凭据' : 'Windows 需要您的许可才能继续');
+    var bodyMessage = pick('UAC_MESSAGE', 'data-uac-message',
+        IS_PASSWORD_MODE ? '此内容受密码保护，需要验证后才能查看。' : '如果已启动此操作，请继续。');
+    var pwdLabelText = pick('UAC_PWD_LABEL', 'data-uac-pwd-label', '密码');
+    var pwdPlaceholderText = pick('UAC_PWD_PLACEHOLDER', 'data-uac-pwd-placeholder', '请输入密码');
+    var pwdErrorText = pick('UAC_PWD_ERROR', 'data-uac-pwd-error', '密码不正确。');
+    var okText = pick('UAC_OK', 'data-uac-ok', IS_PASSWORD_MODE ? '确定' : '继续(C)');
+    var cancelText = pick('UAC_CANCEL', 'data-uac-cancel', '取消');
 
     // ── 路径 ──
     function rootPath() {
@@ -131,6 +184,35 @@
             'border:1px solid #707070;border-radius:3px;cursor:pointer;color:#000}',
             '.uac-btn:hover{border-color:#3c7fb1;',
             'background:linear-gradient(to bottom,#e9f5ff,#d8eaff 50%,#c4e0ff 51%,#b3d5ff)}',
+            /* ── 密码模式(基线) ──
+               只在 uac-mode=password 时才挂上 .uac-locked / 才建密码框,
+               所以这两条对仅提醒模式零影响。 */
+            /* 遮罩:纯黑不透。特异性 0,2,0 —— 稳压手账覆盖里那条 .uac-overlay(0,1,0),
+               也压过 style.css 里的 rgba(0,0,0,.55),与注入顺序无关 */
+            '.uac-overlay.uac-locked{background:#000000}',
+            '.uac-pwd{display:flex;align-items:center;gap:8px;margin:0 0 10px}',
+            '.uac-pwd-label{flex:none;font-size:12px;color:#000;',
+            'font-family:"Segoe UI","Microsoft YaHei UI",sans-serif}',
+            '.uac-pwd-input{flex:1 1 auto;min-width:0;height:22px;box-sizing:border-box;',
+            'padding:2px 6px;font-size:12px;color:#000;background:#fff;',
+            'font-family:"Segoe UI","Microsoft YaHei UI",sans-serif;',
+            'border:1px solid #7a7a7a;border-radius:2px;outline:none}',
+            '.uac-pwd-input:focus{border-color:#3c7fb1;box-shadow:0 0 0 2px rgba(60,127,177,.28)}',
+            '.uac-pwd-error{display:none;font-size:12px;color:#c00000;margin:0 0 10px;',
+            'font-family:"Segoe UI","Microsoft YaHei UI",sans-serif}',
+            '.uac-pwd-error.uac-show{display:block}',
+            /* 输错时抖一下。⚠️ 这条的特异性(0,2,0)必须高于手账覆盖里的
+               `.uac-dialog{animation:uacModalIn ...}`(0,1,0),否则抖不动。
+               动画结束后类不摘 —— 一旦摘掉,animation 会从 uacShake 变回
+               uacModalIn,入场动画会被重放一遍(对话框原地再飘一次)。
+               要再抖一次由 JS 先摘类、强制回流、再加回来。 */
+            '.uac-dialog.uac-shake{animation:uacShake 360ms cubic-bezier(.36,.07,.19,.97)}',
+            '@keyframes uacShake{',
+            '10%,90%{transform:translateX(-2px)}',
+            '20%,80%{transform:translateX(4px)}',
+            '30%,50%,70%{transform:translateX(-7px)}',
+            '40%,60%{transform:translateX(7px)}',
+            '}',
             '@media(max-width:480px){',
             '.uac-dialog{width:94vw;max-width:94vw}',
             '.uac-body{padding:12px 14px}',
@@ -138,6 +220,9 @@
             '.uac-banner-text{font-size:16px}',
             '.uac-buttons{padding:8px 10px}',
             '.uac-btn{min-width:60px;padding:4px 12px}',
+            /* 窄屏:标签换行到输入框上方,别把框挤成一条缝 */
+            '.uac-pwd{flex-direction:column;align-items:stretch;gap:5px}',
+            '.uac-pwd-input{height:26px}',
             '}'
         ].join('\n');
         document.head.appendChild(st);
@@ -248,6 +333,23 @@
             'border-color:#E4DCCE',
             '}',
             '.uac-btn:active{transform:translateY(1px);box-shadow:none}',
+            /* ── 密码模式(手账) ──
+               ⚠️ 遮罩的「全黑」**不在这里**写。上面那条 .uac-overlay 是暖纸色,
+                  但密码模式下盖住正文的那一层必须是纯黑,由基线里的
+                  `.uac-overlay.uac-locked{background:#000000}` 统一负责 ——
+                  它特异性更高(0,2,0 > 0,1,0),这里不必也不该再写一遍,
+                  否则两份背景色宣告容易走散。 */
+            '.uac-pwd{gap:9px;margin-bottom:12px}',
+            '.uac-pwd-label{font-size:13px;color:#6B6259;',
+            'font-family:"Microsoft YaHei",msyh,sans-serif}',
+            '.uac-pwd-input{height:30px;padding:4px 10px;font-size:13px;color:#3D3A38;',
+            'font-family:"Microsoft YaHei",msyh,sans-serif;',
+            'background:#FFFDF8;border:1px solid #E4DCCE;border-radius:9px;',
+            'box-shadow:inset 0 1px 2px rgba(61,58,56,.06);outline:none}',
+            '.uac-pwd-input:focus{border-color:#0E9E92;box-shadow:0 0 0 3px rgba(14,158,146,.18)}',
+            '.uac-pwd-input::placeholder{color:#B4AA9C}',
+            '.uac-pwd-error{font-size:12px;color:var(--danger,#E06A6A);',
+            'font-family:"Microsoft YaHei",msyh,sans-serif}',
             /* 「继续」= 主操作,填青色 + 右下角一枚圆角五角星
                底纹取自主题 :root 的 --xxt-star-tile(顶层页读 modern-sticker.css,
                文章页读 articles/modern-sticker-article.css,两份同名同值)。
@@ -276,6 +378,8 @@
             '.uac-banner-text{font-size:13px}',
             '.uac-buttons{padding:0}',
             '.uac-btn{padding:7px 13px}',
+            '.uac-pwd{flex-direction:column;align-items:stretch;gap:6px}',
+            '.uac-pwd-input{height:34px}',
             '}'
         ].join('\n');
         document.head.appendChild(st);
@@ -283,7 +387,8 @@
 
     // ── 构建 DOM ──
     var overlay = document.createElement('div');
-    overlay.className = 'uac-overlay';
+    // 密码模式下顺手挂上 .uac-locked —— 遮罩由半透明黑换成纯黑,挡住后面的正文
+    overlay.className = IS_PASSWORD_MODE ? 'uac-overlay uac-locked' : 'uac-overlay';
 
     var dialog = document.createElement('div');
     dialog.className = 'uac-dialog';
@@ -295,7 +400,7 @@
     titlebar.className = 'uac-titlebar';
     var titleSpan = document.createElement('span');
     titleSpan.className = 'uac-title-text';
-    titleSpan.textContent = '用户帐户控制';
+    titleSpan.textContent = titleText;
     var closeBtn = document.createElement('img');
     closeBtn.src = RP + 'images/Window_CloseButton.png';
     closeBtn.className = 'uac-close-btn';
@@ -381,6 +486,39 @@
 
     body.appendChild(msgP);
 
+    // 密码行 —— 只在密码模式下建。仅提醒模式下这些节点根本不存在。
+    var pwdInput = null;
+    var pwdError = null;
+    if (IS_PASSWORD_MODE) {
+        var pwdRow = document.createElement('div');
+        pwdRow.className = 'uac-pwd';
+
+        var pwdLabel = document.createElement('label');
+        pwdLabel.className = 'uac-pwd-label';
+        pwdLabel.setAttribute('for', 'uacPwdInput');
+        pwdLabel.textContent = pwdLabelText;
+
+        pwdInput = document.createElement('input');
+        pwdInput.id = 'uacPwdInput';
+        pwdInput.className = 'uac-pwd-input';
+        pwdInput.type = 'password';
+        pwdInput.placeholder = pwdPlaceholderText;
+        pwdInput.setAttribute('autocomplete', 'off');
+        pwdInput.setAttribute('autocapitalize', 'off');
+        pwdInput.setAttribute('spellcheck', 'false');
+
+        pwdRow.appendChild(pwdLabel);
+        pwdRow.appendChild(pwdInput);
+
+        pwdError = document.createElement('p');
+        pwdError.className = 'uac-pwd-error';
+        pwdError.setAttribute('role', 'alert');
+        pwdError.textContent = pwdErrorText;
+
+        body.appendChild(pwdRow);
+        body.appendChild(pwdError);
+    }
+
     // 按钮区
     var btns = document.createElement('div');
     btns.className = 'uac-buttons';
@@ -394,16 +532,19 @@
         e.preventDefault();
         alert('请在首页点击控制面板，取消勾选用户账户控制即可关闭此通知。');
     });
+    // 密码模式下不挂这条「怎么关掉它」的提示 —— 一个要密码的页面
+    // 顺手告诉你看客怎么绕过,逻辑上打架。想留就把下面两行删掉。
+    if (IS_PASSWORD_MODE) changeLink.style.display = 'none';
     btnsLeft.appendChild(changeLink);
 
     var btnsRight = document.createElement('div');
     btnsRight.className = 'uac-buttons-right';
     var btnYes = document.createElement('button');
     btnYes.className = 'uac-btn';
-    btnYes.textContent = '继续(C)';
+    btnYes.textContent = okText;
     var btnNo = document.createElement('button');
     btnNo.className = 'uac-btn';
-    btnNo.textContent = '取消';
+    btnNo.textContent = cancelText;
     btnsRight.appendChild(btnYes);
     btnsRight.appendChild(btnNo);
 
@@ -433,12 +574,49 @@
         window.location.href = RP + 'index.html';
     }
 
-    btnYes.addEventListener('click', function(e){e.preventDefault();onYes();});
+    // ── 密码模式:校验 ──
+    // 明文比较,前端判定。故意如此:看源码就能读到 UAC_PASSWORD_DEFAULT。
+    function shakeDialog() {
+        dialog.classList.remove('uac-shake');
+        void dialog.offsetWidth;   // 强制回流,让同一个动画能再播一次
+        dialog.classList.add('uac-shake');
+    }
+
+    function failPassword() {
+        if (pwdError) pwdError.classList.add('uac-show');
+        if (pwdInput) { pwdInput.value = ''; pwdInput.focus(); }
+        shakeDialog();
+    }
+
+    function trySubmit() {
+        if (!pwdInput) { onYes(); return; }
+        if (pwdInput.value === uacPassword) { onYes(); return; }
+        failPassword();
+    }
+
+    btnYes.addEventListener('click', function(e){
+        e.preventDefault();
+        if (IS_PASSWORD_MODE) trySubmit(); else onYes();
+    });
     btnNo.addEventListener('click', function(e){e.preventDefault();onNo();});
     closeBtn.addEventListener('click', function(e){e.preventDefault();onNo();});
 
+    if (pwdInput) {
+        // 敲键就把上一次的错误提示收回去,不用等下一次提交
+        pwdInput.addEventListener('input', function () {
+            if (pwdError) pwdError.classList.remove('uac-show');
+        });
+        pwdInput.addEventListener('keydown', function (e) {
+            if (e.key === 'Enter' || e.keyCode === 13) { e.preventDefault(); trySubmit(); }
+        });
+    }
+
     function onKeyDown(e) {
-        if (e.key === 'Escape' || e.keyCode === 27) { e.preventDefault(); onNo(); }
+        if (e.key === 'Escape' || e.keyCode === 27) { e.preventDefault(); onNo(); return; }
+        var t = e.target;
+        if (t && (t.tagName === 'INPUT' || t.tagName === 'TEXTAREA')) return;  // 打字时不吃快捷键
+        // 密码模式下没有「按 C 放行」这种捷径 —— 有的话这道门就白设了
+        if (IS_PASSWORD_MODE) return;
         if (e.key === 'c' || e.key === 'C' || e.keyCode === 67) { e.preventDefault(); onYes(); }
     }
 
@@ -453,8 +631,13 @@
         document.body.classList.add('uac-active');
         document.addEventListener('keydown', onKeyDown);
         playSound('media/assets/uac.wav');
-        dialog.tabIndex = -1;
-        dialog.focus();
+        // 密码模式直接把光标落在输入框里,省得用户先点一下
+        if (IS_PASSWORD_MODE && pwdInput) {
+            pwdInput.focus();
+        } else {
+            dialog.tabIndex = -1;
+            dialog.focus();
+        }
 
         /* 只在手账主题下做矢量化改造:默认主题保持原样 */
         try {

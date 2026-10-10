@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>葱零往事 ⭐ xxtsoft</title>
+    <script>
+        (function () {
+            var css = 'style.css';
+            try {
+                if (localStorage.getItem('theme') === 'modern-sticker.css') {
+                    css = 'modern-sticker-article.css';
+                } else if ((localStorage.getItem('article_css') || 'default') === 'zuowen') {
+                    css = 'zuowen-style.css';
+                }
+            } catch (err) { }
+            if (css === 'modern-sticker-article.css') {
+                var de = document.documentElement;
+                de.className = (de.className ? de.className + ' ' : '') + 'xxt-ic-pending';
+                var pre = document.createElement('link');
+                pre.rel = 'preload';
+                pre.as = 'script';
+                pre.href = '../js/modern-sticker-icons.js';
+                (document.head || de).appendChild(pre);
+                setTimeout(function () {
+                    de.className = de.className.split('xxt-ic-pending').join(' ')
+                        .replace(/\s{2,}/g, ' ').replace(/^\s+|\s+$/g, '');
+                }, 2000);
+            }
+            document.write('<link rel="stylesheet" href="' + css + '">');
+        })();
+    </script>
+</head>
+
+<body>
+    <div class="header-image">
+        <img src="assets/wishtree.jpg" alt="标题图片">
+        <div class="title-overlay">
+            <h1>葱零往事</h1>
+        </div>
+    </div>
+    <div class="gradient-divider">
+        <a href="javascript:window.close()" class="button"><img src="close.png" alt="" width="16" height="16" />
+            关闭页面</a>
+        <a href="../index.html" class="button"><img src="home.png" alt="" width="16" height="16" />
+            回到首页</a>
+        <a href="javascript:window.print()" class="button"><img src="printer.png" alt="" width="16" height="16" />
+            打印文章</a>
+    </div>
+    <div class="content-container">
+        <div class="author-info">
+            <p>作者：xxt8582753</p>
+            <p>发布日期：2026年10月7日</p>
+        </div>
+        <div class="article-content">
+           <p>看到这个标题，你可能认为是什么奇奇怪怪的同人文，但我想先讲的是在学校里发生的一些事。</p>
+		   <p>今年6月左右，我们重新分了班，老师让我们上台自我介绍，</p>
+        </div>
+    </div>
+    <script src="image-viewer.js"></script>
+	<script src="../js/uac.js"
+    data-uac-mode="password"
+    data-uac-password="39C5BB"
+    data-uac-title="用户账户控制"
+    data-uac-banner="需要凭据才能继续"
+    data-uac-message="这是本站<b>唯一一篇</b>需要密码的文章，其它文章任何人都能访问。<br>添加密码只为防住一部分人，因此我没加密密码，你可以很轻松地破解密码，不会破解也没关系，直接发邮件给站长，我会告诉你密码。<br>或者也可以根据以下线索推断密码：<br><ul><li>密码仅由数字和大写字母构成，且大于4位</li><li>密码与文章标题相关</li><li>密码为本站某篇文章的子串</li><li>密码第一位为某碱金属元素的原子序数</li><li>密码第三位可表示胞嘧啶</li></ul>"
+    data-uac-pwd-label="密码"
+    data-uac-pwd-placeholder=""
+    data-uac-pwd-error="密码错误"
+    data-uac-ok="确定"
+    data-uac-cancel="取消"></script>
+    <div class="giscus"></div>
+    <script src="../js/giscus-loader.js"></script>
+	
+    <script src="article-theme-loader.js"></script>
+</body>
+
+</html>

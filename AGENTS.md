@@ -1082,6 +1082,72 @@ DOMContentLoaded
 - 侧栏/栏间距同时改成了 `clamp(272px, 22vw, 320px)` / `clamp(18px, 1.8vw, 26px)`：
   宽屏维持 30db1eb 的 320/26，视口掉到 1300 上下时自动收窄，免得正文列被侧栏挤扁。
 
+### 34. UAC 两个模式：`notice` 仅提醒 / `password` 要密码（**密码是明文的**）
+
+`js/uac.js` 有两种模式，开关是**代码里的常量**，不是控制面板里那堆 `localStorage` 开关：
+
+```js
+var UAC_MODE_DEFAULT   = 'notice';        // 'notice' 仅提醒(默认) / 'password' 需要密码
+var UAC_PASSWORD_DEFAULT = 'xxt8582753';  // 明文。故意不加密 —— 看源码的人就该能读到
+```
+
+单篇文章想单独指定，写在它的 `<script>` 上（优先级最高）：
+
+```html
+<script src="../js/uac.js" data-uac-mode="password" data-uac-password="xxx"></script>
+```
+
+也可以覆写 `window.UAC_MODE` / `window.UAC_PASSWORD`（要在 uac.js 之前）。
+
+**所有文案也能从同一个标签上改**，取值优先级一律 **属性 > `window.UAC_XXX` > 内置默认**：
+
+| 属性 | 位置 | 默认 |
+|---|---|---|
+| `data-uac-title` | 标题栏 | 用户帐户控制 |
+| `data-uac-banner` | 蓝色横幅 | 随模式（见下） |
+| `data-uac-message` | 正文一段，走 `innerHTML`，**可用 `<br>`** | 随模式 |
+| `data-uac-pwd-label` | 密码框左边的字（仅密码模式） | 密码 |
+| `data-uac-pwd-placeholder` | 密码框里的灰字（仅密码模式） | 请输入密码 |
+| `data-uac-pwd-error` | 密码错时的红字（仅密码模式） | 密码不正确。 |
+| `data-uac-ok` | 右下主按钮 | 确定 / 继续(C) |
+| `data-uac-cancel` | 右下次按钮 | 取消 |
+
+对应的全局写法是 `window.UAC_TITLE` / `UAC_PWD_ERROR` / `UAC_OK` …（大写，放在 uac.js 之前）。
+
+⚠️ **两处不等价**，改 `pick()` 前先看这条：
+- **属性看的是「写没写」**（`hasAttribute`）：写了 `data-uac-pwd-error=""` 就是
+  「这段别显示」，不是「没填」。想只要抖动不要红字，就把值留空。
+- **`window` 那份看的是「空不空」**：空字符串一律当没设，免得误留一个
+  `window.UAC_OK = ''` 就把按钮掏空。
+- **属性排在 window 前面**。页内那条更「近」，必须能盖掉全局那份 ——
+  原来只有 banner/message 两个参数时也是属性赢，别调反。
+
+文案默认值随模式走：`notice` 是「Windows 需要您的许可才能继续」/「如果已启动此操作，请继续。」，
+`password` 是「Windows 需要你的凭据」/「此内容受密码保护，需要验证后才能查看。」。
+
+**唯一没开放的是按钮区左边那条「更改这些通知的出现时间」**（连同它 `alert()` 里的解释），
+因为它只在 `notice` 模式下露面，密码模式下 `display:none`。
+
+- **为什么不做成控制面板里的开关**：那边的 `uac_enabled` / `theme` 都是**访客本地**的
+  `localStorage`。而"这篇文章要不要密码"是全站决定 —— 存进 localStorage 只会改到自己这台
+  浏览器，别的访客照旧。所以模式必须是代码常量，密码必须在源码里（这正好也是站长要的）。
+- **密码模式的两处差异**：遮罩从半透明黑换成**纯黑**（`.uac-overlay.uac-locked`，
+  挡住正文），以及多一行密码输入框；按钮文案变「确定」，右下角那条
+  「怎么关掉 UAC」的链接被隐藏（`changeLink.style.display='none'`）—— 一个要密码的页面
+  顺手教人绕过，逻辑上打架。想留就删掉那两行。
+- **`C` 快捷键在密码模式下必须失效**，否则这道门等于没设。`onKeyDown` 里的顺序是
+  「Esc → 在输入框里就返回 → 密码模式就返回 → 才轮到 C」。
+- **全黑遮罩**写在 uac.js 的 **Vista 基线**里，不写进手账覆盖：特异性 `0,2,0` 压过
+  手账那条 `.uac-overlay{background:rgba(61,58,56,.4)}`（`0,1,0`），与注入顺序无关。
+  两份都能拿到，别在第二个样式块里再写一遍——两处背景色宣告容易走散。
+- **输错抖一下**用的是 `.uac-dialog.uac-shake`（特异性 `0,2,0`），刚好压过手账的
+  `.uac-dialog{animation:uacModalIn}`（`0,1,0`）。⚠️ **抖完不要摘 class**：一摘，
+  `animation` 就从 `uacShake` 变回 `uacModalIn`，入场动画会被重放一遍。
+  要再抖一次由 JS 先摘类 → `void offsetWidth` 强制回流 → 再加回来。
+- 验证用 `.workbuddy/tmp/` 里的临时页 + `probe.js`（把 `data-uac-mode="password"`
+  挂在测试页上，别去改文章）。两套主题、四种组合（notice/password × 顶层/文章页）都要过：
+  遮罩实算 `rgb(0,0,0)`、错密码不放行 + `uacShake`、对密码后 `.uac-overlay` 消失。
+
 ---
 
 ## LaTeX 公式
