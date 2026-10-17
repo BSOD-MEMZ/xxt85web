@@ -4,8 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>下载 CppSekai — 专为班级大屏设计的 PJSK 模拟器</title>
-    <meta name="description" content="下载 CppSekai：免安装便携版，整包 6.9 MB，Windows 7 SP1 及以上可跑。仓库不带谱面，进来先用附带的 chartdl.exe 下歌。">
+    <title>下载 CppSekai — 在班级大屏上打 PJSK</title>
+    <meta name="description" content="CppSekai 免安装便携版，整包 6.9 MB，Windows 7 SP1 及以上都能跑。仓库不带谱面，进去先用附带的 chartdl.exe 下歌。">
     <meta name="theme-color" content="#f3f3f3">
     <link rel="icon" href="assets/favicon.png">
     <link rel="stylesheet" href="style.css">
@@ -38,7 +38,7 @@
                 <p class="tag">下载</p>
                 <h1>下载 <img class="dl-logo" src="assets/logo-word.png" alt="CppSekai" width="1900" height="443"></h1>
                 <span class="staff staff-e" aria-hidden="true"></span>
-                <p class="dl-sub">先确认你的电脑，再挑一个包 —— 其实只有一个包，解压就能玩。</p>
+                <p class="dl-sub">下载包体后解压到一个目录就能玩</p>
             </div>
 
             <section class="ver-card card" aria-live="polite">
@@ -65,7 +65,7 @@
                     </div>
 
                     <p class="plat-desc">
-                        免安装便携版，解压到任意目录就能跑。Win10 / 11 开箱即用；Win7 需要自己装一次
+                        免安装的便携版，解压到任意目录就能跑。Win10 / 11 开箱即用，Win7 得自己装一次
                         UCRT / VC++ 2015-2022 运行库。
                     </p>
 
@@ -80,7 +80,7 @@
                         </span>
                         <span class="dl-file-text">
                             <strong>下载便携版</strong>
-                            <small id="dlPrimarySub">Windows 7 SP1+ · 免安装 · 正在读取体积…</small>
+                            <small id="dlPrimarySub">正在读取体积…</small>
                         </span>
 
                     </a>
@@ -96,7 +96,7 @@
             <section class="sec">
                 <h2 class="sec-title">下载不动？换条线路</h2>
                 <p class="sec-note">
-                    加速服务由社区或高校镜像站提供，长期可用性不由本项目保证。
+                    这些线路由社区和高校镜像站提供。
                 </p>
                 <div class="mirror-list" id="mirrorList">
                     <p class="mirror-loading">正在读取线路…</p>
@@ -132,13 +132,42 @@
             </section>
 
             <section class="sec">
+                <h2 class="sec-title">对于没显卡的机器</h2>
+                <p class="sec-note">
+                    游戏本体要 OpenGL 3.3。要是机器的驱动太老、只有Microsoft 基本显示适配器，或者启动时闪一句
+                    <code>Failed to initialize OpenGL loader!</code> 就没了、双击没反应才能使用。
+                </p>
+
+                <div class="nogpu">
+                    <div class="nogpu-warn">
+                        <strong>极端情况才用</strong>
+                        <p>
+                            这会导致画面全部丢给 CPU 硬算。
+                            仅适用于没显卡的学校电脑（例如锐捷云主机）<b>能正常启动的机器，请直接用上面的便携版。</b>
+                        </p>
+                    </div>
+                    <ul class="nogpu-list">
+                        <li><b>慢 2 到 3 倍。</b>核心数少的机器更差。</li>
+                        <li><b>进得去不等于打得动。</b>判定窗口只有几十毫秒，再叠上云桌面本身的网络和编解码延迟。</li>
+                        <li><b>系统要求没变。</b>还是 Windows 7 SP1 起、只发 x64，Win7 照样得装 UCRT。CPU 太老（只到 SSE2 那一档）就别试了。</li>
+                        <li><b>怎么装。</b>解压后把 <code>opengl32.dll</code> 和 <code>libgallium_wgl.dll</code> 复制到 <code>cppsekai.exe</code> 旁边（和 <code>SDL2.dll</code> 同级），再双击包里的 <code>run-no-gpu.cmd</code> 启动。</li>
+                        <li><b>不想要了。</b>把那两个 dll 删掉，就回到系统自带的 OpenGL。</li>
+                    </ul>
+                    <div class="nogpu-actions">
+                        <a class="btn btn-ghost" href="https://1813038527.share.123pan.cn/123pan/LQJuVv-qPaSd"
+                            target="_blank" rel="noopener">下载软解包</a>
+                    </div>
+                </div>
+            </section>
+
+            <section class="sec">
                 <h2 class="sec-title">三步开打</h2>
                 <ol class="steps">
                     <li>
                         <span class="step-n">1</span>
                         <div>
                             <strong>解压到任意目录</strong>
-                            <p>最好别直接打开压缩包运行里面的 exe，你还是得解压出来。</p>
+                            <p>别直接在压缩包里双击那个 exe，你还是得先解压出来。</p>
                         </div>
                     </li>
                     <li>
@@ -152,7 +181,7 @@
                         <span class="step-n">3</span>
                         <div>
                             <strong>双击开打</strong>
-                            <p>选择歌曲和难度 ，和同学进入「SEKAI」。</p>
+                            <p>选好歌和难度，和同学一起进入「SEKAI」。</p>
                         </div>
                     </li>
                 </ol>
@@ -163,11 +192,11 @@
                 <div class="faq-list">
                     <details>
                         <summary>为什么打开之后一首歌都没有？</summary>
-                        <p>仓库出于版权原因不自带谱面与音频。打开附带的 <code>chartdl.exe</code> 把喜欢的曲子下下来，列表就有了。</p>
+                        <p>版权原因，仓库里不带谱面和音频。打开附带的 <code>chartdl.exe</code> 把想打的曲子下下来，列表就有了。</p>
                     </details>
                     <details>
                         <summary>手柄能打歌吗？</summary>
-                        <p>不能，手柄只负责菜单：方向键或左摇杆选歌换难度，<code>A</code> / <code>START</code> / <code>Y</code> 进入、开设置、重扫，<code>B</code> / <code>BACK</code> 退回。</p>
+                        <p>不能，手柄只管菜单：方向键或左摇杆选歌、换难度，<code>A</code> / <code>START</code> / <code>Y</code> 负责开始、开设置、重扫，<code>B</code> / <code>BACK</code> 退回。</p>
                     </details>
                     <details>
                         <summary>键盘打不出左右 flick？</summary>
@@ -183,15 +212,19 @@
                     </details>
                     <details>
                         <summary>怎么和同学一起打？</summary>
-                        <p><b>设置 → 系统 → 多人游玩</b>。勾上之后重启，再双击 exe 就会出现新窗口 —— 有几个人开几个，同机自动连上，不用配网络。</p>
+                        <p><b>设置 → 系统 → 多人游玩</b>。勾上之后重启，再双击 exe 就会出现新窗口。有几个人就开几个，同机自动连上，不用配网络。</p>
                     </details>
                     <details>
                         <summary>能跑在 Linux / macOS / 手机上吗？</summary>
-                        <p>只做 Windows 原生 —— 平台层用到了 Win32 的媒体会话、任务栏进度和命名共享内存。想看网页版可以去上游 <a href="https://github.com/watagashi-uni/sekai-mmw-preview-web" target="_blank" rel="noopener">sekai-mmw-preview-web</a>。</p>
+                        <p>只做 Windows 原生：平台层用到了 Win32 的媒体会话、任务栏进度和命名共享内存。想看网页版可以去上游 <a href="https://github.com/watagashi-uni/sekai-mmw-preview-web" target="_blank" rel="noopener">sekai-mmw-preview-web</a>。</p>
                     </details>
                     <details>
                         <summary>它会联网吗？会上传什么东西吗？</summary>
                         <p>游戏本体<b>没有任何网络代码</b>。只有 <code>chartdl.exe</code> 下载谱面时会联网，也不上传任何东西。</p>
+                    </details>
+                    <details>
+                        <summary>双击一闪就没了 / 报 OpenGL 错误？</summary>
+                        <p>先看游戏目录下 <code>cppsekai.log</code> 的最后几行。如果有 <code>Failed to initialize OpenGL loader!</code>，说明这台机器没有 3D 驱动，去上面「没显卡的机器：软解包」那一节。能正常启动的话，那个包不用管。</p>
                     </details>
                 </div>
             </section>
@@ -207,9 +240,9 @@
                     <span>CppSekai</span>
                 </div>
                 <p class="foot-note">
-                    免费、开源、非营利。代码遵循 <b>AGPL-3.0-only</b>；谱面核心与渲染布局来自上游
+                    免费、开源，也不赚钱。代码是 <b>AGPL-3.0-only</b>；谱面核心和渲染布局来自上游
                     <a href="https://github.com/watagashi-uni/sekai-mmw-preview-web" target="_blank"
-                        rel="noopener">sekai-mmw-preview-web</a>，再上游为 MikuMikuWorld。
+                        rel="noopener">sekai-mmw-preview-web</a>，再上游是 MikuMikuWorld。
                 </p>
                 <p class="foot-note dim">
                     本项目与 SEGA、Colorful Palette 及《初音未来：缤纷舞台》官方没有任何关系；相关素材版权归官方所有，仅限本地学习与练习使用。如有侵权请联系移除。

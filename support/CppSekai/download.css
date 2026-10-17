@@ -564,6 +564,99 @@
     overflow: hidden;
 }
 
+/* ---------- 软解包（无显卡补丁） ---------- */
+
+.nogpu {
+    margin-top: 20px;
+    padding: 24px 26px;
+    background: var(--layer);
+    border: 1px solid rgba(207, 143, 44, .32);
+    border-left: 4px solid var(--c-d);
+    border-radius: var(--r);
+    box-shadow: var(--sh-1);
+}
+
+.nogpu-warn strong {
+    display: block;
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--c-d);
+}
+
+.nogpu-warn p {
+    margin: 7px 0 0;
+    color: var(--ink-2);
+    font-size: 14.3px;
+    line-height: 1.72;
+}
+
+.nogpu-warn b {
+    color: var(--ink-1);
+}
+
+.nogpu-list {
+    display: grid;
+    gap: 11px;
+    margin: 18px 0 0;
+    padding: 0;
+    list-style: none;
+    border-top: 1px solid var(--stroke-soft);
+    padding-top: 18px;
+}
+
+.nogpu-list li {
+    position: relative;
+    padding-left: 19px;
+    color: var(--ink-2);
+    font-size: 14.2px;
+    line-height: 1.72;
+}
+
+.nogpu-list li::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 9px;
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--c-d);
+    opacity: .55;
+}
+
+.nogpu-list b {
+    color: var(--ink-1);
+    font-weight: 700;
+}
+
+.nogpu-list code {
+    padding: 1px 5px;
+    border-radius: var(--r-xs);
+    background: var(--layer-2);
+    border: 1px solid var(--stroke);
+    font-family: var(--mono);
+    font-size: .93em;
+}
+
+.nogpu-actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 14px;
+    margin-top: 22px;
+}
+
+.nogpu-meta {
+    color: var(--ink-3);
+    font-size: 13px;
+}
+
+@media (max-width: 760px) {
+    .nogpu {
+        padding: 20px 18px;
+    }
+}
+
 /* dl-main 里的装饰都是绝对定位，得把正文抬起来压住它们 */
 .dl-main > .shell {
     position: relative;

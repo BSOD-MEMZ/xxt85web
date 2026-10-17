@@ -731,6 +731,14 @@ body.--loaded .hero-layer-tree {
     width: 44px;
 }
 
+/* 章节 d 也是翻转布局（图在右），装饰件照 b 那套挪到左边 */
+.chapter-d .chapter-note {
+    right: auto;
+    left: 5%;
+    top: 120px;
+    width: 44px;
+}
+
 /* 水彩水晶球 */
 .crystal {
     position: absolute;
@@ -1480,3 +1488,56 @@ body.--loaded .hero-layer-tree {
         display: none;
     }
 }
+
+/* ==========================================================================
+   零碎功能（feats）
+   ========================================================================== */
+
+.feat-title {
+    margin: 6px 0 0;
+    font-size: clamp(30px, 4.6vw, 46px);
+    font-weight: 800;
+    letter-spacing: -.02em;
+    line-height: 1.15;
+}
+
+.feat-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 18px;
+}
+
+.feat-card {
+    padding: 22px 24px;
+    background: var(--layer);
+    border: 1px solid var(--stroke-soft);
+    border-radius: var(--r);
+    box-shadow: var(--sh-1);
+}
+
+.feat-card h3 {
+    margin: 0 0 8px;
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--ink-1);
+}
+
+.feat-card p {
+    margin: 0;
+    color: var(--ink-2);
+    font-size: 14.3px;
+    line-height: 1.72;
+}
+
+@media (max-width: 1040px) {
+    .feat-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+@media (max-width: 760px) {
+    .feat-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
