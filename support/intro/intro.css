@@ -10,9 +10,9 @@
    ⚠️ 头像框 images/avatarframe.png 是 128×127 的 Vista 用户磁贴框，实测：
         · 相片内腔 = x 15..108、y 14..107（边线在 x=14/109、y=13/108，线宽 1px）
         · 即内腔 94×94，左上角落在 (15,14)
-      要让 96×96 的照片正好嵌满内腔，整框按 k = 96/94 ≈ 1.0213 放大：
-        宽 128×k ≈ 130.7   高 127×k ≈ 129.7
-        左 -15×k ≈ -15.3   上 -14×k ≈ -14.3
+      要让 64×64 的照片正好嵌满内腔，整框按 k = 64/94 ≈ 0.68085 缩放：
+        宽 128×k ≈ 87.1    高 127×k ≈ 86.5
+        左 -15×k ≈ -10.2   上 -14×k ≈ -9.5
       .intro-portrait 就是"整框的大小"，头像绝对定位到内腔位置，框再反向偏移
       盖回 0,0 —— 于是框的溢出全部被这个盒子吃掉，卡片按常规 padding 排就行，
       不用再为"框探出卡片"留奇怪的余量。改头像尺寸时这几个数要一起按比例改。
@@ -22,10 +22,11 @@
 
 .intro-grid {
     display: grid;
-    /* 外面套一层 min():容器不足 380px 时按容器宽度铺，不会横向溢出。
-       380 是这张横版卡片的下限 —— 再窄，右侧就没地方放"昵称 + 绰号"了
-       (旧版主题的正文栏只有 660 左右，所以那边是一列；手账主题宽一倍，两列)。 */
-    grid-template-columns: repeat(auto-fill, minmax(min(380px, 100%), 1fr));
+    /* 外面套一层 min():容器不足 270px 时按容器宽度铺，不会横向溢出。
+       270 是这张横版卡片的下限 —— 再窄，右侧就没地方放"昵称 + 绰号"了。
+       头像缩到 64 之后卡片矮了一截，旧版主题（正文栏 660 左右）能排两列，
+       手账主题更宽，能排三到四列。 */
+    grid-template-columns: repeat(auto-fill, minmax(min(270px, 100%), 1fr));
     gap: 16px;
     margin: 18px 0 24px;
 }
@@ -35,7 +36,7 @@
 .intro-card {
     position: relative;
     display: flex;
-    gap: 14px;
+    gap: 12px;
     min-width: 0;
 }
 
@@ -44,24 +45,24 @@
 .intro-portrait {
     position: relative;
     flex: none;
-    width: 130.7px;
-    height: 129.7px;
+    width: 87.1px;
+    height: 86.5px;
 }
 
 .intro-avatar {
     position: absolute;
-    left: 15.3px;
-    top: 14.3px;
-    width: 96px;
-    height: 96px;
+    left: 10.2px;
+    top: 9.5px;
+    width: 64px;
+    height: 64px;
 }
 
 .intro-card .intro-avatar img {
     display: block;
-    width: 96px;
-    height: 96px;
+    width: 64px;
+    height: 64px;
     /* 相片位是圆角矩形，照片自己也切一点，免得四角探出框线 */
-    border-radius: 5px;
+    border-radius: 4px;
     object-fit: cover;
     margin: 0;
 }
@@ -69,10 +70,10 @@
 /* 头像框压在照片**上面** */
 .intro-avatar-frame {
     position: absolute;
-    left: -15.3px;
-    top: -14.3px;
-    width: 130.7px;
-    height: 129.7px;
+    left: -10.2px;
+    top: -9.5px;
+    width: 87.1px;
+    height: 86.5px;
     background: url("../../images/avatarframe.png") no-repeat center center;
     background-size: 100% 100%;
     pointer-events: none;
@@ -218,10 +219,10 @@ html[data-intro-theme="sticker"] .intro-card:hover {
     border-color: var(--mint);
 }
 
-/* 相纸是 96 + 左右各 6 的白边 = 108，所以这个盒子也得跟着改尺寸 */
+/* 相纸是 64 + 四周各 6 的白边 = 76，所以这个盒子也得跟着改尺寸 */
 html[data-intro-theme="sticker"] .intro-portrait {
-    width: 108px;
-    height: 108px;
+    width: 76px;
+    height: 76px;
 }
 
 html[data-intro-theme="sticker"] .intro-avatar-frame {
@@ -230,13 +231,13 @@ html[data-intro-theme="sticker"] .intro-avatar-frame {
 
 html[data-intro-theme="sticker"] .intro-avatar {
     position: static;
-    /* content-box 才能让照片仍是 96×96，多出来的是相纸白边 */
+    /* content-box 才能让照片仍是 64×64，多出来的是相纸白边 */
     box-sizing: content-box;
-    width: 96px;
-    height: 96px;
+    width: 64px;
+    height: 64px;
     padding: 6px;
     background: #FFFFFF;
-    border-radius: 10px;
+    border-radius: 7px;
     box-shadow: var(--sh-2);
     transform: rotate(-2deg);
     transition: transform var(--t-mid) var(--ease-pop);
@@ -247,7 +248,7 @@ html[data-intro-theme="sticker"] .intro-card:hover .intro-avatar {
 }
 
 html[data-intro-theme="sticker"] .intro-card .intro-avatar img {
-    border-radius: 6px;
+    border-radius: 4px;
 }
 
 html[data-intro-theme="sticker"] .intro-name {
