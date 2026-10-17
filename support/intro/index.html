@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>xxtsoft · 出场人员介绍</title>
+    <script>
+        (function () {
+            var css = 'style.css';
+            try {
+                var t = localStorage.getItem('theme') || '';
+                if (/^[A-Za-z0-9._-]+\.css$/.test(t)) css = t;
+            } catch (err) { }
+            if (css === 'modern-sticker.css') {
+                var de = document.documentElement;
+                de.className = (de.className ? de.className + ' ' : '') + 'xxt-ic-pending';
+                var pre = document.createElement('link');
+                pre.rel = 'preload';
+                pre.as = 'script';
+                pre.href = '../../js/modern-sticker-icons.js';
+                (document.head || de).appendChild(pre);
+                setTimeout(function () {
+                    de.className = de.className.split('xxt-ic-pending').join(' ')
+                        .replace(/\s{2,}/g, ' ').replace(/^\s+|\s+$/g, '');
+                }, 2000);
+            }
+            document.documentElement.setAttribute('data-intro-theme',
+                css === 'modern-sticker.css' ? 'sticker' : 'classic');
+            document.write('<link rel="stylesheet" type="text/css" id="themeCss" href="../../' + css + '">');
+        })();
+    </script>
+    <link rel="icon" href="../../images/icons/group.png" type="image/x-icon">
+    <link rel="stylesheet" href="intro.css" type="text/css" />
+    <script src="../../js/theme-loader.js"></script>
+</head>
+
+<body>
+    <div class="titlebar">
+        <div class="wrap">
+            <h1>xxtsoft.top</h1>
+        </div>
+    </div>
+    <div class="navbar">
+        <div class="wrap">
+            <ul>
+                <li><a href="../../index.html">首页(H)</a></li>
+                <li><a href="../../articles.html">文章(A)</a></li>
+                <li><a href="../../downloads.html">下载(D)</a></li>
+                <li><a href="../../medias.html">多媒体(M)</a></li>
+                <li><a href="../../about.html">关于(A)</a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="content wrap">
+        <div class="main">
+            <h2><span style="color: #003399;">出场人员介绍</span></h2>
+            <p>故事里露过脸的人都在这儿，头像、昵称和绰号一并列在下面。</p>
+
+            <div class="intro-grid">
+
+                <article class="window intro-card">
+                    <div class="window-titlebar">
+                        <span class="intro-name">AbCd</span>
+                        <span class="intro-tags">
+                            <span class="intro-badge">绰号</span>
+                        </span>
+                    </div>
+                    <div class="window-content intro-body">
+                        <div class="intro-avatar">
+                            <img src="avatars/AbCd.jpg" alt="AbCd 的头像" width="96" height="96">
+                            <span class="intro-avatar-frame" aria-hidden="true"></span>
+                        </div>
+                        <p class="intro-bio">简介占位：这里补一两句话，写他干了什么、和谁混在一起。</p>
+                        <a class="intro-gh" href="https://github.com/" target="_blank" rel="noopener noreferrer"><img
+                                src="../../images/icons/github.png" alt="" width="14" height="14">GitHub</a>
+                    </div>
+                </article>
+
+                <article class="window intro-card">
+                    <div class="window-titlebar">
+                        <span class="intro-name">Cookie</span>
+                        <span class="intro-tags">
+                            <span class="intro-badge">绰号一</span>
+                            <span class="intro-badge">绰号二</span>
+                        </span>
+                    </div>
+                    <div class="window-content intro-body">
+                        <div class="intro-avatar">
+                            <img src="avatars/Cookie.jpg" alt="Cookie 的头像" width="96" height="96">
+                            <span class="intro-avatar-frame" aria-hidden="true"></span>
+                        </div>
+                        <p class="intro-bio">简介占位：这里补一两句话，写他干了什么、和谁混在一起。</p>
+                        <a class="intro-gh" href="https://github.com/" target="_blank" rel="noopener noreferrer"><img
+                                src="../../images/icons/github.png" alt="" width="14" height="14">GitHub</a>
+                    </div>
+                </article>
+
+                <article class="window intro-card">
+                    <div class="window-titlebar">
+                        <span class="intro-name">Shitakara4banme</span>
+                        <span class="intro-tags">
+                            <span class="intro-badge">绰号</span>
+                        </span>
+                    </div>
+                    <div class="window-content intro-body">
+                        <div class="intro-avatar">
+                            <img src="avatars/Shitakara4banme.jpg" alt="Shitakara4banme 的头像" width="96" height="96">
+                            <span class="intro-avatar-frame" aria-hidden="true"></span>
+                        </div>
+                        <p class="intro-bio">简介占位：这里补一两句话，写他干了什么、和谁混在一起。</p>
+                        <a class="intro-gh" href="https://github.com/" target="_blank" rel="noopener noreferrer"><img
+                                src="../../images/icons/github.png" alt="" width="14" height="14">GitHub</a>
+                    </div>
+                </article>
+
+                <article class="window intro-card">
+                    <div class="window-titlebar">
+                        <span class="intro-name">Spring</span>
+                        <span class="intro-tags">
+                            <span class="intro-badge">绰号</span>
+                        </span>
+                    </div>
+                    <div class="window-content intro-body">
+                        <div class="intro-avatar">
+                            <img src="avatars/Spring.jpg" alt="Spring 的头像" width="96" height="96">
+                            <span class="intro-avatar-frame" aria-hidden="true"></span>
+                        </div>
+                        <p class="intro-bio">简介占位：这里补一两句话，写他干了什么、和谁混在一起。</p>
+                        <a class="intro-gh" href="https://github.com/" target="_blank" rel="noopener noreferrer"><img
+                                src="../../images/icons/github.png" alt="" width="14" height="14">GitHub</a>
+                    </div>
+                </article>
+
+                <article class="window intro-card">
+                    <div class="window-titlebar">
+                        <span class="intro-name">kingstar</span>
+                        <span class="intro-tags">
+                            <span class="intro-badge">绰号一</span>
+                            <span class="intro-badge">绰号二</span>
+                        </span>
+                    </div>
+                    <div class="window-content intro-body">
+                        <div class="intro-avatar">
+                            <img src="avatars/kingstar.jpg" alt="kingstar 的头像" width="96" height="96">
+                            <span class="intro-avatar-frame" aria-hidden="true"></span>
+                        </div>
+                        <p class="intro-bio">简介占位：这里补一两句话，写他干了什么、和谁混在一起。</p>
+                        <a class="intro-gh" href="https://github.com/" target="_blank" rel="noopener noreferrer"><img
+                                src="../../images/icons/github.png" alt="" width="14" height="14">GitHub</a>
+                    </div>
+                </article>
+
+                <article class="window intro-card">
+                    <div class="window-titlebar">
+                        <span class="intro-name">xxt8582753</span>
+                        <span class="intro-tags">
+                            <span class="intro-badge">绰号</span>
+                        </span>
+                    </div>
+                    <div class="window-content intro-body">
+                        <div class="intro-avatar">
+                            <img src="avatars/xxt8582753.jpg" alt="xxt8582753 的头像" width="96" height="96">
+                            <span class="intro-avatar-frame" aria-hidden="true"></span>
+                        </div>
+                        <p class="intro-bio">简介占位：这里补一两句话，写他干了什么、和谁混在一起。</p>
+                        <a class="intro-gh" href="https://github.com/" target="_blank" rel="noopener noreferrer"><img
+                                src="../../images/icons/github.png" alt="" width="14" height="14">GitHub</a>
+                    </div>
+                </article>
+
+            </div>
+
+            <img src="../../images/icons/dot.png" width="15" height="15"><a href="https://xxtsoft.top">返回主页</a>
+        </div>
+    </div>
+</body>
+
+</html>

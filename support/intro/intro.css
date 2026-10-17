@@ -1,0 +1,303 @@
+/* ==========================================================================
+   support/intro · 出场人员介绍
+   --------------------------------------------------------------------------
+   卡片外壳直接复用全站的 .window / .window-titlebar / .window-content
+   (style.css 里是 Vista 玻璃窗，xpstyle.css 里是 XP 标题栏，
+    modern-sticker.css 里是贴在本子上的纸片) —— 三套主题一行 HTML 都不用改。
+
+   本文件只负责三件事:网格排布 · 头像 (含旧版头像框) · 绰号 badge 和按钮。
+   两套皮肤靠 <html data-intro-theme="classic|sticker"> 分流，这个属性由
+   index.html 头部那段内联脚本按 localStorage.theme 写上，
+   所以这里不需要跟主题抢特异性，也不会互相漏色。
+
+   ⚠️ 本文件的 <link> 排在主题之后 (head:主题 link → intro.css → theme-loader)。
+      凡是和主题同特异性又只想在某一套皮肤里生效的规则，一律带上
+      html[data-intro-theme="..."] 前缀，否则会顺带改掉另一套主题。
+
+   ⚠️ 头像框 images/avatarframe.png 是 128×127 的 Vista 用户磁贴框，
+      框里的相片位实测是 94×94、左上角落在 (15,14)：
+        · 左/右边线 x=14 与 x=109，上下边线 y=13 与 y=108（线本身 1px）
+        · 所以相片内腔 = x 15..108、y 14..107
+      为了让 96×96 的相片刚好嵌满内腔，整框要按 96/94 放大：
+        宽 128×96/94 ≈ 130.7  高 127×96/94 ≈ 129.7
+        左 -15×96/94 ≈ -15.3  上 -14×96/94 ≈ -14.3
+      改头像尺寸时这四个数要一起按比例改，别只动照片。
+   ========================================================================== */
+
+/* ---------- 网格 ---------- */
+
+.intro-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(215px, 1fr));
+    gap: 20px 16px;
+    margin: 18px 0 24px;
+}
+
+.intro-card {
+    /* .window 自带 margin-bottom:15/18px，网格里由 gap 负责间距 */
+    margin-bottom: 0;
+    display: flex;
+    flex-direction: column;
+    /* 网格项的 min-width 默认是 auto，昵称一长就会把整列顶宽 */
+    min-width: 0;
+}
+
+/* ---------- 卡片头:昵称 + 绰号 ---------- */
+
+/* style.css 的标题栏是纯行内流，这里补成 flex 才能把 badge 推到右边。
+   手账主题本来就是 flex，重写一次 display 不影响它自己的 padding / 虚线。 */
+.intro-card .window-titlebar {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+
+.intro-name {
+    font-weight: bold;
+    word-break: break-word;
+}
+
+.intro-tags {
+    display: inline-flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    margin-left: auto;
+}
+
+.intro-badge {
+    display: inline-block;
+    padding: 0 6px;
+    font-size: 10px;
+    font-weight: bold;
+    line-height: 15px;
+    white-space: nowrap;
+    border-radius: 8px;
+}
+
+/* ---------- 卡片身体 ---------- */
+
+.intro-card .intro-body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex: 1;
+    text-align: center;
+}
+
+/* ---------- 头像 ---------- */
+
+.intro-avatar {
+    position: relative;
+    width: 96px;
+    height: 96px;
+    flex: none;
+    margin: 0 auto;
+}
+
+.intro-card .intro-avatar img {
+    display: block;
+    width: 96px;
+    height: 96px;
+    /* 相片位是圆角矩形，照片自己也切一点，免得四角探出框线 */
+    border-radius: 5px;
+    object-fit: cover;
+    margin: 0;
+}
+
+/* 头像框压在照片**上面**：整框比照片大一圈，中间那块 94×94 的内腔
+   正好套住 96×96 的照片，四周留出的边框就盖在卡片背景上。 */
+.intro-avatar-frame {
+    position: absolute;
+    left: -15.3px;
+    top: -14.3px;
+    width: 130.7px;
+    height: 129.7px;
+    background: url("../../images/avatarframe.png") no-repeat center center;
+    background-size: 100% 100%;
+    pointer-events: none;
+}
+
+/* ---------- 简介 ---------- */
+
+.intro-bio {
+    /* flex:1 把按钮顶到卡片底部，同一行的卡片按钮就能对齐 */
+    flex: 1;
+    margin: 16px 0 0;
+    font-size: 12px;
+    line-height: 1.7;
+    word-break: break-word;
+}
+
+/* ---------- GitHub 按钮 ---------- */
+
+.intro-gh {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    margin-top: 14px;
+    padding: 3px 11px;
+    font-size: 12px;
+    line-height: 1.6;
+    text-decoration: none;
+    white-space: nowrap;
+    border-radius: 3px;
+}
+
+.intro-gh img,
+.intro-gh .xxt-ic {
+    width: 14px;
+    height: 14px;
+    margin: 0;
+    vertical-align: middle;
+}
+
+/* ==========================================================================
+   旧版皮肤:style.css / xpstyle.css
+   ========================================================================== */
+
+html[data-intro-theme="classic"] .intro-card {
+    /* .window 原带 5px/0.7 的重投影，一屏六张会糊成一片，这里收一档 */
+    box-shadow: 4px 4px 12px rgba(0, 0, 0, 0.42);
+}
+
+html[data-intro-theme="classic"] .intro-card .intro-body {
+    /* 左右各 20px：头像框比照片左右各探出 15.3px，留够才不越出卡片 */
+    padding: 20px 20px 18px;
+}
+
+html[data-intro-theme="classic"] .intro-bio {
+    color: #333333;
+}
+
+html[data-intro-theme="classic"] .intro-badge {
+    color: #0B4F6C;
+    background: rgba(255, 255, 255, 0.88);
+    border: 1px solid rgba(255, 255, 255, 0.95);
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.16);
+}
+
+html[data-intro-theme="classic"] .intro-gh {
+    color: #11304F;
+    background: linear-gradient(to bottom, #FEFEFE 0%, #E5EAF5 30%, #D4DBED 31%, #E1E6F6 100%);
+    border: 1px solid #8B8B8B;
+    box-shadow: inset 0 1px 0 #FFFFFF, 0 1px 2px rgba(0, 0, 0, 0.18);
+    cursor: url(../../images/aero_link.cur), pointer;
+}
+
+/* 旧站的反馈是"换色"而不是"浮动"，所以这里只换底和字色 */
+html[data-intro-theme="classic"] .intro-gh:hover {
+    color: #FFFFFF;
+    background: linear-gradient(to bottom, #4A77A9 0%, #225E9E 50%, #164686 51%, #2F7AB3 100%);
+    border-color: #99B1CE;
+}
+
+html[data-intro-theme="classic"] .intro-gh:active {
+    background: linear-gradient(to bottom, #2F7AB3 0%, #164686 51%, #225E9E 100%);
+}
+
+/* ==========================================================================
+   手账皮肤:modern-sticker.css
+   —— 头像不套 Vista 框，改成压在纸上的一张宝丽来
+   ========================================================================== */
+
+html[data-intro-theme="sticker"] .intro-avatar-frame {
+    display: none;
+}
+
+html[data-intro-theme="sticker"] .intro-card .intro-body {
+    padding: 16px 16px 16px;
+}
+
+html[data-intro-theme="sticker"] .intro-avatar {
+    /* content-box 才能让照片仍是 96×96，多出来的是相纸白边 */
+    box-sizing: content-box;
+    padding: 6px;
+    background: #FFFFFF;
+    border-radius: 10px;
+    box-shadow: var(--sh-2);
+    transform: rotate(-2deg);
+    transition: transform var(--t-mid) var(--ease-pop);
+}
+
+html[data-intro-theme="sticker"] .intro-card:hover .intro-avatar {
+    transform: rotate(0deg) translateY(-2px);
+}
+
+html[data-intro-theme="sticker"] .intro-card .intro-avatar img {
+    border-radius: 6px;
+}
+
+html[data-intro-theme="sticker"] .intro-bio {
+    color: var(--ink-2);
+}
+
+html[data-intro-theme="sticker"] .intro-badge {
+    padding: 0 8px;
+    line-height: 17px;
+    color: var(--ink);
+    background: var(--cream);
+    border: 1px solid rgba(61, 58, 56, 0.10);
+    border-radius: var(--r-pill);
+    transform: rotate(-1.5deg);
+}
+
+/* 多个绰号时轮着换贴纸色，刻意的不整齐 */
+html[data-intro-theme="sticker"] .intro-tags .intro-badge:nth-child(2n) {
+    background: var(--mint);
+    transform: rotate(1.5deg);
+}
+
+html[data-intro-theme="sticker"] .intro-tags .intro-badge:nth-child(3n) {
+    background: var(--lilac);
+}
+
+html[data-intro-theme="sticker"] .intro-gh {
+    padding: 5px 14px;
+    color: var(--ink);
+    background: var(--paper-2);
+    border: 1px solid var(--rule-2);
+    border-radius: var(--r-sm);
+    box-shadow: 0 1px 0 rgba(61, 58, 56, 0.10);
+    cursor: var(--cur-point);
+    transition: transform var(--t-fast) var(--ease-soft),
+        box-shadow var(--t-fast) ease,
+        background-color var(--t-fast) ease;
+}
+
+html[data-intro-theme="sticker"] .intro-gh:hover {
+    color: var(--ink);
+    background: #FFFDF8;
+    border-color: var(--rule-2);
+    transform: translateY(-1px);
+    box-shadow: 0 3px 8px -2px rgba(61, 58, 56, 0.22);
+}
+
+html[data-intro-theme="sticker"] .intro-gh:active {
+    transform: translateY(1px);
+    box-shadow: none;
+}
+
+/* ---------- 窄屏 ---------- */
+
+/* 桌面固定三列：六个人正好两排，不会出现"最后一排只剩一张" */
+@media screen and (min-width: 760px) {
+    .intro-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        /* 手账主题的正文栏比旧版宽得多，不封顶的话卡片会被拉成 400+ 的扁条，
+           96 的头像缩在里面显得空 */
+        max-width: 780px;
+    }
+}
+
+@media screen and (max-width: 700px) {
+    .intro-grid {
+        /* 再窄就换 170：低于这个数头像框和标题栏会被挤得换行 */
+        grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+        gap: 16px 12px;
+    }
+
+    html[data-intro-theme="classic"] .intro-card .intro-body {
+        padding: 18px 16px 16px;
+    }
+}
