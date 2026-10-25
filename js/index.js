@@ -1,4 +1,20 @@
 window.xxtArticleData = {
+    "vocaloidmattersinschool.html": {
+        title: "校园里的博歌乐",
+        author: "xxt8582753",
+        desc: "一群术术人迫害初音未来，让她唱南方中学校歌，然后我们还给校歌做了个劲爆土嗨DJ版",
+        date: "2025年10月17日",
+        tags: ["rant"],
+        url: "articles/vocaloidmattersinschool.html"
+    },
+    "mikutoreinohanashi.html": {
+        title: "葱零往事",
+        author: "xxt8582753",
+        desc: "本文章已加密",
+        date: "2025年10月7日",
+        tags: ["rant"],
+        url: "articles/mikutoreinohanashi.html"
+    },
     "cppsekai-web": {
         title: "CppSekai 官方网站",
         author: "xxt8582753",
