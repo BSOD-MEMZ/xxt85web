@@ -1,0 +1,353 @@
+/* =========================================================================
+   xxtsoft 文章页 · 名词解释（术语标注 + 小浮窗）
+   -------------------------------------------------------------------------
+   加载：由 article-theme-loader.js 在 localStorage['glossary_enabled'] !== 'false'
+         时引入本文件与 glossary.js。关掉开关后这两个请求都不会发出。
+   皮肤：默认一套（默认主题 / 作文本通用：黄色荧光 + 浅蓝小窗）；
+         <html data-glossary-theme="sticker"> 时切到手账主题
+         （紫色虚下划线 + 纸片小窗）。该属性由 glossary.js 依当前生效的样式表写入。
+   注意：浮窗挂在 <body> 下，不是正文里的元素 —— 所以这里的圆点/胶带一律用
+         CSS 画，不引任何图片、不引外部字体。
+   ========================================================================= */
+
+/* ---------------------------------------------------------------
+   1. 术语标注（默认皮肤：黄色荧光笔）
+   --------------------------------------------------------------- */
+.article-content .xxt-term {
+    cursor: pointer;
+    padding: 0 .08em;
+    border-radius: 2px;
+    /* 荧光笔的观感关键：上下留白、中间实、边缘柔 */
+    background-image: linear-gradient(180deg,
+            rgba(255, 236, 120, 0) 0%,
+            rgba(255, 226, 60, .86) 14%,
+            rgba(255, 219, 24, .97) 46%,
+            rgba(255, 226, 60, .86) 82%,
+            rgba(255, 236, 120, 0) 100%);
+    -webkit-box-decoration-break: clone;
+    box-decoration-break: clone;
+    transition: background-image .16s ease, color .16s ease;
+}
+
+.article-content .xxt-term:hover {
+    background-image: linear-gradient(180deg,
+            rgba(255, 240, 130, 0) 0%,
+            rgba(255, 218, 40, .92) 16%,
+            rgba(255, 206, 0, 1) 46%,
+            rgba(255, 218, 40, .92) 84%,
+            rgba(255, 240, 130, 0) 100%);
+}
+
+.article-content .xxt-term:focus-visible {
+    outline: 2px solid rgba(0, 88, 160, .55);
+    outline-offset: 2px;
+}
+
+.article-content .xxt-term.is-open {
+    background-image: linear-gradient(180deg,
+            rgba(255, 240, 130, 0) 0%,
+            rgba(255, 214, 20, .95) 16%,
+            rgba(255, 200, 0, 1) 46%,
+            rgba(255, 214, 20, .95) 84%,
+            rgba(255, 240, 130, 0) 100%);
+}
+
+/* ---------------------------------------------------------------
+   2. 浮窗（默认皮肤：浅蓝渐变小卡片）
+      刻意不套 .window 那一套 —— 没有标题栏、没有窗口按钮，
+      只有一张贴着词的轻卡片。
+   --------------------------------------------------------------- */
+#xxt-gloss {
+    position: fixed;
+    z-index: 9990;
+    top: 0;
+    left: 0;
+    box-sizing: border-box;
+    width: -moz-max-content;
+    width: max-content;
+    max-width: 330px;
+    padding: 11px 13px 12px;
+    border: 1px solid #7c9db8;
+    border-radius: 3px;
+    background: linear-gradient(to bottom, #ffffff 0%, #edf6fd 58%, #dbeaf7 100%);
+    box-shadow:
+        0 1px 2px rgba(0, 0, 0, .16),
+        0 10px 24px -8px rgba(0, 0, 0, .32),
+        inset 0 1px 0 rgba(255, 255, 255, .95);
+    color: #1f1f1f;
+    font-family: inherit;
+    font-size: 13px;
+    line-height: 1.62;
+    text-align: left;
+    animation: xxt-gloss-in .15s ease-out;
+}
+
+#xxt-gloss[hidden] {
+    display: none;
+}
+
+#xxt-gloss * {
+    box-sizing: border-box;
+}
+
+/* 指向词的小尖角。--gx 由脚本按词的水平中心算出来并夹在窗口内 */
+#xxt-gloss::before {
+    content: "";
+    position: absolute;
+    left: var(--gx, 50%);
+    top: -7px;
+    width: 12px;
+    height: 12px;
+    margin-left: -6px;
+    background: #ffffff;
+    border-left: 1px solid #7c9db8;
+    border-top: 1px solid #7c9db8;
+    transform: rotate(45deg);
+}
+
+#xxt-gloss.is-above::before {
+    top: auto;
+    bottom: -7px;
+    background: #dbeaf7;
+    border: 0;
+    border-right: 1px solid #7c9db8;
+    border-bottom: 1px solid #7c9db8;
+}
+
+#xxt-gloss .xxt-gloss-name {
+    padding-right: 22px;
+    margin-bottom: 3px;
+    color: #003399;
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 1.45;
+}
+
+#xxt-gloss .xxt-gloss-desc {
+    margin: 0;
+    color: #333333;
+}
+
+#xxt-gloss .xxt-gloss-more {
+    display: inline-block;
+    margin-top: 8px;
+    color: #0058b0;
+    font-size: 12.5px;
+    text-decoration: none;
+    border-bottom: 1px dotted #7aa7d0;
+}
+
+#xxt-gloss .xxt-gloss-more:hover {
+    color: #00447c;
+    border-bottom-color: #00447c;
+}
+
+#xxt-gloss .xxt-gloss-more .xxt-gloss-arrow {
+    display: inline-block;
+    margin-left: 3px;
+    transition: transform .16s ease;
+}
+
+#xxt-gloss .xxt-gloss-more:hover .xxt-gloss-arrow {
+    transform: translateX(3px);
+}
+
+#xxt-gloss [hidden] {
+    display: none !important;
+}
+
+#xxt-gloss .xxt-gloss-x {
+    position: absolute;
+    top: 4px;
+    right: 4px;
+    width: 20px;
+    height: 20px;
+    padding: 0;
+    border: 1px solid transparent;
+    border-radius: 2px;
+    background: transparent;
+    color: #46627a;
+    font-family: inherit;
+    font-size: 14px;
+    line-height: 17px;
+    text-align: center;
+    cursor: pointer;
+    transition: color .14s ease, background .14s ease, border-color .14s ease;
+}
+
+#xxt-gloss .xxt-gloss-x:hover {
+    color: #003a68;
+    border-color: #8fb0c9;
+    background: linear-gradient(to bottom, #ffffff 0%, #d3e6f7 100%);
+}
+
+#xxt-gloss .xxt-gloss-x:focus-visible {
+    outline: 1px dotted #003a68;
+    outline-offset: 1px;
+}
+
+@keyframes xxt-gloss-in {
+    from {
+        opacity: 0;
+        transform: translateY(-4px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ---------------------------------------------------------------
+   3. 手账主题：紫色虚线 + 纸片小窗
+      颜色一律取 modern-sticker-article.css 里的令牌，不另造一套色
+   --------------------------------------------------------------- */
+html[data-glossary-theme="sticker"] .article-content .xxt-term {
+    padding: 0 1px;
+    border-radius: 0;
+    color: var(--c-violet);
+    background-image: none;
+    border-bottom: 1.5px dashed rgba(122, 69, 214, .55);
+    transition: color .14s ease, background-color .14s ease, border-bottom-color .14s ease;
+}
+
+html[data-glossary-theme="sticker"] .article-content .xxt-term:hover {
+    color: #5e2fb8;
+    background-color: rgba(122, 69, 214, .09);
+    border-bottom-color: rgba(122, 69, 214, .92);
+}
+
+html[data-glossary-theme="sticker"] .article-content .xxt-term.is-open {
+    background-color: rgba(122, 69, 214, .13);
+    border-bottom-color: var(--c-violet);
+}
+
+html[data-glossary-theme="sticker"] .article-content .xxt-term:focus-visible {
+    outline: 2px dashed var(--c-violet);
+    outline-offset: 3px;
+}
+
+html[data-glossary-theme="sticker"] #xxt-gloss {
+    max-width: 318px;
+    padding: 14px 16px 13px;
+    border: 0;
+    border-radius: var(--r-md);
+    background: var(--paper);
+    box-shadow: var(--sh-2), inset 0 0 0 1px var(--rule-2);
+    color: var(--ink);
+    font-family: var(--font);
+    font-size: 13px;
+    line-height: 1.72;
+    /* 手账主题里的纸片都不是正着贴的 —— 这张也一样,歪半度就好 */
+    transform: rotate(-.45deg);
+    animation: xxt-gloss-in-sticker .16s ease-out;
+}
+
+@keyframes xxt-gloss-in-sticker {
+    from {
+        opacity: 0;
+        transform: translateY(-4px) rotate(-.45deg);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) rotate(-.45deg);
+    }
+}
+
+html[data-glossary-theme="sticker"] #xxt-gloss::before {
+    background: var(--paper);
+    border: 0;
+    border-left: 1px solid var(--rule-2);
+    border-top: 1px solid var(--rule-2);
+}
+
+html[data-glossary-theme="sticker"] #xxt-gloss.is-above::before {
+    background: var(--paper);
+    border: 0;
+    border-right: 1px solid var(--rule-2);
+    border-bottom: 1px solid var(--rule-2);
+}
+
+html[data-glossary-theme="sticker"] #xxt-gloss .xxt-gloss-name {
+    padding-right: 26px;
+    margin-bottom: 8px;
+    padding-bottom: 7px;
+    border-bottom: 1px dashed var(--rule-dash);
+    color: var(--c-violet);
+    font-size: 14.5px;
+    font-weight: 700;
+    letter-spacing: .01em;
+}
+
+html[data-glossary-theme="sticker"] #xxt-gloss .xxt-gloss-desc {
+    color: var(--ink-2);
+}
+
+html[data-glossary-theme="sticker"] #xxt-gloss .xxt-gloss-more {
+    margin-top: 10px;
+    padding-bottom: 1px;
+    color: var(--c-blue);
+    border-bottom: 1px dashed rgba(20, 120, 196, .45);
+}
+
+html[data-glossary-theme="sticker"] #xxt-gloss .xxt-gloss-more:hover {
+    color: var(--c-rose);
+    border-bottom-color: rgba(224, 65, 110, .55);
+}
+
+html[data-glossary-theme="sticker"] #xxt-gloss .xxt-gloss-x {
+    top: 9px;
+    right: 9px;
+    width: 22px;
+    height: 22px;
+    border: 1px dashed var(--rule-dash);
+    border-radius: var(--r-pill);
+    background: var(--paper-2);
+    color: var(--ink-3);
+    font-size: 13px;
+    line-height: 19px;
+}
+
+html[data-glossary-theme="sticker"] #xxt-gloss .xxt-gloss-x:hover {
+    color: #ffffff;
+    border-color: var(--coral);
+    background: var(--coral);
+}
+
+/* ---------------------------------------------------------------
+   4. 窄屏与动效偏好
+   --------------------------------------------------------------- */
+@media screen and (max-width: 520px) {
+
+    #xxt-gloss,
+    html[data-glossary-theme="sticker"] #xxt-gloss {
+        max-width: calc(100vw - 24px);
+        font-size: 13px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    #xxt-gloss {
+        animation: none;
+    }
+
+    #xxt-gloss .xxt-gloss-arrow,
+    .article-content .xxt-term {
+        transition: none;
+    }
+}
+
+/* 打印时不需要浮窗，术语也不用高亮 */
+@media print {
+
+    #xxt-gloss {
+        display: none !important;
+    }
+
+    .article-content .xxt-term {
+        background: none !important;
+        color: inherit !important;
+        border-bottom: 0 !important;
+    }
+}

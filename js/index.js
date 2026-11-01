@@ -697,6 +697,7 @@ window.xxtTagConfig = {
     var live2dToggle = document.getElementById('live2dToggle');
     var filterDisturbingToggle = document.getElementById('filterDisturbingToggle');
     var rippleToggle = document.getElementById('rippleToggle');
+    var glossaryToggle = document.getElementById('glossaryToggle');
     var uacToggle = document.getElementById('uacToggle');
     var articleCssSelect = document.getElementById('articleCssSelect');
 
@@ -708,6 +709,7 @@ window.xxtTagConfig = {
       var live2dEnabled = localStorage.getItem('live2d_enabled') !== "false";
       var filterEnabled = localStorage.getItem('filter_disturbing') === "true";
       var rippleEnabled = localStorage.getItem('ripple_enabled') === "true";
+      var glossaryEnabled = localStorage.getItem('glossary_enabled') !== "false";
       var uacEnabled = localStorage.getItem('uac_enabled') !== "false";
       var articleCss = localStorage.getItem('article_css') || 'default';
       if (umamiToggle) umamiToggle.checked = umamiEnabled;
@@ -715,6 +717,7 @@ window.xxtTagConfig = {
       if (live2dToggle) live2dToggle.checked = live2dEnabled;
       if (filterDisturbingToggle) filterDisturbingToggle.checked = filterEnabled;
       if (rippleToggle) rippleToggle.checked = rippleEnabled;
+      if (glossaryToggle) glossaryToggle.checked = glossaryEnabled;
       if (uacToggle) uacToggle.checked = uacEnabled;
       if (articleCssSelect) articleCssSelect.value = articleCss;
     }
@@ -787,6 +790,9 @@ window.xxtTagConfig = {
         }
         if (rippleToggle) {
           localStorage.setItem('ripple_enabled', rippleToggle.checked);
+        }
+        if (glossaryToggle) {
+          localStorage.setItem('glossary_enabled', glossaryToggle.checked);
         }
         if (uacToggle) {
           localStorage.setItem('uac_enabled', uacToggle.checked);

@@ -1150,6 +1150,30 @@ var UAC_PASSWORD_DEFAULT = 'xxt8582753';  // 明文。故意不加密 —— 看
 
 ---
 
+## 名词解释（文章页）
+
+正文里的技术词自动标出来，点一下在旁边弹一张小卡片：解释 +（可选）一条「继续探索」链接。
+
+| 文件 | 作用 |
+|---|---|
+| `articles/glossary.js` | 术语表 `TERMS` + 标注 + 浮窗逻辑。**加词只改这一个数组** |
+| `articles/glossary.css` | 两种皮肤：默认（黄荧光 + 浅蓝小卡）/ 手账（紫色虚下划线 + 纸片） |
+
+**不用改任何文章 HTML**：`article-theme-loader.js` 里的 `loadGlossary()` 统一引入。
+控制面板的「文章名词解释标注」写 `localStorage['glossary_enabled']`，默认开；
+关掉后 `glossary.css` / `glossary.js` 两个请求**都不会发出**（与 Umami 同一条原则）。
+
+- 每个术语**每篇只标第一次出现**，读长文不会满屏高亮。跳过 `a` / `code` / `pre` / `h1-h6`，
+  否则会和链接点击、代码块打架。`4thanniversary.html` 不挂 loader，所以它没有。
+- 英文术语带词边界判断：`Git` 不会命中 `digital`，`ping` 不会命中 `mapping`；
+  名词按长度降序匹配，所以「太鼓控制器」永远赢过「太鼓」。
+- 皮肤靠 `<html data-glossary-theme="sticker">` 切换（`glossary.js` 读当前生效的样式表地址
+  写上去）。两份主题 CSS 都**没有被改动过** —— 名词解释的样式全在 `glossary.css` 自己手里。
+- 浮窗是挂 `<body>` 的 `position: fixed` 元素：滚动时跟着词走，词滚出视口就自己收起。
+  它**不是** `.window`，别给它套站点那套窗口框架（标题栏 + 窗口按钮）。
+
+---
+
 ## LaTeX 公式
 
 KaTeX 0.16.9 **已本地化**在 `vendor/katex/`（含 20 个 woff2，无 CDN 请求）。

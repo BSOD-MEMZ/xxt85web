@@ -59,6 +59,31 @@
         document.head.appendChild(s);
     }
 
+    /* ---- 0. 名词解释(与主题无关,默认开) ----
+       用户在主站控制面板关掉后,这里连 CSS/JS 两个请求都不发 ——
+       与 Umami 开关同一个原则:关掉就该一次请求都没有。
+       本文件在文章页里被引入了两次,用同一个闸门挡住重复插入。 */
+    function loadGlossary() {
+        if (readKey('glossary_enabled') === 'false') return;
+        if (window.__xxtGlossaryBoot) return;
+        window.__xxtGlossaryBoot = true;
+
+        if (!document.querySelector('link[href$="glossary.css"]')) {
+            var css = document.createElement('link');
+            css.rel = 'stylesheet';
+            css.href = 'glossary.css';
+            document.head.appendChild(css);
+        }
+
+        var js = document.createElement('script');
+        js.src = 'glossary.js';
+        js.async = false;
+        js.onerror = function () { /* 标注失败不影响阅读，静默略过 */ };
+        document.head.appendChild(js);
+    }
+
+    loadGlossary();
+
     /* ---- 1. 主站主题优先 ---- */
     var mapped = ARTICLE_THEME_MAP[readKey('theme')];
     if (mapped) {
