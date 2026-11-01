@@ -89,7 +89,8 @@
             d: '其实是闲鱼的意思',
             ctx: {
                 en: 'Fine! I\'m considering the possibility of selling the taiko on Available Fish.',
-                zh: '好吧！我在考虑把这面太鼓挂到闲鱼上卖掉的可行性。'
+                zh: '好吧！我在考虑把这面太鼓挂到闲鱼上卖掉的可行性。',
+                when: 'considering the possibility of selling the taiko'
             }
         },
         {
@@ -245,14 +246,6 @@
             link: { href: 'https://www.mojidict.com/search?text=かのじょ', text: '在 MOJi 辞書中查看' }
         },
         {
-            t: 'リズ',
-            kind: 'dict',
-            read: 'rizu',
-            pos: '专有名词',
-            d: '读音 rizu，可对应「栗子」等词。文中是一位同学姓名的日语音译化名。',
-            link: { href: 'https://www.mojidict.com/search?text=リズ', text: '在 MOJi 辞書中查看' }
-        },
-        {
             t: 'セカイ',
             kind: 'dict',
             read: 'sekai',
@@ -299,6 +292,122 @@
             pos: '名词',
             d: '毛豆泥，日本宫城县的传统食品。文中出自游戏标题《あなたは世界の終わりにずんだを食べるのだ》。',
             link: { href: 'https://www.mojidict.com/search?text=ずんだ', text: '在 MOJi 辞書中查看' }
+        },
+        {
+            t: 'Administrator',
+            d: 'Windows 内置的最高权限本地账户，默认隐藏，可绕过多数权限提示；远程连接时常用它登录。'
+        },
+        {
+            t: 'i5',
+            d: 'Intel Core i5，英特尔面向主流市场的处理器系列，性能低于 i7、高于 i3。'
+        },
+        {
+            t: 'Python',
+            d: '通用编程语言，语法接近自然语言、生态庞大，常用于脚本、数据处理与桌面小工具。'
+        },
+        {
+            t: 'Linux',
+            d: '开源的类 Unix 操作系统内核，也泛指以它为基础的系统（如 Debian、Ubuntu）。'
+        },
+        {
+            t: 'Debian',
+            d: '历史悠久的 Linux 发行版，以稳定与完全自由软件著称，Ubuntu、OMV 都基于它。'
+        },
+        {
+            t: 'xfce',
+            d: '轻量的 Linux 桌面环境，占用内存小，常用于低配机器或服务器上加图形界面。'
+        },
+        {
+            t: 'DPI',
+            d: '每英寸点数（Dots Per Inch）。在 Windows 设置里指系统缩放比例，高 DPI 屏幕需要界面按比例放大，否则字会小得看不清。'
+        },
+        {
+            t: 'B85',
+            d: 'Intel 8 系芯片组，对应第四代酷睿平台的主板，2013 年前后出货量极大，二手市场常见。'
+        },
+        {
+            t: 'JavaScript',
+            d: '网页脚本语言，负责页面的交互逻辑，与 HTML、CSS 并称前端三件套。'
+        },
+        {
+            t: 'Salt',
+            d: '英文「盐」。文中指《maimai》系列角色「纱露朵（ソルト）」，也用作那场行动的计划代号。'
+        },
+        {
+            t: '一体机',
+            d: '把主机、屏幕、触摸与音响做在一块的教学设备，教室里那台能写能放的「大电视」就是它。'
+        },
+        {
+            t: '电子班牌',
+            d: '挂在教室门口的一块安卓屏，用来显示班级信息、考勤与通知，本质上是一台锁定了桌面的安卓设备。'
+        },
+        {
+            t: '端口',
+            d: '网络通信中区分服务的编号。一台电脑的同一个 IP 上，远程桌面走 3389、网页走 80／443，靠端口区分是谁在收发。'
+        },
+        {
+            t: '局域网',
+            d: '覆盖范围较小的私有网络，比如一个教室、一栋楼或一个家庭内部的网络，设备之间可直接互访。'
+        },
+        {
+            t: '虚拟机',
+            d: '用软件模拟出来的一台「电脑」，有自己的虚拟硬件与系统，跑在宿主机的窗口里，可随时快照、回滚。'
+        },
+        {
+            t: '注册表',
+            d: 'Windows 存放系统与软件配置的中心数据库，改界面、改策略、关功能很多都要动它，改错也容易把系统弄坏。'
+        },
+        {
+            t: '组策略',
+            d: 'Windows 面向批量设备的管理机制，可统一限制功能、锁定设置，家庭版默认不带完整编辑器。'
+        },
+        {
+            t: '内网穿透',
+            d: '把只能在内网访问的服务，通过一台有公网地址的服务器转发出去，使外网也能连上。'
+        },
+        {
+            t: '子网掩码',
+            d: '和 IP 地址一起决定「哪些地址算同一个局域网」的参数，配置错误就会出现能 ping 通却连不上的情况。'
+        },
+        {
+            t: '群晖',
+            d: 'Synology，台湾的 NAS 厂商，其系统 DSM 以易用著称，成品机价格偏高。'
+        },
+        {
+            t: '黑群晖',
+            d: '把群晖的 DSM 系统装到非群晖硬件的机器上，功能接近成品 NAS，但不受官方支持、也无法正常升级。'
+        },
+        {
+            t: 'Android',
+            d: '谷歌主导的移动操作系统，手机、平板、班牌与一体机大多跑它；开源部分称 AOSP。'
+        },
+        {
+            t: 'ADB',
+            d: 'Android 调试桥（Android Debug Bridge），电脑通过它与安卓设备通信，可安装应用、截屏、查看日志。'
+        },
+        {
+            t: 'scrcpy',
+            d: '开源投屏工具，通过 ADB 把安卓设备的画面与操作搬到电脑上，不需要在手机上装任何东西。'
+        },
+        {
+            t: 'BIOS',
+            d: '主板上的固件，负责开机自检与引导系统，开机时按 Del／F2 进入设置界面。新机器多已换成 UEFI。'
+        },
+        {
+            t: 'UEFI',
+            d: '取代传统 BIOS 的新式固件接口，支持图形界面、大容量硬盘与安全启动。'
+        },
+        {
+            t: 'HTML',
+            d: '超文本标记语言，用标签描述网页的结构与内容，与 CSS、JavaScript 并称前端三件套。'
+        },
+        {
+            t: 'JSON',
+            d: '一种轻量的数据交换格式，用键值对与数组描述结构，配置文件与接口返回常用它。'
+        },
+        {
+            t: 'GSoC',
+            d: 'Google Summer of Code，谷歌每年资助学生参与开源项目的暑期活动，入选者由导师带做项目并领取津贴。'
         }
     ];
 
@@ -518,6 +627,25 @@
         tip.style.setProperty('--gx', arrowX + 'px');
     }
 
+    /* ctx 只在词确实落在那句话里才显示 —— 同一个词条出现在别的文章、别的语境，
+       不该凭空冒出一句不相干的译文。比对范围取词所在的段落，空白与大小写先归一。 */
+    var CTX_SCOPE = /^(P|LI|BLOCKQUOTE|TD|FIGCAPTION|DD|DT|H1|H2|H3|H4|H5|H6)$/;
+
+    function ctxApplies(termEl, ctx) {
+        var probe = String(ctx.when || ctx.en || '').replace(/\s+/g, ' ').trim().toLowerCase();
+        if (!probe) return false;
+
+        var host = termEl.parentNode;
+        while (host && host !== document.body) {
+            if (host.nodeType === 1 && CTX_SCOPE.test(host.nodeName)) break;
+            host = host.parentNode;
+        }
+        if (!host || host === document.body) host = termEl.parentNode;
+
+        var text = ((host && host.textContent) || '').replace(/\s+/g, ' ').trim().toLowerCase();
+        return text.indexOf(probe) > -1;
+    }
+
     function open(termEl, term) {
         if (!tip) buildTip();
 
@@ -537,7 +665,7 @@
         tipParts.pos.hidden = !term.pos;
         tipParts.meta.hidden = !(term.read || term.pos);
 
-        if (term.ctx && (term.ctx.en || term.ctx.zh)) {
+        if (term.ctx && (term.ctx.en || term.ctx.zh) && ctxApplies(termEl, term.ctx)) {
             tipParts.ctxEn.textContent = term.ctx.en || '';
             tipParts.ctxEn.hidden = !term.ctx.en;
             tipParts.ctxZh.textContent = term.ctx.zh || '';
