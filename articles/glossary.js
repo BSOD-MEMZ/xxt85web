@@ -1,17 +1,3 @@
-/**
- * xxtsoft 文章页 · 名词解释
- *
- * 干什么：把正文里出现的技术/音游术语标出来（默认主题是黄色荧光，
- *         手账主题是紫色虚下划线），点一下在旁边弹一张小卡片，写清
- *         这个词是什么，需要时给一条「继续探索」的链接。
- *
- * 怎么加载：由 article-theme-loader.js 在 localStorage['glossary_enabled']
- *           不是 'false' 时自动引入 glossary.css 与本文 —— 想关掉的用户
- *           连这两个请求都不会发出（与 Umami 开关同一种做法）。
- *
- * 不做什么：不碰排版、不改正文文本、不发任何外部请求。
- * 每个术语在一篇文章里只标**第一次**出现，读长文时不会满屏都是高亮。
- */
 (function () {
     'use strict';
 
@@ -28,106 +14,95 @@
     if (disabled()) return;
 
     /* =============================================================
-       1. 术语表
+       1. 词条表
        -------------------------------------------------------------
-       t = 术语原文（英文不分大小写匹配）
-       d = 解释，一两句话，别写成百科条目
-       link = 可选，{ href, text }。href 相对 articles/ 解析
+       两种模式，靠字段区分，不靠开关：
+         · 术语模式（默认）—— 技术用语，只写 t / d，卡片上只有词名与释义
+         · 词典模式 —— 加 kind: 'dict'，再给 read（罗马音或音标）与 pos
+           （词性），卡片上多出一行读音 + 词性标签
+
+       t    = 词条原文（英文不分大小写匹配）
+       d    = 释义。除非这个词本身是梗、或另有隐含意思怕人 get 不到，
+              一律用书面语，不写「圈内干脆叫它…」这种口语
+       link = 可选，{ href, text }
        ============================================================= */
     var TERMS = [
         {
-            t: '太鼓控制器',
-            d: '《太鼓之达人》的家用鼓形外设：一面小鼓配两根鼓棒，分别敲「咚」和「咔」。便宜的型号其实是塑料壳里塞几个按钮，敲下去的手感跟街机差一大截。'
-        },
-        {
-            t: '太鼓',
-            d: '《太鼓之达人》（Taiko no Tatsujin），万代南梦宫的老牌音游：两个鼓面加鼓边，用鼓棒跟着谱面敲。街机版是一面真鼓，家用版可以拿手柄或专用控制器打。',
-            link: { href: 'an_old_music_game.html', text: '看看站长写的老音游' }
-        },
-        {
-            t: '音游',
-            d: '音乐游戏的统称：谱面按节奏给出音符，玩家在判定线或判定圈上把它打准。街机、手游、键盘、鼓、触屏都算。'
-        },
-        {
-            t: '街机',
-            d: '摆在街机厅里的商用游戏机 —— 带专用控制器、投币或刷卡启动，一套机台动辄几万块。它和坐在电脑前玩的最大区别是手感：真鼓、真按键、真踏板。'
-        },
-        {
-            t: '舞萌',
-            d: 'maimai 的中文名，SEGA 的圆环式音游：按键围成一圈，还要配合画圆和拍击操作。因为机台长得像滚筒洗衣机，圈内干脆叫它「洗衣机」。',
-            link: { href: 'an_old_music_game.html', text: '相关阅读：老音游' }
-        },
-        {
             t: '中二节奏',
-            d: 'CHUNITHM 的常见中文译名，SEGA 的触屏音游：机台是一整块长条触摸板，音符从上方滑下来用手接，判定极严，难度曲线出名地陡。',
-            link: { href: 'an_old_music_game.html', text: '相关阅读：老音游' }
+            kind: 'dict',
+            read: 'CHUNITHM',
+            pos: '专有名词',
+            d: 'SEGA 触屏音游 CHUNITHM 的中文译名。',
+            link: { href: 'https://mzh.moegirl.org.cn/CHUNITHM', text: '探索此词条' }
         },
         {
             t: 'pjsk',
-            d: '《世界计划 多彩舞台！feat. 初音未来》，SEGA 与 Colorful Palette 合作的初音未来题材音游。国内玩家常按罗马字缩写叫它 pjsk。',
-            link: { href: 'cppsekai.html', text: '站长做的 pjsk 模拟器' }
-        },
-        {
-            t: '滚奏',
-            d: '鼓类演奏手法：鼓棒连续、快速地交替敲击，形成一串连贯的鼓点。音游谱面里通常表现为密集连打，靠的是手腕抖而不是用力砸。'
-        },
-        {
-            t: 'NUC',
-            d: 'Intel Next Unit of Computing，巴掌大的迷你主机：一整台电脑塞进 0.5 升的盒子里，省电、安静、便宜，学校机房和电视背后经常能见到。',
-            link: { href: 'https://www.intel.cn/content/www/cn/zh/products/details/nuc.html', text: 'Intel 官方介绍' }
-        },
-        {
-            t: '电教',
-            d: '电教委员，班上管多媒体设备的那个人：希沃一体机、投影、音箱、班牌，乃至教室的网络，出问题先找他。'
-        },
-        {
-            t: '希沃',
-            d: 'seewo（希沃），国内中小学最常见的教学一体机品牌。本质是一块带触摸的 Windows 大屏，所以能装别的软件，也因此成了教室里的「游戏机」。',
-            link: { href: 'cppsekai.html', text: '把 pjsk 装进教室' }
-        },
-        {
-            t: '驿站',
-            d: '快递驿站，也就是包裹代收点：快递员把件放下、发取件码，收件人凭码自取。学校、小区门口的驿站经常成了「转运站」。'
+            kind: 'dict',
+            read: 'puroseka',
+            pos: '缩写',
+            d: '指 《世界计划 缤纷舞台！ feat. 初音未来》。该名称在日本玩家中简称「プロセカ」，罗马字作 puroseka。',
+            link: { href: 'https://mzh.moegirl.org.cn/%E4%B8%96%E7%95%8C%E8%AE%A1%E5%88%92_%E7%BC%A4%E7%BA%B7%E8%88%9E%E5%8F%B0%EF%BC%81_feat._%E5%88%9D%E9%9F%B3%E6%9C%AA%E6%9D%A5', text: '探索此词条' }
         },
         {
             t: 'ping',
-            d: '网络诊断命令：向目标发一个小探测包，看它回不回、来回花多少毫秒。日常说「ping 一下」，意思就是探一探对方还在不在。'
-        },
-        {
-            t: '丢包',
-            d: '数据包丢失：发出去的包没到对面。网络上表现为卡顿、声音断续，游戏里表现为瞬移。文中「都不想丢包」是拿它做了个双关。'
+            kind: 'dict',
+            read: '/pɪŋ/',
+            pos: '动词',
+            d: '网络诊断命令，通常被用于确认因特网上的一台主机是否可达。'
         },
         {
             t: 'FFmpeg',
-            d: '开源的命令行音视频处理工具：剪、拼、转码、抽帧、压制全靠它，几乎每个视频网站背后都有。参数难记，但一旦会用就再也离不开。',
-            link: { href: 'https://ffmpeg.org/', text: 'FFmpeg 官网' }
-        },
-        {
-            t: '4K60帧',
-            d: '分辨率和帧率一起说：4K 指 3840×2160 像素，60 帧指每秒 60 张画面。两样一起上，素材体积和编码压力都是普通 1080p 的好几倍，剪起来很吃机器。'
+            kind: 'dict',
+            read: 'F-F-M-peg',
+            pos: '专有名词',
+            d: '开源计算机程序，提供视频采集、格式转换、流媒体传输等功能。该程序内置音视频编解码技术，支持GPU加速处理，可实现视频截图、水印添加及设备录制等操作。'
         },
         {
             t: 'Vocaloid',
-            d: '雅马哈的歌声合成技术：输入歌词和旋律，再调参数，就能让虚拟歌手「唱」出来。初音未来就是它最有名的产物。',
-            link: { href: 'vocaloidmattersinschool.html', text: '校园里的博歌乐' }
+            kind: 'dict',
+            read: '/ˈvoʊkəlɔɪd/',
+            pos: '专有名词',
+            d: 'VOCALOID（ボーカロイド）是电子音乐制作语音合成软件。在软件中输入音调和歌词，就可以合成出原为人类声音的歌声。'
         },
         {
             t: '术力口',
-            d: '「ボカロ」（VOCALOID 的日文简称）的中文谐音，圈内自嘲式叫法。说「术力口」的时候，语气一般已经带上了调侃。'
+            d: '指雅马哈旗下软件VOCALOID，用于为虚拟歌手调音。因其片假名写为“ボーカロイド”，前三个假名“ボカロ”和汉字“术力口”相似而得此称呼。'
         },
         {
             t: 'ClassIsland',
-            d: '开源的桌面课表软件：把课程表、倒计时、天气挂在教室电脑桌面上，国内中学用得很多。站长给它写过样式注入插件。',
-            link: { href: 'classislandinjector.html', text: '样式注入插件' }
+            d: '开源的桌面课表软件。'
         },
         {
             t: 'Git',
-            d: '版本控制工具：每次改动留一个快照（commit），随时能回退、能分支、能合并。写代码的人用它当「存档点」。',
-            link: { href: 'fuckgit.html', text: '站长和 Git 的恩怨' }
+            kind: 'dict',
+            read: '/ɡɪt/',
+            pos: '专有名词',
+            d: '开源的分布式版本控制系统，该系统通过高效管理项目版本历史，支持从微型到超大规模项目的协作开发。允许开发者在本地克隆完整代码库并独立提交修改，无需依赖中央服务器。典型功能包括分支创建与管理、本地版本提交、多分支合并及冲突智能解决，支持生成补丁并与团队异步协作。'
+        },
+        {
+            t: 'こんにちは',
+            kind: 'dict',
+            read: 'konnichiwa',
+            pos: '寒暄语',
+            d: '日语中的问候语，用于白天（约上午十时至日落前）与人见面时打招呼，相当于汉语的「你好」。'
+        },
+        {
+            t: 'バスターズ',
+            kind: 'dict',
+            read: 'basutāzu',
+            pos: '名词',
+            d: '英语 buster 的日语片假名音译及其复数形式，意为「讨伐者」「破坏者」，多用于游戏、特摄作品中的团队名。'
+        },
+        {
+            t: 'Available Fish',
+            d: '「闲鱼」的逐字英译。闲鱼是阿里巴巴旗下的二手交易平台，文中以此戏仿生硬的中式英语。'
+        },
+        {
+            t: 'DONDERFUL',
+            d: '由拟声词「ドン」（鼓声）与 Wonderful 拼合而成的自造词，文中作感叹语使用，兼有赞美与吐槽的意味。'
         }
     ];
 
-    /* 术语按长度降序排，「太鼓控制器」就永远赢过「太鼓」 */
     TERMS.sort(function (a, b) {
         return b.t.length - a.t.length;
     });
@@ -137,12 +112,6 @@
         isAsciiTerm[TERMS[ti].t] = /[A-Za-z0-9]/.test(TERMS[ti].t);
     }
 
-    /* =============================================================
-       2. 主题判定
-       -------------------------------------------------------------
-       文章页的主题是运行时换掉 <link> 的 href，没有 class 可挂，
-       所以直接读样式表地址；读不到再退回 localStorage['theme']。
-       ============================================================= */
     function detectTheme() {
         var links = document.querySelectorAll('link[rel="stylesheet"]');
         for (var i = 0; i < links.length; i++) {
@@ -156,12 +125,6 @@
     }
 
     document.documentElement.setAttribute('data-glossary-theme', detectTheme());
-
-    /* =============================================================
-       3. 找出该标注的文本节点
-       -------------------------------------------------------------
-       跳过：链接（嵌套点击会打架）、代码、标题、已有标注、各种控件。
-       ============================================================= */
     var SKIP_TAGS = /^(A|CODE|PRE|KBD|SAMP|SCRIPT|STYLE|TEXTAREA|BUTTON|H1|H2|H3|H4|H5|H6)$/;
 
     function collectTextNodes(root) {
@@ -207,9 +170,6 @@
         }
     }
 
-    /* =============================================================
-       4. 浮窗
-       ============================================================= */
     var tip = null;
     var tipParts = null;
     var activeTermEl = null;
@@ -231,6 +191,20 @@
         var name = document.createElement('div');
         name.className = 'xxt-gloss-name';
 
+        /* 词典模式那一行:读音 + 词性。术语模式的词条没有这两项,整行藏起来 */
+        var meta = document.createElement('div');
+        meta.className = 'xxt-gloss-meta';
+        meta.hidden = true;
+
+        var read = document.createElement('span');
+        read.className = 'xxt-gloss-read';
+
+        var pos = document.createElement('span');
+        pos.className = 'xxt-gloss-pos';
+
+        meta.appendChild(read);
+        meta.appendChild(pos);
+
         var desc = document.createElement('p');
         desc.className = 'xxt-gloss-desc';
 
@@ -248,6 +222,7 @@
 
         el.appendChild(closeBtn);
         el.appendChild(name);
+        el.appendChild(meta);
         el.appendChild(desc);
         el.appendChild(more);
         document.body.appendChild(el);
@@ -258,7 +233,16 @@
         });
 
         tip = el;
-        tipParts = { name: name, desc: desc, more: more, moreText: moreText, closeBtn: closeBtn };
+        tipParts = {
+            name: name,
+            meta: meta,
+            read: read,
+            pos: pos,
+            desc: desc,
+            more: more,
+            moreText: moreText,
+            closeBtn: closeBtn
+        };
 
         document.addEventListener('click', function (e) {
             if (!tip || tip.hidden) return;
@@ -279,7 +263,6 @@
         if (rafId) return;
         rafId = window.requestAnimationFrame(function () {
             rafId = 0;
-            /* 排队的这一帧里用户可能已经点掉了浮窗 */
             if (!tip || tip.hidden || !activeTermEl) return;
             place(activeTermEl);
         });
@@ -289,8 +272,6 @@
         var rect = anchor.getBoundingClientRect();
         var vw = document.documentElement.clientWidth;
         var vh = document.documentElement.clientHeight;
-
-        /* 词被滚出视口就收起来，别留一张卡片飘在别处 */
         if (rect.bottom < 0 || rect.top > vh) {
             close(false);
             return;
@@ -330,6 +311,14 @@
 
         tipParts.name.textContent = term.t;
         tipParts.desc.textContent = term.d;
+
+        /* 有 read / pos 的按词典条目渲染,其余仍是术语条目 */
+        tip.setAttribute('data-mode', term.kind === 'dict' ? 'dict' : 'term');
+        tipParts.read.textContent = term.read || '';
+        tipParts.read.hidden = !term.read;
+        tipParts.pos.textContent = term.pos || '';
+        tipParts.pos.hidden = !term.pos;
+        tipParts.meta.hidden = !(term.read || term.pos);
 
         if (term.link && term.link.href) {
             tipParts.more.href = term.link.href;
@@ -380,9 +369,6 @@
         open(termEl, term);
     }
 
-    /* =============================================================
-       5. 标注
-       ============================================================= */
     function makeTermEl(text, term) {
         var el = document.createElement('span');
         el.className = 'xxt-term';
