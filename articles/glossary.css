@@ -19,11 +19,12 @@
     border-radius: 2px;
     /* 荧光笔的观感关键：上下留白、中间实、边缘柔 */
     background-image: linear-gradient(180deg,
-            rgba(255, 236, 120, 0) 0%,
-            rgba(255, 226, 60, .86) 14%,
-            rgba(255, 219, 24, .97) 46%,
-            rgba(255, 226, 60, .86) 82%,
-            rgba(255, 236, 120, 0) 100%);
+            rgba(255, 242, 160, 0) 0%,
+            rgba(255, 232, 110, .6) 14%,
+            rgba(255, 224, 80, .74) 38%,
+            rgba(255, 224, 80, .74) 64%,
+            rgba(255, 232, 110, .6) 86%,
+            rgba(255, 242, 160, 0) 100%);
     -webkit-box-decoration-break: clone;
     box-decoration-break: clone;
     transition: background-image .16s ease, color .16s ease;
@@ -31,11 +32,11 @@
 
 .article-content .xxt-term:hover {
     background-image: linear-gradient(180deg,
-            rgba(255, 240, 130, 0) 0%,
-            rgba(255, 218, 40, .92) 16%,
-            rgba(255, 206, 0, 1) 46%,
-            rgba(255, 218, 40, .92) 84%,
-            rgba(255, 240, 130, 0) 100%);
+            rgba(255, 240, 150, 0) 0%,
+            rgba(255, 226, 80, .74) 14%,
+            rgba(255, 216, 40, .86) 46%,
+            rgba(255, 226, 80, .74) 82%,
+            rgba(255, 240, 150, 0) 100%);
 }
 
 .article-content .xxt-term:focus-visible {
@@ -45,11 +46,11 @@
 
 .article-content .xxt-term.is-open {
     background-image: linear-gradient(180deg,
-            rgba(255, 240, 130, 0) 0%,
-            rgba(255, 214, 20, .95) 16%,
-            rgba(255, 200, 0, 1) 46%,
-            rgba(255, 214, 20, .95) 84%,
-            rgba(255, 240, 130, 0) 100%);
+            rgba(255, 240, 150, 0) 0%,
+            rgba(255, 224, 70, .78) 14%,
+            rgba(255, 212, 26, .9) 46%,
+            rgba(255, 224, 70, .78) 82%,
+            rgba(255, 240, 150, 0) 100%);
 }
 
 /* ---------------------------------------------------------------
@@ -153,6 +154,26 @@
     color: #3f5c73;
     font-size: 11px;
     font-style: normal;
+}
+
+/* 「这句是什么意思」：原文 + 译文，只有带 ctx 的词条才有 */
+#xxt-gloss .xxt-gloss-ctx {
+    margin-top: 8px;
+    padding-top: 7px;
+    border-top: 1px dotted #c3d4e1;
+    font-size: 12px;
+    line-height: 1.62;
+    color: #4f6474;
+}
+
+#xxt-gloss .xxt-gloss-ctx-en {
+    color: #6d7f8d;
+    font-style: italic;
+}
+
+#xxt-gloss .xxt-gloss-ctx-zh {
+    margin-top: 2px;
+    color: #2b3a46;
 }
 
 #xxt-gloss .xxt-gloss-more {
@@ -321,6 +342,19 @@ html[data-glossary-theme="sticker"] #xxt-gloss .xxt-gloss-pos {
     border-radius: var(--r-pill);
     background: var(--paper-2);
     color: var(--c-violet);
+}
+
+html[data-glossary-theme="sticker"] #xxt-gloss .xxt-gloss-ctx {
+    border-top: 1px dashed var(--rule-dash);
+    color: var(--ink-3);
+}
+
+html[data-glossary-theme="sticker"] #xxt-gloss .xxt-gloss-ctx-en {
+    color: var(--ink-3);
+}
+
+html[data-glossary-theme="sticker"] #xxt-gloss .xxt-gloss-ctx-zh {
+    color: var(--ink);
 }
 
 html[data-glossary-theme="sticker"] #xxt-gloss .xxt-gloss-more {
