@@ -1,0 +1,247 @@
+﻿序号,文件,类别,位置,字符串
+1,index.html,页面标题,title,CppSekai — 在班级大屏上打 PJSK
+2,index.html,元描述,meta[name=description],"CppSekai 是《世界计划 缤纷舞台》的第三方模拟器，纯 C++ 写的，能直接吃 Windows 触摸屏。12 轨全键位，同一台电脑开几个窗口就能拼机，判定和结算照官方一条条对过。免安装，整包 6.9 MB。"
+3,index.html,按钮,59,SKIP
+4,index.html,开屏文案,61,课间十分钟，教室变机厅
+5,index.html,图片替代文本,145,CppSekai
+6,index.html,图片替代文本,148,Leo/need
+7,index.html,正文,148,「教室」变
+8,index.html,图片替代文本,152,MORE MORE JUMP!
+9,index.html,正文,152,「舞台」
+10,index.html,图片替代文本,153,Wonderlands×Showtime
+11,index.html,正文,153,「游乐园」
+12,index.html,图片替代文本,154,Vivid BAD SQUAD
+13,index.html,正文,154,「广场」
+14,index.html,图片替代文本,155,虚拟歌手
+15,index.html,正文,155,「SEKAI」
+16,index.html,正文,160-161,"《世界计划 缤纷舞台》的第三方模拟器，直接兼容 Windows 触摸屏 支持下载、读取 PJSK 的所有官方国服日服谱面。"
+17,index.html,链接,164,下载最新版
+18,index.html,链接,166,GitHub 源码
+19,index.html,正文,169,免安装
+20,index.html,正文,170,整包 6.9 MB
+21,index.html,正文,171,本体零联网
+22,index.html,正文,172,Windows 7 SP1+
+23,index.html,图片替代文本,175,CppSekai 演奏界面：三角舞台、音符与 COMBO 计数
+24,index.html,栏目标签,186,班级大屏
+25,index.html,章节标题,187,Classroom
+26,index.html,章节副标题,189,为教室里的希沃而生
+27,index.html,图片替代文本,195,教室希沃大屏上运行 CppSekai 的实拍
+28,index.html,图片替代文本,199,chartdl 音乐商店：曲目列表、难度与别名
+29,index.html,正文,205,专为班级希沃大屏重构
+30,index.html,要点,207,原生 Windows 触摸。希沃多指同时判定，不用装任何映射软件。
+31,index.html,要点,208,12 轨真全键位。键盘、鼠标左右键、触屏多指。
+32,index.html,要点,209,大屏不糊。全屏、4K 缩放、高 DPI 适配。
+33,index.html,要点,210,老机器也扛得住。没有 Electron，也没有游戏引擎，带资源整包 6.9 MB，几年前的赛扬一样跑。
+34,index.html,要点,211,SMTC 事件。接上 ClassIsland，课表上就能显示当前曲目和进度。
+35,index.html,数据,214,12 轨
+36,index.html,数据说明,214,全键位映射
+37,index.html,数据,215,6.9 MB
+38,index.html,数据说明,215,整包带资源
+39,index.html,数据,216,Win7+
+40,index.html,数据说明,216,SP1 起可跑
+41,index.html,栏目标签,227,课间娱乐
+42,index.html,章节标题,228,Party
+43,index.html,章节副标题,230,一台电脑，就是一排中二（？
+44,index.html,图片替代文本,236,选曲界面：谱面列表、难度配色与房间状态
+45,index.html,正文,242,一台机器也能在班上和同学拼机。
+46,index.html,要点,244,同机多人。设置里勾上多人游玩，之后双击几次 exe 就是几个座位，有几个人就开几个窗口。
+47,index.html,要点,245,共享内存总线。各窗口共用同一条曲目时间轴，实测窗口间偏差 中位 3.4 ms / 最差 6.7 ms，听感上就是同一台机。
+48,index.html,要点,246,看得见谁在房里。演奏时右侧实时并排队友分数条，谁断了连一眼就能看到。
+49,index.html,数据,249,3.4 ms
+50,index.html,数据说明,249,窗口间中位偏差
+51,index.html,数据,250,0
+52,index.html,数据说明,250,需要配置的网络
+53,index.html,数据,251,N 窗
+54,index.html,数据说明,251,几个人开几个
+55,index.html,栏目标签,263,对齐官方
+56,index.html,章节标题,264,Fidelity
+57,index.html,章节副标题,266,接近官方的手感
+58,index.html,图片替代文本,272,结算界面：RESULT、得分、等级评价与判定明细
+59,index.html,正文,278,谱面解析、判定窗口、结算页、选曲页都还原。
+60,index.html,要点,280,原生解析 SUS 谱面，800+谱面全支持。
+61,index.html,要点,281,没有尾判，对新手友好
+62,index.html,要点,282,结算和选曲页逐项还原
+63,index.html,数据,285,40/90/140
+64,index.html,数据说明,285,官方判定窗口 ms
+65,index.html,数据,286,5 类
+66,index.html,数据说明,286,音符全支持
+67,index.html,数据,287,1:1
+68,index.html,数据说明,287,结算与选曲
+69,index.html,栏目标签,299,系统集成
+70,index.html,章节标题,300,Windows
+71,index.html,章节副标题,302,这是个真正的 Win32 程序。
+72,index.html,图片替代文本,308,CppSekai 的选曲界面，作为一个带边框的普通 Windows 窗口运行
+73,index.html,正文,314,把系统给的每一条缝都接上了。这些东西单独看都不起眼，但少了一样，用起来就会觉得哪里不对劲。
+74,index.html,要点,316,原生菜单栏。设置里打开，窗口就挂上真正的 Win32 菜单：文件 / 编辑 / 视图 / 帮助，Alt 加字母直接选。
+75,index.html,要点,317,双击 .sus 就能开打。关联一次之后，在资源管理器里双击任意谱面文件，直接进那首歌。
+76,index.html,要点,318,任务栏那一套。图标上跑演奏进度，右键跳转列表里放着最近打的十首和收藏。
+77,index.html,要点,319,谱面拖进来就播。在选曲界面把 .sus 拖进窗口，列表立刻切到那一首。
+78,index.html,要点,320,媒体键和防屏保。键盘上那颗播放 / 暂停、上一首、下一首都能用；窗口不最小化，屏幕就不会在你打歌的时候黑掉。
+79,index.html,要点,321,没显卡也进得去。机器只有基本显示适配器的时候，下载页上还有一份软解包兜底（不过那玩意儿慢，能不用就别用）。
+80,index.html,数据,324,4 条
+81,index.html,数据说明,324,原生 Win32 菜单
+82,index.html,数据,325,.sus
+83,index.html,数据说明,325,双击直接开打
+84,index.html,数据,326,10 首
+85,index.html,数据说明,326,任务栏最近播放
+86,index.html,栏目标签,336,零碎
+87,index.html,章节标题,337,还有这些，天天都在用
+88,index.html,章节副标题,338,上面几节没提到、但少了会难受的东西
+89,index.html,功能卡标题,342,别名搜索
+90,index.html,功能卡正文,343,自带约 1.2 万条别名。海底谭你搜「海底捞」、モニタリング你搜「视奸」，都能认出来。
+91,index.html,功能卡标题,346,收藏和分组
+92,index.html,功能卡正文,347,列表上右键就能收藏，一首歌四个难度一起收。排列除了按首字、按等级，还能按收藏把整段拎到最前面。
+93,index.html,功能卡标题,350,账号和等级
+94,index.html,功能卡正文,351,等级曲线照 Sekaipedia 那份官方表写的，完整打完一局才给经验。等级牌在选曲角上，也能在结算面板右下角看到。
+95,index.html,功能卡标题,354,自定义键位
+96,index.html,功能卡正文,355,12 条轨的映射随便换，点一格再按一个键就行，撞了别的轨会自动对调。鼠标、触屏不受影响。
+97,index.html,功能卡标题,358,UI 音效
+98,index.html,功能卡正文,359,点按、滑动、翻页、开窗、确定，响的都是官方那一套素材。音量在设置里，和判定音分开调。
+99,index.html,功能卡标题,362,猜歌
+100,index.html,功能卡正文,363,选曲界面头排有个「猜歌」按钮，随机放一小段，猜是哪首。听着耳熟就是想不起来，挺好玩的。
+101,index.html,栏目标签,374,界面
+102,index.html,章节标题,375,Gallery
+103,index.html,章节副标题,377,它长这样
+104,index.html,图片替代文本,381,演奏界面
+105,index.html,图注,382,演奏中 · 12 轨三角舞台
+106,index.html,图片替代文本,385,选曲界面
+107,index.html,图注,386,选曲 · 卡面与难度配色
+108,index.html,图片替代文本,389,结算界面
+109,index.html,图注,390,结算 · 等级评价与 EXP
+110,index.html,图片替代文本,393,Windows 7 全局 Aero 下的窗口
+111,index.html,图注,395,Win7 · 全局 Aero 毛玻璃
+112,index.html,栏目标签,406,开始玩
+113,index.html,章节标题,408,一个压缩包，解压就能打
+114,index.html,正文,409-410,解压就完事，不用装、不用注册、也不要管理员权限。仓库不带谱面和音频，进去先用附带的 chartdl.exe 把想打的曲子下下来。
+115,index.html,正文,411-412,Windows 7 SP1 及以上都能跑。Win10 往上开箱即用，Win7 得自己装一次 UCRT / VC++ 2015-2022 运行库。
+116,index.html,链接,414,去下载页
+117,index.html,链接,416,全部发行版
+118,index.html,字段标签,421,最新版本
+119,index.html,加载提示,422,读取中
+120,index.html,字段标签,423,发行日期
+121,index.html,加载提示,424,读取中
+122,index.html,字段标签,425,文件体积
+123,index.html,加载提示,426,读取中
+124,index.html,字段标签,427,平台
+125,index.html,字段值,428,Windows 7 SP1 及以上
+126,index.html,字段标签,429,许可
+127,index.html,字段值,430,AGPL-3.0-only · 免费
+128,index.html,页脚品牌,447,CppSekai
+129,index.html,页脚正文,449-453,免费、开源，也不赚钱。代码是 AGPL-3.0-only；谱面核心和渲染布局来自上游 sekai-mmw-preview-web，再上游是 MikuMikuWorld。
+130,index.html,页脚声明,455,本项目与 SEGA、Colorful Palette 及《初音未来：缤纷舞台》官方没有任何关系；相关素材版权归官方所有，仅限本地学习与练习使用。如有侵权请联系移除。
+131,index.html,页脚链接,459,下载
+132,index.html,页脚链接,460,GitHub 仓库
+133,index.html,页脚链接,461,探索 xxtsoft 产品
+134,index.html,页脚,465,© 2026 xxtsoft
+135,index.html,页脚,466,仅供学习交流使用
+136,style.css,CSS伪元素,214-219,"{ "
+137,style.css,CSS伪元素,219," }"
+138,app.js,动态注入文本,121,见 Releases
+139,app.js,动态注入文本,122,—
+140,app.js,动态注入文本,123,—
+141,app.js,动态注入文本,131,最新版
+142,app.js,动态注入文本,132,—
+143,app.js,动态注入文本,133,—
+144,common.js,复制成功提示,154,已复制
+145,common.js,单位后缀,17,MB
+146,common.js,单位后缀,18,KB
+147,download.html,页面标题,title,下载 CppSekai — 在班级大屏上打 PJSK
+148,download.html,元描述,meta[name=description],"CppSekai 免安装便携版，整包 6.9 MB，Windows 7 SP1 及以上都能跑。仓库不带谱面，进去先用附带的 chartdl.exe 下歌。"
+149,download.html,无障碍标签,25,返回首页
+150,download.html,提示属性,25,返回首页
+151,download.html,栏目标签,38,下载
+152,download.html,页面标题,39,下载
+153,download.html,图片替代文本,39,CppSekai
+154,download.html,副标题,41,下载包体后解压到一个目录就能玩
+155,download.html,版本标签,46,稳定版
+156,download.html,加载提示,47,读取中…
+157,download.html,加载提示,49,正在向 GitHub 查询最新发行版…
+158,download.html,平台名称,62,Windows
+159,download.html,平台说明,63,Windows 7 SP1 及以上
+160,download.html,正文,68-69,免安装的便携版，解压到任意目录就能跑。Win10 / 11 开箱即用，Win7 得自己装一次 UCRT / VC++ 2015-2022 运行库。
+161,download.html,按钮,82,下载便携版
+162,download.html,加载提示,83,正在读取体积…
+163,download.html,链接,89,全部历史版本
+164,download.html,链接,90,源码仓库
+165,download.html,按钮,91,复制直链
+166,download.html,章节标题,97,下载不动？换条线路
+167,download.html,正文,99,这些线路由社区和高校镜像站提供。
+168,download.html,加载提示,102,正在读取线路…
+169,download.html,字段标签,105,SHA256
+170,download.html,按钮,107,复制
+171,download.html,章节标题,112,跑起来需要什么
+172,download.html,卡片标题,115,系统要求
+173,download.html,列表项,117,Windows 7 SP1 或更高版本
+174,download.html,列表项,118,至少 1.2GHz CPU
+175,download.html,列表项,119,至少 512MB RAM
+176,download.html,列表项,120,HD5650 或更高级的显卡
+177,download.html,卡片标题,124,关于谱面
+178,download.html,列表项,126,仓库不自带谱面与音频，解压后列表是空的属于正常
+179,download.html,列表项,127,用 chartdl.exe 下载，或自己往 charts/ 里放
+180,download.html,列表项,128,放完在选曲界面按 F5 重扫
+181,download.html,章节标题,135,对于没显卡的机器
+182,download.html,正文,137-139,游戏本体要 OpenGL 3.3。要是机器的驱动太老、只有Microsoft 基本显示适配器，或者启动时闪一句 Failed to initialize OpenGL loader! 就没了、双击没反应才能使用。
+183,download.html,警告标题,143,极端情况才用
+184,download.html,警告正文,145-146,这会导致画面全部丢给 CPU 硬算。仅适用于没显卡的学校电脑（例如锐捷云主机）能正常启动的机器，请直接用上面的便携版。
+185,download.html,要点,150,慢 2 到 3 倍。核心数少的机器更差。
+186,download.html,要点,151,进得去不等于打得动。判定窗口只有几十毫秒，再叠上云桌面本身的网络和编解码延迟。
+187,download.html,要点,152,系统要求没变。还是 Windows 7 SP1 起、只发 x64，Win7 照样得装 UCRT。CPU 太老（只到 SSE2 那一档）就别试了。
+188,download.html,要点,153,怎么装。解压后把 opengl32.dll 和 libgallium_wgl.dll 复制到 cppsekai.exe 旁边（和 SDL2.dll 同级），再双击包里的 run-no-gpu.cmd 启动。
+189,download.html,要点,154,不想要了。把那两个 dll 删掉，就回到系统自带的 OpenGL。
+190,download.html,链接,158,下载软解包（密码:dz2s）
+191,download.html,章节标题,164,三步开打
+192,download.html,步骤1标题,169,解压到任意目录
+193,download.html,步骤1正文,170,别直接在压缩包里双击那个 exe，你还是得先解压出来。
+194,download.html,步骤2标题,176,用 chartdl 下谱面
+195,download.html,步骤2正文,177,双击 chartdl.exe，国服日服随便挑。
+196,download.html,步骤3标题,183,双击开打
+197,download.html,步骤3正文,184,选好歌和难度，和同学一起进入「SEKAI」。
+198,download.html,章节标题,191,常见问题
+199,download.html,FAQ问题,194,为什么打开之后一首歌都没有？
+200,download.html,FAQ答案,195,版权原因，仓库里不带谱面和音频。打开附带的 chartdl.exe 把想打的曲子下下来，列表就有了。
+201,download.html,FAQ问题,198,手柄能打歌吗？
+202,download.html,FAQ答案,199,不能，手柄只管菜单：方向键或左摇杆选歌、换难度，A / START / Y 负责开始、开设置、重扫，B / BACK 退回。
+203,download.html,FAQ问题,202,键盘打不出左右 flick？
+204,download.html,FAQ答案,203,一个键没有方向，键盘只能发向上 flick；左右方向必须用鼠标或触摸甩出来。触屏上垂直滑动不好触发的话，可以在 设置 → 判定 里打开「Flick 视作 Tap」。
+205,download.html,FAQ问题,206,长条什么时候会断？
+206,download.html,FAQ答案,207,尾判是松手判定：结束前在容错窗口内松手，按距离给 Perfect / Great / Good；一直按到底同样是 Perfect。只有明显提前松手才算断连，窗口大小在 设置 → 判定 → 长条容错 里调。
+207,download.html,FAQ问题,210,双击没反应 / 提示缺 DLL？
+208,download.html,FAQ答案,211,SDL2.dll 必须和 cppsekai.exe 放在同一个目录。日志写在当前工作目录的 cppsekai.log，出问题先看它最后几行。
+209,download.html,FAQ问题,214,怎么和同学一起打？
+210,download.html,FAQ答案,215,设置 → 系统 → 多人游玩。勾上之后重启，再双击 exe 就会出现新窗口。有几个人就开几个，同机自动连上，不用配网络。
+211,download.html,FAQ问题,218,能跑在 Linux / macOS / 手机上吗？
+212,download.html,FAQ答案,219,只做 Windows 原生：平台层用到了 Win32 的媒体会话、任务栏进度和命名共享内存。想看网页版可以去上游 sekai-mmw-preview-web。
+213,download.html,FAQ问题,222,它会联网吗？会上传什么东西吗？
+214,download.html,FAQ答案,223,游戏本体没有任何网络代码。只有 chartdl.exe 下载谱面时会联网，也不上传任何东西。
+215,download.html,FAQ问题,226,双击一闪就没了 / 报 OpenGL 错误？
+216,download.html,FAQ答案,227,先看游戏目录下 cppsekai.log 的最后几行。如果有 Failed to initialize OpenGL loader!，说明这台机器没有 3D 驱动，去上面「没显卡的机器：软解包」那一节。能正常启动的话，那个包不用管。
+217,download.html,页脚品牌,240,CppSekai
+218,download.html,页脚正文,243-245,免费、开源，也不赚钱。代码是 AGPL-3.0-only；谱面核心和渲染布局来自上游 sekai-mmw-preview-web，再上游是 MikuMikuWorld。
+219,download.html,页脚声明,248,本项目与 SEGA、Colorful Palette 及《初音未来：缤纷舞台》官方没有任何关系；相关素材版权归官方所有，仅限本地学习与练习使用。如有侵权请联系移除。
+220,download.html,页脚链接,252,首页
+221,download.html,页脚链接,253,GitHub 仓库
+222,download.html,页脚链接,254,探索 xxtsoft 产品
+223,download.html,页脚,258,© 2026 xxtsoft
+224,download.html,页脚,259,仅供学习交流使用
+225,download.js,动态注入文本,82,暂时没有可用的中转线路，直接用上面的按钮从 GitHub 下载吧。
+226,download.js,动态注入文本,98,最新版
+227,download.js,动态注入文本,102,发布于
+228,download.js,动态注入文本,104,已获取最新发行版信息。
+229,download.js,动态注入文本,109,Windows 7 SP1+ · 免安装
+230,download.js,动态注入文本,135,GitHub 的接口这会儿对未登录请求限流了（每小时 60 次），过一阵刷新就好。
+231,download.js,动态注入文本,136,没能从 GitHub 取到版本信息（网络不通或接口临时出错）。
+232,download.js,动态注入文本,138,见 Releases
+233,download.js,动态注入文本,139,Windows 7 SP1+ · 免安装 · 去 Releases 页面挑一个
+234,download.js,动态注入文本,146,读不到版本信息，中转线路就先不列了 —— 直接去 Releases 页面选一个吧。
+235,download.js,动态注入文本,154,已复制
+236,download.js,动态注入文本,159,已复制
+237,download.js,镜像站名称,9,ghfast.top
+238,download.js,镜像站说明,9,社区加速
+239,download.js,镜像站名称,10,gh-proxy.com
+240,download.js,镜像站说明,10,社区加速
+241,download.js,镜像站名称,11,ghproxy.net
+242,download.js,镜像站说明,11,社区加速
+243,download.js,镜像站名称,12,ghproxy.cc
+244,download.js,镜像站说明,12,社区加速
+245,download.js,镜像站名称,14,mirror.nju.edu.cn
+246,download.js,镜像站说明,14,南京大学镜像站（ready=false，暂不显示）
